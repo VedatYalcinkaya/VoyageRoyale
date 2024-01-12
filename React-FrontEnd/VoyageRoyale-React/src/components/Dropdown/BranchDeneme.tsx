@@ -7,6 +7,7 @@ const BranchDeneme = (props: Props) => {
     <div>
       Terminalden bir şeyler deniyorum arkadaşlar projeye bir şey olmaz umarım
       :D
+      deneme
     </div>
   );
 };
