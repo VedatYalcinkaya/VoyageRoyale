@@ -6,8 +6,7 @@ const BranchDeneme = (props: Props) => {
   return (
     <div>
       Terminalden bir şeyler deniyorum arkadaşlar projeye bir şey olmaz umarım
-      :D
-      yeni bilgier ekelndi bla asahksjhkajfhakfsjhak
+      <p>burası paaragraf alanıdır </p>
     </div>
   );
 };
