@@ -9,6 +9,7 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Navbar() {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+  
 
   const [cars, setCars] = React.useState<any>([]);
 
@@ -74,7 +75,7 @@ function Navbar() {
             LOGO
           </Typography>
         </Toolbar>
-        {/* İçerik buraya eklenebilir */}
+        {/* İçerik buraya eklenebilir... */}
       </Box>
     </Box>
   );
