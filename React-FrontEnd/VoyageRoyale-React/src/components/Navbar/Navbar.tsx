@@ -75,7 +75,7 @@ function Navbar() {
             LOGO
           </Typography>
         </Toolbar>
-        {/* İçerik buraya eklenebilir */}
+        {/* İçerik buraya eklenebilir... */}
       </Box>
     </Box>
   );
