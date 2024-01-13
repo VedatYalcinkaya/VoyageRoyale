@@ -1,11 +1,15 @@
 import React from 'react'
 import Navbar from '../../components/Navbar/Navbar'
+import ReservationBox from '../../components/ReservationBox'
+import Homepage from '../Homepage/Homepage'
 
 type Props = {}
 
 const Dashboard = (props: Props) => {
   return (
-    <div><Navbar/></div>
+    <div>
+      <Homepage />
+    </div>
   )
 }
 
