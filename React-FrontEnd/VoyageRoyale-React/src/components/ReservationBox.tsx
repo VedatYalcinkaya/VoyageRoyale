@@ -18,8 +18,8 @@ const ReservationBox = () => {
                     Start a Reservation
                 </Typography>
                 <TextField id="outlined-basic" label="Location" variant="outlined" fullWidth />
-                <Grid container spacing={5}> {/* Grid container kullanarak içerikleri yan yana hizalayın */}
-                    <Grid item xs={5}> {/* İlk DemoContainer için bir grid öğesi */}
+                <Grid container spacing={5}> 
+                    <Grid item xs={5}> 
                         <DemoContainer components={['DateTimePicker']}>
                             <DateTimePicker
                                 label="Pick Up"
@@ -28,7 +28,7 @@ const ReservationBox = () => {
                             />
                         </DemoContainer>
                     </Grid>
-                    <Grid item xs={5}> {/* İkinci DemoContainer için bir grid öğesi */}
+                    <Grid item xs={5}> 
                         <DemoContainer components={['DateTimePicker']}>
                             <DateTimePicker
                                 label="Return"
@@ -37,7 +37,7 @@ const ReservationBox = () => {
                             />
                         </DemoContainer>
                     </Grid>
-                    <Grid item xs={2}> {/* Button için bir grid öğesi */}
+                    <Grid item xs={2}> 
                         <Button style={{ marginTop: '12px' }} variant="contained" size="large" color="success">
                             Check
                         </Button>
