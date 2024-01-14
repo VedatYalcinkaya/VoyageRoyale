@@ -5,14 +5,19 @@ import Homepage from '../Homepage/Homepage'
 import UserProfile from '../UserProfile/UserProfile'
 import { Route, Routes } from 'react-router-dom'
 import { Grid } from '@mui/material'
-import CarDetails from '../CarDetails/CarDetails'
 
 type Props = {}
 
 const Dashboard = (props: Props) => {
   return (
-    <div>
-      <CarDetails/>
+    <div> 
+      <Grid>
+        
+      </Grid>
+      <Routes>
+        <Route path='/' Component={Homepage} />
+        <Route path="/profile" Component={UserProfile} />
+      </Routes>
     </div>
   )
 }
