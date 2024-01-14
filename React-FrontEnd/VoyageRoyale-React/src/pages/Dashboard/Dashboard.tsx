@@ -1,25 +1,20 @@
-import React from 'react'
-import Navbar from '../../components/Navbar/Navbar'
-import ReservationBox from '../../components/ReservationBox'
-import Homepage from '../Homepage/Homepage'
-import UserProfile from '../UserProfile/UserProfile'
-import { Route, Routes } from 'react-router-dom'
-import { Grid } from '@mui/material'
+import Navbar from "../../components/Navbar/Navbar";
 
-type Props = {}
-
-const Dashboard = (props: Props) => {
+import SignInSignUp from "../SignInSignUp/SignInSignUp";
+import { Grid } from "@mui/material";
+function Dashboard() {
   return (
-    <div> 
-      <Grid>
-        
+    <>
+      <Grid container>
+        <Grid item xs={2}>
+          <Navbar/>
+        </Grid>
+        <Grid item xs={10}>
+          <SignInSignUp/>
+        </Grid>
       </Grid>
-      <Routes>
-        <Route path='/' Component={Homepage} />
-        <Route path="/profile" Component={UserProfile} />
-      </Routes>
-    </div>
-  )
+    </>
+  );
 }
 
 export default Dashboard
