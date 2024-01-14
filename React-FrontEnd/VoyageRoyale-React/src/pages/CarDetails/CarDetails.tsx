@@ -1,10 +1,11 @@
 import React from 'react'
+import CarDetailsCard from '../../components/Card/CarDetailsCard'
 
 type Props = {}
 
 const CarDetails = (props: Props) => {
   return (
-    <div>CarDetails</div>
+    <div><CarDetailsCard/></div>
   )
 }
 
