@@ -20,8 +20,8 @@ public class Car extends BaseEntity {
     @Column(name="plate")
     private String plate;
 
-    @Column(name="min_findeks_rate")
-    private short minFindeksRate;
+    @Column(name="min_findeks_rate",nullable = true)
+    private Short minFindeksRate;
 
     @Column(name="kilometer")
     private Long kilometer;

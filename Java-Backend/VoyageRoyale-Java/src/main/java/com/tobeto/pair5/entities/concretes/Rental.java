@@ -29,7 +29,7 @@ public class Rental extends BaseEntity {
     private int startKilometer;
 
     @Column(name = "end_kilometer")
-    private int endKilometer;
+    private Integer endKilometer;
 
     @ManyToOne
     @JoinColumn(name = "car_id")

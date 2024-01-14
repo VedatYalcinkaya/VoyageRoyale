@@ -52,9 +52,9 @@ public class ModelManager implements ModelService {
 
     @Override
     public List<GetAllModelResponse> getAll() {
-        List<Model> model = modelRepository.findAll();
-        return model.stream()
-                .map(model1 -> this.modelMapperService.forRequest().map(model,GetAllModelResponse.class))
+        List<Model> models = modelRepository.findAll();
+        return models.stream()
+                .map(model -> this.modelMapperService.forResponse().map(model,GetAllModelResponse.class))
                 .toList();
     }
 

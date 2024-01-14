@@ -15,8 +15,8 @@ public class GetAllCarResponse {
     private String plate;
     private int year;
     private double dailyPrice;
-
-    private GetAllModelResponse model;
-    private GetAllColorResponse color;
-
+    private String modelName;
+    private String colorName;
+    private String brandName;
+    private String imagePath;
 }
