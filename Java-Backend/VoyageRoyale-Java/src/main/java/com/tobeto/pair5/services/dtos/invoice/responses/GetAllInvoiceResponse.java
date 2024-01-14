@@ -9,4 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetAllInvoiceResponse {
     private int id;
+    private Float totalPrice;
+    private Float discountRate;
+    private Float taxRate;
+    private int rentalId;
+
 }

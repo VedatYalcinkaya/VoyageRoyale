@@ -8,10 +8,12 @@ import com.tobeto.pair5.services.dtos.invoice.requests.AddInvoiceRequest;
 import com.tobeto.pair5.services.dtos.invoice.requests.DeleteInvoiceRequest;
 import com.tobeto.pair5.services.dtos.invoice.requests.UpdateInvoiceRequest;
 import com.tobeto.pair5.services.dtos.invoice.responses.GetAllInvoiceResponse;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class InvoiceManager implements InvoiceService {
     private InvoiceRepository invoiceRepository;
@@ -40,9 +42,9 @@ public class InvoiceManager implements InvoiceService {
 
     @Override
     public List<GetAllInvoiceResponse> getAll() {
-        List<Invoice> invoice = invoiceRepository.findAll();
-        return invoice.stream()
-                .map(model1 -> this.modelMapperService.forRequest().map(invoice, GetAllInvoiceResponse.class))
+        List<Invoice> invoices = invoiceRepository.findAll();
+        return invoices.stream()
+                .map(invoice -> this.modelMapperService.forResponse().map(invoice, GetAllInvoiceResponse.class))
                 .toList();
     }
 
