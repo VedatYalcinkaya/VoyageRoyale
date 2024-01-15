@@ -25,7 +25,7 @@ interface Car {
   model: string;
 }
 
-interface Payment {
+interface PaymentProps {
   location: Location;
   driver: Driver;
   car: Car;
@@ -33,7 +33,7 @@ interface Payment {
   onFinishReservation: () => void;
 }
 
- const Payment: React.FC<Payment> = ({
+const Payment: React.FC<PaymentProps> = ({
   location,
   driver,
   car,
@@ -42,10 +42,10 @@ interface Payment {
 }) => {
   return (
     <Container maxWidth="sm">
-      <Card>
+      <Card sx={{ marginTop: "100px" }}>
         <CardContent>
           <Typography variant="h5" gutterBottom>
-            Reservation Details
+            Payment Details
           </Typography>
           <List>
             <ListItem>
@@ -74,7 +74,7 @@ interface Payment {
           style={{ margin: "10px" }}
           onClick={onFinishReservation}
         >
-          Finish Reservation
+          Finish Payment
         </Button>
       </Card>
     </Container>
