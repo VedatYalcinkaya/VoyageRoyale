@@ -21,7 +21,6 @@ export default function SignIn() {
             backgroundColor:"#0F4037",
             padding: 3,
             borderRadius: 2,
-            
           }}
         >
           <Typography component="h1" variant="h5" sx={{color: "#D9D5A7"}}>
