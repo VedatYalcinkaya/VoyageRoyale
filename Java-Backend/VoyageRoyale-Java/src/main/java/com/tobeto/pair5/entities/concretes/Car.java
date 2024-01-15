@@ -46,4 +46,8 @@ public class Car extends BaseEntity {
     @JoinColumn(name="position_id")
     private Position position;
 
+    @ManyToOne
+    @JoinColumn(name = "car_type_id")
+    private CarType carType;
+
 }
