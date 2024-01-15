@@ -12,6 +12,7 @@ import CarDetails from "../CarDetails/CarDetails";
 
 
 
+
 function Dashboard() {
   return (
     <>
@@ -26,14 +27,13 @@ function Dashboard() {
           </Grid>
           <Routes>
             <Route path="/" Component={Homepage} />
-            <Route path="/cars" element={<CarList/>}>
-              <Route path="/cars/detail" element={<CarDetails/>}/>
-            </Route>
-            
+            <Route path="/cars" Component={CarList}/>
+            <Route path="/cars/detail" Component={CarDetails}/>
             <Route path="/location" Component={Location}/>
             <Route path="/userProfile" Component={UserProfile}>
               <Route path="/userProfile/reservation" Component={UserReservations}/>
             </Route>
+            
             <Route path="/login" Component={SignInSignUp}/>
             
             
