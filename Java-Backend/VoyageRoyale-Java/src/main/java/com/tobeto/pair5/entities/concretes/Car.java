@@ -1,6 +1,5 @@
 package com.tobeto.pair5.entities.concretes;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tobeto.pair5.entities.abstracts.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -42,5 +41,9 @@ public class Car extends BaseEntity {
     @ManyToOne
     @JoinColumn(name="color_id")
     private Color color;
+
+    @ManyToOne
+    @JoinColumn(name="position_id")
+    private Position position;
 
 }
