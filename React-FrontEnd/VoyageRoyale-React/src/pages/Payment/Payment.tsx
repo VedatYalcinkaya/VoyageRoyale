@@ -33,7 +33,7 @@ interface Payment {
   onFinishReservation: () => void;
 }
 
-const Payment: React.FC<Payment> = ({
+ const Payment: React.FC<Payment> = ({
   location,
   driver,
   car,
