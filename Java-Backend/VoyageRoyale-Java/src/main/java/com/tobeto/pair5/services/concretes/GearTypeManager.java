@@ -3,15 +3,19 @@ package com.tobeto.pair5.services.concretes;
 import com.tobeto.pair5.core.utilities.mappers.ModelMapperService;
 import com.tobeto.pair5.entities.concretes.GearType;
 import com.tobeto.pair5.repositories.GearTypeRepository;
+import com.tobeto.pair5.services.abstracts.GearTypeService;
 import com.tobeto.pair5.services.dtos.gearType.requests.AddGearTypeRequest;
 import com.tobeto.pair5.services.dtos.gearType.requests.DeleteGearTypeRequest;
 import com.tobeto.pair5.services.dtos.gearType.requests.UpdateGearTypeRequest;
 import com.tobeto.pair5.services.dtos.gearType.responses.GetAllGearTypeResponse;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
-public class GearTypeManager {
+@Service
+@AllArgsConstructor
+public class GearTypeManager implements GearTypeService {
     private ModelMapperService modelMapperService;
 
     private GearTypeRepository gearTypeRepository;
