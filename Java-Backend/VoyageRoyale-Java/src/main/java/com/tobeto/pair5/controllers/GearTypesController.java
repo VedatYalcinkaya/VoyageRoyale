@@ -1,19 +1,20 @@
 package com.tobeto.pair5.controllers;
 
-import com.tobeto.pair5.services.abstracts.GearTypeService;
-import com.tobeto.pair5.services.dtos.gearType.requests.AddGearTypeRequest;
-import com.tobeto.pair5.services.dtos.gearType.requests.DeleteGearTypeRequest;
-import com.tobeto.pair5.services.dtos.gearType.requests.UpdateGearTypeRequest;
-import com.tobeto.pair5.services.dtos.gearType.responses.GetAllGearTypeResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import com.tobeto.pair5.services.abstracts.GearTypeService;
+import com.tobeto.pair5.services.dtos.gearType.requests.AddGearTypeRequest;
+import com.tobeto.pair5.services.dtos.gearType.requests.DeleteGearTypeRequest;
+import com.tobeto.pair5.services.dtos.gearType.requests.UpdateGearTypeRequest;
+import com.tobeto.pair5.services.dtos.gearType.responses.GetAllGearTypeResponse;
+
 @RestController
 @AllArgsConstructor
-@RequestMapping("api/gearTypes")
+@RequestMapping("api/gear_types")
 public class GearTypesController {
     private final GearTypeService gearTypeService;
     @PostMapping("/add")
