@@ -9,8 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetFuelTypeByIdResponse {
     private int id;
-    private String hybrid;
-    private String electric;
-    private String gasoline;
-    private String diesel;
+    private String fuel_name;
 }

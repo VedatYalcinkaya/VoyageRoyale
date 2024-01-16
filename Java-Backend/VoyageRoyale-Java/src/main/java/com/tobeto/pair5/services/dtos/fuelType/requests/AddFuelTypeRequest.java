@@ -1,5 +1,6 @@
 package com.tobeto.pair5.services.dtos.fuelType.requests;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddFuelTypeRequest {
-    private String hybrid;
-    private String electric;
-    private String gasoline;
-    private String diesel;
+    @NotNull(message = "Name field can not be empty!")
+    private String fuel_name;
 }
