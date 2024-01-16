@@ -50,9 +50,9 @@ public class PositionManager implements PositionService {
     @Override
     public List<GetAllPositionResponse> getAll() {
         List<Position> positions = positionRespository.findAll();
-        List<GetAllPositionResponse> respone =
+        List<GetAllPositionResponse> responses =
                 positions.stream()
                 .map((position) -> this.modelMapperService.forResponse().map(position, GetAllPositionResponse.class)).toList();
-        return  respone;
+        return responses;
     }
 }

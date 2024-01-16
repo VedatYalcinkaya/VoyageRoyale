@@ -5,17 +5,21 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
-@Data
-@Table(name = "car_types")
-public class CarType extends BaseEntity {
+@Getter
+@Setter
+@Table(name = "gearTypes")
+public class GearType extends BaseEntity {
+
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "carType")
-    private List<Car> car;
+    @OneToMany(mappedBy = "gearType")
+    private List<Car> cars;
+
 }

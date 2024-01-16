@@ -35,7 +35,7 @@ public class Car extends BaseEntity {
     @JoinColumn(name="model_id")
     private Model model;
 
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy="car")
     private List<Rental> rentals;
 
     @ManyToOne
@@ -47,7 +47,14 @@ public class Car extends BaseEntity {
     private Position position;
 
     @ManyToOne
-    @JoinColumn(name = "car_type_id")
+    @JoinColumn(name="car_type_id")
     private CarType carType;
 
+    @ManyToOne
+    @JoinColumn(name="fuel_type_id")
+    private FuelType fuelType;
+
+    @ManyToOne
+    @JoinColumn(name="gear_type_id")
+    private GearType gearType;
 }
