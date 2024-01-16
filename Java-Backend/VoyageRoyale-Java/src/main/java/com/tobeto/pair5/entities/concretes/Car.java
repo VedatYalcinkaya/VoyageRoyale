@@ -53,4 +53,8 @@ public class Car extends BaseEntity {
     @ManyToOne
     @JoinColumn(name="fuel_type_id")
     private FuelType fuelType;
+
+    @ManyToOne
+    @JoinColumn(name="gear_type_id")
+    private GearType gearType;
 }
