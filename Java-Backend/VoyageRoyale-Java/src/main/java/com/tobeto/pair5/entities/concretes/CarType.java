@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "positions")
+@Table(name = "car_types")
 public class CarType extends BaseEntity {
     @Column(name = "name")
     private String name;
