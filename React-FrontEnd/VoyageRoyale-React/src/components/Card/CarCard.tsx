@@ -1,29 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import CarService from '../../services/CarService';
+import React, { useEffect, useState } from 'react'; 
 import { Car } from '../../models/CarModel/response';
-import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Container, FormControl, Grid, InputLabel, MenuItem, Select, Stack, Typography, imageListClasses } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Typography } from '@mui/material';
 import CurrencyLiraIcon from '@mui/icons-material/CurrencyLira';
-
+import { getCarList } from '../../store/slices/carListSlice';
+import { useAppSelector } from '../../store/configureStore';
+import { useDispatch } from 'react-redux';
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 
 type Props = {};
 
 
 const CarCard = (props: Props) => {
-  const [cars, setCars] = useState<Car[]>([]);
+
+
   const [isLoading, setIsLoading] = useState(true);
+  const dispatch :ThunkDispatch<any, any, AnyAction> = useDispatch();
+
+  const cars = useAppSelector(state => state.carList.data)
+
+  console.log(...cars)
 
   useEffect(() => {
-    fetchCars();
-  }, []);
+    dispatch(getCarList());
+    
+  }, [dispatch]);
 
-  const fetchCars = () => {
-    let service: CarService = new CarService();
-    service.getAll().then((response: any) => {
-      console.log(response.data);
-      setCars(response.data);
-      setIsLoading(false);
-    });
-  };
+  // const fetchCars = () => {
+  //   let service: CarService = new CarService();
+  //   service.getAll().then((response: any) => {
+  //     console.log(response.data);
+  //     setCars(response.data);
+  //     setIsLoading(false);
+  //   });
+  // };
 
   return (
 
@@ -62,9 +71,10 @@ const CarCard = (props: Props) => {
                 <Box sx={{ml:'165px'}}>
                   <Button size="small" variant='contained'>Details</Button>
                 </Box>
-
+                
               </CardActions>
             </Card>
+            
           </Grid>
         ))}
       </Grid>
@@ -74,3 +84,4 @@ const CarCard = (props: Props) => {
 };
 
 export default CarCard;
+
