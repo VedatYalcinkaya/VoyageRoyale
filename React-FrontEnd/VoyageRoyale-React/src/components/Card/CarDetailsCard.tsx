@@ -16,14 +16,16 @@ const CarDetailsCard = (props: Props) => {
   const dispatch :ThunkDispatch<any, any, AnyAction> = useDispatch();
 
   const carss =useAppSelector(state => state.carDetail.data)    
-  const { id } = useParams<{ id?: string }>();
+  const params = useParams<{ id?: string }>();
+  const carId = params.id;
   // const [car, setCar] = useState<Car|any>({});
   // const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // fetchCars();
-    dispatch(getCarDetail(1));
-  }, [dispatch, id]);
+    if (carId) { // This checks if carId is not undefined
+      dispatch(getCarDetail(parseInt(carId)));
+    }
+  }, [dispatch, carId]); // I changed 'id' to 'carId' here
   console.log(carss)
 
   const fetchCars = () => {
