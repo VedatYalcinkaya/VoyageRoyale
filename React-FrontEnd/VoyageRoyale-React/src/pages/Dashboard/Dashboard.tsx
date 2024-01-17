@@ -25,7 +25,7 @@ function Dashboard() {
           <Routes>
             <Route path="/" Component={Homepage} />
             <Route path="/cars" Component={CarList} />
-            <Route path="/cars/detail" Component={CarDetails} />
+            <Route path="/details/:id" Component={CarDetails} />
             <Route path="/location" Component={Location} />
             <Route path="/userProfile" Component={UserProfile} />
             <Route
