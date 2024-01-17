@@ -1,13 +1,15 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit'
 import carListSlice from './slices/carListSlice'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import carDetailSlice from './slices/carDetailSlice'
 
 
 
 
 export const store = configureStore( {
     reducer:{
-        carList:carListSlice
+        carList:carListSlice,
+        carDetail:carDetailSlice
     }
 })
 

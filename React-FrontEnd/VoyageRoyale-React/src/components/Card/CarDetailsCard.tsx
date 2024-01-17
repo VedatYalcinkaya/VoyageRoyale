@@ -2,26 +2,37 @@ import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia,
 import React, { useEffect, useState } from 'react'
 import { Car } from '../../models/CarModel/response';
 import CarService from '../../services/CarService';
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../store/configureStore';
+import { getCarDetail } from '../../store/slices/carDetailSlice';
+import { useParams } from 'react-router-dom';
 
 type Props = {}
 
 const CarDetailsCard = (props: Props) => {
 
 
-  const [car, setCar] = useState<Car|any>({});
-  const [isLoading, setIsLoading] = useState(true);
+  const dispatch :ThunkDispatch<any, any, AnyAction> = useDispatch();
+
+  const carss =useAppSelector(state => state.carDetail.data)    
+  const { id } = useParams<{ id?: string }>();
+  // const [car, setCar] = useState<Car|any>({});
+  // const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchCars();
-  }, []);
+    // fetchCars();
+    dispatch(getCarDetail(1));
+  }, [dispatch, id]);
+  console.log(carss)
 
   const fetchCars = () => {
-    let service: CarService = new CarService();
-    service.getById().then((response: any) => {
-      console.log(response.data);
-      setCar(response.data);
-      setIsLoading(false);
-    });
+    // let service: CarService = new CarService();
+    // service.getById().then((response: any) => {
+    //   console.log(response.data);
+    //   setCar(response.data);
+    //   setIsLoading(false);
+    // });
   };
 
   return (
@@ -37,7 +48,7 @@ const CarDetailsCard = (props: Props) => {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-           {`${car.brandName}  ${car.dailyPrice}₺`}
+           {carss?.brandName  }
           </Typography>
           <Typography variant="body2" color="text.secondary">
             Lizards are a widespread group of squamate reptiles, with over 6,000

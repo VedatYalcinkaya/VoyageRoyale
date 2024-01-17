@@ -7,6 +7,7 @@ import { useAppSelector } from '../../store/configureStore';
 import { useDispatch } from 'react-redux';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import CarService from '../../services/CarService';
+import { Link } from 'react-router-dom';
 
 type Props = {};
 
@@ -72,7 +73,7 @@ const CarCard = (props: Props) => {
               </CardContent>
               <CardActions>
                 <Box >
-                  <Button size="small" variant='contained'>Details</Button>
+                  <Link to={`/details/${car.id}`}><Button size="small" variant='contained'>Details</Button></Link>
                 </Box>
                 
               </CardActions>
