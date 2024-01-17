@@ -3,7 +3,7 @@ import carListSlice from './slices/carListSlice'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
 
-
+const vedat = "vedat";
 
 export const store = configureStore( {
     reducer:{
