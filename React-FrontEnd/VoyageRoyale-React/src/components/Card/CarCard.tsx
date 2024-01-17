@@ -6,33 +6,35 @@ import { getCarList } from '../../store/slices/carListSlice';
 import { useAppSelector } from '../../store/configureStore';
 import { useDispatch } from 'react-redux';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import CarService from '../../services/CarService';
 
 type Props = {};
 
 
 const CarCard = (props: Props) => {
 
-
-  const [isLoading, setIsLoading] = useState(true);
   const dispatch :ThunkDispatch<any, any, AnyAction> = useDispatch();
 
-  const cars = useAppSelector(state => state.carList.data)
-
-  console.log(...cars)
-
-  useEffect(() => {
-    dispatch(getCarList());
+  const carss =useAppSelector(state => state.carList.data)    
     
-  }, [dispatch]);
 
+  
+ 
+  useEffect(() => {
+
+    dispatch(getCarList()); 
+    // fetchCars()
+     
+  }, []);
+ console.log(carss)
   // const fetchCars = () => {
   //   let service: CarService = new CarService();
   //   service.getAll().then((response: any) => {
   //     console.log(response.data);
   //     setCars(response.data);
-  //     setIsLoading(false);
+     
   //   });
-  // };
+  // };  
 
   return (
 
@@ -41,7 +43,8 @@ const CarCard = (props: Props) => {
   
       {/* End hero unit */}
       <Grid container spacing={4}>
-        {cars.map((car: Car) => (
+      
+        {carss.map((car: Car) => ( 
           <Grid item key={car.id} xs={12} sm={6} md={4}>
             <Card
               sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
@@ -60,15 +63,15 @@ const CarCard = (props: Props) => {
                   
                   {car.dailyPrice} <CurrencyLiraIcon fontSize='small'></CurrencyLiraIcon>
                 </Typography>
-                <Typography component="tspan" sx={{ fontWeight: 'bold' }}>
+                <Typography component="h5" sx={{ fontWeight: 'bold' }}>
                   {"Manuel"}
                 </Typography>
-                <Typography component="tspan" pl='110px' sx={{ fontWeight: 'bold' }}>
+                <Typography component="h6"  sx={{ fontWeight: 'bold' }}>
                   {"Dizel"}
                 </Typography>
               </CardContent>
               <CardActions>
-                <Box sx={{ml:'165px'}}>
+                <Box >
                   <Button size="small" variant='contained'>Details</Button>
                 </Box>
                 
