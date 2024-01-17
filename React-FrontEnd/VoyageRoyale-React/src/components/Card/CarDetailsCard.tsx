@@ -25,14 +25,14 @@ const CarDetailsCard = (props: Props) => {
   };
 
   return (
-    <Box sx={{display:'flex',  justifyContent:'center'}}>
+    <Box sx={{display:'flex',  justifyContent:'center', mt:5} }>
         <Card >
       <CardActionArea>
         <CardMedia
           component="img"
           height="350"
           width='300'
-          image="https://sixt.com.tr/storage/images/shares/togg-1.jpg"
+          image={carss?.imagePath}
           alt="green iguana"
         />
         <CardContent>
