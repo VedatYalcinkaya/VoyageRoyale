@@ -30,7 +30,7 @@ const CarCard = ({selectedCarType}:CarCardProps) => {
 
  const filteredCars = selectedCarType
       ? cars.filter((car) => car.carTypeName === selectedCarType)
-      : cars;
+      : cars; 
 
   return (
 
