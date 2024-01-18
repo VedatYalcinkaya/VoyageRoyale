@@ -21,16 +21,16 @@ const CarCard = ({selectedCarType}:CarCardProps) => {
   const cars =useAppSelector(state => state.carList.data)    
     
 
-  
+  const filteredCars = selectedCarType
+      ? cars.filter((car) => car.carTypeName === selectedCarType)
+      : cars; 
  
   useEffect(() => {
     dispatch(getCarList()); 
-  }, []);
+  }, [filteredCars]);
  console.log(cars)
 
- const filteredCars = selectedCarType
-      ? cars.filter((car) => car.carTypeName === selectedCarType)
-      : cars; 
+ 
 
   return (
 

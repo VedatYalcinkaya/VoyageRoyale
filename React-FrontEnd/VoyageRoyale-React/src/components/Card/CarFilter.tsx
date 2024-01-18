@@ -61,7 +61,7 @@ const CarFilter = ({ onFilterChange }: CarFilterProps) => {
         </Field>
 
         <Button color="primary" variant="contained" fullWidth type="submit">
-          Submit
+          Filter
         </Button>
       </Form>
     </Formik>
