@@ -20,5 +20,8 @@ public class GetByIdCarResponse {
     private String colorName;
     private String brandName;
     private String imagePath;
-
+    private String gearTypeName;
+    private String fuelTypeName;
+    private String carTypeName;
+    private String positionName;
 }
