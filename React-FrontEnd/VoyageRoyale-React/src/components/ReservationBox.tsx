@@ -1,15 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimePicker, DatePicker, DateTimePicker } from '@mui/x-date-pickers';
-import { Button, Container, FormControl, Grid, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from '@mui/material'; // Grid'i import edin
+import { Button, Container, FormControl, Grid, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField, Typography } from '@mui/material'; // Grid'i import edin
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../store/configureStore';
+
+import { Position } from '../models/LocationModel/response';
+import { getPositionList } from '../store/slices/selectPositionSlice';
 
 
+type Props = {};
 
-const ReservationBox = () => {
+const ReservationBox = (props: Props) => {
+
+    const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
+
+    const positions = useAppSelector(state => state.positionList.data)
+
+    useEffect(() => {
+        dispatch(getPositionList());
+    }, [dispatch]);
+
+    useEffect(() => {
+        console.log(positions); // Check the structure of locations
+    }, [positions]);
+
     const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
+    const [position, setPosition] = React.useState('');
+
+    const handleChange = (event: SelectChangeEvent) => {
+        setPosition(event.target.value as string);
+    };
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -17,9 +42,22 @@ const ReservationBox = () => {
                 <Typography gutterBottom variant="h3" component="div">
                     Start a Reservation
                 </Typography>
-                <TextField id="outlined-basic" label="Location" variant="outlined" fullWidth />
-                <Grid container spacing={5}> 
-                    <Grid item xs={5}> 
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Location</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={position}
+                        label="Location"
+                        onChange={handleChange}
+                    >
+                        {positions.map((position:Position) => (
+                            <MenuItem key={position.id} value={position.city}>{position.city}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+                <Grid container spacing={5}>
+                    <Grid item xs={5}>
                         <DemoContainer components={['DateTimePicker']}>
                             <DateTimePicker
                                 label="Pick Up"
@@ -28,7 +66,7 @@ const ReservationBox = () => {
                             />
                         </DemoContainer>
                     </Grid>
-                    <Grid item xs={5}> 
+                    <Grid item xs={5}>
                         <DemoContainer components={['DateTimePicker']}>
                             <DateTimePicker
                                 label="Return"
@@ -37,7 +75,7 @@ const ReservationBox = () => {
                             />
                         </DemoContainer>
                     </Grid>
-                    <Grid item xs={2}> 
+                    <Grid item xs={2}>
                         <Button style={{ marginTop: '12px' }} variant="contained" size="large" color="success">
                             Check
                         </Button>
