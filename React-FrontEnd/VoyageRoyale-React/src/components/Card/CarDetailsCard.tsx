@@ -18,24 +18,16 @@ const CarDetailsCard = (props: Props) => {
   const carss =useAppSelector(state => state.carDetail.data)    
   const params = useParams<{ id?: string }>();
   const carId = params.id;
-  // const [car, setCar] = useState<Car|any>({});
-  // const [isLoading, setIsLoading] = useState(true);
+
 
   useEffect(() => {
     if (carId) { // This checks if carId is not undefined
       dispatch(getCarDetail(parseInt(carId)));
     }
-  }, [dispatch, carId]); // I changed 'id' to 'carId' here
+  }, [dispatch, carId]); 
   console.log(carss)
 
-  const fetchCars = () => {
-    // let service: CarService = new CarService();
-    // service.getById().then((response: any) => {
-    //   console.log(response.data);
-    //   setCar(response.data);
-    //   setIsLoading(false);
-    // });
-  };
+
 
   return (
     <Box sx={{display:'flex',  justifyContent:'center', mt:5} }>

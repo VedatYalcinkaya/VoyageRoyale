@@ -1,50 +1,72 @@
-import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import React from 'react'
+import React, { useEffect } from 'react';
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
+import { Form, Formik, Field } from 'formik';
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../store/configureStore';
+import { getCarCategory } from '../../store/slices/carCategorySlice';
+import * as yup from 'yup';
 
-type Props = {}
 
-const CarFilter = (props: Props) => {
 
-    const [age, setAge] = React.useState('');
 
-    const handleChange = (event: SelectChangeEvent) => {
-      setAge(event.target.value as string);
-    };
+type CarFilterProps = {
+  onFilterChange: (type: string) => void;
+};
+
+const CarFilter = ({ onFilterChange }: CarFilterProps) => {
+  const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
+  const carTypes = useAppSelector(state => state.carCategory.data);
+
+  useEffect(() => {
+    dispatch(getCarCategory());
+  }, []);
+
+  const validationSchema = yup.object({
+    type: yup.string().required('Type is required'),
   
-  return (
-    <Box sx={{ minWidth: 120, py:2}}>
-    <FormControl fullWidth>
-      <InputLabel id="demo-simple-select-label">Colors</InputLabel>
-      <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={age}
-        label="Age"
-        onChange={handleChange}
-      >
-        <MenuItem value={10}>Ten</MenuItem>
-        <MenuItem value={20}>Twenty</MenuItem>
-        <MenuItem value={30}>Thirty</MenuItem>
-      </Select>
-    </FormControl>
-    <Box sx={{py:2}}>
-    <FormControl fullWidth>
-      <InputLabel id="demo-simple-select-label">Models</InputLabel>
-      <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={age}
-        label="Age"
-        onChange={handleChange}
-      >
-        <MenuItem value={10}>Ten</MenuItem>
-        <MenuItem value={20}>Twenty</MenuItem>
-        <MenuItem value={30}>Thirty</MenuItem>
-      </Select>
-    </FormControl>
-    </Box>
-  </Box>
-  )
-}
+  });
 
-export default CarFilter
+  const initialValues = {
+    type: '',
+  };
+
+  const handleSubmit = (values: any) => {
+    onFilterChange(values.type)
+
+  };
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+
+      <Form>
+        <Field
+          as={TextField}
+          fullWidth
+          id="type"
+          name="type"
+          label="Car Type"
+          select
+          variant="outlined"
+        >
+          {carTypes.map((type) => (
+            <MenuItem key={type.id} value={type.name}>
+              {type.name}
+            </MenuItem>
+          ))}
+        </Field>
+
+        <Button color="primary" variant="contained" fullWidth type="submit">
+          Submit
+        </Button>
+      </Form>
+    </Formik>
+
+  );
+};
+
+export default CarFilter;

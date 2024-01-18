@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("api/fuel_types")
+@CrossOrigin
 public class FuelTypesController {
     private final FuelTypeService fuelTypeService;
 

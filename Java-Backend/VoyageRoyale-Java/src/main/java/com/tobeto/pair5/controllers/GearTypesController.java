@@ -15,6 +15,7 @@ import com.tobeto.pair5.services.dtos.gearType.responses.GetAllGearTypeResponse;
 @RestController
 @AllArgsConstructor
 @RequestMapping("api/gear_types")
+@CrossOrigin
 public class GearTypesController {
     private final GearTypeService gearTypeService;
     @PostMapping("/add")

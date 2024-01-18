@@ -1,8 +1,9 @@
 import axios from "axios";
+import { Car } from "../models/CarModel/response";
 
 export default class CarService {
     getAll() : any {
-        let i = axios.get("http://localhost:8080/api/cars/getAll")
+        let i = axios.get<Car[]>("http://localhost:8080/api/cars/getAll")
         return i;
     }
 

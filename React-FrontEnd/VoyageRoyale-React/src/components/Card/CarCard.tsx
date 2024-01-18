@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'; 
+import { useEffect } from 'react'; 
 import { Car } from '../../models/CarModel/response';
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Typography } from '@mui/material';
 import CurrencyLiraIcon from '@mui/icons-material/CurrencyLira';
@@ -6,36 +6,31 @@ import { getCarList } from '../../store/slices/carListSlice';
 import { useAppSelector } from '../../store/configureStore';
 import { useDispatch } from 'react-redux';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
-import CarService from '../../services/CarService';
 import { Link } from 'react-router-dom';
+import { string } from 'yup';
 
-type Props = {};
+type CarCardProps = {
+  selectedCarType:string;
+};
 
 
-const CarCard = (props: Props) => {
+const CarCard = ({selectedCarType}:CarCardProps) => {
 
   const dispatch :ThunkDispatch<any, any, AnyAction> = useDispatch();
 
-  const carss =useAppSelector(state => state.carList.data)    
+  const cars =useAppSelector(state => state.carList.data)    
     
 
   
  
   useEffect(() => {
-
     dispatch(getCarList()); 
-    // fetchCars()
-     
   }, []);
- console.log(carss)
-  // const fetchCars = () => {
-  //   let service: CarService = new CarService();
-  //   service.getAll().then((response: any) => {
-  //     console.log(response.data);
-  //     setCars(response.data);
-     
-  //   });
-  // };  
+ console.log(cars)
+
+ const filteredCars = selectedCarType
+      ? cars.filter((car) => car.carType === selectedCarType)
+      : cars;
 
   return (
 
@@ -45,7 +40,7 @@ const CarCard = (props: Props) => {
       {/* End hero unit */}
       <Grid container spacing={4}>
       
-        {carss.map((car: Car) => ( 
+        {filteredCars.map((car: Car) => ( 
           <Grid item key={car.id} xs={12} sm={6} md={4}>
             <Card
               sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
