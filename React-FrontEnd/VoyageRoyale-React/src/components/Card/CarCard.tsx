@@ -29,7 +29,7 @@ const CarCard = ({selectedCarType}:CarCardProps) => {
  console.log(cars)
 
  const filteredCars = selectedCarType
-      ? cars.filter((car) => car.carType === selectedCarType)
+      ? cars.filter((car) => car.carTypeName === selectedCarType)
       : cars;
 
   return (

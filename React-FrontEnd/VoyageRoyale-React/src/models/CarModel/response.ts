@@ -8,7 +8,8 @@ export interface Car {
 	colorName: string;
 	brandName: string;
 	imagePath: string;
-	carType:string;
-	fuelType:string;
-	gearType:string;
+	gearTypeName?: any;
+	fuelTypeName?: any;
+	carTypeName?: any;
+	positionName?: any;
 }
