@@ -26,12 +26,27 @@ public class AddCarRequest {
     @Min(value = 2005, message = "Year must be at least 2005")
     @Max(value = 2024, message = "Year can not be more than 2024")
     private int year;
+
     @Positive
     private double dailyPrice;
+
     @Positive(message = "modelId must be a positive number!")
     private int modelId;
+
     @Positive(message = "colorId must be a positive number!")
     private int colorId;
+
+    @Positive(message = "Gear Type ID must be a positive number!")
+    private int gearTypeId;
+
+    @Positive(message = "Fuel Type ID must be a positive number!")
+    private int fuelTypeId;
+
+    @Positive(message = "Car Type ID must be a positive number!")
+    private int carTypeId;
+
+    @Positive(message = "Position ID must be a positive number!")
+    private int positionId;
 
 
 
