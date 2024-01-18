@@ -2,6 +2,7 @@ import {combineReducers, configureStore} from '@reduxjs/toolkit'
 import carListSlice from './slices/carListSlice'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import carDetailSlice from './slices/carDetailSlice'
+import selectPositionSlice from './slices/selectPositionSlice';
 
 
 const vedat = "vedat";
@@ -9,7 +10,8 @@ const vedat = "vedat";
 export const store = configureStore( {
     reducer:{
         carList:carListSlice,
-        carDetail:carDetailSlice
+        carDetail:carDetailSlice,
+        positionList:selectPositionSlice
     }
 })
 
