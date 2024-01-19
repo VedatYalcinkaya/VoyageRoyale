@@ -2,13 +2,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { CarCategory } from "../../models/CarCategoryModel/response";
 
-interface CarList {
+interface CarType {
   data: CarCategory[];
   loading: boolean;
   error: string;
 }
 
-const initialState: CarList = {
+const initialState: CarType = {
   data: [],
   loading: false,
   error: "",
@@ -20,7 +20,7 @@ export const getCarCategory = createAsyncThunk('getCarCategory', async () => {
 });
 
 export const carCategorySlice = createSlice({
-  name: 'carList',
+  name: 'carType',
   initialState,
   reducers: {}, 
   extraReducers: (builder) => {

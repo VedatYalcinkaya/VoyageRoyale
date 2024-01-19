@@ -35,13 +35,12 @@ const CarFilter = ({ onFilterChange }: CarFilterProps) => {
 
   const initialValues = {
     type: '',
-    fuel:''
+    fuelType:''
   };
 
-  const handleSubmit = (values: any,) => {
-    console.log(values.fuel);
+  const handleSubmit = (values: any) => {
     onFilterChange(values.type)
-    
+
   };
 
   return (
@@ -52,12 +51,26 @@ const CarFilter = ({ onFilterChange }: CarFilterProps) => {
     >
 
       <Form>
+        <Field
+          as={TextField}
+          fullWidth
+          id="type"
+          name="type"
+          label="Car Type"
+          select
+          variant="outlined"
+        >
+          {carTypes.map((type) => (
+            <MenuItem key={type.id} value={type.name}>
+              {type.name}
+            </MenuItem>
+          ))}
+        </Field>
 
         <Field
           as={TextField}
           fullWidth
-          id="fuel"
-          name="fuel"
+       
           label="Fuel Type"
           select
           variant="outlined"

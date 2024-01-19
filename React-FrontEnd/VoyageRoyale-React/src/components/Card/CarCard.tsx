@@ -27,7 +27,7 @@ const CarCard = ({selectedCarType}:CarCardProps) => {
  
   useEffect(() => {
     dispatch(getCarList()); 
-  }, [filteredCars]);
+  }, []);
  console.log(cars)
 
  

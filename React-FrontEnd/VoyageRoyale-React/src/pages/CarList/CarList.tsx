@@ -8,6 +8,7 @@ type Props = {};
 const CarList = (props: Props) => {
 
     const [selectedCarType,setSelectedCarType] = useState<string>("")
+    
 
   return (
     <Box>
