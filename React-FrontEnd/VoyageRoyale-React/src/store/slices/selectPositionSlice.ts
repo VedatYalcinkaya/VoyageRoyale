@@ -1,6 +1,7 @@
 import { Position } from '../../models/LocationModel/response';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import axiosInstance from '../../utils/interceptors/axiosInterceptors';
 
 interface PositionList {
     data: Position[];
@@ -15,7 +16,7 @@ const initialState: PositionList = {
 }
 
 export const getPositionList = createAsyncThunk('getPositionList', async () => {
-    const response = await axios.get<Position[]>('http://localhost:8080/api/positions/getAll');
+    const response = await axiosInstance.get<Position[]>('positions/getAll');
     return response.data;
   });
 

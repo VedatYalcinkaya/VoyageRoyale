@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Car } from "../../models/CarModel/response";
+import { Car } from "../../../models/CarModel/response";
+import axiosInstance from "../../../utils/interceptors/axiosInterceptors";
 
 interface CarList {
   data: Car[];
@@ -15,7 +16,7 @@ const initialState: CarList = {
 };
 
 export const getCarList = createAsyncThunk('getCarList', async () => {
-  const response = await axios.get<Car[]>('http://localhost:8080/api/cars/getAll');
+  const response = await axiosInstance.get<Car[]>('cars/getAll');
   return response.data;
 });
 

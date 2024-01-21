@@ -1,10 +1,12 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit'
-import carListSlice from './slices/carListSlice'
+import carListSlice from './slices/CarSlices/carListSlice'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import carDetailSlice from './slices/carDetailSlice'
+import carDetailSlice from './slices/CarSlices/carDetailSlice'
 import selectPositionSlice from './slices/selectPositionSlice';
-import carCategorySlice from './slices/carCategorySlice';
-import carFuelTypeSlice from './slices/carFuelTypeSlice';
+import carCategorySlice from './slices/CarSlices/carCategorySlice';
+import carFuelTypeSlice from './slices/CarSlices/carFuelTypeSlice';
+import carBrandTypeSlice from './slices/CarSlices/carBrandTypeSlice';
+import carGearTypeSlice from './slices/CarSlices/carGearTypeSlice';
 
 
 const vedat = "vedat";
@@ -15,7 +17,9 @@ export const store = configureStore( {
         carDetail:carDetailSlice,
         positionList:selectPositionSlice,
         carType:carCategorySlice,
-        carFuelType:carFuelTypeSlice
+        carFuelType:carFuelTypeSlice,
+        carBrandType:carBrandTypeSlice,
+        carGearType:carGearTypeSlice
     }
 })
 
