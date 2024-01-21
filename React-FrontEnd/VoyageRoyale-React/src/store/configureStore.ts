@@ -4,6 +4,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import carDetailSlice from './slices/carDetailSlice'
 import selectPositionSlice from './slices/selectPositionSlice';
 import carCategorySlice from './slices/carCategorySlice';
+import reservationSlice from './slices/reservationSlice';
 
 
 const vedat = "vedat";
@@ -13,7 +14,8 @@ export const store = configureStore( {
         carList:carListSlice,
         carDetail:carDetailSlice,
         positionList:selectPositionSlice,
-        carCategory:carCategorySlice
+        carCategory:carCategorySlice,
+        reservation: reservationSlice,
     }
 })
 
