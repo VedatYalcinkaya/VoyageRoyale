@@ -16,7 +16,7 @@ const SignUpSignInSelect = (props: Props) => {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    label="SignIn"
+                    label="Sign In"
                 >
                     <SignIn/>
                 </Select>

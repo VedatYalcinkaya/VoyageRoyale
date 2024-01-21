@@ -2,42 +2,50 @@ import { useEffect } from 'react';
 import { Car } from '../../models/CarModel/response';
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Typography } from '@mui/material';
 import CurrencyLiraIcon from '@mui/icons-material/CurrencyLira';
-import { getCarList } from '../../store/slices/carListSlice';
+import { getCarList } from '../../store/slices/CarSlices/carListSlice';
 import { useAppSelector } from '../../store/configureStore';
 import { useDispatch } from 'react-redux';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { Link } from 'react-router-dom';
 import { string } from 'yup';
+import CarFuelFilter from './CarCardFilters/CarFuelFilter';
 
 type CarCardProps = {
-  selectedCarType:string;
+  
 };
 
 
-const CarCard = ({selectedCarType}:CarCardProps) => {
+const CarCard = () => {
 
   const dispatch :ThunkDispatch<any, any, AnyAction> = useDispatch();
-
+  const selectedCarType = useAppSelector(state=>state.carType.carType);
+  const selectedFuel = useAppSelector(state=> state.carFuelType.fuelType)
+  const selectedBrand = useAppSelector(state=> state.carBrandType.brandType)
+  const selectedGear= useAppSelector(state => state.carGearType.gearType)
   const cars =useAppSelector(state => state.carList.data)    
     
 
-  const filteredCars = selectedCarType
-      ? cars.filter((car) => car.carTypeName === selectedCarType)
-      : cars; 
+  const filteredCars = cars.filter((car) => {
+    return (
+      (!selectedCarType || car.carTypeName === selectedCarType) &&
+      (!selectedFuel || car.fuelTypeName === selectedFuel) &&
+      (!selectedBrand|| car.brandName === selectedBrand) &&
+      (!selectedGear || car.gearTypeName === selectedGear)
+    );
+  });
+
  
   useEffect(() => {
     dispatch(getCarList()); 
-  }, [filteredCars]);
- console.log(cars)
+  }, []);
 
- 
+
 
   return (
 
 
     <Container sx={{ py: 2 }} maxWidth="md">
-  
-      {/* End hero unit */}
+
       <Grid container spacing={4}>
       
         {filteredCars.map((car: Car) => ( 
@@ -48,9 +56,7 @@ const CarCard = ({selectedCarType}:CarCardProps) => {
               <CardMedia
                 component="div"
                 sx={{
-                  // 16:9
                   pt: '56.25%',
-
                 }}
                 image={car.imagePath}
               />
@@ -60,10 +66,10 @@ const CarCard = ({selectedCarType}:CarCardProps) => {
                   {car.dailyPrice} <CurrencyLiraIcon fontSize='small'></CurrencyLiraIcon>
                 </Typography>
                 <Typography component="h5" sx={{ fontWeight: 'bold' }}>
-                  {"Manuel"}
+                  {car.fuelTypeName}
                 </Typography>
                 <Typography component="h6"  sx={{ fontWeight: 'bold' }}>
-                  {"Dizel"}
+                  {car.gearTypeName}
                 </Typography>
               </CardContent>
               <CardActions>
@@ -73,7 +79,6 @@ const CarCard = ({selectedCarType}:CarCardProps) => {
                 
               </CardActions>
             </Card>
-            
           </Grid>
         ))}
       </Grid>

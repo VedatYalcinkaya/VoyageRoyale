@@ -1,28 +1,34 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { CarCategory } from "../../models/CarCategoryModel/response";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { CarCategory } from "../../../models/CarCategoryModel/response";
+import axiosInstance from "../../../utils/interceptors/axiosInterceptors";
 
-interface CarList {
+interface CarType {
   data: CarCategory[];
   loading: boolean;
   error: string;
+  carType:string;
 }
 
-const initialState: CarList = {
+const initialState: CarType = {
   data: [],
   loading: false,
   error: "",
+  carType:""
 };
 
 export const getCarCategory = createAsyncThunk('getCarCategory', async () => {
-  const response = await axios.get<CarCategory[]>('http://localhost:8080/api/carTypes/getAll');
+  const response = await axiosInstance.get<CarCategory[]>('carTypes/getAll');
   return response.data;
 });
 
 export const carCategorySlice = createSlice({
-  name: 'carList',
+  name: 'carType',
   initialState,
-  reducers: {}, 
+  reducers: {
+    setCarType:(state,action:PayloadAction<string>)=>{
+      state.carType = action.payload
+    }
+  }, 
   extraReducers: (builder) => {
     builder.addCase(getCarCategory.pending, (state) => {
       state.loading = true;
@@ -41,4 +47,6 @@ export const carCategorySlice = createSlice({
   },
 });
 
+
+export const { setCarType } = carCategorySlice.actions;
 export default carCategorySlice.reducer;
