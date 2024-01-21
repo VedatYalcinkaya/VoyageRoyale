@@ -13,27 +13,15 @@ type Props = {}
 
 const TopMenu = (props: Props) => {
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{ mr: 2 }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        News
-                    </Typography>
-                    <SignUpSignInSelect/>
-                 
-                </Toolbar>
-            </AppBar>
-        </Box>
-    )
-}
-
+        <Box position="static" style={{ backgroundColor: 'transparent' }} sx={{ flexGrow: 1 }}>
+          <Toolbar>
+            {/* Burada diğer öğelerinizi yerleştirebilirsiniz */}
+            
+            <Box sx={{ flexGrow: 1 }} /> {/* Bu boşluk sola olan tüm öğeleri itecek */}
+  
+            <SignUpSignInSelect /> {/* Bu, sağa itilmiş olacak */}
+          </Toolbar>
+      </Box>
+    );
+  }
 export default TopMenu

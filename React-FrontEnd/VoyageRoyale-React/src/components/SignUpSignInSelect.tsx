@@ -16,7 +16,11 @@ const SignUpSignInSelect = (props: Props) => {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
+<<<<<<< HEAD
                     label="Sign In"
+=======
+                    label="SignIn"
+>>>>>>> a9e7e96219a65b6b5546a2458b37981de1106398
                 >
                     <SignIn/>
                 </Select>
