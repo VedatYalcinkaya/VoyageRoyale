@@ -14,5 +14,6 @@ public interface UserService {
     void update(UpdateUserRequest request);
     List<GetAllUserResponse> getAll();
     GetByIdUserResponse getById(int id);
+    GetByIdUserResponse getByEmail(String email);
 
 }
