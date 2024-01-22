@@ -52,4 +52,11 @@ public class UserManager implements UserService {
         GetByIdUserResponse response = this.modelMapperService.forResponse().map(user, GetByIdUserResponse.class);
         return response;
     }
+
+    @Override
+    public GetByIdUserResponse getByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow();
+        GetByIdUserResponse response = this.modelMapperService.forResponse().map(user,GetByIdUserResponse.class);
+        return response;
+    }
 }
