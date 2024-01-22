@@ -10,13 +10,14 @@ type CarFuelFilterProps={
 
 const CarFuelFilter = () => {
   const dispatch : ThunkDispatch<any, any, Action> = useAppDispatch();
-  const fuelTypes = useAppSelector(state => state.carFuelType.data)
+  const fuelTypes = useAppSelector(state => state.carFuelType.data);
+  const selectedFuel = useAppSelector(state => state.carFuelType.fuelType);
  
 
 
   const handleChange = (event: SelectChangeEvent) => {
-    dispatch(setFueltype(event.target.value as string));
-    
+    const selectedFuel =event.target.value as string;
+    selectedFuel=== 'all' ? dispatch(setFueltype('')) : dispatch(setFueltype(selectedFuel));
   };
 
 
@@ -28,11 +29,11 @@ const CarFuelFilter = () => {
       <Select
         labelId="fuelType"
         id="fuelType"
-        value="fuelType"
+        value={selectedFuel}
         label="Fuel Type"
         onChange={handleChange}
       >
-        
+        <MenuItem value="all">All Fuel Types</MenuItem>
         {fuelTypes.map((fuel)=><MenuItem value={fuel.fuel_name} key={fuel.id}>{fuel.fuel_name}</MenuItem>  )}
 
       </Select>

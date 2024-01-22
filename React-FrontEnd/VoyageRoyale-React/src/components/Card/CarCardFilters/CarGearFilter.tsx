@@ -8,10 +8,12 @@ import { setGearType } from '../../../store/slices/CarSlices/carGearTypeSlice';
 
 const CarGearFilter = () => {
     const dispatch: ThunkDispatch<any,any,Action> = useAppDispatch();
-    const gears = useAppSelector(state => state.carGearType.data)
+    const gears = useAppSelector(state => state.carGearType.data);
+    const selectedGear = useAppSelector(state => state.carGearType.gearType);
 
     const handleChange = (event:SelectChangeEvent) => {
-        dispatch(setGearType(event.target.value as string));
+      const selectedGear=event.target.value as string;
+      selectedGear === 'all' ? dispatch(setGearType('')) : dispatch(setGearType(selectedGear));
     }
 
 
@@ -22,11 +24,11 @@ const CarGearFilter = () => {
         <Select
           labelId="gearFilter"
           id="gearFilter"
-          value="gear"
+          value={selectedGear}
           label="Gear Type"
           onChange={handleChange}
         >
-        
+        <MenuItem value='all'>All Gear Types</MenuItem>
         {gears.map((gear)=> <MenuItem value={gear.name} key={gear.id}>{gear.name}</MenuItem>)}
 
         </Select>

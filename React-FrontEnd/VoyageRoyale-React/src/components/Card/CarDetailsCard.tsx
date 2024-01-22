@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Badge,
   Box,
   Button,
   Card,
@@ -11,7 +10,6 @@ import {
   Grid,
   List,
   ListItem,
-  ListItemText,
   SnackbarContent,
   Typography,
 } from '@mui/material';
@@ -19,9 +17,8 @@ import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../store/configureStore';
 import { getCarDetail } from '../../store/slices/CarSlices/carDetailSlice';
-import { useParams } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 import { Car } from '../../models/CarModel/response';
-import { blue } from '@mui/material/colors';
 
 interface CarDetailsCardProps {}
 
@@ -31,6 +28,7 @@ const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
   const carDetails = useAppSelector((state) => state.carDetail.data);
   const isLoading = useAppSelector((state) => state.carDetail.loading);
   const error = useAppSelector((state) => state.carDetail.error);
+
 
   React.useEffect(() => {
     if (carId) {
@@ -52,9 +50,13 @@ const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
     <Box
       sx={{
         display: 'flex',
-        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center',
         mt: 5,
-        overflow: 'auto', // Enable scrolling if content overflows
+        overflow: 'auto',
+        minHeight: 'calc(100vh - 80px)', 
+        overflowX: 'auto', 
+        maxWidth: '100%', 
       }}
     >
       <CarDetailsCardContent carDetails={carDetails} />
@@ -71,17 +73,15 @@ const CarDetailsCardContent: React.FC<CarDetailsCardContentProps> = ({ carDetail
     <CardActionArea>
       <CardMedia
         component="img"
-        height="100%"
-        width="100%"
         image={carDetails?.imagePath}
         alt="Car Image"
       />
       <CardContent >
-        <Typography variant="h4" gutterBottom>
-          {carDetails?.brandName}
+        <Typography variant="h4" gutterBottom sx={{ textAlign: 'center' }}>
+         {carDetails.brandName}
         </Typography>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} lg={6}>
             <List>
               <ListItem>
               <SnackbarContent message={`Model: ${carDetails?.modelName}`}  />
@@ -91,7 +91,7 @@ const CarDetailsCardContent: React.FC<CarDetailsCardContentProps> = ({ carDetail
               </ListItem>
             </List>
           </Grid>
-          <Grid item xs={12} md={6} sx={{fontWeight:'5px'}}>
+          <Grid item xs={12} md={6} lg={6} sx={{fontWeight:'5px'}}>
             <List>
               <ListItem>
               <SnackbarContent message={`Gear Type: ${carDetails?.gearTypeName}`}/>
@@ -105,11 +105,13 @@ const CarDetailsCardContent: React.FC<CarDetailsCardContentProps> = ({ carDetail
       </CardContent>
     </CardActionArea>
     <CardActions>
-      <Box mt={3} width="100%">
-        <Button size="large" color="success" variant="contained" fullWidth>
+      <Grid container justifyContent='center'>
+        <Grid item xs={12} md={8} lg={6} >
+           <Button size="large" color="success" variant="contained" fullWidth >
            Rent Now
         </Button>
-      </Box>
+        </Grid>
+      </Grid>
     </CardActions>
   </Card>
 );
