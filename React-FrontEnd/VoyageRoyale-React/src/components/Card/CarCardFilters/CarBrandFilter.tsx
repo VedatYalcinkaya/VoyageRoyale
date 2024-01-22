@@ -8,11 +8,12 @@ import { setBrandType } from '../../../store/slices/CarSlices/carBrandTypeSlice'
 const CarBrandFilter = () => {
     const dispatch : ThunkDispatch<any, any, Action> = useAppDispatch();
     const brands = useAppSelector(state => state.carBrandType.data)
+    const selectedBrand = useAppSelector(state => state.carBrandType.brandType)
 
 
   const handleChange = (event: SelectChangeEvent) => {
-    dispatch(setBrandType(event.target.value as string));
-    
+    const selectedBrand = event.target.value as string;
+    selectedBrand === 'all'? dispatch(setBrandType('')):dispatch(setBrandType(selectedBrand));
   };
 
  
@@ -23,11 +24,11 @@ const CarBrandFilter = () => {
         <Select
           labelId="brandFilter"
           id="brandFilter"
-          value="brand"
+          value={selectedBrand}
           label="Brand Type"
           onChange={handleChange}
         >
-        
+        <MenuItem value="all">All Brands</MenuItem>
         {brands.map((brand)=> <MenuItem value={brand.name} key={brand.id}>{brand.name}</MenuItem>)}
 
         </Select>
