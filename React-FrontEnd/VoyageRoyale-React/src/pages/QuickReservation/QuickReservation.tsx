@@ -1,10 +1,13 @@
 import React from 'react'
+import ReservationBox from '../../components/ReservationBox/ReservationBox'
 
 type Props = {}
 
 const QuickReservation = (props: Props) => {
   return (
-    <div>QuickReservation</div>
+    <div>
+      <ReservationBox/>
+    </div>
   )
 }
 

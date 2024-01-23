@@ -1,8 +1,7 @@
 import { Route, Routes } from "react-router";
-import Navbar from "../../components/Navbar/Navbar";
+import Sidebar from "../../components/Sidebar/Sidebar";
 import { Grid } from "@mui/material";
 import Homepage from "../Homepage/Homepage";
-import TopMenu from "../../components/TopMenu";
 import CarList from "../CarList/CarList";
 import Location from "../Location/Location";
 import UserProfile from "../UserProfile/UserProfile";
@@ -10,30 +9,27 @@ import UserReservations from "../UserReservations/UserReservations";
 import SignInSignUp from "../SignInSignUp/SignInSignUp";
 import CarDetails from "../CarDetails/CarDetails";
 import Payment from "../Payment/Payment";
+import Footer from "../../components/Footer/Footer";
 
 function Dashboard() {
   return (
     <>
-      <Grid container>
-        <Grid item xs={2}>
-          <Navbar />
+      <Grid container style={{ backgroundColor: "#F0F0F0", minHeight: "100vh" }}>
+        <Grid item xs={12} sm={2}>
+          <Sidebar />
         </Grid>
-        <Grid item xs={10}>
-          <Grid>
-            <TopMenu />
-          </Grid>
+        <Grid item xs={12} sm={10} style={{ padding: 50}}>
           <Routes>
-            <Route path="/" Component={Homepage} />
-            <Route path="/cars" Component={CarList} />
-            <Route path="/details/:id" Component={CarDetails} />
-            <Route path="/location" Component={Location} />
-            <Route path="/userProfile" Component={UserProfile} />
+            <Route path="/" element={<Homepage />} />
+            <Route path="/cars" element={<CarList />} />
+            <Route path="/details/:id" element={<CarDetails />} />
+            <Route path="/location" element={<Location />} />
+            <Route path="/userProfile" element={<UserProfile />} />
             <Route
               path="/userProfile/reservation"
-              Component={UserReservations}
+              element={<UserReservations />}
             />
-
-            <Route path="/login" Component={SignInSignUp} />
+            <Route path="/login" element={<SignInSignUp />} />
             <Route
               path="/payment"
               element={
@@ -48,6 +44,10 @@ function Dashboard() {
             />
           </Routes>
         </Grid>
+      </Grid>
+      <Grid item xs={12}>
+        {/* Footer */}
+        <Footer />
       </Grid>
     </>
   );

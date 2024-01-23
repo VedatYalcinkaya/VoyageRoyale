@@ -1,18 +1,24 @@
-import React from 'react'
-import Navbar from '../../components/Navbar/Navbar'
-import ReservationBox from '../../components/ReservationBox'
-import Footer from '../../components/Footer/Footer'
+import React from "react";
 
-type Props = {}
+import { Grid, Container } from "@mui/material";
+import ReservationBox from "../../components/ReservationBox/ReservationBox";
+import Blog from "../../components/Blog/Blog";
+
+type Props = {};
 
 const Homepage = (props: Props) => {
   return (
-    <div>
-      <Navbar />
-      <ReservationBox />
-      <Footer/>
-    </div>
-  )
-}
+    <Container>
+      <Grid container style={{ textAlign: "center", justifyContent: "center" }}>
+        <Grid item sm={12} style={{ padding: 60, paddingLeft: 90, marginBottom:100, marginTop:100 }}>
+          <ReservationBox />
+        </Grid>
+        <Grid item sm={12}>
+          <Blog />
+        </Grid>
+      </Grid>
+    </Container>
+  );
+};
 
-export default Homepage
+export default Homepage;
