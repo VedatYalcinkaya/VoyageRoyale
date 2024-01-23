@@ -11,13 +11,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetCustomCarResponse {
-    private String plate;
+    private int id;
     private int kilometer;
+    private String plate;
+    private int year;
     private double dailyPrice;
-    private int modelYear;
-
-    private GetModelNameResponse modelName;
-    private GetColorNameResponse colorName;
-    private GetBrandNameResponse brandName;
-
+    private String modelName;
+    private String colorName;
+    private String brandName;
+    private String imagePath;
+    private String gearTypeName;
+    private String fuelTypeName;
+    private String carTypeName;
+    private String positionName;
 }

@@ -29,7 +29,9 @@ public class SecurityConfiguration {
             "/v3/api-docs",
             "/v3/api-docs/**",
             "/api/auth/register",
-            "/api/auth/authenticate"
+            "/api/auth/authenticate",
+            "api/**"
+
     };
 
     @Bean
