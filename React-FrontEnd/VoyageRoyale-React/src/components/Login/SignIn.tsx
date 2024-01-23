@@ -1,3 +1,5 @@
+// SignIn component
+
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -7,12 +9,26 @@ import Grid from '@mui/material/Grid';
 import { Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import {
+  Link as RouterLink,
+  Routes,
+  Route,
+  useNavigate
+} from "react-router-dom";
+import SignInSignUp from '../../pages/SignInSignUp/SignInSignUp';
 
 interface SignInProps {
   onClose: () => void;
 }
 
 const SignIn: React.FC<SignInProps> = ({ onClose }) => {
+  const navigate = useNavigate();
+  
+  const handleSignUpClick = () => {
+    onClose(); // Close the second drawer
+    navigate('/signInSignUp'); // Navigate to the "/signInSignUp" route
+  };
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -33,7 +49,6 @@ const SignIn: React.FC<SignInProps> = ({ onClose }) => {
       alert('Please provide both email and password.');
       return;
     }
-
 
     onClose();
   };
@@ -111,7 +126,12 @@ const SignIn: React.FC<SignInProps> = ({ onClose }) => {
           </Button>
           <Grid container>
             <Grid item>
-              <Link href="#" variant="body2" sx={{ color: "#D9D5A7", }}>
+              <Link
+                href="#"
+                variant="body2"
+                sx={{ color: "#D9D5A7" }}
+                onClick={handleSignUpClick}
+              >
                 {<u>"Don't have an account? Sign Up"</u>}
               </Link>
             </Grid>

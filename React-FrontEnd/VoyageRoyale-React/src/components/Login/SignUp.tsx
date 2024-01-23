@@ -90,13 +90,6 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
-            <Grid container>
-              <Grid item>
-                <Link href="#" variant="body2" sx={{ color: "#D9D5A7" }}>
-                  <u>Already have an account? Sign in</u>
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
       </Container>

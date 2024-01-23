@@ -10,11 +10,19 @@ import SignInSignUp from "../SignInSignUp/SignInSignUp";
 import CarDetails from "../CarDetails/CarDetails";
 import Payment from "../Payment/Payment";
 import Footer from "../../components/Footer/Footer";
+import QuickReservation from "../QuickReservation/QuickReservation";
+import AboutUs from "../AboutUs/AboutUs";
 
 function Dashboard() {
+  const backgroundStyle = {
+    backgroundImage: `url('https://i.ibb.co/nr2cNv9/5660740.jpg')`,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+  };
   return (
     <>
-      <Grid container style={{ backgroundColor: "#F0F0F0", minHeight: "100vh" }}>
+      <Grid container style={{...backgroundStyle, minHeight: "100vh" }}>
         <Grid item xs={12} sm={2}>
           <Sidebar />
         </Grid>
@@ -25,6 +33,10 @@ function Dashboard() {
             <Route path="/details/:id" element={<CarDetails />} />
             <Route path="/location" element={<Location />} />
             <Route path="/userProfile" element={<UserProfile />} />
+            <Route path="/quickReservation" element={<QuickReservation />} />
+            <Route path="/signInSignUp" element={<SignInSignUp/>}/>
+            <Route path="/aboutUs" element={<AboutUs/>}/>
+            <Route path="/reservations" element={<UserReservations/>}/>
             <Route
               path="/userProfile/reservation"
               element={<UserReservations />}

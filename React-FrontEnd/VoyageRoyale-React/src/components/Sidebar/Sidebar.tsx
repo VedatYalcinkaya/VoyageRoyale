@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
-import { Link as RouterLink, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useState } from "react";
+import {
+  Link as RouterLink,
+  BrowserRouter as Router,
+  Route,
+  Routes,
+} from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Box, Switch } from '@mui/material';
+import { Box } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
@@ -10,8 +15,10 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import SignIn from '../Login/SignIn';
-import QuickReservation from '../../pages/QuickReservation/QuickReservation';
+import SignIn from "../Login/SignIn";
+import QuickReservation from "../../pages/QuickReservation/QuickReservation";
+import Location from "../../pages/Location/Location";
+import Homepage from "../../pages/Homepage/Homepage";
 
 const drawerWidth = 275;
 const signInDrawerWidth = 400;
@@ -28,96 +35,117 @@ export default function Sidebar() {
   };
 
   return (
-      <Box sx={{ display: "flex" }}>
-        <CssBaseline />
-        <Drawer
-          sx={{
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      {/* Main Drawer */}
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
             width: drawerWidth,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-              borderColor: "#f9f9f9",
-              padding: "20px",
-              backgroundColor: "#0F4037",
-            },
-            "& .MuiTypography-root": {
-              color: "#D9D5A7",
-            },
-            "& .logo-container": {
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              padding: "15px",
-              marginBottom: 4,
-            },
-            "& .MuiListItemIcon-root": {
-              color: "#BF9460",
-            },
-            "& .MuiDivider-root": {
-              borderColor: "#BF9460",
-            },
-          }}
-          variant="permanent"
-          anchor="left"
-        >
-          <Box className="logo-container">
+            boxSizing: "border-box",
+            borderColor: "#f9f9f9",
+            padding: "20px",
+            backgroundColor: "#0F4037",
+          },
+          "& .MuiTypography-root": {
+            color: "#D9D5A7",
+          },
+          "& .logo-container": {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "15px",
+            marginBottom: 4,
+          },
+          "& .MuiListItemIcon-root": {
+            color: "#BF9460",
+          },
+          "& .MuiDivider-root": {
+            borderColor: "#BF9460",
+          },
+        }}
+        variant="permanent"
+        anchor="left"
+      >
+        <Box className="logo-container">
+          <RouterLink to="/">
             <img
               src="https://i.ibb.co/Q69fC4x/Logo-bej.png"
               alt="Logo"
               width="110"
             />
-          </Box>
-          <List>
-            {["Sign in", "Quick Reservation"].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton
-                  component={RouterLink}
-                  to={index === 0 ? '/' : '/quick-reservation'} // Define the routes
-                  onClick={index === 0 ? handleSignInButtonClick : undefined}
-                >
-                  <ListItemText primary={text} />
-                  <ListItemIcon>
-                    <PlayArrowIcon fontSize="small" />
-                  </ListItemIcon>
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {["Locations", "About Us"].map((text) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton component={RouterLink} to={`/${text.toLowerCase().replace(/\s+/g, '-')}`}>
-                  <ListItemText primary={text} />
-                  <ListItemIcon>
-                    <PlayArrowIcon fontSize="small" />
-                  </ListItemIcon>
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Drawer>
+          </RouterLink>
+        </Box>
+        <List sx={{ marginLeft: 1 }}>
+          <ListItem disablePadding>
+            {/* Open the second drawer on Sign In button click */}
+            <ListItemButton onClick={handleSignInButtonClick}>
+              <ListItemText primary="Sign In" />
+              <ListItemIcon>
+                <PlayArrowIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton component={RouterLink} to="/quickReservation">
+              <ListItemText primary="Quick Reservation" />
+              <ListItemIcon>
+                <PlayArrowIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
+            </ListItemButton>
+          </ListItem>
+        </List>
+        <Divider />
+        <List sx={{ marginLeft: 1 }}>
+        <ListItem disablePadding>
+            <ListItemButton component={RouterLink} to="/reservations">
+              <ListItemText primary="My Reservations" />
+              <ListItemIcon>
+                <PlayArrowIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton component={RouterLink} to="/location">
+              <ListItemText primary="Locations" />
+              <ListItemIcon>
+                <PlayArrowIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton component={RouterLink} to="/aboutUs">
+              <ListItemText primary="About Us" />
+              <ListItemIcon>
+                <PlayArrowIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Drawer>
 
-        <Drawer
-          anchor="left"
-          open={signInDrawerOpen}
-          onClose={handleSignInDrawerClose}
-          sx={{
-            marginLeft: drawerWidth,
+      {/* Second Drawer for Sign In */}
+      <Drawer
+        anchor="left"
+        open={signInDrawerOpen}
+        onClose={handleSignInDrawerClose}
+        sx={{
+          marginLeft: drawerWidth,
+          width: signInDrawerWidth,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
             width: signInDrawerWidth,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: signInDrawerWidth,
-              boxSizing: "border-box",
-              borderColor: "#f9f9f9",
-              padding: "20px",
-              backgroundColor: "#0F4037",
-            },
-          }}
-        >
-          <SignIn onClose={handleSignInDrawerClose} />
-        </Drawer>
-      </Box>
+            boxSizing: "border-box",
+            borderColor: "#f9f9f9",
+            padding: "20px",
+            backgroundColor: "#0F4037",
+          },
+        }}
+      >
+        {signInDrawerOpen && <SignIn onClose={handleSignInDrawerClose} />}
+      </Drawer>
+    </Box>
   );
 }

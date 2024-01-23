@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import axios from "axios";
+import { Grid, Container } from "@mui/material";
 
 interface Position {
   id: number;
@@ -29,29 +30,36 @@ const Location: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <MapContainer
-        center={[38.9637, 35.2433]}
-        zoom={5}
-        style={{ height: "400px", width: "100%", marginTop: "100px" }}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {positions.map((position) => (
-          <Marker
-            key={position.id}
-            position={[position.latitude, position.longitude]}
+    <Container>
+      <Grid container style={{ textAlign: "center", justifyContent: "center", paddingLeft:50} }>
+        <Grid
+          item
+          sm={12}
+        >
+          <MapContainer
+            center={[38.9637, 35.2433]}
+            zoom={5}
+            style={{ height: "400px", width: "100%", marginTop: "100px" }}
           >
-            <Popup>
-              {position.city} <br /> Latitude: {position.latitude}, Longitude:{" "}
-              {position.longitude}
-            </Popup>
-          </Marker>
-        ))}
-      </MapContainer>
-    </div>
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            {positions.map((position) => (
+              <Marker
+                key={position.id}
+                position={[position.latitude, position.longitude]}
+              >
+                <Popup>
+                  {position.city} <br /> Latitude: {position.latitude},
+                  Longitude: {position.longitude}
+                </Popup>
+              </Marker>
+            ))}
+          </MapContainer>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 
