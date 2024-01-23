@@ -24,7 +24,7 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
 
     private static final String[] WHITE_LIST_URLS = {
-            "/swagger-ui/**",
+            "/swagger-ui/index.html#/**",
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",
@@ -34,6 +34,7 @@ public class SecurityConfiguration {
 
     };
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -41,6 +42,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorizeHttpRequests->
                         authorizeHttpRequests.requestMatchers(WHITE_LIST_URLS)
                                 .permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/colors/**").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/api/colors/**").hasAnyAuthority(Role.ADMIN.name())
                                 .anyRequest()
                                 .authenticated())
