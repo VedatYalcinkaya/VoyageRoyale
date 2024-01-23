@@ -54,7 +54,9 @@ export default function ReservationCard() {
           </Typography>
         </CardContent>
         <CardOverflow>
-          <Button variant="solid" color="primary" size="lg">
+          <Button variant="solid" size="lg" sx={{backgroundColor:"#0F4037","&:hover": {
+                backgroundColor: "#B58B5D",
+              },}}>
             Total Price: 2400 TRY
           </Button>
         </CardOverflow>
