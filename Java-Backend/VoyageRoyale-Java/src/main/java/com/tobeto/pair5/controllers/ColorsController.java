@@ -18,7 +18,7 @@ import java.util.List;
 public class ColorsController {
     private final ColorService colorService;
 
-    @PostMapping("/colors")
+    @PostMapping("/add")
     public void add(@RequestBody @Valid AddColorRequest request){
         colorService.add(request);
     }
