@@ -38,8 +38,10 @@ const CarCard: React.FC<CarCardProps> = () => {
       <Grid container spacing={2}>
         {filteredCars.map((car: Car) => (
           <Grid item key={car.id} xs={12} sm={6} md={4}>
-            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-              <CardMedia component="div" sx={{ pt: '56.25%' }} image={car.imagePath} />
+            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', padding:2 }}>
+              <CardMedia component="div" sx={{ pt: '56.25%', "&:hover": {
+                      backgroundColor: "#F0F0F0",
+                    }}} image={car.imagePath} />
               <CardContent sx={{ flexGrow: 1 }}>
                 <Typography gutterBottom variant="h5" component="h2">
                   {car.dailyPrice} <CurrencyLiraIcon fontSize="small" />
@@ -52,9 +54,16 @@ const CarCard: React.FC<CarCardProps> = () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Box>
+                <Box >
                   <Link to={`/details/${car.id}`}>
-                    <Button size="small" variant="contained">
+                    <Button size="small" variant="contained" sx={{
+                    mt: 3,
+                    mb: 2,
+                    backgroundColor: "#0F4037",
+                    "&:hover": {
+                      backgroundColor: "#B58B5D",
+                    },
+                  }}>
                       Details
                     </Button>
                   </Link>
