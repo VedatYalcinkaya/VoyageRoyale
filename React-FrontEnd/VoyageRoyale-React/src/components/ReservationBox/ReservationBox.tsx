@@ -111,7 +111,7 @@ const ReservationBox: React.FC = () => {
                   onChange={(date) =>
                     setFieldValue(
                       "pickUpDate",
-                      date ? date.toISOString() : null
+                      date 
                     )
                   }
                 />
@@ -123,7 +123,7 @@ const ReservationBox: React.FC = () => {
                   onChange={(date) =>
                     setFieldValue(
                       "returnDate",
-                      date ? date.toISOString() : null
+                      date 
                     )
                   }
                 />
