@@ -6,12 +6,15 @@ import com.tobeto.pair5.services.dtos.car.requests.DeleteCarRequest;
 import com.tobeto.pair5.services.dtos.car.requests.UpdateCarRequest;
 import com.tobeto.pair5.services.dtos.car.responses.GetAllCarResponse;
 import com.tobeto.pair5.services.dtos.car.responses.GetByIdCarResponse;
+import com.tobeto.pair5.services.dtos.car.responses.GetCarsByPickUpDateAndReturnDateAndPosition;
 import com.tobeto.pair5.services.dtos.car.responses.GetCustomCarResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
@@ -50,6 +53,14 @@ public class CarsController {
     @GetMapping("/getById")
     public GetByIdCarResponse getById(@RequestParam @Valid int id){
         return carService.getById(id);
+    }
+
+    @GetMapping("getByReservationInputs")
+    public List<GetCarsByPickUpDateAndReturnDateAndPosition> getCarsByReservationInputs(
+            @RequestParam("pickUpDate") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate pickUpDate,
+            @RequestParam("returnDate") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate returnDate,
+            @RequestParam @Valid int positionId) {
+        return carService.getCarsByReservationInputs(pickUpDate,returnDate,positionId);
     }
 
 }
