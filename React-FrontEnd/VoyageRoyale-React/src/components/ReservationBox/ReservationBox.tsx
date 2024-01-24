@@ -21,6 +21,15 @@ import {
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { color } from "@mui/system";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone'; // Eğer bu eklentiyi kullanacaksanız yüklemeniz gerekebilir
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+dayjs.tz.setDefault("Turkey/Istanbul"); // Örnek zaman dilimi
+
 
 interface ReservationFormValues {
   pickUpDate: Date | null;
@@ -46,6 +55,7 @@ const validationSchema = Yup.object({
 const ReservationBox: React.FC = () => {
   const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
   const positions = useAppSelector((state) => state.positionList.data);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getPositionList());
@@ -62,15 +72,19 @@ const ReservationBox: React.FC = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values) => {
+        onSubmit={(values, { setSubmitting, resetForm }) => {
           const positionObj = positions.find(p => p.id === parseInt(values.position));
-          dispatch(
-            setReservation({
-              pickUpDate: values.pickUpDate?.toISOString() || null, // undefined ise null döner
-              returnDate: values.returnDate?.toISOString() || null, // undefined ise null döner
-              position: positionObj || null
-            })
-          );
+          if (positionObj) {
+            dispatch(
+              setReservation({
+                pickUpDate: dayjs(values.pickUpDate).format(), // dayjs ile formatla
+                returnDate: dayjs(values.returnDate).format(), // dayjs ile formatla
+                position: positionObj || null
+              }));
+            setSubmitting(false);
+            resetForm();
+            navigate('/cars');
+          }
         }}
       >
         {({ values, setFieldValue, handleChange }) => (
@@ -112,7 +126,7 @@ const ReservationBox: React.FC = () => {
                   onChange={(date) =>
                     setFieldValue(
                       "pickUpDate",
-                      date 
+                      date
                     )
                   }
                 />
@@ -124,14 +138,13 @@ const ReservationBox: React.FC = () => {
                   onChange={(date) =>
                     setFieldValue(
                       "returnDate",
-                      date 
+                      date
                     )
                   }
                 />
               </Grid>
 
               <Grid container item xs={2}>
-              <Link to="/cars">
                 <Button
                   type="submit"
                   fullWidth
@@ -147,7 +160,6 @@ const ReservationBox: React.FC = () => {
                 >
                   Check
                 </Button>
-                </Link>
               </Grid>
             </Grid>
           </Form>
