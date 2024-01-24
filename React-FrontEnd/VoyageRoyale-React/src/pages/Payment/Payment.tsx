@@ -53,7 +53,12 @@ const Payment: React.FC<PaymentProps> = ({
           <List>
             <ListItem>
               <ListItemText
-                primary={`Location: ${selectedPosition.position}`}
+                primary={`Location: ${selectedPosition.position?.city}`}
+              />
+            </ListItem>
+            <ListItem>
+            <ListItemText
+                primary={`Enlem : ${selectedPosition.position?.latitude} Boylam : ${selectedPosition.position?.longitude}`}
               />
             </ListItem>
             <ListItem>
