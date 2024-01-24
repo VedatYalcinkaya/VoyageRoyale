@@ -16,9 +16,10 @@ import {
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../store/configureStore';
-import { getCarDetail } from '../../store/slices/CarSlices/carDetailSlice';
-import {  useParams } from 'react-router-dom';
+import { getCarDetail, setCarDetailSend } from '../../store/slices/CarSlices/carDetailSlice';
+import {  Link, useParams } from 'react-router-dom';
 import { Car } from '../../models/CarModel/response';
+import { setGearType } from '../../store/slices/CarSlices/carGearTypeSlice';
 
 interface CarDetailsCardProps {}
 
@@ -59,16 +60,17 @@ const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
         maxWidth: '100%', 
       }}
     >
-      <CarDetailsCardContent carDetails={carDetails} />
+      <CarDetailsCardContent carDetails={carDetails} dispatch={dispatch} />
     </Box>
   );
 };
 
 interface CarDetailsCardContentProps {
   carDetails: Car;
+  dispatch: ThunkDispatch<any, any, AnyAction>;
 }
 
-const CarDetailsCardContent: React.FC<CarDetailsCardContentProps> = ({ carDetails }) => (
+const CarDetailsCardContent: React.FC<CarDetailsCardContentProps> = ({ carDetails,dispatch }) => (
   <Card sx={{ maxWidth: 700, width: '100%' }}>
     <CardActionArea>
       <CardMedia
@@ -107,9 +109,12 @@ const CarDetailsCardContent: React.FC<CarDetailsCardContentProps> = ({ carDetail
     <CardActions>
       <Grid container justifyContent='center'>
         <Grid item xs={12} md={8} lg={6} >
-           <Button size="large" color="success" variant="contained" fullWidth >
+          <Link to='/payment'>
+           <Button size="large" color="success" variant="contained" fullWidth  onClick={()=>{dispatch(setCarDetailSend(carDetails))}}>
            Rent Now
         </Button>
+          </Link>
+          
         </Grid>
       </Grid>
     </CardActions>

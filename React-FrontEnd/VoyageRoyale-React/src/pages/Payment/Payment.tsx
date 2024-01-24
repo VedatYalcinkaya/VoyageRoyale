@@ -10,6 +10,7 @@ import {
   ListItemText,
   Container,
 } from "@mui/material";
+import { useAppSelector } from "../../store/configureStore";
 
 interface Location {
   address: string;
@@ -40,6 +41,8 @@ const Payment: React.FC<PaymentProps> = ({
   totalPrice,
   onFinishReservation,
 }) => {
+  const selectedCar = useAppSelector(state => state.carDetail.carDetailSend);
+  const selectedPosition = useAppSelector(state => state.reservation)
   return (
     <Container maxWidth="sm">
       <Card sx={{ marginTop: "100px" }}>
@@ -50,7 +53,7 @@ const Payment: React.FC<PaymentProps> = ({
           <List>
             <ListItem>
               <ListItemText
-                primary={`Location: ${location.address}, ${location.city}`}
+                primary={`Location: ${selectedPosition.position}`}
               />
             </ListItem>
             <ListItem>
@@ -60,7 +63,7 @@ const Payment: React.FC<PaymentProps> = ({
               />
             </ListItem>
             <ListItem>
-              <ListItemText primary={`Car: ${car.model}`} />
+              <ListItemText primary={`Car: ${selectedCar?.modelName}`} />
             </ListItem>
           </List>
           <Divider />
