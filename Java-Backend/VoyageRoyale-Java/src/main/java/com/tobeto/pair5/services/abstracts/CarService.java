@@ -5,8 +5,10 @@ import com.tobeto.pair5.services.dtos.car.requests.DeleteCarRequest;
 import com.tobeto.pair5.services.dtos.car.requests.UpdateCarRequest;
 import com.tobeto.pair5.services.dtos.car.responses.GetAllCarResponse;
 import com.tobeto.pair5.services.dtos.car.responses.GetByIdCarResponse;
+import com.tobeto.pair5.services.dtos.car.responses.GetCarsByPickUpDateAndReturnDateAndPosition;
 import com.tobeto.pair5.services.dtos.car.responses.GetCustomCarResponse;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface CarService {
@@ -18,4 +20,6 @@ public interface CarService {
     GetByIdCarResponse getById(int id);
 
     List<GetCustomCarResponse> getAllCustom();
+
+    List<GetCarsByPickUpDateAndReturnDateAndPosition> getCarsByReservationInputs(LocalDate pickUpDate, LocalDate returnDate, int positionId);
 }

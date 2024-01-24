@@ -11,12 +11,14 @@ import com.tobeto.pair5.services.dtos.car.requests.DeleteCarRequest;
 import com.tobeto.pair5.services.dtos.car.requests.UpdateCarRequest;
 import com.tobeto.pair5.services.dtos.car.responses.GetAllCarResponse;
 import com.tobeto.pair5.services.dtos.car.responses.GetByIdCarResponse;
+import com.tobeto.pair5.services.dtos.car.responses.GetCarsByPickUpDateAndReturnDateAndPosition;
 import com.tobeto.pair5.services.dtos.car.responses.GetCustomCarResponse;
 import com.tobeto.pair5.services.dtos.color.responses.GetAllColorResponse;
 import com.tobeto.pair5.services.dtos.model.responses.GetAllModelResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -88,6 +90,17 @@ public class CarManager implements CarService {
         return carResponses;
 
     }
+
+    @Override
+    public List<GetCarsByPickUpDateAndReturnDateAndPosition> getCarsByReservationInputs(LocalDate pickUpDate, LocalDate returnDate, int positionId) {
+        List<Car> cars = carRepository.findAvailableCars(pickUpDate,returnDate,positionId);
+        List<GetCarsByPickUpDateAndReturnDateAndPosition> carResponses = cars.stream()
+                .map(car -> this.modelMapperService
+                        .forResponse().map(car, GetCarsByPickUpDateAndReturnDateAndPosition.class))
+                .collect(Collectors.toList());
+        return carResponses;
+    }
+
 
     private void checkIsModelExists(int modelId) {
         try {
