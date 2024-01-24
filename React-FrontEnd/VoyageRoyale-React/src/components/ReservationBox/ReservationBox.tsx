@@ -20,6 +20,7 @@ import {
 } from "@mui/material";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { color } from "@mui/system";
+import { Link } from "react-router-dom";
 
 interface ReservationFormValues {
   pickUpDate: Date | null;
@@ -130,6 +131,8 @@ const ReservationBox: React.FC = () => {
               </Grid>
 
               <Grid container item xs={2}>
+                <Link to='/cars'>
+                
                 <Button
                   type="submit"
                   fullWidth
@@ -145,6 +148,8 @@ const ReservationBox: React.FC = () => {
                 >
                   Check
                 </Button>
+                </Link>
+                
               </Grid>
             </Grid>
           </Form>

@@ -8,7 +8,7 @@ import { setBrandType } from '../../../store/slices/CarSlices/carBrandTypeSlice'
 const CarBrandFilter = () => {
     const dispatch : ThunkDispatch<any, any, Action> = useAppDispatch();
     const brands = useAppSelector(state => state.carBrandType.data)
-    const selectedBrand = useAppSelector(state => state.carBrandType.brandType)
+    const selectedBrand = useAppSelector(state => state.carBrandType.brandType);
 
 
   const handleChange = (event: SelectChangeEvent) => {
