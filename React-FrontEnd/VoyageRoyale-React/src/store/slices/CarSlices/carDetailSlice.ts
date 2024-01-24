@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Car } from "../../../models/CarModel/response";
 import axiosInstance from "../../../utils/interceptors/axiosInterceptors";
@@ -7,12 +7,14 @@ interface CarDetail {
   data: Car|null;
   loading: boolean;
   error: string;
+  carDetailSend:Car|null;
 }
 
 const initialState: CarDetail = {
   data: null,
   loading: false,
   error: "",
+  carDetailSend:null
 };
 
 export const getCarDetail = createAsyncThunk('getCarList', async (id:number|undefined) => {
@@ -23,7 +25,12 @@ export const getCarDetail = createAsyncThunk('getCarList', async (id:number|unde
 export const carDetailSlice = createSlice({
   name: 'carList',
   initialState,
-  reducers: {}, // You can add other reducers here if needed
+  reducers: {
+    setCarDetailSend:(state,action:PayloadAction<Car>)=>{
+        state.carDetailSend = action.payload
+    }
+
+  }, // You can add other reducers here if needed
   extraReducers: (builder) => {
     builder.addCase(getCarDetail.pending, (state) => {
       state.loading = true;
@@ -41,5 +48,8 @@ export const carDetailSlice = createSlice({
     });
   },
 });
+
+
+export const { setCarDetailSend} = carDetailSlice.actions
 
 export default carDetailSlice.reducer;

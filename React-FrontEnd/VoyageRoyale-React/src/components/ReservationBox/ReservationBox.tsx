@@ -131,7 +131,7 @@ const ReservationBox: React.FC = () => {
               </Grid>
 
               <Grid container item xs={2}>
-             
+              <Link to="/cars">
                 <Button
                   type="submit"
                   fullWidth
@@ -147,7 +147,7 @@ const ReservationBox: React.FC = () => {
                 >
                   Check
                 </Button>
-              
+                </Link>
               </Grid>
             </Grid>
           </Form>
