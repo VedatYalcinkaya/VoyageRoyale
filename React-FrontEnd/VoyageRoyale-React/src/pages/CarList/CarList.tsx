@@ -3,7 +3,7 @@ import CarCard from '../../components/Card/CarCard';
 import { Box, Grid, Stack } from '@mui/material';
 import CarFilter from '../../components/Card/CarCardFilters/CarFilter';
 import CarFuelFilter from '../../components/Card/CarCardFilters/CarFuelFilter';
-import { useAppDispatch } from '../../store/configureStore';
+import { useAppDispatch, useAppSelector } from '../../store/configureStore';
 import { Action } from 'redux';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import { getCarCategory } from '../../store/slices/CarSlices/carCategorySlice';
@@ -18,6 +18,7 @@ type Props = {};
 
 const CarList = (props: Props) => {
   const dispatch: ThunkDispatch<any, any, Action> = useAppDispatch();
+  const selectedPosition = useAppSelector(state => state.reservation);
 
   useEffect(() => {
     dispatch(getCarCategory());
