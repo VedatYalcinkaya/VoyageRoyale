@@ -20,6 +20,7 @@ import {
 } from "@mui/material";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { color } from "@mui/system";
+import { Link } from "react-router-dom";
 
 interface ReservationFormValues {
   pickUpDate: Date | null;
@@ -62,12 +63,12 @@ const ReservationBox: React.FC = () => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={(values) => {
-          // Verileri Redux store'una kaydet
+          const positionObj = positions.find(p => p.id === parseInt(values.position));
           dispatch(
             setReservation({
               pickUpDate: values.pickUpDate?.toISOString() || null, // undefined ise null döner
               returnDate: values.returnDate?.toISOString() || null, // undefined ise null döner
-              position: values.position,
+              position: positionObj || null
             })
           );
         }}
@@ -97,7 +98,7 @@ const ReservationBox: React.FC = () => {
                     onChange={handleChange}
                   >
                     {positions.map((position) => (
-                      <MenuItem key={position.id} value={position.city}>
+                      <MenuItem key={position.id} value={position.id}>
                         {position.city}
                       </MenuItem>
                     ))}
@@ -130,6 +131,7 @@ const ReservationBox: React.FC = () => {
               </Grid>
 
               <Grid container item xs={2}>
+             
                 <Button
                   type="submit"
                   fullWidth
@@ -145,6 +147,7 @@ const ReservationBox: React.FC = () => {
                 >
                   Check
                 </Button>
+              
               </Grid>
             </Grid>
           </Form>

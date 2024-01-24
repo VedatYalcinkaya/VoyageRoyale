@@ -1,11 +1,12 @@
 // reservationSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Position } from '../../models/LocationModel/response';
 
 // Rezervasyon durumunun arayüzü
 interface ReservationState {
   pickUpDate: string | null;
   returnDate: string | null;
-  position: string | null; // Yeni eklenen alan
+  position: Position | null 
 }
 
 // Başlangıç durumu
