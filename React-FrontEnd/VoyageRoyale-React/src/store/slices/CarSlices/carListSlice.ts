@@ -9,14 +9,20 @@ interface CarList {
   error: string;
 }
 
+interface ReservationInfo{
+  pickupDate:string | null;
+  returnDate:string | null;
+  positionId:number | undefined;
+}
+
 const initialState: CarList = {
   data: [],
   loading: false,
   error: "",
 };
 
-export const getCarList = createAsyncThunk('getCarList', async () => {
-  const response = await axiosInstance.get<Car[]>('cars/getAll');
+export const getCarList = createAsyncThunk('getCarList', async (reservationInfo:ReservationInfo) => {
+  const response = await axiosInstance.get<Car[]>(`/cars/getByReservationInputs?pickUpDate=${reservationInfo.pickupDate}&returnDate=${reservationInfo.returnDate}&positionId=${reservationInfo.positionId}`);
   return response.data;
 });
 

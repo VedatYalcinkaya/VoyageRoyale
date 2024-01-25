@@ -16,7 +16,10 @@ const CarCard: React.FC<CarCardProps> = () => {
   const selectedFuel = useAppSelector((state) => state.carFuelType.fuelType);
   const selectedBrand = useAppSelector((state) => state.carBrandType.brandType);
   const selectedGear = useAppSelector((state) => state.carGearType.gearType);
+
   const cars: Car[] = useAppSelector((state) => state.carList.data) || [];
+
+
 
   const filterCars = (car: Car) => {
     const typeMatch = !selectedCarType || car.carTypeName === selectedCarType;
@@ -29,9 +32,7 @@ const CarCard: React.FC<CarCardProps> = () => {
 
   const filteredCars = cars.filter(filterCars);
 
-  useEffect(() => {
-    dispatch(getCarList());
-  }, []);
+
 
   return (
     <Container sx={{ py: 2, ml: 3 }} maxWidth="md">

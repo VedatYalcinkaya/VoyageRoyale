@@ -18,14 +18,20 @@ type Props = {};
 
 const CarList = (props: Props) => {
   const dispatch: ThunkDispatch<any, any, Action> = useAppDispatch();
-  const selectedPosition = useAppSelector(state => state.reservation);
+  const selectedPickupDate= useAppSelector(state => state.reservation.pickUpDate)
+  const pickup:string | null = selectedPickupDate?.substring(0,10) ?? null;
+  const selectedReturnDate=useAppSelector(state => state.reservation.returnDate)
+  const returnDate:string|null = selectedReturnDate?.substring(0,10) ?? null;
+  const selectedPosition = useAppSelector(state => state.reservation.position?.id);
+  
 
   useEffect(() => {
     dispatch(getCarCategory());
-    dispatch(getCarList());
+    dispatch(getCarList({pickupDate:pickup,returnDate:returnDate,positionId:selectedPosition}));
     dispatch(getCarFuelType());
     dispatch(getCarBrandType());
     dispatch(getCarGearType());
+ 
   }, []);
 
   return (
