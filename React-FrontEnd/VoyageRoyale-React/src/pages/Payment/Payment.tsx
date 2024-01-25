@@ -1,4 +1,6 @@
+// Payment.tsx
 import React from "react";
+import { useDispatch } from "react-redux";
 import {
   Card,
   CardContent,
@@ -11,45 +13,72 @@ import {
   Container,
 } from "@mui/material";
 import { useAppSelector } from "../../store/configureStore";
-
-interface Location {
-  address: string;
-  city: string;
-}
-
-interface Driver {
-  name: string;
-  licensePlate: string;
-}
-
-interface Car {
-  model: string;
-}
+import { setConfettiActive } from "../../store/slices/paymentSlice";
+import Confetti from "react-confetti";
+import dayjs from "dayjs";
 
 interface PaymentProps {
-  location: Location;
-  driver: Driver;
-  car: Car;
-  totalPrice: number;
-  onFinishReservation: () => void;
+  onFinishReservation?: () => void;
 }
 
-const Payment: React.FC<PaymentProps> = ({
-  location,
-  driver,
-  car,
-  totalPrice,
-  onFinishReservation,
-}) => {
-  const selectedCar = useAppSelector(state => state.carDetail.carDetailSend);
-  const selectedPosition = useAppSelector(state => state.reservation)
+const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
+  const selectedCar = useAppSelector((state) => state.carDetail.carDetailSend);
+  const selectedPosition = useAppSelector((state) => state.reservation);
+  const confettiActive = useAppSelector(
+    (state) => state.payment.confettiActive
+  );
+  const dispatch = useDispatch();
+
+  const calculateTotalPrice = (): number => {
+    const daysDifference = dayjs(selectedPosition.returnDate).diff(
+      dayjs(selectedPosition.pickUpDate),
+      "day"
+    );
+    const totalPrice = daysDifference * (selectedCar?.dailyPrice || 0);
+
+    return totalPrice;
+  };
+
+  const totalPrice = calculateTotalPrice();
+
+  const handleFinishReservation = () => {
+    dispatch(setConfettiActive(true));
+    setTimeout(() => {
+      dispatch(setConfettiActive(false));
+      onFinishReservation();
+    }, 5000);
+  };
+
   return (
     <Container maxWidth="sm">
-      <Card sx={{ marginTop: "100px" }}>
+      <Card
+        sx={{
+          marginTop: "100px",
+          backgroundColor: "rgba(255, 255, 255, 0.90)",
+          backdropFilter: "blur(5px)",
+          position: "relative",
+        }}
+      >
+        {confettiActive && (
+          <Confetti
+            width={window.innerWidth}
+            height={window.innerHeight}
+            recycle={false}
+          />
+        )}
         <CardContent>
-          <Typography variant="h5" gutterBottom>
+          <Typography
+            variant="h5"
+            gutterBottom
+            sx={{ textAlign: "center", fontWeight: "bold", color: "#0F4037" }}
+          >
             Payment Details
           </Typography>
+          {/* <img
+            src={selectedCar?.imagePath}
+            alt="Selected Car"
+            style={{ width: "100%", height: "auto", marginBottom: "10px" }}
+          /> */}
           <List>
             <ListItem>
               <ListItemText
@@ -57,30 +86,33 @@ const Payment: React.FC<PaymentProps> = ({
               />
             </ListItem>
             <ListItem>
-            <ListItemText
-                primary={`Enlem : ${selectedPosition.position?.latitude} Boylam : ${selectedPosition.position?.longitude}`}
-              />
-            </ListItem>
-            <ListItem>
               <ListItemText
-                primary={`Driver: ${driver.name}`}
-                secondary={`License Plate: ${driver.licensePlate}`}
+                primary={`Latitude : ${selectedPosition.position?.latitude} Longitude : ${selectedPosition.position?.longitude}`}
               />
             </ListItem>
             <ListItem>
-              <ListItemText primary={`Car: ${selectedCar?.modelName}`} />
+              <ListItemText primary={`Car Model: ${selectedCar?.modelName}`} />
             </ListItem>
           </List>
           <Divider />
-          <Typography variant="subtitle1" style={{ marginTop: "10px" }}>
-            Total Price: ${totalPrice.toFixed(2)}
+          <Typography
+            variant="subtitle1"
+            style={{ marginTop: "5px", marginLeft: "15px" }}
+          >
+            Total Price: ₺{totalPrice.toFixed(2)}
           </Typography>
         </CardContent>
         <Button
           variant="contained"
-          color="primary"
-          style={{ margin: "10px" }}
-          onClick={onFinishReservation}
+          style={{
+            margin: "auto",
+            marginBottom: "20px",
+            backgroundColor: "#0F4037",
+            color: "#fff",
+            display: "block",
+            padding: "12px",
+          }}
+          onClick={handleFinishReservation}
         >
           Finish Payment
         </Button>

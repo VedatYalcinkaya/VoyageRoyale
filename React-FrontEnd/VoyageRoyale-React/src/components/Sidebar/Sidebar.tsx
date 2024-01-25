@@ -4,6 +4,7 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
+  useNavigate,
 } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Box } from "@mui/material";
@@ -25,6 +26,7 @@ const signInDrawerWidth = 400;
 
 export default function Sidebar() {
   const [signInDrawerOpen, setSignInDrawerOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleSignInButtonClick = () => {
     setSignInDrawerOpen(true);
@@ -32,6 +34,14 @@ export default function Sidebar() {
 
   const handleSignInDrawerClose = () => {
     setSignInDrawerOpen(false);
+  };
+
+  const handleLogoClick = () => {
+    navigate("/");
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -69,7 +79,7 @@ export default function Sidebar() {
         variant="permanent"
         anchor="left"
       >
-        <Box className="logo-container">
+        <Box className="logo-container" onClick={handleLogoClick}>
           <RouterLink to="/">
             <img
               src="https://i.ibb.co/Q69fC4x/Logo-bej.png"
@@ -99,7 +109,7 @@ export default function Sidebar() {
         </List>
         <Divider />
         <List sx={{ marginLeft: 1 }}>
-        <ListItem disablePadding>
+          <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/reservations">
               <ListItemText primary="My Reservations" />
               <ListItemIcon>

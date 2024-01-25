@@ -22,14 +22,13 @@ import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { color } from "@mui/system";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone'; // Eğer bu eklentiyi kullanacaksanız yüklemeniz gerekebilir
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone"; // Eğer bu eklentiyi kullanacaksanız yüklemeniz gerekebilir
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
 dayjs.tz.setDefault("Turkey/Istanbul"); // Örnek zaman dilimi
-
 
 interface ReservationFormValues {
   pickUpDate: Date | null;
@@ -73,17 +72,20 @@ const ReservationBox: React.FC = () => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          const positionObj = positions.find(p => p.id === parseInt(values.position));
+          const positionObj = positions.find(
+            (p) => p.id === parseInt(values.position)
+          );
           if (positionObj) {
             dispatch(
               setReservation({
                 pickUpDate: dayjs(values.pickUpDate).format(), // dayjs ile formatla
                 returnDate: dayjs(values.returnDate).format(), // dayjs ile formatla
-                position: positionObj || null
-              }));
+                position: positionObj || null,
+              })
+            );
             setSubmitting(false);
             resetForm();
-            navigate('/cars');
+            navigate("/cars");
           }
         }}
       >
@@ -102,7 +104,7 @@ const ReservationBox: React.FC = () => {
               </Grid>
               <Grid item xs={12}>
                 <FormControl fullWidth>
-                  <InputLabel id="position-select-label">Position</InputLabel>
+                  <InputLabel id="position-select-label">Cities..</InputLabel>
                   <Select
                     labelId="position-select-label"
                     id="position"
@@ -123,24 +125,14 @@ const ReservationBox: React.FC = () => {
                 <DateTimePicker
                   label="Pick Up"
                   value={values.pickUpDate ? dayjs(values.pickUpDate) : null}
-                  onChange={(date) =>
-                    setFieldValue(
-                      "pickUpDate",
-                      date
-                    )
-                  }
+                  onChange={(date) => setFieldValue("pickUpDate", date)}
                 />
               </Grid>
               <Grid item xs={5}>
                 <DateTimePicker
                   label="Return"
                   value={values.returnDate ? dayjs(values.returnDate) : null}
-                  onChange={(date) =>
-                    setFieldValue(
-                      "returnDate",
-                      date
-                    )
-                  }
+                  onChange={(date) => setFieldValue("returnDate", date)}
                 />
               </Grid>
 
