@@ -9,10 +9,7 @@ import com.tobeto.pair5.services.abstracts.ModelService;
 import com.tobeto.pair5.services.dtos.car.requests.AddCarRequest;
 import com.tobeto.pair5.services.dtos.car.requests.DeleteCarRequest;
 import com.tobeto.pair5.services.dtos.car.requests.UpdateCarRequest;
-import com.tobeto.pair5.services.dtos.car.responses.GetAllCarResponse;
-import com.tobeto.pair5.services.dtos.car.responses.GetByIdCarResponse;
-import com.tobeto.pair5.services.dtos.car.responses.GetCarsByPickUpDateAndReturnDateAndPosition;
-import com.tobeto.pair5.services.dtos.car.responses.GetCustomCarResponse;
+import com.tobeto.pair5.services.dtos.car.responses.*;
 import com.tobeto.pair5.services.dtos.color.responses.GetAllColorResponse;
 import com.tobeto.pair5.services.dtos.model.responses.GetAllModelResponse;
 import lombok.AllArgsConstructor;
@@ -99,6 +96,16 @@ public class CarManager implements CarService {
                         .forResponse().map(car, GetCarsByPickUpDateAndReturnDateAndPosition.class))
                 .collect(Collectors.toList());
         return carResponses;
+    }
+
+    @Override
+    public List<GetCarsByPositionIdResponse> getCarsByPositionId(int id) {
+        List<Car> cars = carRepository.findByPositionId(id).orElseThrow();
+        List<GetCarsByPositionIdResponse> carsByPositionIdResponses = cars.stream()
+                .map(car -> this.modelMapperService
+                        .forResponse().map(car, GetCarsByPositionIdResponse.class))
+                .collect(Collectors.toList());
+        return carsByPositionIdResponses;
     }
 
 

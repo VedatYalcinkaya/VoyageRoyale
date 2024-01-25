@@ -4,10 +4,7 @@ import com.tobeto.pair5.services.abstracts.CarService;
 import com.tobeto.pair5.services.dtos.car.requests.AddCarRequest;
 import com.tobeto.pair5.services.dtos.car.requests.DeleteCarRequest;
 import com.tobeto.pair5.services.dtos.car.requests.UpdateCarRequest;
-import com.tobeto.pair5.services.dtos.car.responses.GetAllCarResponse;
-import com.tobeto.pair5.services.dtos.car.responses.GetByIdCarResponse;
-import com.tobeto.pair5.services.dtos.car.responses.GetCarsByPickUpDateAndReturnDateAndPosition;
-import com.tobeto.pair5.services.dtos.car.responses.GetCustomCarResponse;
+import com.tobeto.pair5.services.dtos.car.responses.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -40,7 +37,7 @@ public class CarsController {
         carService.update(request);
     }
 
-    @GetMapping("getAllCustom")
+    @GetMapping("/getAllCustom")
     public List<GetCustomCarResponse> getAllCustom(){
         return carService.getAllCustom();
     }
@@ -55,7 +52,7 @@ public class CarsController {
         return carService.getById(id);
     }
 
-    @GetMapping("getByReservationInputs")
+    @GetMapping("/getByReservationInputs")
     public List<GetCarsByPickUpDateAndReturnDateAndPosition> getCarsByReservationInputs(
             @RequestParam("pickUpDate") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate pickUpDate,
             @RequestParam("returnDate") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate returnDate,
@@ -63,4 +60,8 @@ public class CarsController {
         return carService.getCarsByReservationInputs(pickUpDate,returnDate,positionId);
     }
 
+    @GetMapping("/getCarsByPositionId")
+    public List<GetCarsByPositionIdResponse> getCarsByPositionId(@RequestParam @Valid int id ) {
+        return carService.getCarsByPositionId(id);
+    }
 }
