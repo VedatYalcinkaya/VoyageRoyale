@@ -9,6 +9,8 @@ import carBrandTypeSlice from "./slices/CarSlices/carBrandTypeSlice";
 import carGearTypeSlice from "./slices/CarSlices/carGearTypeSlice";
 import reservationSlice from "./slices/reservationSlice";
 import paymentSlice from "./slices/paymentSlice";
+import signUpSlice from "./slices/signUpSlice";
+
 
 export const store = configureStore({
   reducer: {
@@ -22,6 +24,7 @@ export const store = configureStore({
     carCategory: carCategorySlice,
     reservation: reservationSlice,
     payment: paymentSlice,
+    signUp: signUpSlice,
   },
 });
 
