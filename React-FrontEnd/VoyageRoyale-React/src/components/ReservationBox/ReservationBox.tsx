@@ -20,7 +20,12 @@ import {
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { useNavigate } from "react-router-dom";
 import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
+import timezone from "dayjs/plugin/timezone"; // Eğer bu eklentiyi kullanacaksanız yüklemeniz gerekebilir
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
+import { red } from "@mui/material/colors";
+
+const errorColor = red[500]
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -76,25 +81,35 @@ const ReservationBox: React.FC = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
-          const positionObj = positions.find(
-            (p) => p.id === parseInt(values.position)
-          );
-          if (positionObj) {
-            dispatch(
-              setReservation({
-                pickUpDate: dayjs(values.pickUpDate).format(),
-                returnDate: dayjs(values.returnDate).format(),
-                position: positionObj || null,
-              })
-            );
-            setSubmitting(false);
-            resetForm();
-            navigate("/cars");
-          }
+        onSubmit={(values, formikBag) => {
+          formikBag.setSubmitting(true);
+          formikBag.validateForm().then(errors => {
+            console.log("Validation Errors:", errors)
+            if (Object.keys(errors).length) {
+              Object.values(errors).forEach(error => {
+                if (error) toastr.error(error);
+              });
+              formikBag.setSubmitting(false); 
+            } else {
+              const positionObj = positions.find(p => p.id === parseInt(values.position));
+              if (positionObj) {
+                dispatch(setReservation({
+                  pickUpDate: dayjs(values.pickUpDate).toISOString(),
+                  returnDate: dayjs(values.returnDate).toISOString(),
+                  position: positionObj,
+                }));
+                toastr.success("Cars listed!");
+                navigate("/cars");
+              } else {
+                toastr.error("Invalid position selected");
+              }
+              formikBag.setSubmitting(false);
+              formikBag.resetForm();
+            }
+          });
         }}
       >
-        {({ values, setFieldValue, handleChange }) => (
+        {formikBag => (
           <Form>
             <Grid container maxWidth="md" spacing={2}>
               <Grid item xs={12}>
@@ -114,9 +129,9 @@ const ReservationBox: React.FC = () => {
                     labelId="position-select-label"
                     id="position"
                     name="position"
-                    value={values.position}
+                    value={formikBag.values.position}
                     label="Position"
-                    onChange={handleChange}
+                    onChange={formikBag.handleChange}
                   >
                     {positions.map((position) => (
                       <MenuItem key={position.id} value={position.id}>
@@ -124,21 +139,30 @@ const ReservationBox: React.FC = () => {
                       </MenuItem>
                     ))}
                   </Select>
+                  {formikBag.errors.position && formikBag.touched.position && (
+                    <Typography color={errorColor}>{formikBag.errors.position}</Typography>
+                  )}
                 </FormControl>
               </Grid>
               <Grid item xs={5}>
                 <DateTimePicker
                   label="Pick Up"
-                  value={values.pickUpDate ? dayjs(values.pickUpDate) : null}
-                  onChange={(date) => setFieldValue("pickUpDate", date)}
+                  value={formikBag.values.pickUpDate ? dayjs(formikBag.values.pickUpDate) : null}
+                  onChange={(date) => formikBag.setFieldValue("pickUpDate", date)}
                 />
+                {formikBag.errors.pickUpDate && formikBag.touched.pickUpDate && (
+                  <Typography color={errorColor}>{formikBag.errors.pickUpDate}</Typography>
+                )}
               </Grid>
               <Grid item xs={5}>
                 <DateTimePicker
                   label="Return"
-                  value={values.returnDate ? dayjs(values.returnDate) : null}
-                  onChange={(date) => setFieldValue("returnDate", date)}
+                  value={formikBag.values.returnDate ? dayjs(formikBag.values.returnDate) : null}
+                  onChange={(date) => formikBag.setFieldValue("returnDate", date)}
                 />
+                {formikBag.errors.returnDate && formikBag.touched.returnDate && (
+                  <Typography color={errorColor}>{formikBag.errors.returnDate}</Typography>
+                )}
               </Grid>
 
               <Grid container item xs={2}>
