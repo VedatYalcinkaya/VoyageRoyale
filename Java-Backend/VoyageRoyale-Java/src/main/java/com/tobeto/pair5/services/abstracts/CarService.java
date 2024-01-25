@@ -1,12 +1,10 @@
 package com.tobeto.pair5.services.abstracts;
 
+import com.tobeto.pair5.entities.concretes.Car;
 import com.tobeto.pair5.services.dtos.car.requests.AddCarRequest;
 import com.tobeto.pair5.services.dtos.car.requests.DeleteCarRequest;
 import com.tobeto.pair5.services.dtos.car.requests.UpdateCarRequest;
-import com.tobeto.pair5.services.dtos.car.responses.GetAllCarResponse;
-import com.tobeto.pair5.services.dtos.car.responses.GetByIdCarResponse;
-import com.tobeto.pair5.services.dtos.car.responses.GetCarsByPickUpDateAndReturnDateAndPosition;
-import com.tobeto.pair5.services.dtos.car.responses.GetCustomCarResponse;
+import com.tobeto.pair5.services.dtos.car.responses.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,4 +20,6 @@ public interface CarService {
     List<GetCustomCarResponse> getAllCustom();
 
     List<GetCarsByPickUpDateAndReturnDateAndPosition> getCarsByReservationInputs(LocalDate pickUpDate, LocalDate returnDate, int positionId);
+
+    List<GetCarsByPositionIdResponse> getCarsByPositionId(int id);
 }

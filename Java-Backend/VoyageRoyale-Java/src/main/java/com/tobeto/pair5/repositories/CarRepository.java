@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface CarRepository extends JpaRepository<Car,Integer> {
     boolean existsByPlate(String plate);
@@ -22,4 +23,6 @@ public interface CarRepository extends JpaRepository<Car,Integer> {
             @Param("returnDate") LocalDate returnDate,
             @Param("positionId") int positionId
     );
+
+    Optional<List<Car>> findByPositionId(int id);
 }
