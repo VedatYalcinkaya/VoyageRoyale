@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../store/configureStore";
 import { setReservation } from "../../store/slices/reservationSlice";
 import { getPositionList } from "../../store/slices/selectPositionSlice";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import dayjs from "dayjs";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -15,12 +15,9 @@ import {
   Select,
   FormControl,
   InputLabel,
-  TextField,
   Typography,
 } from "@mui/material";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
-import { color } from "@mui/system";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone"; // Eğer bu eklentiyi kullanacaksanız yüklemeniz gerekebilir
@@ -33,7 +30,7 @@ const errorColor = red[500]
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-dayjs.tz.setDefault("Turkey/Istanbul"); // Örnek zaman dilimi
+dayjs.tz.setDefault("Turkey/Istanbul");
 
 interface ReservationFormValues {
   pickUpDate: Date | null;
@@ -65,10 +62,18 @@ const ReservationBox: React.FC = () => {
     dispatch(getPositionList());
   }, [dispatch]);
 
+  const getCityInfoFromUrl = () => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const cityParam = searchParams.get("city");
+
+    return positions.find((position) => position.city === cityParam);
+  };
+  const selectedCity = getCityInfoFromUrl();
+
   const initialValues: ReservationFormValues = {
     pickUpDate: dayjs().toDate(),
     returnDate: dayjs().add(1, "day").toDate(),
-    position: "",
+    position: selectedCity ? String(selectedCity.id) : "",
   };
 
   return (
