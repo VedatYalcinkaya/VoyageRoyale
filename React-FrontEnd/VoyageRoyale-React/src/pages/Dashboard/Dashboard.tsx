@@ -22,11 +22,11 @@ function Dashboard() {
   };
   return (
     <>
-      <Grid container style={{...backgroundStyle, minHeight: "100vh" }}>
+      <Grid container style={{ ...backgroundStyle, minHeight: "100vh" }}>
         <Grid item xs={12} sm={2}>
           <Sidebar />
         </Grid>
-        <Grid item xs={12} sm={10} style={{ padding: 50}}>
+        <Grid item xs={12} sm={10} style={{ padding: 50 }}>
           <Routes>
             <Route path="/" element={<Homepage />} />
             <Route path="/cars" element={<CarList />} />
@@ -34,26 +34,15 @@ function Dashboard() {
             <Route path="/location" element={<Location />} />
             <Route path="/userProfile" element={<UserProfile />} />
             <Route path="/quickReservation" element={<QuickReservation />} />
-            <Route path="/signInSignUp" element={<SignInSignUp/>}/>
-            <Route path="/aboutUs" element={<AboutUs/>}/>
-            <Route path="/reservations" element={<UserReservations/>}/>
+            <Route path="/signInSignUp" element={<SignInSignUp />} />
+            <Route path="/aboutUs" element={<AboutUs />} />
+            <Route path="/reservations" element={<UserReservations />} />
             <Route
               path="/userProfile/reservation"
               element={<UserReservations />}
             />
             <Route path="/login" element={<SignInSignUp />} />
-            <Route
-              path="/payment"
-              element={
-                <Payment
-                  location={{ address: "", city: "" }}
-                  driver={{ name: "", licensePlate: "" }}
-                  car={{ model: "" }}
-                  totalPrice={0}
-                  onFinishReservation={() => {}}
-                />
-              }
-            />
+            <Route path="/payment" element={<Payment />} />
           </Routes>
         </Grid>
       </Grid>
