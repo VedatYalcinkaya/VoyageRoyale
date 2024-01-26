@@ -1,10 +1,12 @@
 package com.tobeto.pair5.services.concretes;
 
+import com.tobeto.pair5.core.utilities.exceptions.types.BusinessException;
 import com.tobeto.pair5.core.utilities.mappers.ModelMapperService;
 import com.tobeto.pair5.entities.concretes.CarType;
 import com.tobeto.pair5.repositories.CarTypeRepository;
 import com.tobeto.pair5.repositories.ModelRepository;
 import com.tobeto.pair5.services.abstracts.CarTypeService;
+import com.tobeto.pair5.services.constants.Messages;
 import com.tobeto.pair5.services.dtos.carType.requests.AddCarTypeRequest;
 import com.tobeto.pair5.services.dtos.carType.requests.DeleteCarTypeRequest;
 import com.tobeto.pair5.services.dtos.carType.requests.UpdateCarTypeRequest;
@@ -30,13 +32,13 @@ public class CarTypeManager implements CarTypeService {
 
     @Override
     public void delete(DeleteCarTypeRequest request) {
-        CarType carTypeToDelete = carTypeRepository.findById(request.getId()).orElseThrow();
+        CarType carTypeToDelete = carTypeRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.carTypeNotExist));
         carTypeRepository.delete(carTypeToDelete);
     }
 
     @Override
     public void update(UpdateCarTypeRequest request) {
-        CarType carTypeToUpdate = carTypeRepository.findById(request.getId()).orElseThrow();
+        CarType carTypeToUpdate = carTypeRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.carTypeNotExist));
         this.modelMapperService.forRequest().map(request,carTypeToUpdate);
         carTypeRepository.saveAndFlush(carTypeToUpdate);
     }

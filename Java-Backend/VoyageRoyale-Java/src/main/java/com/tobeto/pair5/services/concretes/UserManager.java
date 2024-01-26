@@ -1,9 +1,11 @@
 package com.tobeto.pair5.services.concretes;
 
+import com.tobeto.pair5.core.utilities.exceptions.types.BusinessException;
 import com.tobeto.pair5.core.utilities.mappers.ModelMapperService;
 import com.tobeto.pair5.entities.concretes.User;
 import com.tobeto.pair5.repositories.UserRepository;
 import com.tobeto.pair5.services.abstracts.UserService;
+import com.tobeto.pair5.services.constants.Messages;
 import com.tobeto.pair5.services.dtos.user.requests.AddUserRequest;
 import com.tobeto.pair5.services.dtos.user.requests.DeleteUserRequest;
 import com.tobeto.pair5.services.dtos.user.requests.UpdateUserRequest;
@@ -27,7 +29,7 @@ public class UserManager implements UserService {
 
     @Override
     public void delete(DeleteUserRequest request) {
-        User userToDelete = userRepository.findById(request.getId()).orElseThrow();
+        User userToDelete = userRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.userNotFound));
         userRepository.delete(userToDelete);
     }
 
@@ -48,14 +50,14 @@ public class UserManager implements UserService {
 
     @Override
     public GetByIdUserResponse getById(int id) {
-        User user = userRepository.findById(id).orElseThrow();
+        User user = userRepository.findById(id).orElseThrow(()-> new BusinessException(Messages.userNotFound));
         GetByIdUserResponse response = this.modelMapperService.forResponse().map(user, GetByIdUserResponse.class);
         return response;
     }
 
     @Override
     public GetByIdUserResponse getByEmail(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow();
+        User user = userRepository.findByEmail(email).orElseThrow(()-> new BusinessException(Messages.userNotFound));
         GetByIdUserResponse response = this.modelMapperService.forResponse().map(user,GetByIdUserResponse.class);
         return response;
     }

@@ -1,9 +1,11 @@
 package com.tobeto.pair5.services.concretes;
 
+import com.tobeto.pair5.core.utilities.exceptions.types.BusinessException;
 import com.tobeto.pair5.core.utilities.mappers.ModelMapperService;
 import com.tobeto.pair5.entities.concretes.FuelType;
 import com.tobeto.pair5.repositories.FuelTypeRepository;
 import com.tobeto.pair5.services.abstracts.FuelTypeService;
+import com.tobeto.pair5.services.constants.Messages;
 import com.tobeto.pair5.services.dtos.fuelType.requests.AddFuelTypeRequest;
 import com.tobeto.pair5.services.dtos.fuelType.requests.DeleteFuelTypeRequest;
 import com.tobeto.pair5.services.dtos.fuelType.requests.UpdateFuelTypeRequest;
@@ -28,20 +30,21 @@ public class FuelTypeManager implements FuelTypeService {
 
     @Override
     public void delete(DeleteFuelTypeRequest request) {
-        FuelType fuelTypeToDelete = fuelTypeRepository.findById(request.getId()).orElseThrow();
+        FuelType fuelTypeToDelete = fuelTypeRepository.findById(request.getId())
+                .orElseThrow(()-> new BusinessException(Messages.fuelTypeNotExist));
         fuelTypeRepository.delete(fuelTypeToDelete);
     }
 
     @Override
     public void update(UpdateFuelTypeRequest request) {
-        FuelType fuelTypeToUpdate = fuelTypeRepository.findById(request.getId()).orElseThrow();
+        FuelType fuelTypeToUpdate = fuelTypeRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.fuelTypeNotExist));
         this.modelMapperService.forRequest().map(request, fuelTypeToUpdate);
         fuelTypeRepository.saveAndFlush(fuelTypeToUpdate);
     }
 
     @Override
     public GetFuelTypeByIdResponse getById(int id) {
-        FuelType fuelType = fuelTypeRepository.findById(id).orElseThrow();
+        FuelType fuelType = fuelTypeRepository.findById(id).orElseThrow(()-> new BusinessException(Messages.fuelTypeNotExist));
         GetFuelTypeByIdResponse response = modelMapperService.forResponse().map(fuelType, GetFuelTypeByIdResponse.class);
         return response;
     }

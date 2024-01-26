@@ -1,11 +1,13 @@
 package com.tobeto.pair5.services.concretes;
 
+import com.tobeto.pair5.core.utilities.exceptions.types.BusinessException;
 import com.tobeto.pair5.core.utilities.mappers.ModelMapperService;
 import com.tobeto.pair5.entities.concretes.Rental;
 import com.tobeto.pair5.repositories.RentalRepository;
 import com.tobeto.pair5.services.abstracts.CarService;
 import com.tobeto.pair5.services.abstracts.RentalService;
 import com.tobeto.pair5.services.abstracts.UserService;
+import com.tobeto.pair5.services.constants.Messages;
 import com.tobeto.pair5.services.dtos.car.responses.GetByIdCarResponse;
 import com.tobeto.pair5.services.dtos.rental.requests.AddRentalRequest;
 import com.tobeto.pair5.services.dtos.rental.requests.DeleteRentalRequest;
@@ -50,13 +52,13 @@ public class RentalManager implements RentalService {
 
     @Override
     public void delete(DeleteRentalRequest request) {
-        Rental rentalToDelete = rentalRepository.findById(request.getId()).orElseThrow();
+        Rental rentalToDelete = rentalRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.rentalNotExist));
         rentalRepository.delete(rentalToDelete);
     }
 
     @Override
     public void update(UpdateRentalRequest request) {
-        Rental rentalToUpdate = rentalRepository.findById(request.getId()).orElseThrow();
+        Rental rentalToUpdate = rentalRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.rentalNotExist));
 
         checkIsStartDateBeforeThanEndDate(request.getStartDate(), request.getEndDate());
         checkIsCarExists(request.getCar().getId());
@@ -85,7 +87,7 @@ public class RentalManager implements RentalService {
 
     @Override
     public GetByIdRentalResponse getById(int id) {
-        Rental rental = rentalRepository.findById(id).orElseThrow();
+        Rental rental = rentalRepository.findById(id).orElseThrow(()-> new BusinessException(Messages.rentalNotExist));
         GetByIdRentalResponse response = this.modelMapperService.forResponse().map(rental, GetByIdRentalResponse.class);
         return response;
     }
@@ -93,7 +95,7 @@ public class RentalManager implements RentalService {
     private void checkIsRentalValid(LocalDate start, LocalDate end, int maxDays){
         long daysBetween = ChronoUnit.DAYS.between(start, end);
         if (!(daysBetween >= 0 && daysBetween <= maxDays)){
-            throw new RuntimeException("A car cannot be rented more than 25 days!");
+            throw new BusinessException(Messages.rentException);
         }
     }
 
@@ -104,7 +106,7 @@ public class RentalManager implements RentalService {
 
     private void checkIsStartDateBeforeThanEndDate (LocalDate startDate, LocalDate endDate){
         if (endDate.isBefore(startDate)){
-            throw new RuntimeException("When renting a car, the end date must be later than the start date");
+            throw new BusinessException(Messages.dateException);
         }
     }
 
@@ -112,7 +114,7 @@ public class RentalManager implements RentalService {
         try {
             GetByIdCarResponse car = carService.getById(carId);
         }catch (NoSuchElementException ex) {
-            throw new RuntimeException("Car not found!");
+            throw new BusinessException(Messages.carNotFound);
         }
     }
 
@@ -120,7 +122,7 @@ public class RentalManager implements RentalService {
         try {
             GetByIdUserResponse user = userService.getById(userId);
         }catch (NoSuchElementException ex) {
-            throw new RuntimeException("User not found!");
+            throw new BusinessException(Messages.userNotFound);
         }
     }
 }

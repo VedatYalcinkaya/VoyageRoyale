@@ -1,9 +1,11 @@
 package com.tobeto.pair5.services.concretes;
 
+import com.tobeto.pair5.core.utilities.exceptions.types.BusinessException;
 import com.tobeto.pair5.core.utilities.mappers.ModelMapperService;
 import com.tobeto.pair5.entities.concretes.Color;
 import com.tobeto.pair5.repositories.ColorRepository;
 import com.tobeto.pair5.services.abstracts.ColorService;
+import com.tobeto.pair5.services.constants.Messages;
 import com.tobeto.pair5.services.dtos.color.requests.AddColorRequest;
 import com.tobeto.pair5.services.dtos.color.requests.DeleteColorRequest;
 import com.tobeto.pair5.services.dtos.color.requests.UpdateColorRequest;
@@ -29,14 +31,14 @@ public class ColorManager implements ColorService {
 
     @Override
     public void delete(DeleteColorRequest request) {
-        Color colorToDelete = colorRepository.findById(request.getId()).orElseThrow();
+        Color colorToDelete = colorRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.colorNotFound));
         colorRepository.delete(colorToDelete);
     }
 
     @Override
     public void update(UpdateColorRequest request) {
         Color colorToUpdate = colorRepository.findById(request.getId())
-                .orElseThrow();
+                .orElseThrow(()-> new BusinessException(Messages.colorNotFound));
         checkIsColorAlreadyExists(request.getName());
 
         this.modelMapperService.forRequest().map(request, colorToUpdate);
@@ -63,7 +65,7 @@ public class ColorManager implements ColorService {
 
     public void checkIsColorAlreadyExists(String color){
         if (colorRepository.existsByNameIgnoreCase(color)){
-            throw new RuntimeException("Color already exists");
+            throw new BusinessException(Messages.colorExist);
         }
     }
 
