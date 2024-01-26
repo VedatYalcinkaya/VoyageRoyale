@@ -12,8 +12,10 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
+public class CustomerRegisterRequest {
     private String email;
     private String password;
+    private String firstName;
+    private String lastName;
     private List<Role> roles;
 }

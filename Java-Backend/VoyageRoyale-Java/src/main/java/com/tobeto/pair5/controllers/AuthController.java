@@ -2,9 +2,9 @@ package com.tobeto.pair5.controllers;
 
 import com.tobeto.pair5.services.abstracts.AuthenticationService;
 import com.tobeto.pair5.services.dtos.auth.requests.AuthenticationRequest;
-import com.tobeto.pair5.services.dtos.auth.requests.RegisterRequest;
+import com.tobeto.pair5.services.dtos.auth.requests.CorporateRegisterRequest;
+import com.tobeto.pair5.services.dtos.auth.requests.CustomerRegisterRequest;
 import com.tobeto.pair5.services.dtos.auth.responses.AuthenticationResponse;
-import com.tobeto.pair5.services.dtos.user.requests.AddUserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,11 +20,17 @@ public class AuthController {
 
     private final AuthenticationService service;
 
-    @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterRequest request
+    @PostMapping("/customerRegister")
+    public ResponseEntity<AuthenticationResponse> customerRegister(
+            @RequestBody CustomerRegisterRequest request
     ){
-        return ResponseEntity.ok(service.register(request));
+        return ResponseEntity.ok(service.customerRegister(request));
+    }
+    @PostMapping("/corporateRegister")
+    public ResponseEntity<AuthenticationResponse> corporateRegister(
+            @RequestBody CorporateRegisterRequest request
+    ){
+        return ResponseEntity.ok(service.corporateCustomerRegister(request));
     }
 
     @PostMapping("/authenticate")
