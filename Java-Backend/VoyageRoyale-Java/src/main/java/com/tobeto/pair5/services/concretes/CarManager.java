@@ -1,11 +1,13 @@
 package com.tobeto.pair5.services.concretes;
 
+import com.tobeto.pair5.core.utilities.exceptions.types.BusinessException;
 import com.tobeto.pair5.core.utilities.mappers.ModelMapperService;
 import com.tobeto.pair5.entities.concretes.Car;
 import com.tobeto.pair5.repositories.CarRepository;
 import com.tobeto.pair5.services.abstracts.CarService;
 import com.tobeto.pair5.services.abstracts.ColorService;
 import com.tobeto.pair5.services.abstracts.ModelService;
+import com.tobeto.pair5.services.constants.Messages;
 import com.tobeto.pair5.services.dtos.car.requests.AddCarRequest;
 import com.tobeto.pair5.services.dtos.car.requests.DeleteCarRequest;
 import com.tobeto.pair5.services.dtos.car.requests.UpdateCarRequest;
@@ -41,7 +43,7 @@ public class CarManager implements CarService {
 
     @Override
     public void delete(DeleteCarRequest request) {
-        Car carToDelete = carRepository.findById(request.getId()).orElseThrow();
+        Car carToDelete = carRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.carNotFound));
         carRepository.delete(carToDelete);
     }
 
@@ -72,7 +74,7 @@ public class CarManager implements CarService {
 
     @Override
     public GetByIdCarResponse getById(int id) {
-       Car car = carRepository.findById(id).orElseThrow();
+       Car car = carRepository.findById(id).orElseThrow(()-> new BusinessException(Messages.carNotFound));
        GetByIdCarResponse carResponses = this.modelMapperService.forResponse().map(car, GetByIdCarResponse.class);
        return carResponses;
     }
@@ -100,7 +102,7 @@ public class CarManager implements CarService {
 
     @Override
     public List<GetCarsByPositionIdResponse> getCarsByPositionId(int id) {
-        List<Car> cars = carRepository.findByPositionId(id).orElseThrow();
+        List<Car> cars = carRepository.findByPositionId(id).orElseThrow(()-> new BusinessException(Messages.carNotFound));
         List<GetCarsByPositionIdResponse> carsByPositionIdResponses = cars.stream()
                 .map(car -> this.modelMapperService
                         .forResponse().map(car, GetCarsByPositionIdResponse.class))
@@ -113,7 +115,7 @@ public class CarManager implements CarService {
         try {
             GetAllModelResponse model = modelService.getById(modelId);
         } catch (NoSuchElementException ex) {
-            throw new RuntimeException("Model not found!");
+            throw new BusinessException("Model not found!");
         }
     }
 
@@ -121,13 +123,13 @@ public class CarManager implements CarService {
         try {
             GetAllColorResponse color= colorService.getById(colorId);
         }catch (NoSuchElementException ex) {
-            throw new RuntimeException("Color not found!");
+            throw new BusinessException(Messages.colorNotFound);
         }
     }
 
     private void checkIsPlateAlreadyExists(String plate){
         if (carRepository.existsByPlate(plate)){
-            throw new RuntimeException(("Plate is already exists!"));
+            throw new BusinessException((Messages.plateExist));
         }
     }
 

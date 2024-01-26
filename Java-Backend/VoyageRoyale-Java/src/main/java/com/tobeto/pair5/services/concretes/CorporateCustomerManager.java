@@ -1,9 +1,11 @@
 package com.tobeto.pair5.services.concretes;
 
+import com.tobeto.pair5.core.utilities.exceptions.types.BusinessException;
 import com.tobeto.pair5.core.utilities.mappers.ModelMapperService;
 import com.tobeto.pair5.entities.concretes.CorporateCustomer;
 import com.tobeto.pair5.repositories.CorporateCustomerRepository;
 import com.tobeto.pair5.services.abstracts.CorporateCustomerService;
+import com.tobeto.pair5.services.constants.Messages;
 import com.tobeto.pair5.services.dtos.corporateCustomer.requests.AddCorporateCustomerRequest;
 import com.tobeto.pair5.services.dtos.corporateCustomer.requests.DeleteCorporateCustomerRequest;
 import com.tobeto.pair5.services.dtos.corporateCustomer.requests.UpdateCorporateCustomerRequest;
@@ -38,7 +40,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 
             checkIfCorporateCustomerNotExists(request.getId());
             CorporateCustomer corporateCustomerToUpdate = corporateCustomerRepository.findById(request.getId())
-                  .orElseThrow();
+                  .orElseThrow(()-> new BusinessException(Messages.customerNotExists));
 
             this.modelMapperService.forRequest().map(request, corporateCustomerToUpdate);
 
@@ -56,20 +58,20 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 
     @Override
     public GetCorporateCustomerResponse getById(int id) {
-        CorporateCustomer corporateCustomer = corporateCustomerRepository.findById(id).orElseThrow();
+        CorporateCustomer corporateCustomer = corporateCustomerRepository.findById(id).orElseThrow(()-> new BusinessException(Messages.customerNotExists));
         GetCorporateCustomerResponse corporateCustomerResponse = this.modelMapperService.forResponse().map(corporateCustomer, GetCorporateCustomerResponse.class);
         return corporateCustomerResponse;
     }
 
     private void checkIfCorporateCustomerExists(int id){
         if (corporateCustomerRepository.existsById(id)){
-            throw new RuntimeException("The customer is already exists");
+            throw new BusinessException(Messages.customerExists);
         }
     }
 
     private void checkIfCorporateCustomerNotExists(int id){
         if (!corporateCustomerRepository.existsById(id)){
-            throw new RuntimeException("The customer not exists");
+            throw new BusinessException(Messages.customerNotExists);
         }
     }
 }

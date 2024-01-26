@@ -1,9 +1,11 @@
 package com.tobeto.pair5.services.concretes;
 
+import com.tobeto.pair5.core.utilities.exceptions.types.BusinessException;
 import com.tobeto.pair5.core.utilities.mappers.ModelMapperService;
 import com.tobeto.pair5.entities.concretes.Brand;
 import com.tobeto.pair5.repositories.BrandRepository;
 import com.tobeto.pair5.services.abstracts.BrandService;
+import com.tobeto.pair5.services.constants.Messages;
 import com.tobeto.pair5.services.dtos.brand.requests.AddBrandRequest;
 import com.tobeto.pair5.services.dtos.brand.requests.DeleteBrandRequest;
 import com.tobeto.pair5.services.dtos.brand.requests.UpdateBrandRequest;
@@ -29,14 +31,14 @@ public class BrandManager implements BrandService {
 
     @Override
     public void delete(DeleteBrandRequest request) {
-        Brand brandToDelete = brandRepository.findById(request.getId()).orElseThrow();
+        Brand brandToDelete = brandRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.brandNotFound));
         brandRepository.delete(brandToDelete);
     }
 
     @Override
     public void update(UpdateBrandRequest request) {
         Brand brandToUpdate = brandRepository.findById(request.getId())
-                .orElseThrow();
+                .orElseThrow(()-> new BusinessException(Messages.brandNotFound));
         checkIsBrandAlreadyExists(request.getName());
 
         this.modelMapperService.forRequest().map(request, brandToUpdate);
@@ -55,14 +57,14 @@ public class BrandManager implements BrandService {
 
     @Override
     public GetAllBrandResponse getById(int id) {
-        Brand brand = brandRepository.findById(id).orElseThrow();
+        Brand brand = brandRepository.findById(id).orElseThrow(()-> new BusinessException(Messages.brandNotFound));
         GetAllBrandResponse brandResponse = this.modelMapperService.forResponse().map(brand,GetAllBrandResponse.class);
         return brandResponse;
     }
 
     public void checkIsBrandAlreadyExists(String brand){
         if (brandRepository.existsByNameIgnoreCase(brand)){
-            throw new RuntimeException("Brand already exists!");
+            throw new BusinessException(Messages.brandAlreadyExits);
         }
     }
 }

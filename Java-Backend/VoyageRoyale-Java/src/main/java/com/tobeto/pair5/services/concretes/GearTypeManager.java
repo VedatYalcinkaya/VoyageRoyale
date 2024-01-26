@@ -1,9 +1,11 @@
 package com.tobeto.pair5.services.concretes;
 
+import com.tobeto.pair5.core.utilities.exceptions.types.BusinessException;
 import com.tobeto.pair5.core.utilities.mappers.ModelMapperService;
 import com.tobeto.pair5.entities.concretes.GearType;
 import com.tobeto.pair5.repositories.GearTypeRepository;
 import com.tobeto.pair5.services.abstracts.GearTypeService;
+import com.tobeto.pair5.services.constants.Messages;
 import com.tobeto.pair5.services.dtos.gearType.requests.AddGearTypeRequest;
 import com.tobeto.pair5.services.dtos.gearType.requests.DeleteGearTypeRequest;
 import com.tobeto.pair5.services.dtos.gearType.requests.UpdateGearTypeRequest;
@@ -31,14 +33,14 @@ public class GearTypeManager implements GearTypeService {
 
 
     public void delete(DeleteGearTypeRequest request) {
-        GearType gearTypeToDelete = gearTypeRepository.findById(request.getId()).orElseThrow();
+        GearType gearTypeToDelete = gearTypeRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.gearTypeNotExist));
         gearTypeRepository.delete(gearTypeToDelete);
     }
 
 
     public void update(UpdateGearTypeRequest request) {
         GearType gearTypeToUpdate = gearTypeRepository.findById(request.getId())
-                .orElseThrow();
+                .orElseThrow(()-> new BusinessException(Messages.gearTypeNotExist));
         checkIsGearTypeAlreadyExists(request.getName());
 
         this.modelMapperService.forRequest().map(request, gearTypeToUpdate);
@@ -48,7 +50,7 @@ public class GearTypeManager implements GearTypeService {
     }
 
     public GetAllGearTypeResponse getById(int id) {
-        GearType gearType = gearTypeRepository.findById(id).orElseThrow();
+        GearType gearType = gearTypeRepository.findById(id).orElseThrow(()-> new BusinessException(Messages.gearTypeNotExist));
         GetAllGearTypeResponse response = this.modelMapperService.forResponse().map(gearType,GetAllGearTypeResponse.class);
         return response;
     }

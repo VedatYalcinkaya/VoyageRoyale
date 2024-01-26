@@ -1,10 +1,12 @@
 package com.tobeto.pair5.services.concretes;
 
+import com.tobeto.pair5.core.utilities.exceptions.types.BusinessException;
 import com.tobeto.pair5.core.utilities.mappers.ModelMapperService;
 import com.tobeto.pair5.entities.concretes.Model;
 import com.tobeto.pair5.repositories.ModelRepository;
 import com.tobeto.pair5.services.abstracts.BrandService;
 import com.tobeto.pair5.services.abstracts.ModelService;
+import com.tobeto.pair5.services.constants.Messages;
 import com.tobeto.pair5.services.dtos.brand.responses.GetAllBrandResponse;
 import com.tobeto.pair5.services.dtos.model.requests.AddModelRequest;
 import com.tobeto.pair5.services.dtos.model.requests.DeleteModelRequest;
@@ -35,14 +37,14 @@ public class ModelManager implements ModelService {
 
     @Override
     public void delete(DeleteModelRequest request) {
-        Model modelToDelete = modelRepository.findById(request.getId()).orElseThrow();
+        Model modelToDelete = modelRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.modelNotExist));
         modelRepository.delete(modelToDelete);
     }
 
     @Override
     public void update(UpdateModelRequest request) {
         Model modelToUpdate = modelRepository.findById(request.getId())
-                .orElseThrow();
+                .orElseThrow(()-> new BusinessException(Messages.modelNotExist));
         checkIsBrandExists(request.getBrand().getId());
 
         this.modelMapperService.forRequest().map(request, modelToUpdate);
@@ -60,7 +62,7 @@ public class ModelManager implements ModelService {
 
     @Override
     public GetAllModelResponse getById(int id) {
-        Model model = modelRepository.findById(id).orElseThrow();
+        Model model = modelRepository.findById(id).orElseThrow(()-> new BusinessException(Messages.modelNotExist));
         GetAllModelResponse response = this.modelMapperService.forResponse().map(model, GetAllModelResponse.class);
         return response;
     }
@@ -77,7 +79,7 @@ public class ModelManager implements ModelService {
         try {
             GetAllBrandResponse brand = brandService.getById(id);
         }catch (NoSuchElementException ex){
-            throw new RuntimeException("Brand Not Found!");
+            throw new BusinessException(Messages.brandNotFound);
         }
     }
 }

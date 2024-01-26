@@ -1,10 +1,12 @@
 package com.tobeto.pair5.services.concretes;
 
+import com.tobeto.pair5.core.utilities.exceptions.types.BusinessException;
 import com.tobeto.pair5.core.utilities.mappers.ModelMapperService;
 import com.tobeto.pair5.entities.concretes.Customer;
 import com.tobeto.pair5.repositories.CustomerRepository;
 import com.tobeto.pair5.services.abstracts.CustomerService;
 import com.tobeto.pair5.services.abstracts.UserService;
+import com.tobeto.pair5.services.constants.Messages;
 import com.tobeto.pair5.services.dtos.customer.requests.AddCustomerRequest;
 import com.tobeto.pair5.services.dtos.customer.requests.DeleteCustomerRequest;
 import com.tobeto.pair5.services.dtos.customer.requests.UpdateCustomerRequest;
@@ -30,7 +32,8 @@ public class CustomerManager implements CustomerService {
 
     @Override
     public void delete(DeleteCustomerRequest request) {
-        Customer customerToDelete = customerRepository.findById(request.getId()).orElseThrow();
+        Customer customerToDelete = customerRepository.findById(request.getId())
+                .orElseThrow(()-> new BusinessException(Messages.customerNotExists));
         customerRepository.delete(customerToDelete);
 
     }
@@ -38,7 +41,7 @@ public class CustomerManager implements CustomerService {
     @Override
     public void update(UpdateCustomerRequest request) {
 
-        Customer customerToUpdate = customerRepository.findById(request.getId()).orElseThrow();
+        Customer customerToUpdate = customerRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.customerNotExists));
         this.modelMapperService.forRequest().map(request, customerToUpdate);
 
         customerRepository.saveAndFlush(customerToUpdate);
