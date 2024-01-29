@@ -24,8 +24,16 @@ public class FuelTypeManager implements FuelTypeService {
     private final ModelMapperService modelMapperService;
     @Override
     public void add(AddFuelTypeRequest request) {
+        validateFuelTypeName(request.getFuel_name());
+
         FuelType fuelTypeToAdd = modelMapperService.forRequest().map(request, FuelType.class);
         fuelTypeRepository.save(fuelTypeToAdd);
+    }
+
+    private void validateFuelTypeName(String fuelName){
+        if(fuelName == null || fuelName.length() < 3){
+            throw new BusinessException(Messages.fuelTypeInvalidName);
+        }
     }
 
     @Override
