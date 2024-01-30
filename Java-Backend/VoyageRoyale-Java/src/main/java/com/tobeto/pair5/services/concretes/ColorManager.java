@@ -49,7 +49,7 @@ public class ColorManager implements ColorService {
 
     @Override
     public GetAllColorResponse getById(int id) {
-        Color color = colorRepository.findById(id).orElseThrow();
+        Color color = colorRepository.findById(id).orElseThrow(()-> new BusinessException(Messages.colorNotFound));
         GetAllColorResponse response = this.modelMapperService.forResponse().map(color,GetAllColorResponse.class);
         return response;
     }
