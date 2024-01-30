@@ -6,13 +6,12 @@ type Props = {}
 
 const QuickReservation = (props: Props) => {
   return (
-    <Container>
-      <Grid container style={{ textAlign: "center", justifyContent: "center" }}>
-        <Grid item sm={12} style={{ padding: 60, paddingLeft: 90, marginBottom:100, marginTop:60 }}>
+
+      <Grid container style={{ textAlign: "center", justifyContent: "center", padding:50 }}>
+        <Grid item sm={12} >
           <ReservationBox />
         </Grid>
-      </Grid>
-    </Container>
+      </Grid>   
   )
 }
 

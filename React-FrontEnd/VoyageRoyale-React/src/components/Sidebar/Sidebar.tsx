@@ -17,12 +17,9 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SignIn from "../Login/SignIn";
-import QuickReservation from "../../pages/QuickReservation/QuickReservation";
-import Location from "../../pages/Location/Location";
-import Homepage from "../../pages/Homepage/Homepage";
 
-const drawerWidth = 275;
-const signInDrawerWidth = 400;
+const drawerWidth = 250;
+const signInDrawerWidth = 375;
 
 export default function Sidebar() {
   const [signInDrawerOpen, setSignInDrawerOpen] = useState(false);
@@ -56,11 +53,12 @@ export default function Sidebar() {
             width: drawerWidth,
             boxSizing: "border-box",
             borderColor: "#f9f9f9",
-            padding: "20px",
+            padding: "10px",
             backgroundColor: "#0F4037",
           },
           "& .MuiTypography-root": {
             color: "#D9D5A7",
+            fontSize:14
           },
           "& .logo-container": {
             display: "flex",
@@ -84,7 +82,7 @@ export default function Sidebar() {
             <img
               src="https://i.ibb.co/Q69fC4x/Logo-bej.png"
               alt="Logo"
-              width="110"
+              width="80"
             />
           </RouterLink>
         </Box>
@@ -94,7 +92,7 @@ export default function Sidebar() {
             <ListItemButton onClick={handleSignInButtonClick}>
               <ListItemText primary="Sign In" />
               <ListItemIcon>
-                <PlayArrowIcon fontSize="small" sx={{ marginLeft: 2 }} />
+                <PlayArrowIcon fontSize="small" sx={{ marginLeft: 3 }} />
               </ListItemIcon>
             </ListItemButton>
           </ListItem>
@@ -102,7 +100,7 @@ export default function Sidebar() {
             <ListItemButton component={RouterLink} to="/quickReservation">
               <ListItemText primary="Quick Reservation" />
               <ListItemIcon>
-                <PlayArrowIcon fontSize="small" sx={{ marginLeft: 2 }} />
+                <PlayArrowIcon fontSize="small" sx={{ marginLeft: 3}} />
               </ListItemIcon>
             </ListItemButton>
           </ListItem>
@@ -113,7 +111,7 @@ export default function Sidebar() {
             <ListItemButton component={RouterLink} to="/reservations">
               <ListItemText primary="My Reservations" />
               <ListItemIcon>
-                <PlayArrowIcon fontSize="small" sx={{ marginLeft: 2 }} />
+                <PlayArrowIcon fontSize="small" sx={{ marginLeft: 3 }} />
               </ListItemIcon>
             </ListItemButton>
           </ListItem>
@@ -121,7 +119,7 @@ export default function Sidebar() {
             <ListItemButton component={RouterLink} to="/location">
               <ListItemText primary="Locations" />
               <ListItemIcon>
-                <PlayArrowIcon fontSize="small" sx={{ marginLeft: 2 }} />
+                <PlayArrowIcon fontSize="small" sx={{ marginLeft: 3 }} />
               </ListItemIcon>
             </ListItemButton>
           </ListItem>
@@ -129,7 +127,7 @@ export default function Sidebar() {
             <ListItemButton component={RouterLink} to="/aboutUs">
               <ListItemText primary="About Us" />
               <ListItemIcon>
-                <PlayArrowIcon fontSize="small" sx={{ marginLeft: 2 }} />
+                <PlayArrowIcon fontSize="small" sx={{ marginLeft: 3 }} />
               </ListItemIcon>
             </ListItemButton>
           </ListItem>
