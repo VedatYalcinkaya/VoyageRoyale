@@ -38,14 +38,7 @@ function AddBrand({ }: Props) {
        {formikBag => (
       <Form>
         <FormikInput name="name" id="name" label="Brand Name" formikBag={formikBag} />
-        {/* <Field
-          as={TextField}
-          fullWidth
-          id="name"
-          name="name"
-          label="Brand Name"
-          value={formikBag.values.name}
-        /> */}
+        
 
         <Button type="submit">Save</Button>
       </Form>)}
