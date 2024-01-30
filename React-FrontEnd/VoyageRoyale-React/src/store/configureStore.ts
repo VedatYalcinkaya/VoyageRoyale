@@ -10,6 +10,7 @@ import carGearTypeSlice from "./slices/CarSlices/carGearTypeSlice";
 import reservationSlice from "./slices/reservationSlice";
 import paymentSlice from "./slices/paymentSlice";
 import signUpSlice from "./slices/signUpSlice";
+import customerInfoSlice from "./slices/CustomerSlices/customerInfoSlice";
 
 
 export const store = configureStore({
@@ -25,6 +26,7 @@ export const store = configureStore({
     reservation: reservationSlice,
     payment: paymentSlice,
     signUp: signUpSlice,
+    customerInfo: customerInfoSlice,
   },
 });
 
