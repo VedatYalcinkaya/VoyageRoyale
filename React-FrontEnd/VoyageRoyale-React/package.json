@@ -25,6 +25,7 @@
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.10",
     "formik": "^2.4.5",
+    "formik-material-ui": "^4.0.0-alpha.2",
     "leaflet": "^1.9.4",
     "react": "^18.2.0",
     "react-confetti": "^6.1.0",
