@@ -12,6 +12,7 @@ import Payment from "../Payment/Payment";
 import Footer from "../../components/Footer/Footer";
 import QuickReservation from "../QuickReservation/QuickReservation";
 import AboutUs from "../AboutUs/AboutUs";
+import AddBrand from "../../adminPages/BrandPanel/AddBrand";
 
 function Dashboard() {
   
@@ -38,6 +39,7 @@ function Dashboard() {
             />
             <Route path="/login" element={<SignInSignUp />} />
             <Route path="/payment" element={<Payment />} />
+            <Route path="/brand/add" element={<AddBrand/>}/>
           </Routes>
         </Grid>
       </Grid>
