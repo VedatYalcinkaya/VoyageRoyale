@@ -2,7 +2,7 @@
 import Dashboard from "./pages/Dashboard/Dashboard";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import '@fontsource/montserrat';
-import { AuthProvider } from "/Users/oguzkaganbati/Project/Personal Projects/VoyageRoyale/React-FrontEnd/VoyageRoyale-React/src/context/AuthContext.tsx"
+import { AuthProvider } from "./context/AuthContext";
 
 const theme = createTheme({
   typography: {
