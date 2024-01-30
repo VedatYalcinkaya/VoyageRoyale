@@ -1,11 +1,6 @@
+// Sidebar.tsx
 import React, { useState } from "react";
-import {
-  Link as RouterLink,
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Box } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
@@ -21,7 +16,19 @@ import SignIn from "../Login/SignIn";
 const drawerWidth = 250;
 const signInDrawerWidth = 375;
 
-export default function Sidebar() {
+interface SidebarProps {
+  isSignedIn: boolean;
+  onSignOut: () => void;
+  userInfo: any; // You can define a type for user information
+  handleSignInSuccess: () => void; // New prop for handling sign-in success
+}
+
+export default function Sidebar({
+  isSignedIn,
+  onSignOut,
+  userInfo,
+  handleSignInSuccess,
+}: SidebarProps) {
   const [signInDrawerOpen, setSignInDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -44,7 +51,6 @@ export default function Sidebar() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      {/* Main Drawer */}
       <Drawer
         sx={{
           width: drawerWidth,
@@ -58,7 +64,7 @@ export default function Sidebar() {
           },
           "& .MuiTypography-root": {
             color: "#D9D5A7",
-            fontSize:14
+            fontSize: 14,
           },
           "& .logo-container": {
             display: "flex",
@@ -86,27 +92,39 @@ export default function Sidebar() {
             />
           </RouterLink>
         </Box>
-        <List sx={{ marginLeft: 1 }}>
+        <List>
+          {isSignedIn ? (
+            <>
+              <ListItem disablePadding>
+                <ListItemText primary={`Welcome, ${userInfo.name}`} />
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton onClick={onSignOut}>
+                  <ListItemText primary="Sign Out" />
+                </ListItemButton>
+              </ListItem>
+            </>
+          ) : (
+            <ListItem disablePadding>
+              <ListItemButton onClick={handleSignInButtonClick}>
+                <ListItemText primary="Sign In" />
+                <ListItemIcon>
+                  <PlayArrowIcon fontSize="small" sx={{ marginLeft: 3 }} />
+                </ListItemIcon>
+              </ListItemButton>
+            </ListItem>
+          )}
           <ListItem disablePadding>
-            {/* Open the second drawer on Sign In button click */}
-            <ListItemButton onClick={handleSignInButtonClick}>
-              <ListItemText primary="Sign In" />
+            <ListItemButton component={RouterLink} to="/quickReservation">
+              <ListItemText primary="Quick Reservation" />
               <ListItemIcon>
                 <PlayArrowIcon fontSize="small" sx={{ marginLeft: 3 }} />
               </ListItemIcon>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component={RouterLink} to="/quickReservation">
-              <ListItemText primary="Quick Reservation" />
-              <ListItemIcon>
-                <PlayArrowIcon fontSize="small" sx={{ marginLeft: 3}} />
-              </ListItemIcon>
-            </ListItemButton>
-          </ListItem>
         </List>
         <Divider />
-        <List sx={{ marginLeft: 1 }}>
+        <List>
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/reservations">
               <ListItemText primary="My Reservations" />
@@ -134,7 +152,6 @@ export default function Sidebar() {
         </List>
       </Drawer>
 
-      {/* Second Drawer for Sign In */}
       <Drawer
         anchor="left"
         open={signInDrawerOpen}
@@ -152,7 +169,12 @@ export default function Sidebar() {
           },
         }}
       >
-        {signInDrawerOpen && <SignIn onClose={handleSignInDrawerClose} />}
+        {signInDrawerOpen && (
+          <SignIn
+            onClose={handleSignInDrawerClose}
+            onSignIn={handleSignInSuccess} // Pass handleSignInSuccess to SignIn component
+          />
+        )}
       </Drawer>
     </Box>
   );
