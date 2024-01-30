@@ -11,6 +11,7 @@ import com.tobeto.pair5.services.dtos.customer.requests.AddCustomerRequest;
 import com.tobeto.pair5.services.dtos.customer.requests.DeleteCustomerRequest;
 import com.tobeto.pair5.services.dtos.customer.requests.UpdateCustomerRequest;
 import com.tobeto.pair5.services.dtos.customer.responses.GetAllCustomerResponse;
+import com.tobeto.pair5.services.dtos.customer.responses.GetCustomerByIdResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -55,5 +56,12 @@ public class CustomerManager implements CustomerService {
                         .forResponse().map(customer, GetAllCustomerResponse.class))
                 .collect(Collectors.toList());
         return customerResponses;
+    }
+
+    @Override
+    public GetCustomerByIdResponse getById(int id) {
+        Customer customer = customerRepository.findById(id).orElseThrow(()-> new BusinessException(Messages.customerNotExists));
+        GetCustomerByIdResponse customerByIdResponse = this.modelMapperService.forResponse().map(customer,GetCustomerByIdResponse.class);
+        return customerByIdResponse;
     }
 }
