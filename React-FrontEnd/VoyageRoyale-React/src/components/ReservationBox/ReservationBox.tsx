@@ -110,19 +110,19 @@ const ReservationBox: React.FC = () => {
         }}
       >
         {formikBag => (
-          <Form>
-            <Grid container maxWidth="md" spacing={2}>
+          <Form >
+            <Grid container justifyContent="center" alignItems="center" spacing={2} sx={{paddingLeft:15,paddingRight:15}} >
               <Grid item xs={12}>
                 <Typography
                   gutterBottom
                   variant="h3"
                   component="div"
-                  style={{ color: "#0F4037" }}
+                  style={{ color: "#0F4037", fontSize:40, fontWeight:"bold" }}
                 >
                   Start a Reservation
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} >
                 <FormControl fullWidth>
                   <InputLabel id="position-select-label">Cities..</InputLabel>
                   <Select
@@ -144,11 +144,12 @@ const ReservationBox: React.FC = () => {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={5}>
+              <Grid item xs={5} >
                 <DateTimePicker
                   label="Pick Up"
                   value={formikBag.values.pickUpDate ? dayjs(formikBag.values.pickUpDate) : null}
                   onChange={(date) => formikBag.setFieldValue("pickUpDate", date)}
+                  sx={{}}
                 />
                 {formikBag.errors.pickUpDate && formikBag.touched.pickUpDate && (
                   <Typography color={errorColor}>{formikBag.errors.pickUpDate}</Typography>

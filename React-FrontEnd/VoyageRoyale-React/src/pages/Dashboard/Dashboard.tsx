@@ -15,15 +15,10 @@ import AboutUs from "../AboutUs/AboutUs";
 import AddBrand from "../../adminPages/BrandPanel/AddBrand";
 
 function Dashboard() {
-  const backgroundStyle = {
-    backgroundImage: `url('https://i.ibb.co/nr2cNv9/5660740.jpg')`,
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
-  };
+  
   return (
     <>
-      <Grid container style={{ ...backgroundStyle, minHeight: "100vh" }}>
+      <Grid container >
         <Grid item xs={12} sm={2}>
           <Sidebar />
         </Grid>
@@ -49,7 +44,6 @@ function Dashboard() {
         </Grid>
       </Grid>
       <Grid item xs={12}>
-        {/* Footer */}
         <Footer />
       </Grid>
     </>
