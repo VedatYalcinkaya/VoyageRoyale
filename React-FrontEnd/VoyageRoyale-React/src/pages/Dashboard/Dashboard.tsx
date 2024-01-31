@@ -16,12 +16,14 @@ import AddBrand from "../../adminPages/BrandPanel/AddBrand";
 import AddCarType from "../../adminPages/CarTypePanel/AddCarType";
 import AddModel from "../../adminPages/ModelPanel/AddModel";
 import AddCar from "../../adminPages/CarPanel/AddCar";
+import AddFuelType from "../../adminPages/CarFeaturesPanel/AddFuelType";
+import AddGearType from "../../adminPages/CarFeaturesPanel/AddGearType";
+import AddLocation from "../../adminPages/LocationPanel/AddLocation";
 
 function Dashboard() {
-  
   return (
     <>
-      <Grid container >
+      <Grid container>
         <Grid item xs={12} sm={2}>
           <Sidebar />
         </Grid>
@@ -42,11 +44,13 @@ function Dashboard() {
             />
             <Route path="/login" element={<SignInSignUp />} />
             <Route path="/payment" element={<Payment />} />
-            <Route path="/brand/add" element={<AddBrand/>}/>
-            <Route path="/carType/add" element={<AddCarType/>}/>
-            <Route path="/model/add" element={<AddModel/>}/>
-            <Route path="/car/add" element={<AddCar/>}/>
-
+            <Route path="/brand/add" element={<AddBrand />} />
+            <Route path="/carType/add" element={<AddCarType />} />
+            <Route path="/model/add" element={<AddModel />} />
+            <Route path="/car/add" element={<AddCar />} />
+            <Route path="/fuel_types/add" element={<AddFuelType />} />
+            <Route path="/gear_types/add" element={<AddGearType />} />
+            <Route path="/locations/add" element={<AddLocation />} />
           </Routes>
         </Grid>
       </Grid>

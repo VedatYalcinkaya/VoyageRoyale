@@ -1,12 +1,12 @@
 // reservationSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Position } from '../../models/LocationModel/response';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Position } from "../../models/LocationModel/responses/response";
 
 // Rezervasyon durumunun arayüzü
 interface ReservationState {
   pickUpDate: string | null;
   returnDate: string | null;
-  position: Position | null 
+  position: Position | null;
 }
 
 // Başlangıç durumu
@@ -18,7 +18,7 @@ const initialState: ReservationState = {
 
 // createSlice ile rezervasyon slice'ını oluşturma
 const reservationSlice = createSlice({
-  name: 'reservation',
+  name: "reservation",
   initialState,
   reducers: {
     // Rezervasyon tarihlerini güncellemek için bir action

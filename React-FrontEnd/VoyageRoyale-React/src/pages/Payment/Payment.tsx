@@ -1,4 +1,3 @@
-// Payment.tsx
 import React from "react";
 import { useDispatch } from "react-redux";
 import {
@@ -16,6 +15,8 @@ import { useAppSelector } from "../../store/configureStore";
 import { setConfettiActive } from "../../store/slices/paymentSlice";
 import Confetti from "react-confetti";
 import dayjs from "dayjs";
+import toastr from "toastr";
+import "toastr/build/toastr.min.css";
 
 interface PaymentProps {
   onFinishReservation?: () => void;
@@ -43,9 +44,12 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
 
   const handleFinishReservation = () => {
     dispatch(setConfettiActive(true));
+    toastr.success("Payment completed!");
+
     setTimeout(() => {
       dispatch(setConfettiActive(false));
-      onFinishReservation();
+      onFinishReservation && onFinishReservation();
+      toastr.success("Payment completed!");
     }, 5000);
   };
 
