@@ -22,7 +22,7 @@ const UserProfileCard: React.FC = () => {
   });
 
   useEffect(() => {
-    dispatch(getCustomerInfo(5));
+    dispatch(getCustomerInfo(6));
   }, [dispatch]);
 
   useEffect(() => {

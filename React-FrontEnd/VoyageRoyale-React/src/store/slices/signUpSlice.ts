@@ -17,7 +17,7 @@ const initialState: SignUp = {
 
 export const postSignUp = createAsyncThunk('postSignUp', async (userRequest: UserRequest) => {
   try {
-    const response = await axiosInstance.post('/auth/register', userRequest);
+    const response = await axiosInstance.post('/auth/customerRegister', userRequest);
     return response.data; 
   } catch (error) {
     throw error;
