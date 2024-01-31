@@ -1,9 +1,9 @@
 import { Button, MenuItem, Select } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import SecondFormikInput from "../CarTypePanel/SecondFormikInput";
-import { useAppDispatch, useAppSelector } from "../../store/configureStore";
-import { useEffect } from "react";
+import SecondFormikInput from '../../components/FormikInput/SecondFormikInput';
+import { useAppDispatch, useAppSelector } from '../../store/configureStore';
+import { useEffect } from 'react';
 import { getCarBrandType } from "../../store/slices/CarSlices/carBrandTypeSlice";
 import { AddCarRequest } from "../../models/CarModel/requests/addCarRequest";
 import { getCarCategory } from "../../store/slices/CarSlices/carCategorySlice";

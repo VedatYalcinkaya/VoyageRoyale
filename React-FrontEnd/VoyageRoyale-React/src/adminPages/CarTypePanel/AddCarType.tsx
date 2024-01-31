@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import {  Form, Formik } from 'formik'
 import * as Yup from "yup";
 import { AddCarCategoryRequest } from '../../models/CarCategoryModel/requests/addCarCategoryRequest';
-import SecondFormikInput from './SecondFormikInput';
+import SecondFormikInput from '../../components/FormikInput/SecondFormikInput';
 import { useAppDispatch } from '../../store/configureStore';
 import { postCarCategory } from '../../store/slices/addCarCategorySlice';
 
