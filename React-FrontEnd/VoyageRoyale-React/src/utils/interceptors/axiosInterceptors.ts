@@ -31,4 +31,21 @@ axiosInstance.interceptors.response.use(
     }
 );
 
+const authenticate = async (credentials:any) => {
+    try {
+        const response = await axiosInstance.post("/auth/authenticate", credentials);
+        
+        // Extract token from response
+        const token = response.data.token;
+
+        // Store token in localStorage
+        localStorage.setItem("accessToken", token);
+
+        return token;
+    } catch (error) {
+        console.error("Authentication failed:", error);
+        throw error;
+    }
+};
+
 export default axiosInstance;
