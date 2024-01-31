@@ -17,6 +17,7 @@ import { CarFuelType } from '../../models/CarFuelTypeModel/response';
 import { Position } from '../../models/LocationModel/response';
 import { GetAllColorResponse } from '../../models/ColorModel/responses/getAllColorResponse';
 import { GetAllModelResponse } from '../../models/ModelModel/responses/getAllModelResponse';
+import { postCar } from '../../store/slices/addCarSlice';
 
 type Props = {}
 
@@ -77,6 +78,7 @@ function AddCar() {
             onSubmit={(values: AddCarRequest, { resetForm }) => {
                 console.log(values);
                 resetForm();
+                dispatch(postCar(values))
             }}
         >
 
