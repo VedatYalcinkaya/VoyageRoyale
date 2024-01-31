@@ -18,7 +18,7 @@ import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../store/configureStore';
 import { getCarDetail, setCarDetailSend } from '../../store/slices/CarSlices/carDetailSlice';
 import {  Link, useParams } from 'react-router-dom';
-import { Car } from '../../models/CarModel/response';
+import { Car } from '../../models/CarModel/responses/response';
 import { setGearType } from '../../store/slices/CarSlices/carGearTypeSlice';
 
 interface CarDetailsCardProps {}

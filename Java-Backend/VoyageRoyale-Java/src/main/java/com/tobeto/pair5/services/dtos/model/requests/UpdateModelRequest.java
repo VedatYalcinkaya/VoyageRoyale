@@ -20,5 +20,5 @@ public class UpdateModelRequest {
     @Size(min = 2,message = "Model name must be at least 2 characters!")
     private String name;
 
-    private GetAllBrandResponse brand;
+    private int brandId;
 }

@@ -29,7 +29,7 @@ public class ModelManager implements ModelService {
 
     @Override
     public void add(AddModelRequest request) {
-        checkIsBrandExists(request.getBrand().getId());
+        checkIsBrandExists(request.getBrandId());
         Model model = this.modelMapperService.forRequest().map(request, Model.class);
         modelRepository.save(model);
     }
@@ -45,7 +45,7 @@ public class ModelManager implements ModelService {
     public void update(UpdateModelRequest request) {
         Model modelToUpdate = modelRepository.findById(request.getId())
                 .orElseThrow(()-> new BusinessException(Messages.modelNotExist));
-        checkIsBrandExists(request.getBrand().getId());
+        checkIsBrandExists(request.getId());
 
         this.modelMapperService.forRequest().map(request, modelToUpdate);
 

@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import axios from "axios";
 import { Grid, Container } from "@mui/material";
 import CarDetailsCard from "../../components/Card/CarDetailsCard";
-import { Car } from "../../models/CarModel/response";
+import { Car } from "../../models/CarModel/responses/response";
 import { useNavigate } from "react-router-dom";
 
 interface Position {

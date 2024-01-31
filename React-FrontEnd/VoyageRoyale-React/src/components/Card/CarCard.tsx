@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Car } from '../../models/CarModel/response';
+import { Car } from '../../models/CarModel/responses/response';
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Typography } from '@mui/material';
 import CurrencyLiraIcon from '@mui/icons-material/CurrencyLira';
 import { getCarList } from '../../store/slices/CarSlices/carListSlice';

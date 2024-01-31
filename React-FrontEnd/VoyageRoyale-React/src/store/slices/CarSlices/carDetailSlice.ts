@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Car } from "../../../models/CarModel/response";
+import { Car } from "../../../models/CarModel/responses/response";
 import axiosInstance from "../../../utils/interceptors/axiosInterceptors";
 
 interface CarDetail {

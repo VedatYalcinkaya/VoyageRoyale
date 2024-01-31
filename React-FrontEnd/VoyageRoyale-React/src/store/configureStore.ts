@@ -10,6 +10,10 @@ import carGearTypeSlice from "./slices/CarSlices/carGearTypeSlice";
 import reservationSlice from "./slices/reservationSlice";
 import paymentSlice from "./slices/paymentSlice";
 import signUpSlice from "./slices/signUpSlice";
+import addCarModelSlice from "./slices/addCarModelSlice";
+import addCarCategorySlice from "./slices/addCarCategorySlice";
+import carColorSlice from "./slices/CarSlices/carColorSlice";
+import carModelSlice from "./slices/CarSlices/carModelSlice";
 
 
 export const store = configureStore({
@@ -25,6 +29,10 @@ export const store = configureStore({
     reservation: reservationSlice,
     payment: paymentSlice,
     signUp: signUpSlice,
+    addCarCategory:addCarCategorySlice,
+    addCarModel:addCarModelSlice,
+    carColor:carColorSlice,
+    carModel:carModelSlice
   },
 });
 

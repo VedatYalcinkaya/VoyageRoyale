@@ -13,6 +13,9 @@ import Footer from "../../components/Footer/Footer";
 import QuickReservation from "../QuickReservation/QuickReservation";
 import AboutUs from "../AboutUs/AboutUs";
 import AddBrand from "../../adminPages/BrandPanel/AddBrand";
+import AddCarType from "../../adminPages/CarTypePanel/AddCarType";
+import AddModel from "../../adminPages/ModelPanel/AddModel";
+import AddCar from "../../adminPages/CarPanel/AddCar";
 
 function Dashboard() {
   
@@ -40,6 +43,10 @@ function Dashboard() {
             <Route path="/login" element={<SignInSignUp />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/brand/add" element={<AddBrand/>}/>
+            <Route path="/carType/add" element={<AddCarType/>}/>
+            <Route path="/model/add" element={<AddModel/>}/>
+            <Route path="/car/add" element={<AddCar/>}/>
+
           </Routes>
         </Grid>
       </Grid>

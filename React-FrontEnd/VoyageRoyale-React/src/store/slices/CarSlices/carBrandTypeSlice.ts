@@ -1,11 +1,13 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../../../utils/interceptors/axiosInterceptors";
+import { CarBrandType } from "../../../models/CarBrandModel/responses/response";
 
 interface CarBrand {
   data: CarBrandType[];
   loading: boolean;
   error: string;
   brandType:string;
+  brandId:number;
 }
 
 const initialState: CarBrand = {
@@ -13,6 +15,7 @@ const initialState: CarBrand = {
   loading: false,
   error: "",
   brandType:"",
+  brandId:0
 };
 
 export const getCarBrandType = createAsyncThunk('getCarBrandType', async () => {
@@ -26,6 +29,9 @@ export const carBrandTypeSlice = createSlice({
   reducers: {
     setBrandType : (state,action:PayloadAction<string>) =>{
       state.brandType = action.payload
+    },
+    setBrandId : (state,action:PayloadAction<number>) =>{
+      state.brandId = action.payload
     }
   }, 
   extraReducers: (builder) => {
@@ -47,5 +53,5 @@ export const carBrandTypeSlice = createSlice({
 });
 
 
-export const {setBrandType} = carBrandTypeSlice.actions
+export const {setBrandType,setBrandId} = carBrandTypeSlice.actions
 export default carBrandTypeSlice.reducer;

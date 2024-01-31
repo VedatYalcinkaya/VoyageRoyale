@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Car } from "../models/CarModel/response";
+import { Car } from "../models/CarModel/responses/response";
 
 export default class CarService {
     getAll() : any {
