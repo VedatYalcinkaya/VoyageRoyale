@@ -149,6 +149,14 @@ export default function Sidebar({
               </ListItemIcon>
             </ListItemButton>
           </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton component={RouterLink} to="/userProfile">
+              <ListItemText primary="My Profile" />
+              <ListItemIcon>
+                <PlayArrowIcon fontSize="small" sx={{ marginLeft: 3 }} />
+              </ListItemIcon>
+            </ListItemButton>
+          </ListItem>
         </List>
       </Drawer>
 

@@ -10,10 +10,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetCustomerByIdResponse {
+    private int id;
     private String firstName;
     private String lastName;
     private String userEmail;
-    private String userPassword;
     private String tcNo;
     private LocalDate birthDate;
 }

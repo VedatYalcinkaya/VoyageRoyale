@@ -1,10 +1,12 @@
 package com.tobeto.pair5.controllers;
 
+import com.tobeto.pair5.entities.concretes.Customer;
 import com.tobeto.pair5.services.abstracts.CustomerService;
 import com.tobeto.pair5.services.dtos.customer.requests.AddCustomerRequest;
 import com.tobeto.pair5.services.dtos.customer.requests.DeleteCustomerRequest;
 import com.tobeto.pair5.services.dtos.customer.requests.UpdateCustomerRequest;
 import com.tobeto.pair5.services.dtos.customer.responses.GetAllCustomerResponse;
+import com.tobeto.pair5.services.dtos.customer.responses.GetCustomerByIdResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,4 +39,7 @@ public class CustomerController {
 
     @GetMapping("/getAll")
     public List<GetAllCustomerResponse> getAll(){return customerService.getAll();}
+
+    @GetMapping("/getById")
+    public GetCustomerByIdResponse getById(@RequestParam @Valid int id){return customerService.getById(id);}
 }

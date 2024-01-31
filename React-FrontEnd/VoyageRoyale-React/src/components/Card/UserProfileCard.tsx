@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Typography, Grid, Box } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../store/configureStore';
+import { getCustomerInfo } from '../../store/slices/CustomerSlices/customerInfoSlice';
 
 type Props = {}
 
 const UserProfileCard = (props: Props) => {
+  const dispatch = useAppDispatch();
+  const customer = useAppSelector(state => state.customerInfo.data);
+
+  useEffect(() => {
+    dispatch(getCustomerInfo(1)); // ID 5 olan müşteriyi almak için dispatch
+  }, [dispatch]);
 
   return (
     <Box sx={{ width:"60%" , border: 1}}>
@@ -11,11 +19,11 @@ const UserProfileCard = (props: Props) => {
       <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={12} sm={6}>
           <Typography sx={{fontWeight: 'bold' }}>Name</Typography>
-          <Typography>Vedat</Typography>
+          <Typography>{customer?.firstName}</Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
           <Typography sx={{fontWeight: 'bold'}}>Surname</Typography>
-          <Typography>Yalçınkaya</Typography>
+          <Typography>{customer?.lastName}</Typography>
         </Grid>
       </Grid>
     </Box>
@@ -23,16 +31,15 @@ const UserProfileCard = (props: Props) => {
       <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={12} sm={6}>
           <Typography sx={{fontWeight: 'bold' }}>E-mail</Typography>
-          <Typography>vedatylcnky@gmail.com</Typography>
+          <Typography>{customer?.userEmail}</Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
           <Typography sx={{fontWeight: 'bold'}}>Birth Date</Typography>
-          <Typography>01.06.1998</Typography>
+          <Typography>{customer?.birthDate}</Typography>
         </Grid>
       </Grid>
     </Box>
-    </Box>
-    
+  </Box>
   );
 }
 

@@ -4,6 +4,7 @@ import com.tobeto.pair5.services.dtos.customer.requests.AddCustomerRequest;
 import com.tobeto.pair5.services.dtos.customer.requests.DeleteCustomerRequest;
 import com.tobeto.pair5.services.dtos.customer.requests.UpdateCustomerRequest;
 import com.tobeto.pair5.services.dtos.customer.responses.GetAllCustomerResponse;
+import com.tobeto.pair5.services.dtos.customer.responses.GetCustomerByIdResponse;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ public interface CustomerService {
     void update(UpdateCustomerRequest request);
 
     List<GetAllCustomerResponse> getAll();
+
+    GetCustomerByIdResponse getById(int id);
 
 
 }

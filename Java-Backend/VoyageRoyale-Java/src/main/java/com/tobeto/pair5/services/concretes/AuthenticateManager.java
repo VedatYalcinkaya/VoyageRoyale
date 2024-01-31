@@ -45,6 +45,8 @@ public class AuthenticateManager implements AuthenticationService {
         addCustomerRequest.setFirstName(request.getFirstName());
         addCustomerRequest.setLastName(request.getLastName());
         addCustomerRequest.setUserId(user.getId());
+        addCustomerRequest.setTcNo(request.getTcNo());
+        addCustomerRequest.setBirthDate(request.getBirthDate());
 
 
 
