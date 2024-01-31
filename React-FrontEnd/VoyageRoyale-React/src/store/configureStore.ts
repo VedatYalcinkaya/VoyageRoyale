@@ -16,6 +16,7 @@ import carColorSlice from "./slices/CarSlices/carColorSlice";
 import carModelSlice from "./slices/CarSlices/carModelSlice";
 import customerInfoSlice from "./slices/CustomerSlices/customerInfoSlice";
 import addCarSlice from "./slices/addCarSlice";
+import updateCustomerSlice from "./slices/CustomerSlices/updateCustomerSlice";
 
 
 export const store = configureStore({
@@ -36,7 +37,8 @@ export const store = configureStore({
     carColor:carColorSlice,
     customerInfo: customerInfoSlice,
     carModel:carModelSlice,
-    addCar:addCarSlice
+    addCar:addCarSlice,
+    updateCustomer: updateCustomerSlice
 
   },
 });
