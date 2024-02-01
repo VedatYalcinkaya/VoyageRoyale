@@ -2,9 +2,9 @@ import { Button } from '@mui/material';
 import { TextField } from '@mui/material';
 import { Field, Form, Formik } from 'formik'
 import * as Yup from "yup";
-import axiosInstance from '../../utils/interceptors/axiosInterceptors';
-import { AddBrandRequest } from '../../models/CarBrandModel/requests/addBrandRequest';
-import FormikInput from '../../components/FormikInput/FormikInput';
+import axiosInstance from '../../../utils/interceptors/axiosInterceptors';
+import { AddBrandRequest } from '../../../models/CarBrandModel/requests/addBrandRequest';
+import FormikInput from '../../FormikInput/FormikInput';
 
 type Props = {}
 

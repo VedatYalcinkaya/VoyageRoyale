@@ -1,9 +1,9 @@
 import { Form, Formik } from "formik";
 import { Button } from "@mui/material";
 import * as Yup from "yup";
-import { addFuelTypeRequest } from "../../models/CarFuelTypeModel/requests/addFuelTypeRequest";
-import axiosInstance from "../../utils/interceptors/axiosInterceptors";
-import FormikInput from "../../components/FormikInput/FormikInput";
+import { addFuelTypeRequest } from "../../../models/CarFuelTypeModel/requests/addFuelTypeRequest";
+import axiosInstance from "../../../utils/interceptors/axiosInterceptors";
+import FormikInput from "../../FormikInput/FormikInput";
 
 type Props = {};
 

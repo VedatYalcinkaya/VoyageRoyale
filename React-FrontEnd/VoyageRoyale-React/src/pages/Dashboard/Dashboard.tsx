@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router";
-import Sidebar from "../../components/Sidebar/Sidebar";
 import { Grid } from "@mui/material";
 import Homepage from "../Homepage/Homepage";
 import CarList from "../CarList/CarList";
@@ -12,20 +11,37 @@ import Payment from "../Payment/Payment";
 import Footer from "../../components/Footer/Footer";
 import QuickReservation from "../QuickReservation/QuickReservation";
 import AboutUs from "../AboutUs/AboutUs";
-import AddBrand from "../../adminPages/BrandPanel/AddBrand";
-import AddCarType from "../../adminPages/CarTypePanel/AddCarType";
-import AddModel from "../../adminPages/ModelPanel/AddModel";
-import AddCar from "../../adminPages/CarPanel/AddCar";
-import AddFuelType from "../../adminPages/CarFeaturesPanel/AddFuelType";
-import AddGearType from "../../adminPages/CarFeaturesPanel/AddGearType";
-import AddLocation from "../../adminPages/LocationPanel/AddLocation";
+import AddBrand from "../../components/AdminComponents/BrandPanel/AddBrand";
+
+import AddModel from "../../components/AdminComponents/ModelPanel/AddModel";
+import AddCar from "../../components/AdminComponents/CarPanel/AddCar";
+import AddFuelType from "../../components/AdminComponents/FuelTypePanel/AddFuelType";
+import AddGearType from "../../components/AdminComponents/GearTypePanel/AddGearType";
+import AddLocation from "../../components/AdminComponents/LocationPanel/AddLocation";
+import CarFeatures from "../AdminPages/CarFeatures/CarFeatures";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import AddCarType from "../../components/AdminComponents/CarTypePanel/AddCarType";
+import Users from "../AdminPages/Users/Users";
+import Cars from "../AdminPages/Cars/Cars";
+import Positions from "../AdminPages/Positions/Positions";
+import Rentals from "../AdminPages/Rentals/Rentals";
+import Invoices from "../AdminPages/Invoices/Invoices";
 
 function Dashboard() {
   return (
     <>
       <Grid container>
         <Grid item xs={12} sm={2}>
-          <Sidebar />
+          <Sidebar
+            isSignedIn={false}
+            onSignOut={function (): void {
+              throw new Error("Function not implemented.");
+            }}
+            userInfo={undefined}
+            handleSignInSuccess={function (): void {
+              throw new Error("Function not implemented.");
+            }}
+          />
         </Grid>
         <Grid item xs={12} sm={10} style={{ padding: 50 }}>
           <Routes>
@@ -38,6 +54,15 @@ function Dashboard() {
             <Route path="/signInSignUp" element={<SignInSignUp />} />
             <Route path="/aboutUs" element={<AboutUs />} />
             <Route path="/reservations" element={<UserReservations />} />
+            <Route
+              path="/adminDashboard/carFeatures"
+              element={<CarFeatures />}
+            />
+            <Route path="/adminDashboard/users" element={<Users />} />
+            <Route path="/adminDashboard/cars" element={<Cars />} />
+            <Route path="/adminDashboard/positions" element={<Positions />} />
+            <Route path="/adminDashboard/rentals" element={<Rentals />} />
+            <Route path="/adminDashboard/invoices" element={<Invoices />} />
             <Route
               path="/userProfile/reservation"
               element={<UserReservations />}
@@ -53,9 +78,9 @@ function Dashboard() {
             <Route path="/locations/add" element={<AddLocation />} />
           </Routes>
         </Grid>
-      </Grid>
-      <Grid item xs={12}>
-        <Footer />
+        <Grid item xs={12}>
+          <Footer />
+        </Grid>
       </Grid>
     </>
   );
