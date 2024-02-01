@@ -1,9 +1,9 @@
 import { Button } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import axiosInstance from "../../utils/interceptors/axiosInterceptors";
-import FormikInput from "../../components/FormikInput/FormikInput";
-import { AddLocationRequest } from "../../models/LocationModel/requests/addLocationRequest";
+import axiosInstance from "../../../utils/interceptors/axiosInterceptors";
+import FormikInput from "../../FormikInput/FormikInput";
+import { AddLocationRequest } from "../../../models/LocationModel/requests/addLocationRequest";
 
 type Props = {};
 

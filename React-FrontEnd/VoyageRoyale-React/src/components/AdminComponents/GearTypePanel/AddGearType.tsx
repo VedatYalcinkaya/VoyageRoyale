@@ -1,8 +1,8 @@
 import * as Yup from "yup";
-import { AddGearTypeRequest } from "../../models/carGearTypeModel/requests/addGearTypeRequest";
+import { AddGearTypeRequest } from "../../../models/carGearTypeModel/requests/addGearTypeRequest";
 import { Form, Formik } from "formik";
-import axiosInstance from "../../utils/interceptors/axiosInterceptors";
-import FormikInput from "../../components/FormikInput/FormikInput";
+import axiosInstance from "../../../utils/interceptors/axiosInterceptors";
+import FormikInput from "../../FormikInput/FormikInput";
 import { Button } from "@mui/material";
 
 type Props = {};

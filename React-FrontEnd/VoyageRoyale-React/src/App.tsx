@@ -2,29 +2,50 @@
 import Dashboard from "./pages/Dashboard/Dashboard";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import '@fontsource/montserrat';
-import { AuthProvider } from "./context/AuthContext";
+import '@fontsource/merriweather';
+import '@fontsource/dm-serif-display';
+import '@fontsource/noto-serif';
+import '@fontsource/prata';
+import '@fontsource/italiana';
+import '@fontsource/lato';
+import '@fontsource/open-sans';
+
 
 
 const theme = createTheme({
-  typography: {
-    fontFamily: 'Montserrat, sans-serif',
-    h1: {
-      fontSize: '20px',
-      fontWeight: 'bold',
+  palette: {
+    mode: "light",
+    primary: {
+      main: "#1f3f37",
     },
+    secondary: {
+      main: "#bc9160",
+    },
+    info: {
+      main: "#8abda1",
+    },
+    divider: "#bc9160",
+    success: {
+      main: "#5a8a6f",
+    },
+    warning: {
+      main: "#ed6c02",
+    },
+    text: {
+      primary: "#1f3f37",
+    },
+  },
+  typography: {
+    fontFamily: "Lato",
   },
 });
 
 
 function App() {
   return (
-    <AuthProvider>
     <ThemeProvider theme={theme}>
-      <div>
         <Dashboard/>
-      </div>
     </ThemeProvider>
-    </AuthProvider>
   );
 }
 

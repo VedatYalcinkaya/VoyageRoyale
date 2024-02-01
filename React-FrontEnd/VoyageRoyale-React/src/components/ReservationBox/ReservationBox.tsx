@@ -115,9 +115,8 @@ const ReservationBox: React.FC = () => {
               <Grid item xs={12}>
                 <Typography
                   gutterBottom
-                  variant="h3"
+                  variant="h4"
                   component="div"
-                  style={{ color: "#0F4037", fontSize:40, fontWeight:"bold" }}
                 >
                   Start a Reservation
                 </Typography>

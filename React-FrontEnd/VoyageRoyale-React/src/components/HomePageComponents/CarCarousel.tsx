@@ -49,10 +49,10 @@ export default class CarCarousel extends Component {
           
         }}
       >
-          <Typography sx={{ fontSize: 40, fontWeight: "bold", color:"#0f4037", mt:5, textAlign:"center"}}>
-            Discover Automotive Prestige
+          <Typography textAlign="center" variant="h4" sx={{ textTransform: 'uppercase' }}>
+            Discover Automotive Prestige 
           </Typography>
-          <Typography sx={{ fontSize: 25,color:"#0f4037", textAlign:"center"}}>
+          <Typography variant="h6" textAlign="center">
             Embrace the Legacy of Iconic Brands.
           </Typography>
           <Slider {...settings}>

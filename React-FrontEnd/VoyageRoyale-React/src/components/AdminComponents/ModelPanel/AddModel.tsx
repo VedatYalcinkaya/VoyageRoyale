@@ -1,13 +1,13 @@
 import { Button,  MenuItem, Select } from '@mui/material';
 import {  Field, Form, Formik } from 'formik'
 import * as Yup from "yup";
-import SecondFormikInput from '../../components/FormikInput/SecondFormikInput';
-import { useAppDispatch, useAppSelector } from '../../store/configureStore';
-import { AddModelRequest } from '../../models/ModelModel/requests/addModelRequest';
-import { CarBrandType } from '../../models/CarBrandModel/responses/response';
+import SecondFormikInput from '../../FormikInput/SecondFormikInput';
+import { useAppDispatch, useAppSelector } from '../../../store/configureStore';
+import { AddModelRequest } from '../../../models/ModelModel/requests/addModelRequest';
+import { CarBrandType } from '../../../models/CarBrandModel/responses/response';
 import { useEffect } from 'react';
-import { getCarBrandType } from '../../store/slices/CarSlices/carBrandTypeSlice';
-import { postCarModel } from '../../store/slices/addCarModelSlice';
+import { getCarBrandType } from '../../../store/slices/CarSlices/carBrandTypeSlice';
+import { postCarModel } from '../../../store/slices/addCarModelSlice';
 
 type Props = {}
 

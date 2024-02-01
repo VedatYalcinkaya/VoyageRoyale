@@ -28,7 +28,7 @@ const AppShowReel = () => {
 
   return (
     <>
-      <Typography sx={{ fontSize: 30, fontWeight:"bold", textAlign:"center", color:"#0f4037" }}>SIMPLIFY YOUR LIFE</Typography>
+      <Typography variant="h4" textAlign="center">SIMPLIFY YOUR LIFE</Typography>
       <Typography sx={{ fontSize: 20, textAlign:"center", color:"#0f4037" }}>Get our app</Typography>
       <Grid container sx={{ alignItems: "center", mt: 10 }}>
       <Grid item xs={6} sx={{textAlign:"center"}} >
@@ -44,7 +44,7 @@ const AppShowReel = () => {
               onMouseOver={() => handleSectionClick(box.phoneMockupImage)}
               sx={{ textAlign: "left", borderLeft:2, borderColor:"#ffff", pl:5, mb:10,mt:5, "&:hover":{borderColor:"#000000"}}}
             >
-              <Typography sx={{ fontSize: 25, fontWeight:"bold" }}>{box.header}</Typography>
+              <Typography variant="h5">{box.header}</Typography>
               <Typography sx={{ fontSize: 15 }}>{box.description}</Typography>
             </Box>
             ))}

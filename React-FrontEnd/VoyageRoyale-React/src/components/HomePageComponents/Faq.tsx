@@ -6,15 +6,8 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Button from "@mui/material/Button";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#FF0000", // Use your preferred primary color
-    },
-  },
-});
+
 
 const faqs = [
   {
@@ -45,7 +38,6 @@ const faqs = [
 
 const Faq = () => {
   return (
-    <ThemeProvider theme={theme}>
       <Box
         sx={{
           display: "flex",
@@ -76,7 +68,7 @@ const Faq = () => {
         </Box>
         <Box sx={{ mt: 2, textAlign:"left"}}>
           {faqs.map((faq, index)=>(
-          <Accordion key={faq.question} sx={{mt:1, borderColor:"#0f4037",backgroundColor: "#fdfdfd", "&:hover":{backgroundColor: "#f9f9f9"}}}>
+          <Accordion key={faq.question}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography sx={{fontSize:16, color:"#0f4037"}}>{faq.question}</Typography>
             </AccordionSummary>
@@ -115,7 +107,6 @@ const Faq = () => {
           </Button>
         </Box>
       </Box>
-    </ThemeProvider>
   );
 };
 

@@ -11,16 +11,7 @@ type Props = {};
 const Homepage = (props: Props) => {
   return (
     <Grid container justifyContent="center" alignItems="center">
-      <Typography
-        sx={{
-          mt: 2,
-          color: "#0F4037",
-          fontSize: 25,
-          fontWeight: "bold",
-          textAlign:"center",
-          paddingLeft:10,
-          paddingRight:10
-        }}
+      <Typography variant="h5" textAlign="center" sx={{mt:3, mb:5, }}
       >
         Experience Timeless Luxury, Where Every Moment Becomes an Elegantly
         Crafted Memory.
@@ -30,16 +21,16 @@ const Homepage = (props: Props) => {
         alt="Custom"
         style={{ width: "70%" }}
       />
-      <Grid item xs={12} sx={{ textAlign: "center", mt: 2 }}>
+      <Grid item xs={12} sx={{ textAlign: "center", mt: 5}}>
         <ReservationBox />
       </Grid>
-      <Grid item xs={12} sx={{ mt: 10, mb: 10 }}>
+      <Grid item xs={12}>
         <CarCarousel />
       </Grid>
-      <Grid item xs={12} sx={{ mt: 10, mb: 10 }}>
+      <Grid item xs={12}>
         <AppShowReel />
       </Grid>
-      <Grid item textAlign={"center"} xs={12} sx={{ mt: 10, mb: 10 }}>
+      <Grid item textAlign={"center"} xs={12} sx={{ }}>
         <Link
           href={"https://www.youtube.com/shorts/M7QUm_iDNsI"}
           target="_blank"
@@ -52,7 +43,7 @@ const Homepage = (props: Props) => {
           />
         </Link>
       </Grid>
-      <Grid item xs={12} sx={{ mt: 10, mb: 10 }}>
+      <Grid item xs={12} >
         <Faq />
       </Grid>
     </Grid>
