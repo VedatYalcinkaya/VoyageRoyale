@@ -9,6 +9,10 @@ import '@fontsource/prata';
 import '@fontsource/italiana';
 import '@fontsource/lato';
 import '@fontsource/open-sans';
+import { useAppDispatch } from "./store/configureStore";
+import React from "react";
+import { getCarBrandType } from "./store/slices/CarSlices/carBrandTypeSlice";
+
 
 
 
@@ -42,6 +46,13 @@ const theme = createTheme({
 
 
 function App() {
+
+  const dispatch = useAppDispatch();
+
+    
+  dispatch(getCarBrandType());
+
+  
   return (
     <ThemeProvider theme={theme}>
         <Dashboard/>
