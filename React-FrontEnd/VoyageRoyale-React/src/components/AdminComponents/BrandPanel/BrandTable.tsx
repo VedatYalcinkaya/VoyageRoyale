@@ -26,49 +26,16 @@ import {
   randomId,
   randomArrayItem,
 } from '@mui/x-data-grid-generator';
+import { useAppDispatch, useAppSelector } from '../../../store/configureStore';
+import { getCarBrandType } from '../../../store/slices/CarSlices/carBrandTypeSlice';
 
 const roles = ['Market', 'Finance', 'Development'];
 const randomRole = () => {
   return randomArrayItem(roles);
 };
 
-const initialRows: GridRowsProp = [
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 25,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 36,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 19,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 28,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 23,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-];
+
+
 
 interface EditToolbarProps {
   setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
@@ -82,7 +49,7 @@ function EditToolbar(props: EditToolbarProps) {
 
   const handleClick = () => {
     const id = randomId();
-    setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
+    setRows((oldRows) => [...oldRows, { id, name: '', isNew: true }]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
       [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
@@ -113,14 +80,23 @@ function EditToolbar(props: EditToolbarProps) {
 }
 
 export default function BrandTable() {
-  const [rows, setRows] = React.useState(initialRows);
+  
+  const brands: GridRowsProp = useAppSelector(state => state.carBrandType.data);
+  const [rows, setRows] = React.useState<GridRowsProp>(brands);
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
+  React.useEffect(() => {
+    setRows(brands);
+  }, [brands]);
+
+  
 
   const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
     }
   };
+
+  
 
   const handleEditClick = (id: GridRowId) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
@@ -157,31 +133,7 @@ export default function BrandTable() {
   };
 
   const columns: GridColDef[] = [
-    { field: 'name', headerName: 'Name', width: 200, editable: true },
-    {
-      field: 'age',
-      headerName: 'Age',
-      type: 'number',
-      width: 80,
-      align: 'left',
-      headerAlign: 'left',
-      editable: true,
-    },
-    {
-      field: 'joinDate',
-      headerName: 'Join date',
-      type: 'date',
-      width: 180,
-      editable: true,
-    },
-    {
-      field: 'role',
-      headerName: 'Department',
-      width: 220,
-      editable: true,
-      type: 'singleSelect',
-      valueOptions: ['Market', 'Finance', 'Development'],
-    },
+    { field: 'name', headerName: 'Name', width: 500, editable: true },
     {
       field: 'actions',
       type: 'actions',
@@ -273,4 +225,8 @@ export default function BrandTable() {
       />
     </Box>
   );
+}
+
+function dispatch(arg0: unknown) {
+  throw new Error('Function not implemented.');
 }
