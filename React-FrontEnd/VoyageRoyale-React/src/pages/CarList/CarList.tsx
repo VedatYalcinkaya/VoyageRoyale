@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import CarCard from '../../components/Card/CarCard';
-import { Box, Grid, Stack } from '@mui/material';
+import { Box, CircularProgress, Grid, Stack } from '@mui/material';
 import CarFilter from '../../components/Card/CarCardFilters/CarFilter';
 import CarFuelFilter from '../../components/Card/CarCardFilters/CarFuelFilter';
 import { useAppDispatch, useAppSelector } from '../../store/configureStore';
@@ -23,6 +23,7 @@ const CarList = (props: Props) => {
   const selectedReturnDate=useAppSelector(state => state.reservation.returnDate)
   const returnDate:string|null = selectedReturnDate?.substring(0,10) ?? null;
   const selectedPosition = useAppSelector(state => state.reservation.position?.id);
+  const loading = useAppSelector(state => state.loading.requestCount);
   
 
   useEffect(() => {
@@ -34,7 +35,15 @@ const CarList = (props: Props) => {
  
   }, []);
 
-  return (
+  if (loading>0) {
+    return(
+      <Box sx={{ display: 'flex' }}>
+      <CircularProgress />
+    </Box>
+    )
+  }else{
+
+      return (
     <Grid container spacing={2}>
       <Grid item xs={12} md={3} lg={3}>
         <Stack spacing={2} mt={2}>
@@ -49,6 +58,9 @@ const CarList = (props: Props) => {
       </Grid>
     </Grid>
   );
+  }
+
+
 };
 
 export default CarList;

@@ -18,6 +18,7 @@ import customerInfoSlice from "./slices/CustomerSlices/customerInfoSlice";
 import addCarSlice from "./slices/addCarSlice";
 import updateCustomerSlice from "./slices/CustomerSlices/updateCustomerSlice";
 import signInSlice from "./slices/signInSlice";
+import loadingSlice from "./slices/loadingSlice";
 
 
 export const store = configureStore({
@@ -40,7 +41,8 @@ export const store = configureStore({
     carModel:carModelSlice,
     addCar:addCarSlice,
     updateCustomer: updateCustomerSlice,
-    signIn: signInSlice
+    signIn: signInSlice,
+    loading:loadingSlice
 
   },
 });

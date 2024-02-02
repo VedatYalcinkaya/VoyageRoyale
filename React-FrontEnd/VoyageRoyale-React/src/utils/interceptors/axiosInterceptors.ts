@@ -1,4 +1,7 @@
  import axios from "axios";
+ import toastr from "toastr";
+import { store } from "../../store/configureStore";
+import { decreaseRequestCount, increaseRequestCount } from "../../store/slices/loadingSlice";
 
 const axiosInstance = axios.create({
     baseURL: "http://localhost:8080/api/",
@@ -14,6 +17,8 @@ axiosInstance.interceptors.request.use((config) => {
     if (token) {
         config.headers.Authorization = token;
     }
+
+    store.dispatch(increaseRequestCount());
     
     console.log("Bir istek atıldı...");
     return config;
@@ -22,12 +27,15 @@ axiosInstance.interceptors.request.use((config) => {
 axiosInstance.interceptors.response.use(
     (response) => {
         console.log("Başarılı bir cevap alındı...");
+        store.dispatch(decreaseRequestCount());
         return response;
     },
     (error) => {
-        console.log("Bir hata ile karşılaşıldı", error.response.data);
-        toastr.error(error.response.data);
-        return Promise.reject(error.response.data);
+        console.log("Bir hata ile karşılaşıldı", error.message);
+        toastr.error(error.message);
+        store.dispatch(decreaseRequestCount());
+
+        return Promise.reject(error.message);
     }
 );
 
