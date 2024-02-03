@@ -28,8 +28,9 @@ public class UserManager implements UserService {
     }
 
     @Override
-    public void delete(DeleteUserRequest request) {
-        User userToDelete = userRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.userNotFound));
+    public void delete(int id) {
+        User userToDelete = userRepository.findById(id)
+                .orElseThrow(()-> new BusinessException(Messages.userNotFound));
         userRepository.delete(userToDelete);
     }
 

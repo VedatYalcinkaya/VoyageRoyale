@@ -12,7 +12,7 @@ public interface RentalService {
 
     void add(AddRentalRequest request);
 
-    void delete(DeleteRentalRequest request);
+    void delete(int id);
 
     void update(UpdateRentalRequest request);
 

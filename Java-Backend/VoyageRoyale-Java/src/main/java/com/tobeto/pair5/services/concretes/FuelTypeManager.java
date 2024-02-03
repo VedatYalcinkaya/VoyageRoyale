@@ -37,8 +37,8 @@ public class FuelTypeManager implements FuelTypeService {
     }
 
     @Override
-    public void delete(DeleteFuelTypeRequest request) {
-        FuelType fuelTypeToDelete = fuelTypeRepository.findById(request.getId())
+    public void delete(int id) {
+        FuelType fuelTypeToDelete = fuelTypeRepository.findById(id)
                 .orElseThrow(()-> new BusinessException(Messages.fuelTypeNotExist));
         fuelTypeRepository.delete(fuelTypeToDelete);
     }

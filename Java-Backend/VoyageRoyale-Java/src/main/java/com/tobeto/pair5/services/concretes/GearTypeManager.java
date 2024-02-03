@@ -32,8 +32,9 @@ public class GearTypeManager implements GearTypeService {
     }
 
 
-    public void delete(DeleteGearTypeRequest request) {
-        GearType gearTypeToDelete = gearTypeRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.gearTypeNotExist));
+    public void delete(int id) {
+        GearType gearTypeToDelete = gearTypeRepository.findById(id)
+                .orElseThrow(()-> new BusinessException(Messages.gearTypeNotExist));
         gearTypeRepository.delete(gearTypeToDelete);
     }
 

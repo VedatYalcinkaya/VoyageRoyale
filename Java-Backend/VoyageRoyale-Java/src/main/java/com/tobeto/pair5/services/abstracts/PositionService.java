@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface PositionService {
     void add(AddPositionRequest request);
-    void delete(DeletePositionRequest request);
+    void delete(int id);
     void update(UpdatePositionRequest request);
     GetPositionByIdResponse getById(int id);
     List<GetAllPositionResponse> getAll();

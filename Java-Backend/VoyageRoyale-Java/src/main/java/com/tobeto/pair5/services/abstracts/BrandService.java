@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface BrandService {
     void add(AddBrandRequest request);
-    void delete(DeleteBrandRequest request);
+    void delete(int id);
     void update(UpdateBrandRequest request);
     List<GetAllBrandResponse> getAll();
     GetAllBrandResponse getById(int id);

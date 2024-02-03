@@ -42,8 +42,8 @@ public class CarManager implements CarService {
     }
 
     @Override
-    public void delete(DeleteCarRequest request) {
-        Car carToDelete = carRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.carNotFound));
+    public void delete(int id) {
+        Car carToDelete = carRepository.findById(id).orElseThrow(()-> new BusinessException(Messages.carNotFound));
         carRepository.delete(carToDelete);
     }
 

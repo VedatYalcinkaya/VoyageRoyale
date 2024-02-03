@@ -27,9 +27,9 @@ public class CarsController {
         carService.add(request);
     }
 
-    @DeleteMapping("/delete")
-    public void delete(@RequestBody @Valid DeleteCarRequest request){
-        carService.delete(request);
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable @Valid int id){
+        carService.delete(id);
     }
 
     @PutMapping("/update")

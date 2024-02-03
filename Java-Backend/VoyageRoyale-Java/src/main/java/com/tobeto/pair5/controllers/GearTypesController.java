@@ -23,9 +23,9 @@ public class GearTypesController {
         gearTypeService.add(request);
     }
 
-    @DeleteMapping("/delete")
-    public void delete(@RequestBody @Valid DeleteGearTypeRequest request){
-        gearTypeService.delete(request);
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable @Valid int id){
+        gearTypeService.delete(id);
     }
 
     @PutMapping("/update")

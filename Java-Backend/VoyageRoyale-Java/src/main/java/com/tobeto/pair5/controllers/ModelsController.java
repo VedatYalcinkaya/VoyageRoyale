@@ -22,9 +22,9 @@ public class ModelsController {
         modelService.add(request);
     }
 
-    @DeleteMapping("/delete")
-    public void delete(@RequestBody @Valid DeleteModelRequest request){
-        modelService.delete(request);
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable @Valid int id){
+        modelService.delete(id);
     }
 
     @PutMapping("/update")

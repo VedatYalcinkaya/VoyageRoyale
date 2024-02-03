@@ -11,7 +11,7 @@ import java.util.List;
 //@Service
 public interface GearTypeService {
     void add(AddGearTypeRequest request);
-    void delete(DeleteGearTypeRequest request);
+    void delete(int id);
     void update(UpdateGearTypeRequest request);
     List<GetAllGearTypeResponse> getAll();
     GetAllGearTypeResponse getById(int id);

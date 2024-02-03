@@ -51,8 +51,9 @@ public class RentalManager implements RentalService {
     }
 
     @Override
-    public void delete(DeleteRentalRequest request) {
-        Rental rentalToDelete = rentalRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.rentalNotExist));
+    public void delete(int id) {
+        Rental rentalToDelete = rentalRepository.findById(id)
+                .orElseThrow(()-> new BusinessException(Messages.rentalNotExist));
         rentalRepository.delete(rentalToDelete);
     }
 

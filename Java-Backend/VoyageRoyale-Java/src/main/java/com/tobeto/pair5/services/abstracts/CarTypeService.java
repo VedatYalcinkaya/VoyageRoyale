@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface CarTypeService{
     void add(AddCarTypeRequest request);
-    void delete(DeleteCarTypeRequest request);
+    void delete(int id);
     void update(UpdateCarTypeRequest request);
     GetCarTypeByIdResponse getById(int id);
     List<GetAllCarTypeResponse> getAll();

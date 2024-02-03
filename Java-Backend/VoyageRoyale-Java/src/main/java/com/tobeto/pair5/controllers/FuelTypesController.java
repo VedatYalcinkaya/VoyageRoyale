@@ -24,9 +24,9 @@ public class FuelTypesController {
         fuelTypeService.add(request);
     }
 
-    @DeleteMapping("/delete")
-    public void delete(@RequestBody @Valid DeleteFuelTypeRequest request){
-        fuelTypeService.delete(request);
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable @Valid int id){
+        fuelTypeService.delete(id);
     }
 
     @PutMapping("/put")

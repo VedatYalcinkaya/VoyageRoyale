@@ -29,9 +29,9 @@ public class CorporateCustomerManager implements CorporateCustomerService {
     }
 
     @Override
-    public void delete(DeleteCorporateCustomerRequest request) {
-        checkIfCorporateCustomerNotExists(request.getId());
-        CorporateCustomer corporateCustomerToDelete = corporateCustomerRepository.findById(request.getId()).orElseThrow();
+    public void delete(int id) {
+        checkIfCorporateCustomerNotExists(id);
+        CorporateCustomer corporateCustomerToDelete = corporateCustomerRepository.findById(id).orElseThrow();
         corporateCustomerRepository.delete(corporateCustomerToDelete);
     }
 

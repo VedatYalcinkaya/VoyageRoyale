@@ -30,8 +30,8 @@ public class BrandManager implements BrandService {
     }
 
     @Override
-    public void delete(DeleteBrandRequest request) {
-        Brand brandToDelete = brandRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.brandNotFound));
+    public void delete(int id) {
+        Brand brandToDelete = brandRepository.findById(id).orElseThrow(()-> new BusinessException(Messages.brandNotFound));
         brandRepository.delete(brandToDelete);
     }
 
