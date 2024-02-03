@@ -28,9 +28,9 @@ public class CustomerController {
         customerService.add(request);
     }
 
-    @DeleteMapping("/delete")
-    public void delete(@RequestBody @Valid DeleteCustomerRequest request){
-        customerService.delete(request);
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable @Valid int id){
+        customerService.delete(id);
     }
 
     @PutMapping("/update")

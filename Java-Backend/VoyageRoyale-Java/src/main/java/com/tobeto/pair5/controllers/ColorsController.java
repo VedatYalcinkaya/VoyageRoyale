@@ -23,9 +23,9 @@ public class ColorsController {
         colorService.add(request);
     }
 
-    @DeleteMapping("/delete")
-    public void delete(@RequestBody @Valid DeleteColorRequest request){
-        colorService.delete(request);
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable @Valid int id){
+        colorService.delete(id);
     }
 
     @PutMapping("/update")

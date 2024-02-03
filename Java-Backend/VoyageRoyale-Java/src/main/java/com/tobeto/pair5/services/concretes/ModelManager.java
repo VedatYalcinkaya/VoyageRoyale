@@ -36,8 +36,9 @@ public class ModelManager implements ModelService {
 
 
     @Override
-    public void delete(DeleteModelRequest request) {
-        Model modelToDelete = modelRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.modelNotExist));
+    public void delete(int id) {
+        Model modelToDelete = modelRepository.findById(id)
+                .orElseThrow(()-> new BusinessException(Messages.modelNotExist));
         modelRepository.delete(modelToDelete);
     }
 

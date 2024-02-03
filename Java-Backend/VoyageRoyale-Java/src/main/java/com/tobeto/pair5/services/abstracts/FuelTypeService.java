@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface FuelTypeService {
     void add(AddFuelTypeRequest request);
-    void delete(DeleteFuelTypeRequest request);
+    void delete(int id);
     void update(UpdateFuelTypeRequest request);
     GetFuelTypeByIdResponse getById(int id);
     List<GetAllFuelTypeResponse> getAll();

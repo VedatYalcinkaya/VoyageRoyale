@@ -33,8 +33,8 @@ public class CustomerManager implements CustomerService {
     }
 
     @Override
-    public void delete(DeleteCustomerRequest request) {
-        Customer customerToDelete = customerRepository.findById(request.getId())
+    public void delete(int id) {
+        Customer customerToDelete = customerRepository.findById(id)
                 .orElseThrow(()-> new BusinessException(Messages.customerNotExists));
         customerRepository.delete(customerToDelete);
 

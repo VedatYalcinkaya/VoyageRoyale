@@ -24,9 +24,9 @@ public class CarTypeController {
         carTypeService.add(request);
     }
 
-    @DeleteMapping("delete")
-    public void delete(@RequestBody @Valid DeleteCarTypeRequest request){
-        carTypeService.delete(request);
+    @DeleteMapping("delete/{id}")
+    public void delete(@PathVariable @Valid int id){
+        carTypeService.delete(id);
     }
 
     @PutMapping( "put")

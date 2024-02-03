@@ -24,9 +24,9 @@ public class InvoicesController {
         invoiceService.add(request);
     }
 
-    @DeleteMapping("/delete")
-    public void delete(@RequestBody @Valid DeleteInvoiceRequest request){
-        invoiceService.delete(request);
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable @Valid int id){
+        invoiceService.delete(id);
     }
 
     @PutMapping("/update")

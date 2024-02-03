@@ -27,8 +27,9 @@ public class InvoiceManager implements InvoiceService {
     }
 
     @Override
-    public void delete(DeleteInvoiceRequest request) {
-        Invoice invoiceToDelete = invoiceRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.invoiceNotExist));
+    public void delete(int id) {
+        Invoice invoiceToDelete = invoiceRepository.findById(id)
+                .orElseThrow(()-> new BusinessException(Messages.invoiceNotExist));
         invoiceRepository.delete(invoiceToDelete);
     }
 

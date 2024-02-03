@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface InvoiceService {
     void add(AddInvoiceRequest request);
-    void delete(DeleteInvoiceRequest request);
+    void delete(int id);
     void update(UpdateInvoiceRequest request);
     List<GetAllInvoiceResponse> getAll();
     GetAllInvoiceResponse getById(int id);

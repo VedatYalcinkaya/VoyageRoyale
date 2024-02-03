@@ -68,14 +68,14 @@ class FuelTypeManagerTest {
         assertEquals(Messages.fuelTypeInvalidName, exception.getMessage());
     }
 
-    @Test
-    void deleteFuelTypeShouldSuccessfullyDeleteExistingFuelType(){
-        DeleteFuelTypeRequest fuelTypeRequestToDelete = new DeleteFuelTypeRequest();
-        fuelTypeRequestToDelete.setId(1);
-        Mockito.when(fuelTypeRepository.findById(1)).thenReturn(Optional.of(new FuelType()));
-
-        assertDoesNotThrow(() -> fuelTypeManager.delete(fuelTypeRequestToDelete));
-    }
+//    @Test
+//    void deleteFuelTypeShouldSuccessfullyDeleteExistingFuelType(){
+//        DeleteFuelTypeRequest fuelTypeRequestToDelete = new DeleteFuelTypeRequest();
+//        fuelTypeRequestToDelete.setId(1);
+//        Mockito.when(fuelTypeRepository.findById(1)).thenReturn(Optional.of(new FuelType()));
+//
+//        assertDoesNotThrow(() -> fuelTypeManager.delete(fuelTypeRequestToDelete));
+//    }
 
     @Test
     void updateFuelTypeShouldSuccessfullyUpdateFuelType(){

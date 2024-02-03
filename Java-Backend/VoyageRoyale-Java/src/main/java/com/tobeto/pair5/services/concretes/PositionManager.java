@@ -29,8 +29,9 @@ public class PositionManager implements PositionService {
     }
 
     @Override
-    public void delete(DeletePositionRequest request) {
-        Position positionToDelete = positionRespository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.positionNotExist));
+    public void delete(int id) {
+        Position positionToDelete = positionRespository.findById(id)
+                .orElseThrow(()-> new BusinessException(Messages.positionNotExist));
         positionRespository.delete(positionToDelete);
     }
 
