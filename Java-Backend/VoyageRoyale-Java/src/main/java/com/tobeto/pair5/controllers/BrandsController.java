@@ -23,9 +23,9 @@ public class BrandsController {
         brandService.add(request);
     }
 
-    @DeleteMapping("/delete")
-    public void delete(@RequestBody @Valid DeleteBrandRequest request){
-        brandService.delete(request);
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable @Valid int id){
+        brandService.delete(id);
     }
 
     @PutMapping("/update")

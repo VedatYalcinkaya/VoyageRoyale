@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface UserService {
     void add(AddUserRequest request);
-    void delete(DeleteUserRequest request);
+    void delete(int id);
     void update(UpdateUserRequest request);
     List<GetAllUserResponse> getAll();
     GetByIdUserResponse getById(int id);

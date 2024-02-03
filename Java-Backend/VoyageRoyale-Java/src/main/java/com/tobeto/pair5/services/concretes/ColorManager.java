@@ -30,8 +30,8 @@ public class ColorManager implements ColorService {
     }
 
     @Override
-    public void delete(DeleteColorRequest request) {
-        Color colorToDelete = colorRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.colorNotFound));
+    public void delete(int id) {
+        Color colorToDelete = colorRepository.findById(id).orElseThrow(()-> new BusinessException(Messages.colorNotFound));
         colorRepository.delete(colorToDelete);
     }
 

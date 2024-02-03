@@ -24,9 +24,9 @@ public class PositionsController {
         positionService.add(request);
     }
 
-    @DeleteMapping("delete")
-    public void delete(@RequestBody @Valid DeletePositionRequest request){
-        positionService.delete(request);
+    @DeleteMapping("delete/{id}")
+    public void delete(@PathVariable @Valid int id){
+        positionService.delete(id);
     }
 
     @PutMapping( "put")

@@ -24,9 +24,9 @@ public class RentalsController {
         rentalService.add(request);
     }
 
-    @DeleteMapping("/delete")
-    public void delete(@RequestBody @Valid DeleteRentalRequest request){
-        rentalService.delete(request);
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable @Valid int id){
+        rentalService.delete(id);
     }
 
     @PutMapping("/update")

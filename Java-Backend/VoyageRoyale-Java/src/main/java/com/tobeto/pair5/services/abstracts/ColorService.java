@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ColorService {
     void add(AddColorRequest request);
-    void delete(DeleteColorRequest request);
+    void delete(int id);
     void update(UpdateColorRequest request);
     GetAllColorResponse getById(int id);
     List<GetAllColorResponse> getAll();

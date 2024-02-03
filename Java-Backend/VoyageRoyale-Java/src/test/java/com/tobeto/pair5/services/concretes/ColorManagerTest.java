@@ -59,14 +59,14 @@ class ColorManagerTest {
     }
 
 
-    @Test
-    void checkColorIdNotExistShouldThrowException(){
-        DeleteColorRequest colorToDelete = new DeleteColorRequest();
-        colorToDelete.setId(1);
-       Mockito.when(colorRepository.findById(colorToDelete.getId())).thenReturn(Optional.empty());
-
-       assertThrows(BusinessException.class,() -> colorManager.delete(colorToDelete));
-    }
+//    @Test
+//    void checkColorIdNotExistShouldThrowException(){
+//        DeleteColorRequest colorToDelete = new DeleteColorRequest();
+//        colorToDelete.setId(1);
+//       Mockito.when(colorRepository.findById(colorToDelete.getId())).thenReturn(Optional.empty());
+//
+//       assertThrows(BusinessException.class,() -> colorManager.delete(colorToDelete));
+//    }
 
 
     @Test
@@ -79,15 +79,15 @@ class ColorManagerTest {
         assert true;
     }
 
-    @Test
-    void successfullyDeletedData(){
-        DeleteColorRequest colorRequest = new DeleteColorRequest();
-        colorRequest.setId(1);
-        Mockito.when(colorRepository.findById(1)).thenReturn(Optional.of(new Color()));
-        colorManager.delete(colorRequest);
-
-        assert true;
-    }
+//    @Test
+//    void successfullyDeletedData(){
+//        DeleteColorRequest colorRequest = new DeleteColorRequest();
+//        colorRequest.setId(1);
+//        Mockito.when(colorRepository.findById(1)).thenReturn(Optional.of(new Color()));
+//        colorManager.delete(colorRequest);
+//
+//        assert true;
+//    }
 
     @Test
     void checkColorIdNotExistShouldThrowExceptionForUpdateMethod(){

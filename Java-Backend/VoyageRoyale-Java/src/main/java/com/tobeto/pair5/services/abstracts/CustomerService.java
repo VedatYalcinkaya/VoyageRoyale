@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface CustomerService {
     void add(AddCustomerRequest request);
-    void delete(DeleteCustomerRequest request);
+    void delete(int id);
 
     void update(UpdateCustomerRequest request);
 
