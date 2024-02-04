@@ -49,17 +49,10 @@ public class CarManager implements CarService {
 
     @Override
     public void update(UpdateCarRequest request) {
-        checkIsModelExists(request.getModelId());
-        checkIsColorExists(request.getColorId());
 
-        Car carToUpdate = carRepository.findById(request.getId())
-                .orElseThrow();
-
-        this.modelMapperService.forRequest().map(request, carToUpdate);
-        carToUpdate.getPlate().replaceAll("\\s","");
-
-
-        carRepository.saveAndFlush(carToUpdate);
+        carRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.carNotFound));
+        Car carToUpdate = modelMapperService.forRequest().map(request, Car.class);
+        carRepository.save(carToUpdate);
     }
 
     @Override

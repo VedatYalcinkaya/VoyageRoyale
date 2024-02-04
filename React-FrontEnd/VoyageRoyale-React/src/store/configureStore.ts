@@ -24,6 +24,9 @@ import deleteBrandSlice from "./slices/deleteBrandSlice";
 import updateModelSlice from "./slices/updateModelSlice";
 import deleteModelSlice from "./slices/deleteModelSlice";
 import addBrandSlice from "./slices/addBrandSlice";
+import updateCarSlice from "./slices/updateCarSlice";
+import getAllCarSlice from "./slices/CarSlices/getAllCarSlice";
+import deleteCarSlice from "./slices/deleteCarSlice";
 
 
 export const store = configureStore({
@@ -52,7 +55,10 @@ export const store = configureStore({
     updateBrand:updateBrandSlice,
     deleteBrand:deleteBrandSlice,
     updateModel:updateModelSlice,
-    deleteModel:deleteModelSlice
+    deleteModel:deleteModelSlice,
+    updateCar:updateCarSlice,
+    getAllCar:getAllCarSlice,
+    deleteCar:deleteCarSlice
 
   },
 });

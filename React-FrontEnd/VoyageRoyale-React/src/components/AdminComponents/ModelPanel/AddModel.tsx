@@ -8,14 +8,15 @@ import { CarBrandType } from '../../../models/CarBrandModel/responses/response';
 import { useEffect } from 'react';
 import { getCarBrandType } from '../../../store/slices/CarSlices/carBrandTypeSlice';
 import { postCarModel } from '../../../store/slices/addCarModelSlice';
+import { getAllModel } from '../../../store/slices/CarSlices/carModelSlice';
 
 type Props = {}
 
 function AddModel() {
     const dispatch = useAppDispatch();
-    const brands:CarBrandType[] = useAppSelector(state => state.carBrandType.data)
+    const brands:CarBrandType[] = useAppSelector(state => state.carBrandType.data);
 
-  const initialValues = { name: "" , brandId:0}
+  const initialValues = {name: "" , brandId:0}
 
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -26,16 +27,18 @@ function AddModel() {
 
   useEffect(()=>{
     dispatch(getCarBrandType());
+    dispatch(getAllModel());
   },[])
 console.log(brands);
   return (
 
 
     <Formik initialValues={initialValues} validationSchema={validationSchema}
-    onSubmit={(values: AddModelRequest, { resetForm }) => {
+    onSubmit={ async (values: AddModelRequest, { resetForm }) => {
         console.log(values);
         resetForm();
-        dispatch(postCarModel(values));
+        await dispatch(postCarModel(values));
+        dispatch(getAllModel());
       }}
     >
   
@@ -52,9 +55,7 @@ console.log(brands);
         </Field>
         <br />
         <br />
-
-    
-        <Button type="submit">Save</Button>
+        <Button type="submit" variant='contained'>Save</Button>
       </Form>
 
     </Formik>

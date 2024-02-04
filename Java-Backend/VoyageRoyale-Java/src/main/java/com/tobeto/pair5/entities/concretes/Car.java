@@ -50,7 +50,7 @@ public class Car extends BaseEntity {
     @JoinColumn(name="car_type_id")
     private CarType carType;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name="fuel_type_id")
     private FuelType fuelType;
 

@@ -19,12 +19,14 @@ import { Position } from "../../../models/LocationModel/responses/response";
 import { GetAllColorResponse } from "../../../models/ColorModel/responses/getAllColorResponse";
 import { GetAllModelResponse } from "../../../models/ModelModel/responses/getAllModelResponse";
 import { postCar } from "../../../store/slices/addCarSlice";
-import { getCarList } from "../../../store/slices/CarSlices/carListSlice";
 import { getAllCar } from "../../../store/slices/CarSlices/getAllCarSlice";
+import { Car } from "../../../models/CarModel/responses/response";
+import { updateCar } from "../../../store/slices/updateCarSlice";
+import { UpdateCarRequest } from "../../../models/CarModel/requests/updateCarRequest";
 
 type Props = {};
 
-function AddCar() {
+function UpdateCar() {
   const dispatch = useAppDispatch();
   const carCategories: CarCategory[] = useAppSelector(
     (state) => state.carCategory.data
@@ -45,7 +47,12 @@ function AddCar() {
     (state) => state.positionList.data
   );
 
+  const cars: Car[] = useAppSelector(
+    (state) => state.getAllCar.data
+  );
+
   const initialValues = {
+    id:0,
     kilometer: 0, // input number
     plate: "", //input string
     year: 0, // input number
@@ -59,9 +66,10 @@ function AddCar() {
   };
 
   const validationSchema = Yup.object({
+    id: Yup.number().positive(),
     plate: Yup.string()
-      .required("Plate field is a must.")
-      .min(2, "Plate format must be TR."),
+      .required("Plate field must be fill")
+      .min(2, "Plate format must be TR"),
     kilometer: Yup.number().moreThan(0),
     year: Yup.number().moreThan(0),
     dailyPrice: Yup.number().moreThan(0),
@@ -81,19 +89,32 @@ function AddCar() {
     dispatch(getPositionList());
     dispatch(getAllColor());
     dispatch(getAllModel());
+    dispatch(getAllCar());
   }, []);
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={async(values: AddCarRequest, { resetForm }) => {
+      onSubmit={async(values: UpdateCarRequest, { resetForm }) => {
         console.log(values);
         resetForm();
-        await dispatch(postCar(values));
-        dispatch(getAllCar())
+         await dispatch(updateCar(values));
+         dispatch(getAllCar());
       }}
     >
       <Form>
+
+      <Field as={Select} name="id">
+          <MenuItem value="0">Select Plate ID</MenuItem>
+          {cars.map((car) => (
+            <MenuItem value={car.id} key={car.id}>
+                {car.plate}
+            </MenuItem>
+          ))}
+        </Field>
+        <br />
+        <br />
+
         <SecondFormikInput name="plate" label="Plate" type="text" />
         <br />
         <br />
@@ -137,7 +158,7 @@ function AddCar() {
         <br />
 
         <Field as={Select} name="gearTypeId">
-          <MenuItem value="0">Select A Gear</MenuItem>
+          <MenuItem value="0">Select A Category</MenuItem>
           {carGears.map((gear) => (
             <MenuItem value={gear.id} key={gear.id}>
               {gear.name}
@@ -180,10 +201,10 @@ function AddCar() {
         <br />
         <br />
 
-        <Button type="submit" variant="contained">Save</Button>
+        <Button type="submit" variant="contained">Update</Button>
       </Form>
     </Formik>
   );
 }
 
-export default AddCar;
+export default UpdateCar;

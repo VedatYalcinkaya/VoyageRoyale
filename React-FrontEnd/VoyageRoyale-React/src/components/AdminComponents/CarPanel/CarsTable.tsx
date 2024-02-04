@@ -9,9 +9,9 @@ import Paper from '@mui/material/Paper';
 import { useAppDispatch, useAppSelector } from '../../../store/configureStore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button } from '@mui/material';
-import { deleteModel } from '../../../store/slices/deleteModelSlice';
-import { getAllModel } from '../../../store/slices/CarSlices/carModelSlice';
-import { GetAllModelResponse } from '../../../models/ModelModel/responses/getAllModelResponse';
+import { useEffect } from 'react';
+import { deleteCar } from '../../../store/slices/deleteCarSlice';
+import { getAllCar } from '../../../store/slices/CarSlices/getAllCarSlice';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -34,30 +34,50 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-export default function ModelsTable() {
+export default function CarsTable() {
     const dispatch = useAppDispatch();
-    const models:GetAllModelResponse[] = useAppSelector(state => state.carModel.data);
+    const cars = useAppSelector(state => state.getAllCar.data);
+
+  useEffect(()=>{
+  
+  },[])
 
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>ID</StyledTableCell>
-            <StyledTableCell>Model Name</StyledTableCell>
 
-          </TableRow>
+            <StyledTableCell>ID</StyledTableCell>
+            <StyledTableCell>Plate</StyledTableCell>
+            <StyledTableCell>Brand Name</StyledTableCell>
+            <StyledTableCell>Color</StyledTableCell>
+            <StyledTableCell>Gear</StyledTableCell>
+            <StyledTableCell>Fuel</StyledTableCell>
+            <StyledTableCell>Price</StyledTableCell>
+            <StyledTableCell>Year</StyledTableCell>
+            
+        </TableRow>
         </TableHead>
         <TableBody>
-          {models.map((model,i) => (
-            <StyledTableRow key={model.id}>
+          {cars.map((car,i) => (
+            <StyledTableRow key={car.id}>
               <StyledTableCell component="th" scope="row">
                 {i+1}
               </StyledTableCell>
-              <StyledTableCell >{model.name}</StyledTableCell>
-              <StyledTableCell align='right'><Button 
-              onClick={async ()=>{await dispatch(deleteModel(model.id)); dispatch(getAllModel())}}
-              ><DeleteIcon/></Button></StyledTableCell>
+
+              <StyledTableCell >{car.plate}</StyledTableCell>
+              <StyledTableCell >{car.brandName}</StyledTableCell>
+              <StyledTableCell >{car.colorName}</StyledTableCell>
+              <StyledTableCell >{car.gearTypeName}</StyledTableCell>
+              <StyledTableCell >{car.fuelTypeName}</StyledTableCell>
+              <StyledTableCell >{car.dailyPrice}</StyledTableCell>
+              <StyledTableCell >{car.year}</StyledTableCell>
+
+
+              <StyledTableCell align='right'><Button onClick={
+                async()=>{await dispatch(deleteCar(car.id)); 
+                dispatch(getAllCar())}}><DeleteIcon/></Button></StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
