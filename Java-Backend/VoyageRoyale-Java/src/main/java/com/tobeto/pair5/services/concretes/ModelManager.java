@@ -46,7 +46,7 @@ public class ModelManager implements ModelService {
     public void update(UpdateModelRequest request) {
         Model modelToUpdate = modelRepository.findById(request.getId())
                 .orElseThrow(()-> new BusinessException(Messages.modelNotExist));
-        checkIsBrandExists(request.getId());
+        checkIfBrandNotExists(request.getBrandId());
 
         this.modelMapperService.forRequest().map(request, modelToUpdate);
 
@@ -70,17 +70,14 @@ public class ModelManager implements ModelService {
 
     private boolean checkIfBrandNotExists(int id){
         GetAllBrandResponse brand = brandService.getById(id);
-        if(brand != null){
-            return false;
-        }
-        return true;
+        return  true;
     }
 
     private void checkIsBrandExists(int id){
         try {
             GetAllBrandResponse brand = brandService.getById(id);
         }catch (NoSuchElementException ex){
-            throw new BusinessException(Messages.brandNotFound);
+            throw new BusinessException(Messages.brandAlreadyExits);
         }
     }
 }
