@@ -5,10 +5,15 @@ import * as Yup from "yup";
 import axiosInstance from '../../../utils/interceptors/axiosInterceptors';
 import { AddBrandRequest } from '../../../models/CarBrandModel/requests/addBrandRequest';
 import FormikInput from '../../FormikInput/FormikInput';
+import { postBrand } from '../../../store/slices/addBrandSlice';
+import { useAppDispatch } from '../../../store/configureStore';
+import { getCarBrandType } from '../../../store/slices/CarSlices/carBrandTypeSlice';
+import SecondFormikInput from '../../FormikInput/SecondFormikInput';
 
 type Props = {}
 
-function AddBrand({ }: Props) {
+function AddBrand() {
+  const dispatch = useAppDispatch();
   const initialValues = { name: "" }
 
   const validationSchema = Yup.object({
@@ -21,27 +26,21 @@ function AddBrand({ }: Props) {
 
 
     <Formik initialValues={initialValues} validationSchema={validationSchema}
-      onSubmit={async(values:AddBrandRequest, formikBag) => {
-
-        try {
-          console.log(values.name)
-          const response = await axiosInstance.post('brands/add', values);
-          console.log("Server response:", response.data);
-          formikBag.resetForm();
-        } catch (error) {
-          console.error("Error posting brand data:", error);
-        }
-        formikBag.setSubmitting(false);
-      }}
+    onSubmit={ async (values: AddBrandRequest, { resetForm }) => {
+      console.log(values);
+      resetForm();
+      await dispatch(postBrand(values));
+      dispatch(getCarBrandType());
+    }}
     >
   
-       {formikBag => (
+       
       <Form>
-        <FormikInput name="name" id="name" label="Brand Name" formikBag={formikBag} />
-        
+        <SecondFormikInput name="name"  label="Brand Name" type='text' />
+        <br />
 
-        <Button type="submit">Save</Button>
-      </Form>)}
+        <Button type="submit" variant='contained'>Save</Button>
+      </Form>
 
     </Formik>
   )

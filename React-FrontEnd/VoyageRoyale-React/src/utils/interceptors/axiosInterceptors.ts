@@ -32,7 +32,10 @@ axiosInstance.interceptors.response.use(
     },
     (error) => {
         console.log("Bir hata ile karşılaşıldı", error.message);
-        toastr.error(error.message);
+      
+         toastr.error(error.message);   
+     
+        
         store.dispatch(decreaseRequestCount());
 
         return Promise.reject(error.message);

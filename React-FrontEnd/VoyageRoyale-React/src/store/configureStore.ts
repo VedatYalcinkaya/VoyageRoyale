@@ -19,6 +19,11 @@ import addCarSlice from "./slices/addCarSlice";
 import updateCustomerSlice from "./slices/CustomerSlices/updateCustomerSlice";
 import signInSlice from "./slices/signInSlice";
 import loadingSlice from "./slices/loadingSlice";
+import updateBrandSlice from "./slices/updateBrandSlice";
+import deleteBrandSlice from "./slices/deleteBrandSlice";
+import updateModelSlice from "./slices/updateModelSlice";
+import deleteModelSlice from "./slices/deleteModelSlice";
+import addBrandSlice from "./slices/addBrandSlice";
 
 
 export const store = configureStore({
@@ -42,7 +47,12 @@ export const store = configureStore({
     addCar:addCarSlice,
     updateCustomer: updateCustomerSlice,
     signIn: signInSlice,
-    loading:loadingSlice
+    loading:loadingSlice,
+    addBrand:addBrandSlice,
+    updateBrand:updateBrandSlice,
+    deleteBrand:deleteBrandSlice,
+    updateModel:updateModelSlice,
+    deleteModel:deleteModelSlice
 
   },
 });
