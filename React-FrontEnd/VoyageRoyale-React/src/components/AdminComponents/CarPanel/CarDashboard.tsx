@@ -1,27 +1,30 @@
 import { Grid } from '@mui/material'
-import AddBrand from './AddBrand'
-import BrandsTable from './BrandsTable'
-import UpdateBrand from './UpdateBrand'
+import React from 'react'
+import AddCar from './AddCar'
+import UpdateCar from './UpdateCar'
+import CarsTable from './CarsTable'
 
-function BrandDashboard() {
+type Props = {}
+
+const CarDashboard = (props: Props) => {
   return (
-   <Grid container>
+    <Grid container>
     <Grid item xs={12} md={12} lg={12}>
         <Grid container>
             <Grid item xs={6} md={6} lg={6}>
-              <AddBrand/>
+              <AddCar/>
             </Grid>
             <Grid item xs={6} md={6} lg={6}>
-                <UpdateBrand/>
+               <UpdateCar/>
             </Grid>            
         </Grid>
     </Grid>
     <Grid item xs={12} md={12} lg={12}>
-      <BrandsTable/>
+      <CarsTable/>
     </Grid>
 
    </Grid>
   )
 }
 
-export default BrandDashboard
+export default CarDashboard

@@ -32,7 +32,7 @@ function ColorsComponent() {
 }
 
 // TabPanel component to conditionally render the active tab content
-function TabPanel(props: {
+ function TabPanel(props: {
   [x: string]: any;
   children: any;
   value: any;

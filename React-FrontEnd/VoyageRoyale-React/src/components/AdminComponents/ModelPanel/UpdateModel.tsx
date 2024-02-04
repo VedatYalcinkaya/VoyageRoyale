@@ -23,9 +23,7 @@ function UpdateBrand() {
     name: Yup.string()
       .required("Title field is a must!")
       .min(2, "Title must be at least 2 character."),
-      brandId: Yup.number().positive().test('matchingIds', 'Model shoud be match with Brand', function (value) {
-        const { id } = this.parent;
-        return value === id})
+      brandId: Yup.number().positive()
   })
 
 
@@ -39,12 +37,12 @@ console.log(brands);
 
 
     <Formik initialValues={initialValues} validationSchema={validationSchema}
-    onSubmit={(values: UpdateModelRequest, { resetForm }) => {
+    onSubmit={ async (values: UpdateModelRequest, { resetForm }) => {
       console.log(values);
       resetForm();
 console.log(brands);
-
-      dispatch(updateModel(values))
+     await dispatch(updateModel(values))
+     dispatch(getAllModel())
     }}
     >
   
