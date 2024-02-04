@@ -30,6 +30,7 @@
     "@mui/x-data-grid": "^6.19.2",
     "@mui/x-data-grid-generator": "^6.19.2",
     "@mui/x-date-pickers": "^6.19.0",
+    "@react-pdf/renderer": "^3.3.5",
     "@reduxjs/toolkit": "^2.0.1",
     "@supabase/supabase-js": "^2.39.3",
     "@types/react-slick": "^0.23.13",

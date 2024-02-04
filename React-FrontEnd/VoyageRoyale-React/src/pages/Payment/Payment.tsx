@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   Card,
@@ -10,6 +10,7 @@ import {
   ListItem,
   ListItemText,
   Container,
+  Box,
 } from "@mui/material";
 import { useAppSelector } from "../../store/configureStore";
 import { setConfettiActive } from "../../store/slices/paymentSlice";
@@ -17,6 +18,7 @@ import Confetti from "react-confetti";
 import dayjs from "dayjs";
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
+import { PDFDownloadLink, Document, Page, Text } from "@react-pdf/renderer";
 
 interface PaymentProps {
   onFinishReservation?: () => void;
@@ -29,6 +31,8 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
     (state) => state.payment.confettiActive
   );
   const dispatch = useDispatch();
+
+  const [showPDF, setShowPDF] = useState(false);
 
   const calculateTotalPrice = (): number => {
     const daysDifference = dayjs(selectedPosition.returnDate).diff(
@@ -51,6 +55,9 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
       onFinishReservation && onFinishReservation();
       toastr.success("Payment completed!");
     }, 5000);
+
+    // PDF content after payment completion
+    setShowPDF(true);
   };
 
   return (
@@ -78,11 +85,6 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
           >
             Payment Details
           </Typography>
-          {/* <img
-            src={selectedCar?.imagePath}
-            alt="Selected Car"
-            style={{ width: "100%", height: "auto", marginBottom: "10px" }}
-          /> */}
           <List>
             <ListItem>
               <ListItemText
@@ -120,6 +122,32 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
         >
           Finish Payment
         </Button>
+        {showPDF && (
+          <Box sx={{ textAlign: "center" }}>
+            <PDFDownloadLink
+              document={
+                <Document>
+                  <Page>
+                    <Text>
+                      Location: {selectedPosition.position?.city || ""}
+                    </Text>
+                    <Text>
+                      Latitude: {selectedPosition.position?.latitude || 0} |
+                      Longitude: {selectedPosition.position?.longitude || 0}
+                    </Text>
+                    <Text>Car Model: {selectedCar?.modelName || ""}</Text>
+                    <Text>Total Price: ₺{totalPrice.toFixed(2)}</Text>
+                  </Page>
+                </Document>
+              }
+              fileName="Payment_Details.pdf"
+            >
+              {({ loading }) =>
+                loading ? "Loading document..." : "Download PDF"
+              }
+            </PDFDownloadLink>
+          </Box>
+        )}
       </Card>
     </Container>
   );
