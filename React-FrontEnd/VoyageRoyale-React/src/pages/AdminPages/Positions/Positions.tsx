@@ -1,7 +1,5 @@
-import React from "react";
 import { Box, Typography } from "@mui/material";
-import PositionTable from "../../../components/AdminComponents/PositionPanel/PositionTable";
-
+import LocationDashboard from "../../../components/AdminComponents/LocationPanel/LocationDashboard";
 
 function Positions() {
   return (
@@ -12,7 +10,7 @@ function Positions() {
       <Typography sx={{ mb: 5 }}>
         List of positions with editable functionalities
       </Typography>
-      <PositionTable/>
+      <LocationDashboard />
     </Box>
   );
 }
