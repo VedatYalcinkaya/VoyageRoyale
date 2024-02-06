@@ -27,7 +27,10 @@ import addBrandSlice from "./slices/addBrandSlice";
 import updateCarSlice from "./slices/updateCarSlice";
 import getAllCarSlice from "./slices/CarSlices/getAllCarSlice";
 import deleteCarSlice from "./slices/deleteCarSlice";
-
+import addLocationSlice from "./slices/LocationSlices/addLocationSlice";
+import updateLocationSlice from "./slices/LocationSlices/updateLocationSlice";
+import deleteLocationSlice from "./slices/LocationSlices/deleteLocationSlice";
+import carLocationSlice from "./slices/CarSlices/carLocationSlice";
 
 export const store = configureStore({
   reducer: {
@@ -42,24 +45,27 @@ export const store = configureStore({
     reservation: reservationSlice,
     payment: paymentSlice,
     signUp: signUpSlice,
-    addCarCategory:addCarCategorySlice,
-    addCarModel:addCarModelSlice,
-    carColor:carColorSlice,
+    addCarCategory: addCarCategorySlice,
+    addCarModel: addCarModelSlice,
+    carColor: carColorSlice,
     customerInfo: customerInfoSlice,
-    carModel:carModelSlice,
-    addCar:addCarSlice,
+    carModel: carModelSlice,
+    addCar: addCarSlice,
     updateCustomer: updateCustomerSlice,
     signIn: signInSlice,
-    loading:loadingSlice,
-    addBrand:addBrandSlice,
-    updateBrand:updateBrandSlice,
-    deleteBrand:deleteBrandSlice,
-    updateModel:updateModelSlice,
-    deleteModel:deleteModelSlice,
-    updateCar:updateCarSlice,
-    getAllCar:getAllCarSlice,
-    deleteCar:deleteCarSlice
-
+    loading: loadingSlice,
+    addBrand: addBrandSlice,
+    updateBrand: updateBrandSlice,
+    deleteBrand: deleteBrandSlice,
+    updateModel: updateModelSlice,
+    deleteModel: deleteModelSlice,
+    updateCar: updateCarSlice,
+    getAllCar: getAllCarSlice,
+    deleteCar: deleteCarSlice,
+    addLocation: addLocationSlice,
+    updateLocation: updateLocationSlice,
+    deleteLocation: deleteLocationSlice,
+    carLocation: carLocationSlice,
   },
 });
 

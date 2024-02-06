@@ -1,13 +1,26 @@
 import { Button } from "@mui/material";
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import axiosInstance from "../../../utils/interceptors/axiosInterceptors";
 import FormikInput from "../../FormikInput/FormikInput";
 import { AddLocationRequest } from "../../../models/LocationModel/requests/addLocationRequest";
+import { AppDispatch } from "../../../store/configureStore";
+import { addLocation } from "../../../store/slices/LocationSlices/addLocationSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import {
+  getCarLocations,
+  selectLocations,
+} from "../../../store/slices/CarSlices/carLocationSlice";
+import { Position } from "../../../models/LocationModel/responses/response";
 
-type Props = {};
+const AddLocation: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const locations: Position[] = useSelector(selectLocations);
 
-function AddLocation({}: Props) {
+  useEffect(() => {
+    dispatch(getCarLocations());
+  }, [dispatch]);
+
   const initialValues: AddLocationRequest = {
     latitude: 0,
     longitude: 0,
@@ -27,46 +40,41 @@ function AddLocation({}: Props) {
       onSubmit={async (values: AddLocationRequest, formikBag) => {
         try {
           console.log(values);
-          const response = await axiosInstance.post("locations/add", values);
-          console.log("Server response: ", response.data);
+          await dispatch(addLocation(values));
           formikBag.resetForm();
+          dispatch(getCarLocations());
         } catch (error) {
-          console.error("Error posting fuel type data:", error);
+          console.error("Error adding location data:", error);
         }
         formikBag.setSubmitting(false);
       }}
     >
       {(formikBag) => (
         <Form>
-          <Field
-            as={FormikInput}
+          <FormikInput
             name="latitude"
-            id="latitude"
             label="Latitude"
-            formikBag={formikBag}
+            type="number"
           />
-          <Field
-            as={FormikInput}
-            name="longitude"
-            id="longitude"
-            label="Longitude"
-            formikBag={formikBag}
-          />
-          <Field
-            as={FormikInput}
-            name="city"
-            id="city"
-            label="City"
-            formikBag={formikBag}
-          />
+          <FormikInput name="longitude" label="Longitude" type="number" />
+          <FormikInput name="city" label="City" type="text" />
 
-          <Button type="submit" disabled={formikBag.isSubmitting}>
+          <Button
+            type="submit"
+            variant="contained"
+            disabled={formikBag.isSubmitting}
+          >
             Save
           </Button>
+          <div>
+            {locations.map((location) => (
+              <div key={location.id}></div>
+            ))}
+          </div>
         </Form>
       )}
     </Formik>
   );
-}
+};
 
 export default AddLocation;
