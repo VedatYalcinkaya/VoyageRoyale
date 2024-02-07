@@ -10,6 +10,10 @@ class TokenService {
         localStorage.setItem("token", token);
     }
 
+    logout(){
+        localStorage.removeItem("token");
+    }
+
     decodeToken() {
         const token = this.getToken();
         

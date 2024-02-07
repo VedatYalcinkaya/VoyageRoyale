@@ -32,7 +32,7 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
   const selectedCar = useAppSelector((state) => state.carDetail.carDetailSend);
   const selectedPosition = useAppSelector((state) => state.reservation);
   const pickup: string | null = selectedPosition.pickUpDate?.substring(0, 10) ?? null;
-  const returnDate: string | null = selectedPosition.pickUpDate?.substring(0, 10) ?? null;
+  const returnDate: string | null = selectedPosition.returnDate?.substring(0, 10) ?? null;
   const confettiActive = useAppSelector((state) => state.payment.confettiActive);
   const user = useAppSelector(state => state.getCustomerByEmail.data?.id);
   const [showPDF, setShowPDF] = useState(false);

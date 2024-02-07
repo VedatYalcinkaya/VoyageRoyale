@@ -15,7 +15,7 @@ import { getCustomerByEmail } from "./store/slices/getCustomerByEmailSlice";
 import tokenService from "./services/tokenService";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
+
 const theme = createTheme({
   palette: {
     mode: "light",
