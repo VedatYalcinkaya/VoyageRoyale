@@ -10,4 +10,6 @@ import lombok.NoArgsConstructor;
 public class GetAllColorResponse {
     private int id;
     private String name;
+
+    private String code;
 }
