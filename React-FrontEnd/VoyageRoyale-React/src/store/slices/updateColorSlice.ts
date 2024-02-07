@@ -1,49 +1,50 @@
 import {createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../utils/interceptors/axiosInterceptors';
-import { AddBrandRequest } from '../../models/CarBrandModel/requests/addBrandRequest';
+import { UpdateColorRequest } from '../../models/ColorModel/requests/updateColorRequest';
 
-interface AddBrand{
-  data: AddBrandRequest | null;
+
+interface UpdateColor{
+  data: UpdateColorRequest | null;
   loading: boolean;
   error: string;
 }
 
-const initialState: AddBrand = {
+const initialState: UpdateColor = {
   data: null,
   loading: false,
   error: "",
 };
 
-export const postBrand = createAsyncThunk('postCarCategory', async (brand:AddBrandRequest) => {
+export const updateColor = createAsyncThunk('updateColor', async (color:UpdateColorRequest) => {
   try {
-    const response = await axiosInstance.post('/brands/add', brand);
+    const response = await axiosInstance.put('/colors/update', color);
     return response.data; 
   } catch (error) {
     throw error;
   }
 });
 
-const addBrandSlice = createSlice({
-  name: 'addBrand',
+const updateColorSlice = createSlice({
+  name: 'updateColor',
   initialState,
   reducers: {
   },
   extraReducers: (builder) => {
     builder
-      .addCase(postBrand.pending, (state) => {
+      .addCase(updateColor.pending, (state) => {
         state.loading = true;
         state.error = "";
       })
-      .addCase(postBrand.fulfilled, (state, action) => {
+      .addCase(updateColor.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload
       })
-      .addCase(postBrand.rejected, (state, action) => {
+      .addCase(updateColor.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "An error occurred.";
       });
   },
 });
 
-export default addBrandSlice.reducer;
+export default updateColorSlice.reducer;

@@ -1,49 +1,49 @@
 import {createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../utils/interceptors/axiosInterceptors';
-import { AddBrandRequest } from '../../models/CarBrandModel/requests/addBrandRequest';
+import { AddFuelTypeRequest } from '../../models/CarFuelTypeModel/requests/addFuelTypeRequest';
 
-interface AddBrand{
-  data: AddBrandRequest | null;
+interface AddFuelType{
+  data: AddFuelTypeRequest | null;
   loading: boolean;
   error: string;
 }
 
-const initialState: AddBrand = {
+const initialState: AddFuelType = {
   data: null,
   loading: false,
   error: "",
 };
 
-export const postBrand = createAsyncThunk('postCarCategory', async (brand:AddBrandRequest) => {
+export const postFuelType = createAsyncThunk('postFuelTypeCategory', async (fuelType:AddFuelTypeRequest) => {
   try {
-    const response = await axiosInstance.post('/brands/add', brand);
+    const response = await axiosInstance.post('/fuel_types/add', fuelType);
     return response.data; 
   } catch (error) {
     throw error;
   }
 });
 
-const addBrandSlice = createSlice({
-  name: 'addBrand',
+const addFuelTypeSlice = createSlice({
+  name: 'addFuelType',
   initialState,
   reducers: {
   },
   extraReducers: (builder) => {
     builder
-      .addCase(postBrand.pending, (state) => {
+      .addCase(postFuelType.pending, (state) => {
         state.loading = true;
         state.error = "";
       })
-      .addCase(postBrand.fulfilled, (state, action) => {
+      .addCase(postFuelType.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload
       })
-      .addCase(postBrand.rejected, (state, action) => {
+      .addCase(postFuelType.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "An error occurred.";
       });
   },
 });
 
-export default addBrandSlice.reducer;
+export default addFuelTypeSlice.reducer;

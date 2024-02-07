@@ -1,9 +1,10 @@
-import React from 'react'
+import { Grid } from '@mui/material'
+
 import GearTypeTable from './GearTypeTable'
 
 function GearTypeDashboard() {
   return (
-   <GearTypeTable/>
+    <GearTypeTable/>
   )
 }
 

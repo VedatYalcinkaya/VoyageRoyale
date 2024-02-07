@@ -6,28 +6,26 @@ import { useAppDispatch, useAppSelector } from '../../../store/configureStore';
 import { useEffect } from 'react';
 import { getCarBrandType } from "../../../store/slices/CarSlices/carBrandTypeSlice";
 import { AddCarRequest } from "../../../models/CarModel/requests/addCarRequest";
-import { getCarCategory } from "../../../store/slices/CarSlices/carCategorySlice";
 import { getCarFuelType } from "../../../store/slices/CarSlices/carFuelTypeSlice";
 import { getCarGearType } from "../../../store/slices/CarSlices/carGearTypeSlice";
 import { getPositionList } from "../../../store/slices/selectPositionSlice";
 import { getAllColor } from "../../../store/slices/CarSlices/carColorSlice";
 import { getAllModel } from "../../../store/slices/CarSlices/carModelSlice";
-import { CarCategory } from "../../../models/CarCategoryModel/responses/response";
 import { CarFuelType } from "../../../models/CarFuelTypeModel/responses/response";
-import { CarGearType } from "../../../models/carGearTypeModel/responses/response";
+import { CarGearType } from "../../../models/CarGearTypeModel/responses/response";
 import { Position } from "../../../models/LocationModel/responses/response";
 import { GetAllColorResponse } from "../../../models/ColorModel/responses/getAllColorResponse";
 import { GetAllModelResponse } from "../../../models/ModelModel/responses/getAllModelResponse";
 import { postCar } from "../../../store/slices/addCarSlice";
-import { getCarList } from "../../../store/slices/CarSlices/carListSlice";
 import { getAllCar } from "../../../store/slices/CarSlices/getAllCarSlice";
+import { CarCarType, getCarCarType } from "../../../store/slices/CarSlices/carCarTypeSlice";
 
 type Props = {};
 
 function AddCar() {
   const dispatch = useAppDispatch();
-  const carCategories: CarCategory[] = useAppSelector(
-    (state) => state.carCategory.data
+  const carCategories: CarCarType[] = useAppSelector(
+    (state) => state.carCarType.data
   );
   const carFuels: CarFuelType[] = useAppSelector(
     (state) => state.carFuelType.data
@@ -75,7 +73,7 @@ function AddCar() {
 
   useEffect(() => {
     dispatch(getCarBrandType());
-    dispatch(getCarCategory());
+    dispatch(getCarCarType());
     dispatch(getCarFuelType());
     dispatch(getCarGearType());
     dispatch(getPositionList());
@@ -129,7 +127,7 @@ function AddCar() {
           <MenuItem value="0">Select A Fuel Type</MenuItem>
           {carFuels.map((fuel) => (
             <MenuItem value={fuel.id} key={fuel.id}>
-              {fuel.fuel_name}
+              {fuel.name}
             </MenuItem>
           ))}
         </Field>

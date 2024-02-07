@@ -1,20 +1,21 @@
-
 import Dashboard from "./pages/Dashboard/Dashboard";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import '@fontsource/montserrat';
-import '@fontsource/merriweather';
-import '@fontsource/dm-serif-display';
-import '@fontsource/noto-serif';
-import '@fontsource/prata';
-import '@fontsource/italiana';
-import '@fontsource/lato';
-import '@fontsource/open-sans';
-import { useAppDispatch } from "./store/configureStore";
-import React from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import "@fontsource/montserrat";
+import "@fontsource/merriweather";
+import "@fontsource/dm-serif-display";
+import "@fontsource/noto-serif";
+import "@fontsource/prata";
+import "@fontsource/italiana";
+import "@fontsource/lato";
+import "@fontsource/open-sans";
 import { getCarBrandType } from "./store/slices/CarSlices/carBrandTypeSlice";
-
-
-
+import { useAppDispatch } from "./store/configureStore";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { getCarGearType } from "./store/slices/CarSlices/carGearTypeSlice";
+import { getCarCarType } from "./store/slices/CarSlices/carCarTypeSlice";
+import { getAllColor } from "./store/slices/CarSlices/carColorSlice";
+import { getCarFuelType } from "./store/slices/CarSlices/carFuelTypeSlice";
 
 const theme = createTheme({
   palette: {
@@ -44,19 +45,24 @@ const theme = createTheme({
   },
 });
 
-
 function App() {
-
   const dispatch = useAppDispatch();
 
-    
   dispatch(getCarBrandType());
+  dispatch(getCarGearType());
+  dispatch(getCarCarType());
+  dispatch(getAllColor());
+  dispatch(getCarFuelType());
 
   
+
   return (
-    <ThemeProvider theme={theme}>
-        <Dashboard/>
-    </ThemeProvider>
+    <>
+      <ThemeProvider theme={theme}>
+        <Dashboard />
+      </ThemeProvider>
+      <ToastContainer />
+    </>
   );
 }
 

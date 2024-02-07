@@ -3,15 +3,13 @@ import carListSlice from "./slices/CarSlices/carListSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import carDetailSlice from "./slices/CarSlices/carDetailSlice";
 import selectPositionSlice from "./slices/selectPositionSlice";
-import carCategorySlice from "./slices/CarSlices/carCategorySlice";
-import carFuelTypeSlice from "./slices/CarSlices/carFuelTypeSlice";
 import carBrandTypeSlice from "./slices/CarSlices/carBrandTypeSlice";
+import carFuelTypeSlice from "./slices/CarSlices/carFuelTypeSlice";
 import carGearTypeSlice from "./slices/CarSlices/carGearTypeSlice";
 import reservationSlice from "./slices/reservationSlice";
 import paymentSlice from "./slices/paymentSlice";
 import signUpSlice from "./slices/signUpSlice";
 import addCarModelSlice from "./slices/addCarModelSlice";
-import addCarCategorySlice from "./slices/addCarCategorySlice";
 import carColorSlice from "./slices/CarSlices/carColorSlice";
 import carModelSlice from "./slices/CarSlices/carModelSlice";
 import customerInfoSlice from "./slices/CustomerSlices/customerInfoSlice";
@@ -27,6 +25,18 @@ import addBrandSlice from "./slices/addBrandSlice";
 import updateCarSlice from "./slices/updateCarSlice";
 import getAllCarSlice from "./slices/CarSlices/getAllCarSlice";
 import deleteCarSlice from "./slices/deleteCarSlice";
+import addColorSlice from "./slices/addColorSlice";
+import updateColorSlice from "./slices/updateColorSlice";
+import deleteColorSlice from "./slices/deleteColorSlice";
+import updateFuelTypeSlice from "./slices/updateFuelTypeSlice";
+import addFuelTypeSlice from "./slices/addFuelTypeSlice";
+import deleteFuelTypeSlice from "./slices/deleteFuelTypeSlice";
+import addGearTypeSlice from "./slices/addGearTypeSlice";
+import updateGearTypeSlice from "./slices/updateGearTypeSlice";
+import deleteGearTypeSlice from "./slices/deleteGearTypeSlice";
+import addCarTypeSlice from "./slices/addCarTypeSlice";
+import updateCarTypeSlice from "./slices/updateCarTypeSlice";
+import carCarTypeSlice from "./slices/CarSlices/carCarTypeSlice";
 
 
 export const store = configureStore({
@@ -34,15 +44,14 @@ export const store = configureStore({
     carList: carListSlice,
     carDetail: carDetailSlice,
     positionList: selectPositionSlice,
-    carType: carCategorySlice,
     carFuelType: carFuelTypeSlice,
     carBrandType: carBrandTypeSlice,
+    carCarType: carCarTypeSlice,
     carGearType: carGearTypeSlice,
-    carCategory: carCategorySlice,
     reservation: reservationSlice,
     payment: paymentSlice,
     signUp: signUpSlice,
-    addCarCategory:addCarCategorySlice,
+    addCarCarType:addCarTypeSlice,
     addCarModel:addCarModelSlice,
     carColor:carColorSlice,
     customerInfo: customerInfoSlice,
@@ -58,7 +67,19 @@ export const store = configureStore({
     deleteModel:deleteModelSlice,
     updateCar:updateCarSlice,
     getAllCar:getAllCarSlice,
-    deleteCar:deleteCarSlice
+    deleteCar:deleteCarSlice,
+    addColor: addColorSlice,
+    updateColor: updateColorSlice,
+    deleteColor: deleteColorSlice,
+    addFuelType:addFuelTypeSlice,
+    updateFuelType:updateFuelTypeSlice,
+    deleteFuelType: deleteFuelTypeSlice,
+    adGearType:addGearTypeSlice,
+    updateGearType:updateGearTypeSlice,
+    deleteGearType: deleteGearTypeSlice,
+    updateCarType: updateCarTypeSlice,
+    deleteCarType: deleteGearTypeSlice,
+    addCarType: addCarTypeSlice
 
   },
 });

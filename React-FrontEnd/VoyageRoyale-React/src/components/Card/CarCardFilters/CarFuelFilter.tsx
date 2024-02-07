@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { getCarFuelType, setFueltype } from '../../../store/slices/CarSlices/carFuelTypeSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/configureStore';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
+import { setFuelType } from '../../../store/slices/CarSlices/carFuelTypeSlice';
 
 type CarFuelFilterProps={
 }
@@ -17,7 +17,7 @@ const CarFuelFilter = () => {
 
   const handleChange = (event: SelectChangeEvent) => {
     const selectedFuel =event.target.value as string;
-    selectedFuel=== 'all' ? dispatch(setFueltype('')) : dispatch(setFueltype(selectedFuel));
+    selectedFuel=== 'all' ? dispatch(setFuelType('')) : dispatch(setFuelType(selectedFuel));
   };
 
 
@@ -34,7 +34,7 @@ const CarFuelFilter = () => {
         onChange={handleChange}
       >
         <MenuItem value="all">All Fuel Types</MenuItem>
-        {fuelTypes.map((fuel)=><MenuItem value={fuel.fuel_name} key={fuel.id}>{fuel.fuel_name}</MenuItem>  )}
+        {fuelTypes.map((fuel)=><MenuItem value={fuel.name} key={fuel.id}>{fuel.name}</MenuItem>  )}
 
       </Select>
     </FormControl>
