@@ -1,19 +1,19 @@
 import React from 'react';
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../store/configureStore';
-import { setCarType } from '../../../store/slices/CarSlices/carCategorySlice';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
+import { setCarCarType } from '../../../store/slices/CarSlices/carCarTypeSlice';
 
 type CarFilterProps = {};
 
 const CarFilter = () => {
   const dispatch: ThunkDispatch<any, any, Action> = useAppDispatch();
-  const carTypes = useAppSelector((state) => state.carType.data);
-  const selectedCarType = useAppSelector((state) => state.carType.carType);
+  const carTypes = useAppSelector((state) => state.carCarType.data);
+  const selectedCarType = useAppSelector((state) => state.carCarType.carType);
 
   const handleChange = (event: SelectChangeEvent) => {
     const selectedValue= event.target.value as string
-    selectedValue==='all'? dispatch(setCarType('')):dispatch(setCarType(selectedValue));
+    selectedValue==='all'? dispatch(setCarCarType('')):dispatch(setCarCarType(selectedValue));
    
     
   };

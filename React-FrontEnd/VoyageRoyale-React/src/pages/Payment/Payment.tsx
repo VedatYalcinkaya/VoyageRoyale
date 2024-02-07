@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -12,52 +11,72 @@ import {
   Container,
   Box,
 } from "@mui/material";
-import { useAppSelector } from "../../store/configureStore";
+import { useAppDispatch, useAppSelector } from "../../store/configureStore";
 import { setConfettiActive } from "../../store/slices/paymentSlice";
 import Confetti from "react-confetti";
 import dayjs from "dayjs";
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
 import { PDFDownloadLink, Document, Page, Text } from "@react-pdf/renderer";
+import tokenService from "../../services/tokenService";
+import { getCustomerByEmail } from "../../store/slices/getCustomerByEmailSlice";
+import { AddRentalRequest } from "../../models/RentalModel/requests/addRentalRequest";
+import { postRental } from "../../store/slices/addRentalSlice";
 
 interface PaymentProps {
   onFinishReservation?: () => void;
 }
 
 const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
+  const dispatch = useAppDispatch();
   const selectedCar = useAppSelector((state) => state.carDetail.carDetailSend);
   const selectedPosition = useAppSelector((state) => state.reservation);
-  const confettiActive = useAppSelector(
-    (state) => state.payment.confettiActive
-  );
-  const dispatch = useDispatch();
-
+  const pickup: string | null = selectedPosition.pickUpDate?.substring(0, 10) ?? null;
+  const returnDate: string | null = selectedPosition.pickUpDate?.substring(0, 10) ?? null;
+  const confettiActive = useAppSelector((state) => state.payment.confettiActive);
+  const user = useAppSelector(state => state.getCustomerByEmail.data?.id);
   const [showPDF, setShowPDF] = useState(false);
+  const [rentalInfo, setRentalInfo] = useState({});
 
   const calculateTotalPrice = (): number => {
     const daysDifference = dayjs(selectedPosition.returnDate).diff(
-      dayjs(selectedPosition.pickUpDate),
-      "day"
-    );
+      dayjs(selectedPosition.pickUpDate), "day");
     const totalPrice = daysDifference * (selectedCar?.dailyPrice || 0);
 
     return totalPrice;
   };
 
+  useEffect(() => {
+    if (user !== undefined) {
+      setRentalInfo({
+        startDate: pickup,
+        endDate: returnDate,
+        carId: selectedCar?.id,
+        userId: user
+      });
+    }
+    console.log(rentalInfo);
+    tokenService.decodeToken();
+  }, [user]);
+
+  console.log(user);
+
   const totalPrice = calculateTotalPrice();
 
   const handleFinishReservation = () => {
-    dispatch(setConfettiActive(true));
-    toastr.success("Payment completed!");
+    if (tokenService.decodeToken()?.sub !== undefined) {
+      dispatch(postRental(rentalInfo as AddRentalRequest))
 
-    setTimeout(() => {
-      dispatch(setConfettiActive(false));
-      onFinishReservation && onFinishReservation();
-      toastr.success("Payment completed!");
-    }, 5000);
-
-    // PDF content after payment completion
-    setShowPDF(true);
+      setTimeout(() => {
+        dispatch(setConfettiActive(true));
+        dispatch(setConfettiActive(false));
+        onFinishReservation && onFinishReservation();
+        toastr.success("Payment completed!");
+      }, 3000);
+      setShowPDF(true);
+    } else {
+      toastr.error("Please sign in for payment", "Caution");
+    }
   };
 
   return (

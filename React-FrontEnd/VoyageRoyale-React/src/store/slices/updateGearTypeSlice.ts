@@ -1,49 +1,50 @@
 import {createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../utils/interceptors/axiosInterceptors';
-import { AddCarCategoryRequest } from '../../models/CarCategoryModel/requests/addCarCategoryRequest';
+import { UpdateGearTypeRequest } from '../../models/CarGearTypeModel/requests/updateGearTypeRequest';
 
-interface AddCarCategory{
-  data: AddCarCategoryRequest | null;
+
+interface UpdateGearType{
+  data: UpdateGearTypeRequest | null;
   loading: boolean;
   error: string;
 }
 
-const initialState: AddCarCategory = {
+const initialState: UpdateGearType = {
   data: null,
   loading: false,
   error: "",
 };
 
-export const postCarCategory = createAsyncThunk('postCarCategory', async (carType:AddCarCategoryRequest) => {
+export const updateGearType = createAsyncThunk('updateGearType', async (gearType:UpdateGearTypeRequest) => {
   try {
-    const response = await axiosInstance.post('/carTypes/add', carType);
+    const response = await axiosInstance.put('/gear_types/update', gearType);
     return response.data; 
   } catch (error) {
     throw error;
   }
 });
 
-const addCarCategorySlice = createSlice({
-  name: 'addCarCategory',
+const updateGearTypeSlice = createSlice({
+  name: 'updateGearType',
   initialState,
   reducers: {
   },
   extraReducers: (builder) => {
     builder
-      .addCase(postCarCategory.pending, (state) => {
+      .addCase(updateGearType.pending, (state) => {
         state.loading = true;
         state.error = "";
       })
-      .addCase(postCarCategory.fulfilled, (state, action) => {
+      .addCase(updateGearType.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload
       })
-      .addCase(postCarCategory.rejected, (state, action) => {
+      .addCase(updateGearType.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "An error occurred.";
       });
   },
 });
 
-export default addCarCategorySlice.reducer;
+export default updateGearTypeSlice.reducer;

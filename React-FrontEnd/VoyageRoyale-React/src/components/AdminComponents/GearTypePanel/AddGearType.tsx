@@ -1,50 +1,46 @@
+import { Button } from '@mui/material';
+import { Form, Formik } from 'formik'
 import * as Yup from "yup";
-import { AddGearTypeRequest } from "../../../models/carGearTypeModel/requests/addGearTypeRequest";
-import { Form, Formik } from "formik";
-import axiosInstance from "../../../utils/interceptors/axiosInterceptors";
-import FormikInput from "../../FormikInput/FormikInput";
-import { Button } from "@mui/material";
+import { useAppDispatch } from '../../../store/configureStore';
+import SecondFormikInput from '../../FormikInput/SecondFormikInput';
+import { AddGearTypeRequest } from '../../../models/CarGearTypeModel/requests/addGearTypeRequest';
+import { getCarGearType } from '../../../store/slices/CarSlices/carGearTypeSlice';
+import { postGearType } from '../../../store/slices/addGearTypeSlice';
 
-type Props = {};
+type Props = {}
 
-function AddGearType({}: Props) {
-  const initialValues = { name: "" };
+function AddGearType() {
+  const dispatch = useAppDispatch();
+  const initialValues = { name: "" }
 
   const validationSchema = Yup.object({
     name: Yup.string()
-      .required("Gear type name is required.")
-      .min(2, "Gear type name should be at least 2 characters."),
-  });
+      .required("Başlık alanı zorunludur.")
+      .min(2, "Başlık en az 2 haneden oluşmalıdır."),
+  })
+  dispatch(getCarGearType());
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={async (values: AddGearTypeRequest, formikBag) => {
-        try {
-          console.log(values.name);
-          const response = await axiosInstance.post("gear_types/add", values);
-          console.log("Server response:", response.data);
-          formikBag.resetForm();
-        } catch (error) {
-          console.error("Error posting brand data:", error);
-        }
-        formikBag.setSubmitting(false);
-      }}
-    >
-      {(formikBag) => (
-        <Form>
-          <FormikInput
-            name="name"
-            id="name"
-            label="Gear Type"
-            formikBag={formikBag}
-          />
 
-          <Button type="submit">Save</Button>
-        </Form>
-      )}
+
+    <Formik initialValues={initialValues} validationSchema={validationSchema}
+    onSubmit={ async (values: AddGearTypeRequest, { resetForm }) => {
+      console.log(values);
+      resetForm();
+      await dispatch(postGearType(values));
+      dispatch(getCarGearType());
+    }}
+    >
+  
+       
+      <Form>
+        <SecondFormikInput name="name"  label="Gear Type Name" type='text' />
+        <br />
+
+        <Button type="submit" variant='contained'>Save</Button>
+      </Form>
+
     </Formik>
-  );
+  )
 }
 
-export default AddGearType;
+export default AddGearType

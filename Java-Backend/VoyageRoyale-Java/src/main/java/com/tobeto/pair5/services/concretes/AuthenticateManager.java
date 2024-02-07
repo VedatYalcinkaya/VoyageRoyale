@@ -51,6 +51,7 @@ public class AuthenticateManager implements AuthenticationService {
 
 
 
+
         customerService.add(addCustomerRequest);
 
         var jwtToken = jwtService.generateToken(user);
