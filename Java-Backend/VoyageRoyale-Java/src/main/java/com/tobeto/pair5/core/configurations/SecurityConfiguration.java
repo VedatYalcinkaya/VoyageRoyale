@@ -30,6 +30,7 @@ public class SecurityConfiguration {
             "/v3/api-docs/**",
             "/api/auth/register",
             "/api/auth/authenticate",
+            "/api/fileUpload/upload",
             "api/**"
 
     };

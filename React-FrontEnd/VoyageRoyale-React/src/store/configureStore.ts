@@ -37,7 +37,10 @@ import deleteGearTypeSlice from "./slices/deleteGearTypeSlice";
 import addCarTypeSlice from "./slices/addCarTypeSlice";
 import updateCarTypeSlice from "./slices/updateCarTypeSlice";
 import carCarTypeSlice from "./slices/CarSlices/carCarTypeSlice";
-
+import addLocationSlice from "./slices/LocationSlices/addLocationSlice";
+import updateLocationSlice from "./slices/LocationSlices/updateLocationSlice";
+import deleteLocationSlice from "./slices/LocationSlices/deleteLocationSlice";
+import carLocationSlice from "./slices/CarSlices/carLocationSlice";
 
 export const store = configureStore({
   reducer: {
@@ -55,8 +58,8 @@ export const store = configureStore({
     addCarModel:addCarModelSlice,
     carColor:carColorSlice,
     customerInfo: customerInfoSlice,
-    carModel:carModelSlice,
-    addCar:addCarSlice,
+    carModel: carModelSlice,
+    addCar: addCarSlice,
     updateCustomer: updateCustomerSlice,
     signIn: signInSlice,
     loading:loadingSlice,
@@ -79,8 +82,11 @@ export const store = configureStore({
     deleteGearType: deleteGearTypeSlice,
     updateCarType: updateCarTypeSlice,
     deleteCarType: deleteGearTypeSlice,
-    addCarType: addCarTypeSlice
-
+    addCarType: addCarTypeSlice,
+    addLocation: addLocationSlice,
+    updateLocation: updateLocationSlice,
+    deleteLocation: deleteLocationSlice,
+    carLocation: carLocationSlice,
   },
 });
 
