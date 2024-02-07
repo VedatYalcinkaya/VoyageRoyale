@@ -12,7 +12,7 @@ type CarCardProps = {};
 
 const CarCard: React.FC<CarCardProps> = () => {
   const dispatch: ThunkDispatch<any, any, Action> = useDispatch();
-  const selectedCarType = useAppSelector((state) => state.carType.carType);
+  const selectedCarType = useAppSelector((state) => state.carCarType.carType);
   const selectedFuel = useAppSelector((state) => state.carFuelType.fuelType);
   const selectedBrand = useAppSelector((state) => state.carBrandType.brandType);
   const selectedGear = useAppSelector((state) => state.carGearType.gearType);
