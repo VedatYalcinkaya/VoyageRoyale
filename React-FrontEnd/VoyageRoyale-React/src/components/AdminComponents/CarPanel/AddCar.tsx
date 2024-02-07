@@ -3,31 +3,30 @@ import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import SecondFormikInput from '../../FormikInput/SecondFormikInput';
 import { useAppDispatch, useAppSelector } from '../../../store/configureStore';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getCarBrandType } from "../../../store/slices/CarSlices/carBrandTypeSlice";
 import { AddCarRequest } from "../../../models/CarModel/requests/addCarRequest";
-import { getCarCategory } from "../../../store/slices/CarSlices/carCategorySlice";
 import { getCarFuelType } from "../../../store/slices/CarSlices/carFuelTypeSlice";
 import { getCarGearType } from "../../../store/slices/CarSlices/carGearTypeSlice";
 import { getPositionList } from "../../../store/slices/selectPositionSlice";
 import { getAllColor } from "../../../store/slices/CarSlices/carColorSlice";
 import { getAllModel } from "../../../store/slices/CarSlices/carModelSlice";
-import { CarCategory } from "../../../models/CarCategoryModel/responses/response";
 import { CarFuelType } from "../../../models/CarFuelTypeModel/responses/response";
-import { CarGearType } from "../../../models/carGearTypeModel/responses/response";
+import { CarGearType } from "../../../models/CarGearTypeModel/responses/response";
 import { Position } from "../../../models/LocationModel/responses/response";
 import { GetAllColorResponse } from "../../../models/ColorModel/responses/getAllColorResponse";
 import { GetAllModelResponse } from "../../../models/ModelModel/responses/getAllModelResponse";
-import { postCar } from "../../../store/slices/addCarSlice";
+import { postCar, uploadCarImage } from "../../../store/slices/addCarSlice";
 import { getCarList } from "../../../store/slices/CarSlices/carListSlice";
 import { getAllCar } from "../../../store/slices/CarSlices/getAllCarSlice";
+import { CarCarType, getCarCarType } from "../../../store/slices/CarSlices/carCarTypeSlice";
 
 type Props = {};
 
 function AddCar() {
   const dispatch = useAppDispatch();
-  const carCategories: CarCategory[] = useAppSelector(
-    (state) => state.carCategory.data
+  const carCategories: CarCarType[] = useAppSelector(
+    (state) => state.carCarType.data
   );
   const carFuels: CarFuelType[] = useAppSelector(
     (state) => state.carFuelType.data
@@ -56,6 +55,7 @@ function AddCar() {
     fuelTypeId: 0, // hazır
     carTypeId: 0, // hazır
     positionId: 0,
+    imagePath: ""
   };
 
   const validationSchema = Yup.object({
@@ -71,26 +71,58 @@ function AddCar() {
     fuelTypeId: Yup.number().moreThan(0),
     carTypeId: Yup.number().moreThan(0),
     positionId: Yup.number().moreThan(0),
+    imagePath: Yup.string()
   });
 
   useEffect(() => {
     dispatch(getCarBrandType());
-    dispatch(getCarCategory());
+    dispatch(getCarCarType());
     dispatch(getCarFuelType());
     dispatch(getCarGearType());
     dispatch(getPositionList());
     dispatch(getAllColor());
     dispatch(getAllModel());
   }, []);
+
+  const [imageFile, setImageFile] = useState<File | null>(null);
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      setImageFile(files[0]);
+    }
+  };
+
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={async(values: AddCarRequest, { resetForm }) => {
-        console.log(values);
-        resetForm();
-        await dispatch(postCar(values));
-        dispatch(getAllCar())
+        
+        if (imageFile) {
+          try {
+            // İlk olarak resmi yükle
+            const imageResponse = await dispatch(uploadCarImage(imageFile)).unwrap();
+            values.imagePath = imageResponse; // Sunucunun döndürdüğü URL burada ayarlanacak
+            // Resim yükleme işlemi başarılı olduğunda, imagePath'i form verilerine ekle
+            console.log(values)
+          } catch (error) {
+            console.error('Resim yükleme işlemi sırasında hata oluştu', error);
+            return;
+          }
+        }
+
+
+        try {
+          // Form verilerini ve imagePath'i gönder
+          console.log(values)
+          await dispatch(postCar(values)).unwrap();
+          resetForm();
+          dispatch(getAllCar())
+        } catch (error) {
+          console.error('Araba verileri gönderilirken hata oluştu', error);
+        }
       }}
     >
       <Form>
@@ -114,6 +146,8 @@ function AddCar() {
         <br />
         <br />
 
+
+
         <Field as={Select} name="carTypeId">
           <MenuItem value="0">Select A Category</MenuItem>
           {carCategories.map((category) => (
@@ -129,7 +163,7 @@ function AddCar() {
           <MenuItem value="0">Select A Fuel Type</MenuItem>
           {carFuels.map((fuel) => (
             <MenuItem value={fuel.id} key={fuel.id}>
-              {fuel.fuel_name}
+              {fuel.name}
             </MenuItem>
           ))}
         </Field>
@@ -179,6 +213,21 @@ function AddCar() {
         </Field>
         <br />
         <br />
+        <input
+            accept="image/*"
+            type="file"
+            onChange={handleFileSelect}
+            style={{ display: 'none' }}
+            id="file"
+          />
+          <label htmlFor="file">
+            <Button variant="contained" component="span">
+              Upload Image
+            </Button>
+          </label>
+
+          <br/>
+          <br/>
 
         <Button type="submit" variant="contained">Save</Button>
       </Form>

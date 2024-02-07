@@ -25,7 +25,7 @@ export const postBrand = createAsyncThunk('postCarCategory', async (brand:AddBra
 });
 
 const addBrandSlice = createSlice({
-  name: 'addCarCategory',
+  name: 'addBrand',
   initialState,
   reducers: {
   },

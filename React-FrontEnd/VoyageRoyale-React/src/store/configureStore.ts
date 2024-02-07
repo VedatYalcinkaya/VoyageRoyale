@@ -3,15 +3,13 @@ import carListSlice from "./slices/CarSlices/carListSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import carDetailSlice from "./slices/CarSlices/carDetailSlice";
 import selectPositionSlice from "./slices/selectPositionSlice";
-import carCategorySlice from "./slices/CarSlices/carCategorySlice";
-import carFuelTypeSlice from "./slices/CarSlices/carFuelTypeSlice";
 import carBrandTypeSlice from "./slices/CarSlices/carBrandTypeSlice";
+import carFuelTypeSlice from "./slices/CarSlices/carFuelTypeSlice";
 import carGearTypeSlice from "./slices/CarSlices/carGearTypeSlice";
 import reservationSlice from "./slices/reservationSlice";
 import paymentSlice from "./slices/paymentSlice";
 import signUpSlice from "./slices/signUpSlice";
 import addCarModelSlice from "./slices/addCarModelSlice";
-import addCarCategorySlice from "./slices/addCarCategorySlice";
 import carColorSlice from "./slices/CarSlices/carColorSlice";
 import carModelSlice from "./slices/CarSlices/carModelSlice";
 import customerInfoSlice from "./slices/CustomerSlices/customerInfoSlice";
@@ -27,7 +25,22 @@ import addBrandSlice from "./slices/addBrandSlice";
 import updateCarSlice from "./slices/updateCarSlice";
 import getAllCarSlice from "./slices/CarSlices/getAllCarSlice";
 import deleteCarSlice from "./slices/deleteCarSlice";
-import addRentalSlice from "./slices/addRentalSlice";
+import addColorSlice from "./slices/addColorSlice";
+import updateColorSlice from "./slices/updateColorSlice";
+import deleteColorSlice from "./slices/deleteColorSlice";
+import updateFuelTypeSlice from "./slices/updateFuelTypeSlice";
+import addFuelTypeSlice from "./slices/addFuelTypeSlice";
+import deleteFuelTypeSlice from "./slices/deleteFuelTypeSlice";
+import addGearTypeSlice from "./slices/addGearTypeSlice";
+import updateGearTypeSlice from "./slices/updateGearTypeSlice";
+import deleteGearTypeSlice from "./slices/deleteGearTypeSlice";
+import addCarTypeSlice from "./slices/addCarTypeSlice";
+import updateCarTypeSlice from "./slices/updateCarTypeSlice";
+import carCarTypeSlice from "./slices/CarSlices/carCarTypeSlice";
+import addLocationSlice from "./slices/LocationSlices/addLocationSlice";
+import updateLocationSlice from "./slices/LocationSlices/updateLocationSlice";
+import deleteLocationSlice from "./slices/LocationSlices/deleteLocationSlice";
+import carLocationSlice from "./slices/CarSlices/carLocationSlice";import addRentalSlice from "./slices/addRentalSlice";
 import getCustomerByEmailSlice from "./slices/getCustomerByEmailSlice";
 
 
@@ -36,20 +49,19 @@ export const store = configureStore({
     carList: carListSlice,
     carDetail: carDetailSlice,
     positionList: selectPositionSlice,
-    carType: carCategorySlice,
     carFuelType: carFuelTypeSlice,
     carBrandType: carBrandTypeSlice,
+    carCarType: carCarTypeSlice,
     carGearType: carGearTypeSlice,
-    carCategory: carCategorySlice,
     reservation: reservationSlice,
     payment: paymentSlice,
     signUp: signUpSlice,
-    addCarCategory:addCarCategorySlice,
+    addCarCarType:addCarTypeSlice,
     addCarModel:addCarModelSlice,
     carColor:carColorSlice,
     customerInfo: customerInfoSlice,
-    carModel:carModelSlice,
-    addCar:addCarSlice,
+    carModel: carModelSlice,
+    addCar: addCarSlice,
     updateCustomer: updateCustomerSlice,
     signIn: signInSlice,
     loading:loadingSlice,
@@ -62,8 +74,23 @@ export const store = configureStore({
     getAllCar:getAllCarSlice,
     deleteCar:deleteCarSlice,
     addRental:addRentalSlice,
-    getCustomerByEmail:getCustomerByEmailSlice
-
+    getCustomerByEmail:getCustomerByEmailSlice,
+    addColor: addColorSlice,
+    updateColor: updateColorSlice,
+    deleteColor: deleteColorSlice,
+    addFuelType:addFuelTypeSlice,
+    updateFuelType:updateFuelTypeSlice,
+    deleteFuelType: deleteFuelTypeSlice,
+    adGearType:addGearTypeSlice,
+    updateGearType:updateGearTypeSlice,
+    deleteGearType: deleteGearTypeSlice,
+    updateCarType: updateCarTypeSlice,
+    deleteCarType: deleteGearTypeSlice,
+    addCarType: addCarTypeSlice,
+    addLocation: addLocationSlice,
+    updateLocation: updateLocationSlice,
+    deleteLocation: deleteLocationSlice,
+    carLocation: carLocationSlice,
   },
 });
 

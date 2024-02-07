@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AddFuelTypeRequest {
     @NotNull(message = "Name field can not be empty!")
-    private String fuel_name;
+    private String name;
 }

@@ -1,4 +1,3 @@
-
 import Dashboard from "./pages/Dashboard/Dashboard";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import '@fontsource/montserrat';
@@ -14,9 +13,7 @@ import React, { useEffect } from "react";
 import { getCarBrandType } from "./store/slices/CarSlices/carBrandTypeSlice";
 import { getCustomerByEmail } from "./store/slices/getCustomerByEmailSlice";
 import tokenService from "./services/tokenService";
-
-
-
+import 'react-toastify/dist/ReactToastify.css';
 
 const theme = createTheme({
   palette: {
@@ -46,23 +43,25 @@ const theme = createTheme({
   },
 });
 
-
 function App() {
-
   const dispatch = useAppDispatch();
 
+  useEffect(()=>{
+    if(tokenService.decodeToken()?.sub){
+     dispatch(getCustomerByEmail(tokenService.decodeToken()?.sub)); 
+    }
     
- useEffect(()=>{
-  if(tokenService.decodeToken()?.sub){
-   dispatch(getCustomerByEmail(tokenService.decodeToken()?.sub)); 
-  }
-  
- },[])
+   },[])
+
+
   
   return (
-    <ThemeProvider theme={theme}>
-        <Dashboard/>
-    </ThemeProvider>
+    <>
+      <ThemeProvider theme={theme}>
+        <Dashboard />
+      </ThemeProvider>
+      <ToastContainer />
+    </>
   );
 }
 

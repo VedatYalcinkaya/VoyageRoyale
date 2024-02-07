@@ -39,11 +39,11 @@ public class GlobalExceptionHandler {
         return businessProblemDetails;
     }
 
-    @ExceptionHandler({Exception.class})
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public String handleError(Exception exception){
-        return "Unknown Error!";
-    }
+//    @ExceptionHandler({Exception.class})
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    public String handleError(Exception exception){
+//        return "Unknown Error!";
+//    }
 }
 
 

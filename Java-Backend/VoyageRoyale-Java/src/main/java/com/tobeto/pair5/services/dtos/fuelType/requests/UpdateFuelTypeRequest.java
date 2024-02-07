@@ -17,5 +17,5 @@ public class UpdateFuelTypeRequest {
 
     @NotNull(message = "Name field can not be empty!")
     @Size(min=2,message = "Fuel type name must be at least 2 characters")
-    private String fuel_name;
+    private String name;
 }

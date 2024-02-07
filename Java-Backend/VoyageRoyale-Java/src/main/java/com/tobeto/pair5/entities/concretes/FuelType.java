@@ -15,8 +15,8 @@ import java.util.List;
 @Getter
 @Setter
 public class FuelType extends BaseEntity {
-    @Column(name="fuel_name")
-    private String fuel_name;
+    @Column(name="name")
+    private String name;
 
     @OneToMany(mappedBy = "fuelType")
     private List<Car> car;

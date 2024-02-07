@@ -1,12 +1,8 @@
-import React from 'react'
-import CarTypeTable from './CarTypeTable'
+import CarTypeTable from "./CarTypeTable"
 
-function CarTypeDashboard() {
+function BrandDashboard() {
   return (
-    <div>
-        <CarTypeTable/>
-    </div>
-  )
+<CarTypeTable/>)
 }
 
-export default CarTypeDashboard
+export default BrandDashboard

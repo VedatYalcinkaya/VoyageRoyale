@@ -1,276 +1,300 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Close';
+import React, { useState } from "react";
 import {
-  GridRowsProp,
-  GridRowModesModel,
-  GridRowModes,
-  DataGrid,
-  GridToolbarQuickFilter,
-  GridColDef,
-  GridToolbarContainer,
-  GridActionsCellItem,
-  GridEventListener,
-  GridRowId,
-  GridRowModel,
-  GridRowEditStopReasons,
-} from '@mui/x-data-grid';
-import {
-  randomCreatedDate,
-  randomTraderName,
-  randomId,
-  randomArrayItem,
-} from '@mui/x-data-grid-generator';
-
-const roles = ['Market', 'Finance', 'Development'];
-const randomRole = () => {
-  return randomArrayItem(roles);
-};
-
-const initialRows: GridRowsProp = [
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 25,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 36,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 19,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 28,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 23,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-];
-
-interface EditToolbarProps {
-  setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-  setRowModesModel: (
-    newModel: (oldModel: GridRowModesModel) => GridRowModesModel,
-  ) => void;
-}
-
-function EditToolbar(props: EditToolbarProps) {
-  const { setRows, setRowModesModel } = props;
-
-  const handleClick = () => {
-    const id = randomId();
-    setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
-    setRowModesModel((oldModel) => ({
-      ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
-    }));
-  };
-
-  return (
-    <GridToolbarContainer>
-      <Button 
-      sx={{
-        backgroundColor:"#0f4037",
-        color:"#d4d2a9",
-        pl:2,
-        pr:2,
-        mb:3,
-        fontSize:10,
-        "&:hover": {
-          backgroundColor: "#B58B5D",
-          color:"#0f4037"
-        }
-        }}
-        startIcon={<AddIcon />}
-        onClick={handleClick}>
-        Add record
-      </Button>
-    </GridToolbarContainer>
-  );
-}
+  TextField,
+  IconButton,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  InputAdornment,
+} from "@mui/material";
+import CancelIcon from "@mui/icons-material/Cancel";
+import SearchIcon from "@mui/icons-material/Search";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useAppDispatch, useAppSelector } from "../../../store/configureStore";
+import { deleteCarType } from "../../../store/slices/deleteCarTypeSlice";
+import { getCarCarType } from "../../../store/slices/CarSlices/carCarTypeSlice";
+import { postCarType } from "../../../store/slices/addCarTypeSlice";
+import { updateCarType } from "../../../store/slices/updateCarTypeSlice";
 
 export default function CarTypeTable() {
-  const [rows, setRows] = React.useState(initialRows);
-  const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
+  const dispatch = useAppDispatch();
+  const carTypes = useAppSelector((state) => state.carCarType.data);
+  const [editIndex, setEditIndex] = useState(-1);
+  const [editedCarTypeName, setEditedCarTypeName] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
+    useState(false);
+  const [selectedCarTypeToDelete, setSelectedCarTypeToDelete] = useState<any>(null);
+  const [isUpdateConfirmationOpen, setIsUpdateConfirmationOpen] =
+    useState(false);
+  const [updatedCarTypeNameConfirmation, setUpdatedCarTypeNameConfirmation] =
+    useState("");
+  const [isNewRecordDialogOpen, setIsNewRecordDialogOpen] = useState(false);
 
-  const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
-    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-      event.defaultMuiPrevented = true;
+  const handleEditClick = (index: any, name: any) => {
+    setEditIndex(index);
+    setEditedCarTypeName(name);
+  };
+
+  const handleInputChange = (e: any) => {
+    setEditedCarTypeName(e.target.value);
+  };
+
+  const handleSaveClick = async (carType: any) => {
+    const updatedCarType = { ...carType, name: editedCarTypeName };
+
+    const isExistingCarType = carTypes.some(
+      (item) =>
+        item.name.toLowerCase() === editedCarTypeName.toLowerCase() &&
+        item.id !== carType.id
+    );
+
+    if (isExistingCarType) {
+      console.error("This car type already exists");
+      return;
+    }
+
+    setUpdatedCarTypeNameConfirmation(editedCarTypeName);
+    setIsUpdateConfirmationOpen(true);
+  };
+
+  const handleAddRowClick = () => {
+    setIsNewRecordDialogOpen(true);
+  };
+
+  const handleDeleteClick = async (carType: any) => {
+    setSelectedCarTypeToDelete(carType);
+    setIsDeleteConfirmationOpen(true);
+  };
+
+  const handleDeleteConfirmation = async () => {
+    try {
+      await dispatch(deleteCarType({ id: selectedCarTypeToDelete.id }));
+      await dispatch(getCarCarType());
+      setIsDeleteConfirmationOpen(false);
+    } catch (error) {
+      console.error("Error deleting car type:", error);
     }
   };
 
-  const handleEditClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-  };
-
-  const handleSaveClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-  };
-
-  const handleDeleteClick = (id: GridRowId) => () => {
-    setRows(rows.filter((row) => row.id !== id));
-  };
-
-  const handleCancelClick = (id: GridRowId) => () => {
-    setRowModesModel({
-      ...rowModesModel,
-      [id]: { mode: GridRowModes.View, ignoreModifications: true },
-    });
-
-    const editedRow = rows.find((row) => row.id === id);
-    if (editedRow!.isNew) {
-      setRows(rows.filter((row) => row.id !== id));
+  const handleSaveNewRecord = async () => {
+    try {
+      const newCarType = { name: editedCarTypeName };
+      await dispatch(postCarType(newCarType));
+      await dispatch(getCarCarType());
+      setEditedCarTypeName("");
+      setIsNewRecordDialogOpen(false);
+    } catch (error) {
+      console.error("Error adding new record:", error);
     }
   };
 
-  const processRowUpdate = (newRow: GridRowModel) => {
-    const updatedRow = { ...newRow, isNew: false };
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    return updatedRow;
+  const handleUpdateConfirmation = async () => {
+    try {
+      const updatedCarType = { ...carTypes[editIndex], name: editedCarTypeName };
+      await dispatch(updateCarType(updatedCarType));
+      await dispatch(getCarCarType());
+      setEditIndex(-1);
+      setEditedCarTypeName("");
+      setIsUpdateConfirmationOpen(false);
+    } catch (error) {
+      console.error("Error updating car type:", error);
+    }
   };
 
-  const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
-    setRowModesModel(newRowModesModel);
-  };
-
-  const columns: GridColDef[] = [
-    { field: 'name', headerName: 'Name', width: 200, editable: true },
-    {
-      field: 'age',
-      headerName: 'Age',
-      type: 'number',
-      width: 80,
-      align: 'left',
-      headerAlign: 'left',
-      editable: true,
-    },
-    {
-      field: 'joinDate',
-      headerName: 'Join date',
-      type: 'date',
-      width: 180,
-      editable: true,
-    },
-    {
-      field: 'role',
-      headerName: 'Department',
-      width: 220,
-      editable: true,
-      type: 'singleSelect',
-      valueOptions: ['Market', 'Finance', 'Development'],
-    },
-    {
-      field: 'actions',
-      type: 'actions',
-      headerName: 'Actions',
-      width: 100,
-      cellClassName: 'actions',
-      getActions: ({ id }) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-
-        if (isInEditMode) {
-          return [
-            <GridActionsCellItem
-              icon={<SaveIcon />}
-              label="Save"
-              sx={{
-                color: 'primary.main',
-              }}
-              onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelIcon />}
-              label="Cancel"
-              className="textPrimary"
-              onClick={handleCancelClick(id)}
-              color="inherit"
-            />,
-          ];
-        }
-
-        return [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            onClick={handleEditClick(id)}
-            color="inherit"
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
-        ];
-      },
-    },
-  ];
+  const filteredCarTypes = carTypes.filter((carType) =>
+    carType.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
-    <Box
-      sx={{
-        height: 600,
-        width: '100%',
-        boxShadow:3,
-        borderRadius:2,
-
-
-        '& .actions': {
-          color: 'text.secondary',
-        },
-        '& .textPrimary': {
-          color: 'text.primary',
+    <div>
+      <Button
+        onClick={handleAddRowClick}
+        variant="contained"
+        color="primary"
+        sx={{
+          mb: 2,
+          fontSize: 12,
+          color: "#d4d2a9",
+          backgroundColor: "#0F4037",
+          "&:hover": {
+            backgroundColor: "#B58B5D",
+            color: "#0f4037",
           },
-          '& #tabpanel-0': { // Ensure you're targeting the correct id
-            border: '1px solid black', // Apply the border style
-          },
-      }}
-    >
-      <DataGrid
-      sx={{p:5}}
-        rows={rows}
-        columns={columns}
-        editMode="row"
-        rowModesModel={rowModesModel}
-        onRowModesModelChange={handleRowModesModelChange}
-        onRowEditStop={handleRowEditStop}
-        processRowUpdate={processRowUpdate}
-        components={{
-          Toolbar: () => null, // Disable default toolbar
         }}
-        slots={{
-          toolbar: () => (
-            <React.Fragment>
-              <EditToolbar setRows={setRows} setRowModesModel={setRowModesModel} />
-              <GridToolbarQuickFilter />
-            </React.Fragment>
+      >
+        Add a New Record
+      </Button>
+      <TextField
+        label="Quick Search"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        variant="outlined"
+        fullWidth
+        sx={{ mb: 2 }}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="start">
+              <IconButton>
+                <SearchIcon />
+              </IconButton>
+            </InputAdornment>
           ),
         }}
       />
-    </Box>
+      <TableContainer component={Paper} style={{ maxHeight: 450 }}>
+        <Table aria-label="customized table" stickyHeader>
+          <TableHead>
+            <TableRow>
+              <TableCell style={{ backgroundColor: "white", width: 50 }}>
+                ID
+              </TableCell>
+              <TableCell style={{ backgroundColor: "white", width: 200 }}>
+                Name
+              </TableCell>
+              <TableCell style={{ backgroundColor: "white", width: 200 }}>
+                Action
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredCarTypes.map((carType, i) => (
+              <TableRow
+                key={carType.id}
+                style={{ backgroundColor: i % 2 === 0 ? "#f8f8f8" : "#ffffff" }}
+              >
+                <TableCell>{i + 1}</TableCell>
+                <TableCell>
+                  {editIndex === i ? (
+                    <TextField
+                      value={editedCarTypeName}
+                      onChange={handleInputChange}
+                      size="small"
+                    />
+                  ) : (
+                    carType.name
+                  )}
+                </TableCell>
+                <TableCell>
+                  {editIndex === i ? (
+                    <>
+                      <IconButton onClick={() => handleSaveClick(carType)}>
+                        <SaveIcon />
+                      </IconButton>
+                      <IconButton onClick={() => setEditIndex(-1)}>
+                        <CancelIcon />
+                      </IconButton>
+                    </>
+                  ) : (
+                    <>
+                      <IconButton
+                        onClick={() => handleEditClick(i, carType.name)}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton onClick={() => handleDeleteClick(carType)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <Dialog
+        open={isDeleteConfirmationOpen}
+        onClose={() => setIsDeleteConfirmationOpen(false)}
+      >
+        <DialogTitle>Confirmation</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to permanently delete this record?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => setIsDeleteConfirmationOpen(false)}
+            color="primary"
+          >
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteConfirmation} color="primary" autoFocus>
+            Yes, delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={isUpdateConfirmationOpen}
+        onClose={() => setIsUpdateConfirmationOpen(false)}
+      >
+        <DialogTitle>Confirmation</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to update the name to "
+            {updatedCarTypeNameConfirmation}"?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => setIsUpdateConfirmationOpen(false)}
+            color="primary"
+          >
+            Cancel
+          </Button>
+          <Button onClick={handleUpdateConfirmation} color="primary" autoFocus>
+            Yes, update
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={isNewRecordDialogOpen}
+        onClose={() => setIsNewRecordDialogOpen(false)}
+      >
+        <DialogTitle>Add a New Car Type Name</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Enter the name of the new car type:
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Car Type Name"
+            type="text"
+            fullWidth
+            value={editedCarTypeName}
+            onChange={handleInputChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => setIsNewRecordDialogOpen(false)}
+            color="primary"
+          >
+            Cancel
+          </Button>
+          <Button onClick={handleSaveNewRecord} color="primary">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 }
