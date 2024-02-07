@@ -42,7 +42,11 @@ import updateLocationSlice from "./slices/LocationSlices/updateLocationSlice";
 import deleteLocationSlice from "./slices/LocationSlices/deleteLocationSlice";
 import carLocationSlice from "./slices/CarSlices/carLocationSlice";
 import getCustomerByEmailSlice from "./slices/getCustomerByEmailSlice";
+
+import getAllInvoiceSlice from "./slices/getAllInvoiceSlice";
+
 import addRentalSlice from "./slices/addRentalSlice";
+
 
 
 export const store = configureStore({
@@ -92,6 +96,7 @@ export const store = configureStore({
     updateLocation: updateLocationSlice,
     deleteLocation: deleteLocationSlice,
     carLocation: carLocationSlice,
+    getAllInvoice:getAllInvoiceSlice
   },
 });
 

@@ -14,6 +14,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SignIn from "../Login/SignIn";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import tokenService from "../../services/tokenService";
 
 const drawerWidth = 250;
 const signInDrawerWidth = 375;
@@ -33,6 +34,7 @@ export default function Sidebar({
 }: SidebarProps) {
   const [signInDrawerOpen, setSignInDrawerOpen] = useState(false);
   const navigate = useNavigate();
+  
 
   const handleSignInButtonClick = () => {
     setSignInDrawerOpen(true);
@@ -115,6 +117,7 @@ export default function Sidebar({
             </>
           ) : (
             <ListItem disablePadding>
+             
               <Button sx={{
                 ml:1,
                 height:25,

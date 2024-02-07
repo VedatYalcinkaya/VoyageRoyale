@@ -14,7 +14,7 @@ import { getCarBrandType } from "./store/slices/CarSlices/carBrandTypeSlice";
 import { getCustomerByEmail } from "./store/slices/getCustomerByEmailSlice";
 import tokenService from "./services/tokenService";
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
+
 const theme = createTheme({
   palette: {
     mode: "light",

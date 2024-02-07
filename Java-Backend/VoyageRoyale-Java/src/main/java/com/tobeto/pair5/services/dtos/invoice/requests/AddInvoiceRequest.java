@@ -6,5 +6,10 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class AddInvoiceRequest {
+    private int rentalId;
+    private float taxRate;
+    private double totalPrice;
+    private String invoiceNo;
 }
