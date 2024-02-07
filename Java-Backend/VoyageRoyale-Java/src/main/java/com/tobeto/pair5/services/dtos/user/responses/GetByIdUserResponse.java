@@ -13,4 +13,5 @@ public class GetByIdUserResponse {
     private int id;
     private String email;
     private String password;
+
 }

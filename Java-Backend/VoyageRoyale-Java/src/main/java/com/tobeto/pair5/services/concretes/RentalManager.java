@@ -2,13 +2,16 @@ package com.tobeto.pair5.services.concretes;
 
 import com.tobeto.pair5.core.utilities.exceptions.types.BusinessException;
 import com.tobeto.pair5.core.utilities.mappers.ModelMapperService;
+import com.tobeto.pair5.entities.concretes.Invoice;
 import com.tobeto.pair5.entities.concretes.Rental;
 import com.tobeto.pair5.repositories.RentalRepository;
 import com.tobeto.pair5.services.abstracts.CarService;
+import com.tobeto.pair5.services.abstracts.InvoiceService;
 import com.tobeto.pair5.services.abstracts.RentalService;
 import com.tobeto.pair5.services.abstracts.UserService;
 import com.tobeto.pair5.services.constants.Messages;
 import com.tobeto.pair5.services.dtos.car.responses.GetByIdCarResponse;
+import com.tobeto.pair5.services.dtos.invoice.requests.AddInvoiceRequest;
 import com.tobeto.pair5.services.dtos.rental.requests.AddRentalRequest;
 import com.tobeto.pair5.services.dtos.rental.requests.DeleteRentalRequest;
 import com.tobeto.pair5.services.dtos.rental.requests.UpdateRentalRequest;
@@ -22,6 +25,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -30,6 +34,7 @@ public class RentalManager implements RentalService {
     private ModelMapperService modelMapperService;
     private CarService carService;
     private UserService userService;
+    private InvoiceService invoiceService;
 
     @Override
     public void add(AddRentalRequest request) {
@@ -40,15 +45,25 @@ public class RentalManager implements RentalService {
         checkIsRentalValid(request.getStartDate(), request.getEndDate(), 25);
 
         Rental rental = this.modelMapperService.forRequest().map(request, Rental.class);
+        rentalRepository.save(rental);
 
         GetByIdCarResponse carResponse = carService.getById(request.getCarId());
 
-        rental.setStartKilometer(carResponse.getKilometer());
+        double totalPrice = calculateTotalPrice(request.getStartDate(), request.getEndDate(), carResponse.getDailyPrice());
+        Invoice invoice = new Invoice();
+        invoice.setTotalPrice((float) totalPrice);
+        invoice.setTaxRate(1.00F);
+        invoice.setInvoiceNo(UUID.randomUUID().toString());
+        invoice.setRental(rental);
 
-        //rental.setTotalPrice(calculateTotalPrice(request.getStartDate(), request.getEndDate(),carResponse.getDailyPrice()));
+        AddInvoiceRequest requestInvoice = modelMapperService.forRequest().map(invoice, AddInvoiceRequest.class);
+        invoiceService.add(requestInvoice);
+
+        rental.setStartKilometer(carResponse.getKilometer());
 
         rentalRepository.save(rental);
     }
+
 
     @Override
     public void delete(int id) {
