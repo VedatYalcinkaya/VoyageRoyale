@@ -12,7 +12,7 @@ import { updateModel } from '../../../store/slices/updateModelSlice';
 import { UpdateModelRequest } from '../../../models/ModelModel/requests/updateModelRequest';
 
 
-function UpdateBrand() {
+function UpdateModel() {
   const dispatch = useAppDispatch();
   const brands:CarBrandType[] = useAppSelector(state => state.carBrandType.data)
   const models:GetAllModelResponse[] =useAppSelector(state => state.carModel.data);
@@ -70,4 +70,4 @@ console.log(brands);
   )
 }
 
-export default UpdateBrand
+export default UpdateModel

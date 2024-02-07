@@ -1,51 +1,47 @@
-import { Form, Formik } from "formik";
-import { Button } from "@mui/material";
+import { Button } from '@mui/material';
+import { Form, Formik } from 'formik'
 import * as Yup from "yup";
-import { addFuelTypeRequest } from "../../../models/CarFuelTypeModel/requests/addFuelTypeRequest";
-import axiosInstance from "../../../utils/interceptors/axiosInterceptors";
-import FormikInput from "../../FormikInput/FormikInput";
+import { useAppDispatch } from '../../../store/configureStore';
+import SecondFormikInput from '../../FormikInput/SecondFormikInput';
+import { getCarFuelType } from '../../../store/slices/CarSlices/carFuelTypeSlice';
+import { AddFuelTypeRequest } from '../../../models/CarFuelTypeModel/requests/addFuelTypeRequest';
+import { postFuelType } from '../../../store/slices/addFuelTypeSlice';
 
-type Props = {};
 
-function AddFuelType({}: Props) {
-  const initialValues = { fuel_name: "" };
+type Props = {}
+
+function AddFuelType() {
+  const dispatch = useAppDispatch();
+  const initialValues = { name: "" }
 
   const validationSchema = Yup.object({
-    fuel_name: Yup.string()
-      .required("Fuel type name is required.")
-      .min(2, "Fuel type name should be at least 2 characters."),
-  });
-
+    name: Yup.string()
+      .required("Başlık alanı zorunludur.")
+      .min(2, "Başlık en az 2 haneden oluşmalıdır."),
+  })
+  dispatch(getCarFuelType());
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={async (values: addFuelTypeRequest, formikBag) => {
-        try {
-          console.log(values.fuel_name);
-          const response = await axiosInstance.post("fuel_types/add", values);
-          console.log("Server response: ", response.data);
-          formikBag.resetForm();
-        } catch (error) {
-          console.error("Error posting fuel type data:", error);
-        }
-        formikBag.setSubmitting(false);
-      }}
-    >
-      {(formikBag) => (
-        <Form>
-          <FormikInput
-            name="fuel_name"
-            id="name"
-            label="Fuel Type"
-            formikBag={formikBag}
-          />
 
-          <Button type="submit">Save</Button>
-        </Form>
-      )}
+
+    <Formik initialValues={initialValues} validationSchema={validationSchema}
+    onSubmit={ async (values: AddFuelTypeRequest, { resetForm }) => {
+      console.log(values);
+      resetForm();
+      await dispatch(postFuelType(values));
+      dispatch(getCarFuelType());
+    }}
+    >
+  
+       
+      <Form>
+        <SecondFormikInput name="name"  label="Fuel Type Name" type='text' />
+        <br />
+
+        <Button type="submit" variant='contained'>Save</Button>
+      </Form>
+
     </Formik>
-  );
+  )
 }
 
-export default AddFuelType;
+export default AddFuelType

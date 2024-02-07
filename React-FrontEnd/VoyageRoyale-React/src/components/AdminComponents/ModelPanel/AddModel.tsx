@@ -29,7 +29,6 @@ function AddModel() {
     dispatch(getCarBrandType());
     dispatch(getAllModel());
   },[])
-console.log(brands);
   return (
 
 

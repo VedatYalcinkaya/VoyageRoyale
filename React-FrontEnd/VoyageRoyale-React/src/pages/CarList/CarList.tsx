@@ -6,13 +6,13 @@ import CarFuelFilter from '../../components/Card/CarCardFilters/CarFuelFilter';
 import { useAppDispatch, useAppSelector } from '../../store/configureStore';
 import { Action } from 'redux';
 import { ThunkDispatch } from '@reduxjs/toolkit';
-import { getCarCategory } from '../../store/slices/CarSlices/carCategorySlice';
 import { getCarList } from '../../store/slices/CarSlices/carListSlice';
 import { getCarFuelType } from '../../store/slices/CarSlices/carFuelTypeSlice';
 import CarBrandFilter from '../../components/Card/CarCardFilters/CarBrandFilter';
 import { getCarBrandType } from '../../store/slices/CarSlices/carBrandTypeSlice';
 import { getCarGearType } from '../../store/slices/CarSlices/carGearTypeSlice';
 import CarGearFilter from '../../components/Card/CarCardFilters/CarGearFilter';
+import { getCarCarType } from '../../store/slices/CarSlices/carCarTypeSlice';
 
 type Props = {};
 
@@ -27,7 +27,7 @@ const CarList = (props: Props) => {
   
 
   useEffect(() => {
-    dispatch(getCarCategory());
+    dispatch(getCarCarType());
     dispatch(getCarList({pickupDate:pickup,returnDate:returnDate,positionId:selectedPosition}));
     dispatch(getCarFuelType());
     dispatch(getCarBrandType());

@@ -1,10 +1,11 @@
 import { Button } from '@mui/material';
-import {  Form, Formik } from 'formik'
+import { Form, Formik } from 'formik'
 import * as Yup from "yup";
-import { AddCarCategoryRequest } from '../../../models/CarCategoryModel/requests/addCarCategoryRequest';
-import SecondFormikInput from '../../FormikInput/SecondFormikInput';
 import { useAppDispatch } from '../../../store/configureStore';
-import { postCarCategory } from '../../../store/slices/addCarCategorySlice';
+import SecondFormikInput from '../../FormikInput/SecondFormikInput';
+import { postCarType } from '../../../store/slices/addCarTypeSlice';
+import { AddCarTypeRequest } from '../../../models/CarCarTypeModel/requests/addCarTypeRequest';
+import { getCarCarType } from '../../../store/slices/CarSlices/carCarTypeSlice';
 
 type Props = {}
 
@@ -14,32 +15,32 @@ function AddCarType() {
 
   const validationSchema = Yup.object({
     name: Yup.string()
-      .required("Filling name field is must.")
-      .min(2, "Name must be at least 2 character."),
+      .required("Başlık alanı zorunludur.")
+      .min(2, "Başlık en az 2 haneden oluşmalıdır."),
   })
-
-
+  dispatch(getCarCarType());
   return (
 
 
     <Formik initialValues={initialValues} validationSchema={validationSchema}
-    onSubmit={(values: AddCarCategoryRequest, { resetForm }) => {
-        console.log(values);
-        resetForm();
-        dispatch(postCarCategory(values))
-      }}
+    onSubmit={ async (values: AddCarTypeRequest, { resetForm }) => {
+      console.log(values);
+      resetForm();
+      await dispatch(postCarType(values));
+      dispatch(getCarCarType());
+    }}
     >
   
        
       <Form>
-        
-        <SecondFormikInput name="name" label="CarType Name" type="text"/>
+        <SecondFormikInput name="name"  label="Car Type Name" type='text' />
+        <br />
 
-        <Button type="submit">Save</Button>
+        <Button type="submit" variant='contained'>Save</Button>
       </Form>
 
     </Formik>
   )
 }
 
-export default AddCarType;
+export default AddCarType
