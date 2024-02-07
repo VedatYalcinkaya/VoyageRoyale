@@ -10,8 +10,10 @@ import '@fontsource/italiana';
 import '@fontsource/lato';
 import '@fontsource/open-sans';
 import { useAppDispatch } from "./store/configureStore";
-import React from "react";
+import React, { useEffect } from "react";
 import { getCarBrandType } from "./store/slices/CarSlices/carBrandTypeSlice";
+import { getCustomerByEmail } from "./store/slices/getCustomerByEmailSlice";
+import tokenService from "./services/tokenService";
 
 
 
@@ -50,8 +52,12 @@ function App() {
   const dispatch = useAppDispatch();
 
     
-  dispatch(getCarBrandType());
-
+ useEffect(()=>{
+  if(tokenService.decodeToken()?.sub){
+   dispatch(getCustomerByEmail(tokenService.decodeToken()?.sub)); 
+  }
+  
+ },[])
   
   return (
     <ThemeProvider theme={theme}>

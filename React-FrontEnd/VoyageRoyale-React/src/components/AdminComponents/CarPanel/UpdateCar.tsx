@@ -158,7 +158,7 @@ function UpdateCar() {
         <br />
 
         <Field as={Select} name="gearTypeId">
-          <MenuItem value="0">Select A Category</MenuItem>
+          <MenuItem value="0">Select A Gear</MenuItem>
           {carGears.map((gear) => (
             <MenuItem value={gear.id} key={gear.id}>
               {gear.name}

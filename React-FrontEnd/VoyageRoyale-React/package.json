@@ -40,6 +40,7 @@
     "dayjs": "^1.11.10",
     "formik": "^2.4.5",
     "formik-material-ui": "^4.0.0-alpha.2",
+    "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
     "react": "^17.0.0 || ^18.0.0",
     "react-confetti": "^6.1.0",

@@ -1,5 +1,5 @@
 import {  TextField } from "@mui/material";
-import { Field} from "formik";
+import { ErrorMessage, Field} from "formik";
 
 type Props = {
 	label: string;
@@ -9,8 +9,9 @@ type Props = {
 
 const SecondFormikInput = (props:Props) => {
 
-	return (
-        <Field 
+	return (<>
+    
+    <Field 
         as={TextField}
         name={props.name}
         label={props.label}
@@ -18,6 +19,11 @@ const SecondFormikInput = (props:Props) => {
         >
 
         </Field>
+        <br />
+        <ErrorMessage name={props.name}></ErrorMessage>
+    
+    </>
+        
 	);
 };
 

@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
@@ -11,11 +10,17 @@ import * as Yup from "yup";
 import SecondFormikInput from "../FormikInput/SecondFormikInput";
 import { signInRequest } from "../../models/UserModel/signInRequest";
 import { postSignIn } from "../../store/slices/signInSlice";
-import { useAppDispatch } from "../../store/configureStore";
+import { useAppDispatch, useAppSelector } from "../../store/configureStore";
+import authService from "../../services/authService";
+import tokenService from "../../services/tokenService";
+import toastr from "toastr";
+import { Link } from "react-router-dom";
+import { getCustomerByEmail } from "../../store/slices/getCustomerByEmailSlice";
+
 
 const SignIn = ({}) => {
   const initialValues = { email: "", password: "" };
-
+  useAppSelector(state => state.getCustomerByEmail.data?.id);
   const validationSchema = Yup.object({
     email: Yup.string()
       .required("Email is required")
@@ -24,15 +29,23 @@ const SignIn = ({}) => {
   });
 
   const dispatch = useAppDispatch();
-
+  console.log(tokenService.decodeToken());
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(values: signInRequest, { resetForm }) => {
+      onSubmit={async (values: signInRequest, { resetForm }) => {
         console.log(values);
         resetForm();
-        dispatch(postSignIn(values));
+        await dispatch(postSignIn(values));
+        await authService.authenticate(values);
+        await dispatch(getCustomerByEmail(tokenService.decodeToken()?.sub));
+        
+        if(tokenService.decodeToken()?.sub === undefined){
+          toastr.error("Incorrect email or password ","Caution")
+        }else{
+          toastr.success("Successfully Login")
+        }
       }}
     >
       <Container component="main" maxWidth="xs">
@@ -72,7 +85,7 @@ const SignIn = ({}) => {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="#" variant="body2" sx={{ color: "#D9D5A7" }}>
+                <Link to="/signInSignUp" style={{color:'yellow'}}>
                   <u>Don't have an account? Sign Up</u>
                 </Link>
               </Grid>
