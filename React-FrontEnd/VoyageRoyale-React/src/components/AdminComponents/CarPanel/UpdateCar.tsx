@@ -3,7 +3,7 @@ import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import SecondFormikInput from '../../FormikInput/SecondFormikInput';
 import { useAppDispatch, useAppSelector } from '../../../store/configureStore';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getCarBrandType } from "../../../store/slices/CarSlices/carBrandTypeSlice";
 import { getCarFuelType } from "../../../store/slices/CarSlices/carFuelTypeSlice";
 import { getCarGearType } from "../../../store/slices/CarSlices/carGearTypeSlice";
@@ -20,6 +20,7 @@ import { Car } from "../../../models/CarModel/responses/response";
 import { updateCar } from "../../../store/slices/updateCarSlice";
 import { UpdateCarRequest } from "../../../models/CarModel/requests/updateCarRequest";
 import { CarCarType, getCarCarType } from "../../../store/slices/CarSlices/carCarTypeSlice";
+import { uploadCarImage } from "../../../store/slices/addCarSlice";
 
 type Props = {};
 
@@ -49,7 +50,7 @@ function UpdateCar() {
   );
 
   const initialValues = {
-    id:0,
+    id: 0,
     kilometer: 0, // input number
     plate: "", //input string
     year: 0, // input number
@@ -60,6 +61,7 @@ function UpdateCar() {
     fuelTypeId: 0, // hazır
     carTypeId: 0, // hazır
     positionId: 0,
+    imagePath: "",
   };
 
   const validationSchema = Yup.object({
@@ -76,6 +78,7 @@ function UpdateCar() {
     fuelTypeId: Yup.number().moreThan(0),
     carTypeId: Yup.number().moreThan(0),
     positionId: Yup.number().moreThan(0),
+    imagePath: Yup.string()
   });
 
   useEffect(() => {
@@ -88,24 +91,58 @@ function UpdateCar() {
     dispatch(getAllModel());
     dispatch(getAllCar());
   }, []);
+
+  const [imageFile2, setImageFile2] = useState<File | null>(null);
+
+  const handleFileSelect2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    console.log(files); // Seçilen dosyaları konsola yazdırır.
+    if (files && files.length > 0) {
+      setImageFile2(files[0]);
+      console.log("Dosya seçildi:", files[0]); // Seçilen ilk dosyanın detaylarını konsola yazdırır.
+    } else {
+      console.log("Dosya seçilmedi.");
+    }
+  };
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={async(values: UpdateCarRequest, { resetForm }) => {
-        console.log(values);
-        resetForm();
-         await dispatch(updateCar(values));
-         dispatch(getAllCar());
+      onSubmit={async (values: UpdateCarRequest, { resetForm }) => {
+        if (imageFile2 instanceof File && imageFile2.size > 0) {
+          try {
+            const imageResponse = await dispatch(uploadCarImage(imageFile2)).unwrap();
+            values.imagePath = imageResponse; // Sunucunun döndürdüğü URL burada ayarlanacak
+            // Resim yükleme işlemi başarılı olduğunda, imagePath'i form verilerine ekle
+            console.log(values.imagePath)
+            console.log(values)
+          } catch (error) {
+            console.error('Resim yükleme işlemi sırasında hata oluştu', error);
+            return;
+          }
+        }
+
+        try {
+          // Form verilerini ve imagePath'i gönder
+          console.log(values)
+          await dispatch(updateCar(values)).unwrap();
+          resetForm();
+          dispatch(getAllCar())
+        } catch (error) {
+          console.error('Failed to update car', error);
+        }
+      
+
       }}
     >
       <Form>
 
-      <Field as={Select} name="id">
+        <Field as={Select} name="id">
           <MenuItem value="0">Select Plate ID</MenuItem>
           {cars.map((car) => (
             <MenuItem value={car.id} key={car.id}>
-                {car.plate}
+              {car.plate}
             </MenuItem>
           ))}
         </Field>
@@ -197,6 +234,22 @@ function UpdateCar() {
         </Field>
         <br />
         <br />
+        <input
+          accept="image/*"
+          type="file"
+          onChange={handleFileSelect2}
+          style={{ display: 'none' }}
+          id="file2"
+        />
+        <label htmlFor="file2">
+          <Button variant="contained" component="span">
+            Upload Image
+          </Button>
+        </label>
+
+        <br />
+        <br />
+
 
         <Button type="submit" variant="contained">Update</Button>
       </Form>

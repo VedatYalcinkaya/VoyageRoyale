@@ -44,4 +44,8 @@ public class UpdateCarRequest {
 
     @Positive(message = "Position ID must be a positive number!")
     private int positionId;
+
+    @NotNull
+    private String imagePath;
+
 }
