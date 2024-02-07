@@ -40,9 +40,13 @@ import carCarTypeSlice from "./slices/CarSlices/carCarTypeSlice";
 import addLocationSlice from "./slices/LocationSlices/addLocationSlice";
 import updateLocationSlice from "./slices/LocationSlices/updateLocationSlice";
 import deleteLocationSlice from "./slices/LocationSlices/deleteLocationSlice";
-import carLocationSlice from "./slices/CarSlices/carLocationSlice";import addRentalSlice from "./slices/addRentalSlice";
+import carLocationSlice from "./slices/CarSlices/carLocationSlice";
 import getCustomerByEmailSlice from "./slices/getCustomerByEmailSlice";
+
 import getAllInvoiceSlice from "./slices/getAllInvoiceSlice";
+
+import addRentalSlice from "./slices/addRentalSlice";
+
 
 
 export const store = configureStore({

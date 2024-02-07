@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   IconButton,
@@ -43,6 +43,18 @@ export default function ColorTable() {
   const [updatedColorNameConfirmation, setUpdatedColorNameConfirmation] =
     useState("");
   const [isNewRecordDialogOpen, setIsNewRecordDialogOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(getAllColor());
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [dispatch]); 
 
   const handleEditClick = (index: any, name: any, code:any) => {
     setEditIndex(index);

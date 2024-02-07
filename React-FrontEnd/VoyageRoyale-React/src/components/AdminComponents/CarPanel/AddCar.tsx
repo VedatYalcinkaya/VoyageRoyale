@@ -88,8 +88,12 @@ function AddCar() {
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (files) {
+    console.log(files); // Seçilen dosyaları konsola yazdırır.
+    if (files && files.length > 0) {
       setImageFile(files[0]);
+      console.log("Dosya seçildi:", files[0]); // Seçilen ilk dosyanın detaylarını konsola yazdırır.
+    } else {
+      console.log("Dosya seçilmedi.");
     }
   };
 
@@ -106,6 +110,7 @@ function AddCar() {
             const imageResponse = await dispatch(uploadCarImage(imageFile)).unwrap();
             values.imagePath = imageResponse; // Sunucunun döndürdüğü URL burada ayarlanacak
             // Resim yükleme işlemi başarılı olduğunda, imagePath'i form verilerine ekle
+            console.log(values.imagePath)
             console.log(values)
           } catch (error) {
             console.error('Resim yükleme işlemi sırasında hata oluştu', error);

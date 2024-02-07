@@ -10,4 +10,6 @@ export interface UpdateCarRequest {
 	fuelTypeId: number;
 	carTypeId: number;
 	positionId: number;
+	imageFile?: File;
+	imagePath?: string; // Sunucudan dönen resim yolunu tutar
 }

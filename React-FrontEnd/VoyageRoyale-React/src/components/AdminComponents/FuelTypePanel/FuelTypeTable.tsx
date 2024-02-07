@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   IconButton,
@@ -45,6 +45,19 @@ export default function FuelTypeTable() {
   const [updatedFuelTypeNameConfirmation, setUpdatedFuelTypeNameConfirmation] =
     useState("");
   const [isNewRecordDialogOpen, setIsNewRecordDialogOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(getCarFuelType());
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [dispatch]); 
+
 
   const handleEditClick = (index: any, name: any) => {
     setEditIndex(index);

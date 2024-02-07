@@ -13,7 +13,6 @@ import React, { useEffect } from "react";
 import { getCarBrandType } from "./store/slices/CarSlices/carBrandTypeSlice";
 import { getCustomerByEmail } from "./store/slices/getCustomerByEmailSlice";
 import tokenService from "./services/tokenService";
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const theme = createTheme({
@@ -54,6 +53,7 @@ function App() {
     
    },[])
 
+   
 
   
   return (

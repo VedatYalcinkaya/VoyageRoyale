@@ -7,6 +7,7 @@ import { Form, Formik } from 'formik';
 import { putCustomer } from '../../store/slices/CustomerSlices/updateCustomerSlice';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
+import { getCustomerByEmail } from '../../store/slices/getCustomerByEmailSlice';
 
 const UserProfileCard: React.FC = () => {
   const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
@@ -20,9 +21,11 @@ const UserProfileCard: React.FC = () => {
     tcNo: '',
     birthDate: ''
   });
-
+  
+  const email = useAppSelector(state => state.getCustomerByEmail.data?.email);
+  console.log(email)
   useEffect(() => {
-    dispatch(getCustomerInfo(6));
+    dispatch(getCustomerInfo(email));
   }, [dispatch]);
 
   useEffect(() => {
