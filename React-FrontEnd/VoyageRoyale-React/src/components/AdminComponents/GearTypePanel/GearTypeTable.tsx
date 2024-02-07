@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   IconButton,
@@ -43,6 +43,19 @@ export default function GearTypeTable() {
   const [updatedGearTypeNameConfirmation, setUpdatedGearTypeNameConfirmation] =
     useState("");
   const [isNewRecordDialogOpen, setIsNewRecordDialogOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(getCarGearType());
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [dispatch]); 
+
 
   const handleEditClick = (index: any, name: any) => {
     setEditIndex(index);
