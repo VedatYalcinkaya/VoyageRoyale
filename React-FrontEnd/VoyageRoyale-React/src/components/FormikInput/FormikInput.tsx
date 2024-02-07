@@ -1,29 +1,31 @@
-import { Button, TextField } from "@mui/material";
-import {ErrorMessage, Field, Form, useField} from "formik";
+import { TextField } from "@mui/material";
+import { Field, useField } from "formik";
+import React from "react";
 
 type Props = {
-	label: string;
-	name: string;
-	type?: string; // type: string | undefined
+  label: string;
+  name: string;
+  type?: string; // type: string | undefined
 };
 
-const FormikInput = ({...props}:any) => {
-    console.log(props)
-    const [field,meta] = useField(props)
-    console.log(field)
-	return (
-        <Field 
+const FormikInput: React.FC<Props> = ({ label, name, type, ...props }) => {
+  const [field, meta] = useField(name);
+
+  return (
+    <div>
+      <Field
+        {...props}
+        {...field}
         as={TextField}
         fullWidth
-        id={props.id}
-        name={props.name}
-        label={props.label}
-        value={props.formikBag.values.name}
-        >
-            
-
-        </Field>
-	);
+        id={name}
+        label={label}
+        type={type}
+        error={meta.touched && !!meta.error}
+        helperText={meta.touched && meta.error ? meta.error : ""}
+      />
+    </div>
+  );
 };
 
 export default FormikInput;

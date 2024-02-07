@@ -1,40 +1,79 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { useDemoData } from '@mui/x-data-grid-generator';
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { useAppDispatch, useAppSelector } from "../../../store/configureStore";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Button } from "@mui/material";
+import { deleteLocation } from "../../../store/slices/LocationSlices/deleteLocationSlice";
+import { useEffect } from "react";
+import { getCarLocations } from "../../../store/slices/CarSlices/carLocationSlice";
 
-const VISIBLE_FIELDS = ['name', 'rating', 'country', 'dateCreated', 'isAdmin'];
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
 
 export default function LocationTable() {
-  const { data } = useDemoData({
-    dataSet: 'Employee',
-    visibleFields: VISIBLE_FIELDS,
-    rowLength: 100,
-  });
+  const dispatch = useAppDispatch();
+  const locations = useAppSelector((state) => state.carLocation.data);
 
-  // Otherwise filter will be applied on fields such as the hidden column id
-  const columns = React.useMemo(
-    () => data.columns.filter((column) => VISIBLE_FIELDS.includes(column.field)),
-    [data.columns],
-  );
+  useEffect(() => {
+    dispatch(getCarLocations());
+  }, [dispatch]);
 
   return (
-    <Box sx={{ height: 600, width: "100%", boxShadow:1}}>
-      <DataGrid
-      sx={{padding:5}}
-        {...data}
-        disableColumnFilter
-        disableColumnSelector
-        disableDensitySelector
-        columns={columns}
-        slots={{ toolbar: GridToolbar }}
-        slotProps={{
-          toolbar: {
-            showQuickFilter: true,
-            
-          },
-        }}
-      />
-    </Box>
+    <TableContainer component={Paper} sx={{ marginTop: 12 }}>
+      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell>ID</StyledTableCell>
+            <StyledTableCell>Latitude</StyledTableCell>
+            <StyledTableCell>Longitude</StyledTableCell>
+            <StyledTableCell>City</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {locations.map((location, i) => (
+            <StyledTableRow key={location.id}>
+              <StyledTableCell component="th" scope="row">
+                {i + 1}
+              </StyledTableCell>
+              <StyledTableCell>{location.latitude}</StyledTableCell>
+              <StyledTableCell>{location.longitude}</StyledTableCell>
+              <StyledTableCell>{location.city}</StyledTableCell>
+              <StyledTableCell align="right">
+                <Button
+                  onClick={async () => {
+                    await dispatch(deleteLocation(location));
+                    dispatch(getCarLocations());
+                  }}
+                >
+                  <DeleteIcon />
+                </Button>
+              </StyledTableCell>
+            </StyledTableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
