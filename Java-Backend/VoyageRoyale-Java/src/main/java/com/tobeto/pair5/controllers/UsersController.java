@@ -43,4 +43,9 @@ public class UsersController {
     public GetByIdUserResponse getById(@RequestParam int id){
         return userService.getById(id);
     }
+
+    @GetMapping("/getByEmail")
+    public GetByIdUserResponse getByEmail(String email){
+        return userService.getByEmail(email);
+    }
 }

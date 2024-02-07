@@ -21,6 +21,7 @@ public interface CustomerService {
 
     GetCustomerByIdResponse getById(int id);
 
+    GetCustomerByIdResponse getByEmail(String email);
 
 
 

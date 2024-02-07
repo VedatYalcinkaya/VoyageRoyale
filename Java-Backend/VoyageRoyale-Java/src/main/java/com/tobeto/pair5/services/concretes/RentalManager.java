@@ -35,13 +35,13 @@ public class RentalManager implements RentalService {
     public void add(AddRentalRequest request) {
 
         checkIsStartDateBeforeThanEndDate(request.getStartDate(), request.getEndDate());
-        checkIsCarExists(request.getCar().getId());
-        checkIsUserExists(request.getUser().getId());
+        checkIsCarExists(request.getCarId());
+        checkIsUserExists(request.getUserId());
         checkIsRentalValid(request.getStartDate(), request.getEndDate(), 25);
 
         Rental rental = this.modelMapperService.forRequest().map(request, Rental.class);
 
-        GetByIdCarResponse carResponse = carService.getById(request.getCar().getId());
+        GetByIdCarResponse carResponse = carService.getById(request.getCarId());
 
         rental.setStartKilometer(carResponse.getKilometer());
 

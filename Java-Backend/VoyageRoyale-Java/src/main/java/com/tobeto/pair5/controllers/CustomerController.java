@@ -48,4 +48,7 @@ public class CustomerController {
 
     @GetMapping("/getById")
     public GetCustomerByIdResponse getById(@RequestParam @Valid int id){return customerService.getById(id);}
+
+    @GetMapping("/getByEmail")
+    public GetCustomerByIdResponse getByEmail(String email){return customerService.getByEmail(email);}
 }

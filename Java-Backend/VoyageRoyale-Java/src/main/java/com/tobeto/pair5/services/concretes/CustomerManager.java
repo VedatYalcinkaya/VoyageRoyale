@@ -73,4 +73,11 @@ public class CustomerManager implements CustomerService {
         GetCustomerByIdResponse customerByIdResponse = this.modelMapperService.forResponse().map(customer,GetCustomerByIdResponse.class);
         return customerByIdResponse;
     }
+
+    @Override
+    public GetCustomerByIdResponse getByEmail(String email) {
+        Customer customer = customerRepository.findByUserEmail(email).orElseThrow(()-> new BusinessException(Messages.customerNotExists));
+        GetCustomerByIdResponse customerResponse = modelMapperService.forResponse().map(customer,GetCustomerByIdResponse.class);
+        return customerResponse;
+    }
 }

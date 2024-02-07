@@ -15,6 +15,6 @@ public class AddRentalRequest {
     @FutureOrPresent(message = "When renting a car, the start date cannot be before today.")
     private LocalDate startDate;
     private LocalDate endDate;
-    private GetCarIdResponse car;
-    private GetUserIdResponse user;
+    private int carId;
+    private int userId;
 }
