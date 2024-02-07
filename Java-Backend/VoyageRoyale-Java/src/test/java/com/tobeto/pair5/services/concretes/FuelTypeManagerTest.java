@@ -50,7 +50,7 @@ class FuelTypeManagerTest {
     @Test
     void addFuelTypeShouldSuccessfullyAddNewFuelType(){
         AddFuelTypeRequest fuelTypeRequest = new AddFuelTypeRequest();
-        fuelTypeRequest.setFuel_name("Gasoline");
+        fuelTypeRequest.setName("Gasoline");
 
         Mockito.when(modelMapperService.forRequest().map(fuelTypeRequest, FuelType.class)).thenReturn(new FuelType());
         Mockito.when(fuelTypeRepository.save(Mockito.any(FuelType.class))).thenReturn(new FuelType());
@@ -61,7 +61,7 @@ class FuelTypeManagerTest {
     @Test
     void addFuelTypeWithInvalidNameShouldThrowException(){
         AddFuelTypeRequest fuelTypeRequest = new AddFuelTypeRequest();
-        fuelTypeRequest.setFuel_name("ab");
+        fuelTypeRequest.setName("ab");
 
         BusinessException exception = assertThrows(BusinessException.class,
                 () -> fuelTypeManager.add(fuelTypeRequest));
@@ -81,7 +81,7 @@ class FuelTypeManagerTest {
     void updateFuelTypeShouldSuccessfullyUpdateFuelType(){
         UpdateFuelTypeRequest fuelTypeRequestToUpdate = new UpdateFuelTypeRequest();
         fuelTypeRequestToUpdate.setId(1);
-        fuelTypeRequestToUpdate.setFuel_name("Gasoline");
+        fuelTypeRequestToUpdate.setName("Gasoline");
         Mockito.when(fuelTypeRepository.findById(1)).thenReturn(Optional.of(new FuelType()));
         Mockito.when(modelMapperService.forRequest().map(fuelTypeRequestToUpdate, FuelType.class)).thenReturn(new FuelType());
 
@@ -104,7 +104,7 @@ class FuelTypeManagerTest {
         int existingFuelTypeId = 1;
         FuelType fuelType = new FuelType();
         fuelType.setId(existingFuelTypeId);
-        fuelType.setFuel_name("Gasoline");
+        fuelType.setName("Gasoline");
 
         Mockito.when(fuelTypeRepository.findById(existingFuelTypeId)).thenReturn(Optional.of(fuelType));
 
@@ -112,6 +112,6 @@ class FuelTypeManagerTest {
 
         assertNotNull(response);
         assertEquals(existingFuelTypeId, response.getId());
-        assertEquals("Gasoline", response.getFuel_name());
+        assertEquals("Gasoline", response.getName());
     }
 }

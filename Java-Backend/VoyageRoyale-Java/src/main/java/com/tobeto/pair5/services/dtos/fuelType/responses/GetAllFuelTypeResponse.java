@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetAllFuelTypeResponse {
     private int id;
-    private String fuel_name;
+    private String name;
 }
