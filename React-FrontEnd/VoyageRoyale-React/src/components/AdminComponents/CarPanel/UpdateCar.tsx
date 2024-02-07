@@ -110,6 +110,7 @@ function UpdateCar() {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={async (values: UpdateCarRequest, { resetForm }) => {
+
         if (imageFile2 instanceof File && imageFile2.size > 0) {
           try {
             const imageResponse = await dispatch(uploadCarImage(imageFile2)).unwrap();

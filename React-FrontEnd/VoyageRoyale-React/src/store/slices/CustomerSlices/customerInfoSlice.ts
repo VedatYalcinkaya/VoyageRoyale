@@ -17,8 +17,8 @@ const initialState: CustomerInfo = {
     CustomerInfoSend: null
 }
 
-export const getCustomerInfo = createAsyncThunk('getCustomer', async (id:number) => {
-    const response = await axiosInstance.get<Customer>('customers/getById?id='+id);
+export const getCustomerInfo = createAsyncThunk('getCustomer', async (email:string| undefined) => {
+    const response = await axiosInstance.get<Customer>('customers/getByEmail?email='+email);
     return response.data;
 })
 
