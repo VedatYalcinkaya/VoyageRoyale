@@ -46,6 +46,7 @@ import getCustomerByEmailSlice from "./slices/getCustomerByEmailSlice";
 import getAllInvoiceSlice from "./slices/getAllInvoiceSlice";
 
 import addRentalSlice from "./slices/addRentalSlice";
+import corporateCustomerInfoSlice from "./slices/CorporateCustomerSlice/corporateCustomerInfoSlice";
 
 
 
@@ -65,6 +66,7 @@ export const store = configureStore({
     addCarModel:addCarModelSlice,
     carColor:carColorSlice,
     customerInfo: customerInfoSlice,
+    corporateCustomerInfo: corporateCustomerInfoSlice,
     carModel: carModelSlice,
     addCar: addCarSlice,
     updateCustomer: updateCustomerSlice,
