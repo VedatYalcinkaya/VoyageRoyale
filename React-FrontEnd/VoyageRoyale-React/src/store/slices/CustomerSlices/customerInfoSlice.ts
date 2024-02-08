@@ -18,9 +18,10 @@ const initialState: CustomerInfo = {
 }
 
 export const getCustomerInfo = createAsyncThunk('getCustomer', async (email:string| undefined) => {
-    const response = await axiosInstance.get<Customer>('customers/getByEmail?email='+email);
+    const response = await axiosInstance.get<Customer>(`customers/getByEmail?email=${email}`);
     return response.data;
 })
+
 
 export const customerInfoSlice = createSlice({
     name:'getCustomer',
