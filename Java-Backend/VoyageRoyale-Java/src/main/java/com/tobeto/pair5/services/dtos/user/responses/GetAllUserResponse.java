@@ -15,5 +15,5 @@ public class GetAllUserResponse {
     private int id;
     private String email;
     private String password;
-    private List<Role> roles;
+    private List<Role> authorities;
 }

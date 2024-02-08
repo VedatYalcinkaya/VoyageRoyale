@@ -20,5 +20,5 @@ public class CustomerRegisterRequest {
     private String lastName;
     private String tcNo;
     private LocalDate birthDate;
-    private List<Role> roles;
+    private List<Role> authorities;
 }

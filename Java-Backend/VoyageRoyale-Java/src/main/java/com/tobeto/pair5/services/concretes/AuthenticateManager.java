@@ -37,7 +37,7 @@ public class AuthenticateManager implements AuthenticationService {
         User user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .authorities(request.getRoles())
+                .authorities(request.getAuthorities())
                 .build();
 
         userRepository.save(user);
@@ -66,7 +66,7 @@ public class AuthenticateManager implements AuthenticationService {
         User user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .authorities(request.getRoles())
+                .authorities(request.getAuthorities())
                 .build();
 
         userRepository.save(user);
