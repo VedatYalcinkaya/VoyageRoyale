@@ -30,7 +30,8 @@ const CarCard: React.FC<CarCardProps> = () => {
     return typeMatch && fuelMatch && brandMatch && gearMatch;
   };
 
-  const filteredCars = cars.filter(filterCars);
+  const filteredCars = Array.isArray(cars) ? cars.filter(filterCars) : [];
+
 
 
 

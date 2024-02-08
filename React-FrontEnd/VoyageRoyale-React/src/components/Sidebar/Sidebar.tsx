@@ -5,38 +5,29 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { Box, Button, Collapse } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SignIn from "../Login/SignIn";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import tokenService from "../../services/tokenService";
+import axiosInstance from "../../utils/interceptors/axiosInterceptors";
+import toastr from "toastr";
 import { useAppSelector } from "../../store/configureStore";
 
 const drawerWidth = 250;
 const signInDrawerWidth = 375;
 
 interface SidebarProps {
-  isSignedIn: boolean;
-  onSignOut: () => void;
-  userInfo: any; // You can define a type for user information
-  handleSignInSuccess: () => void; // New prop for handling sign-in success
 }
 
-export default function Sidebar({
-  isSignedIn,
-  onSignOut,
-  userInfo,
-  handleSignInSuccess,
-}: SidebarProps) {
+export default function Sidebar() {
+  const [isSignedIn,setIsSignedIn]=useState(false);
 
   const authorities:string[] | undefined = useAppSelector(state => state.getCustomerByEmail.data?.authorities)
   console.log(authorities);
-
+  
   const [signInDrawerOpen, setSignInDrawerOpen] = useState(false);
   const navigate = useNavigate();
   
@@ -48,6 +39,13 @@ export default function Sidebar({
   const handleSignInDrawerClose = () => {
     setSignInDrawerOpen(false);
   };
+
+  const onSignOut = () => {
+    setIsSignedIn(false);
+    tokenService.logout();
+    axiosInstance.get("auth/logout").then(response => {toastr.info(`${response.data}`)})
+  }
+
 
   const handleLogoClick = () => {
     navigate("/");
@@ -113,7 +111,7 @@ export default function Sidebar({
           {isSignedIn ? (
             <>
               <ListItem disablePadding>
-                <ListItemText primary={`Welcome, ${userInfo.name}`} />
+                <ListItemText primary={`Welcome`} />
               </ListItem>
               
               <ListItem disablePadding>
@@ -245,9 +243,7 @@ export default function Sidebar({
         }}
       >
         {signInDrawerOpen && (
-          <SignIn
-          // onClose={handleSignInDrawerClose}
-          // onSignIn={handleSignInSuccess} // Pass handleSignInSuccess to SignIn component
+          <SignIn setIsSignedIn={setIsSignedIn}
           />
         )}
       </Drawer>

@@ -1,7 +1,7 @@
 import {createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../utils/interceptors/axiosInterceptors';
-import { DeleteGearTypeRequest } from '../../models/CarGearTypeModel/requests/deleteGearTypeRequest';
+import { DeleteGearTypeRequest } from '../../models/carGearTypeModel/requests/deleteGearTypeRequest';
 
 interface DeleteGearType{
   data: DeleteGearType | null;

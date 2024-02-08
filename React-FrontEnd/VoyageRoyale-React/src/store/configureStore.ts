@@ -44,6 +44,7 @@ import carLocationSlice from "./slices/CarSlices/carLocationSlice";
 import getCustomerByEmailSlice from "./slices/getCustomerByEmailSlice";
 import getAllInvoiceSlice from "./slices/getAllInvoiceSlice";
 import addRentalSlice from "./slices/addRentalSlice";
+import deleteInvoiceSlice from "./slices/deleteInvoiceSlice";
 import deleteRentalSlice from "./slices/deleteRentalSlice";
 import updateRentalSlice from "./slices/updateRentalSlice";
 import getRentalSlice from "./slices/getRentalSlice";
@@ -100,7 +101,8 @@ export const store = configureStore({
     updateLocation: updateLocationSlice,
     deleteLocation: deleteLocationSlice,
     carLocation: carLocationSlice,
-    getAllInvoice: getAllInvoiceSlice,
+    getAllInvoice:getAllInvoiceSlice,
+    deleteInvoice:deleteInvoiceSlice
   },
 });
 

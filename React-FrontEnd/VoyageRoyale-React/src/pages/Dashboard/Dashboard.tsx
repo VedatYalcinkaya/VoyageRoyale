@@ -32,16 +32,7 @@ function Dashboard() {
     <>
       <Grid container>
         <Grid item xs={12} sm={2}>
-          <Sidebar
-            isSignedIn={false}
-            onSignOut={function (): void {
-              throw new Error("Function not implemented.");
-            }}
-            userInfo={undefined}
-            handleSignInSuccess={function (): void {
-              throw new Error("Function not implemented.");
-            }}
-          />
+          <Sidebar/>
         </Grid>
         <Grid item xs={12} sm={10} style={{ padding: 50 }}>
           <Routes>
