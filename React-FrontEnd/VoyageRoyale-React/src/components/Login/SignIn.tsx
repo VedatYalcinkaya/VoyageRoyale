@@ -55,7 +55,7 @@ const SignIn = ({}) => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            backgroundColor: "#0F4037",
+            boxShadow:3,
             padding: 3,
             borderRadius: 2,
           }}

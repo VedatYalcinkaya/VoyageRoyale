@@ -15,6 +15,7 @@ import SignIn from "../Login/SignIn";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import tokenService from "../../services/tokenService";
+import { useAppSelector } from "../../store/configureStore";
 
 const drawerWidth = 250;
 const signInDrawerWidth = 375;
@@ -32,6 +33,10 @@ export default function Sidebar({
   userInfo,
   handleSignInSuccess,
 }: SidebarProps) {
+
+  const authorities:string[] | undefined = useAppSelector(state => state.getCustomerByEmail.data?.authorities)
+  console.log(authorities);
+
   const [signInDrawerOpen, setSignInDrawerOpen] = useState(false);
   const navigate = useNavigate();
   
@@ -57,6 +62,8 @@ export default function Sidebar({
   const handleClick = () => {
     setOpen(!open);
   };
+  console.log(isSignedIn)
+  console.log(authorities?.includes("ADMIN"))
 
   return (
     <Box  sx={{ display: "flex" }}>
@@ -159,13 +166,16 @@ export default function Sidebar({
               <ListItemText primary="My Profile" />
             </ListItemButton>
           </ListItem>
-
+          {authorities?.includes("ADMIN") && (
           <ListItem disablePadding>
             <ListItemButton onClick={handleClick}>
               <ListItemText primary="Admin Dashboard" />
               {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
           </ListItem>
+          
+          )}
+          {authorities?.includes("ADMIN") && (
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
             <ListItemButton
@@ -210,9 +220,11 @@ export default function Sidebar({
               >
                 <ListItemText primary="Invoices" />
               </ListItemButton>
+              
 
             </List>
           </Collapse>
+          )}
         </List>
       </Drawer>
       <Drawer
