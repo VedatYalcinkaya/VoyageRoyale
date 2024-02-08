@@ -16,7 +16,7 @@ import { Button } from "@mui/material";
 import { deleteRental } from "../../../store/slices/deleteRentalSlice";
 import { useEffect } from "react";
 import { GetAllRentalResponse } from "../../../models/RentalModel/responses/getAllRentalResponse";
-import { getRentals } from "../../../store/slices/getRentalSlice";
+import { getAllRentals } from "../../../store/slices/getAllRentalSlice";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -39,9 +39,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function RentalTable() {
   const dispatch = useAppDispatch();
-  const rentals = useAppSelector((state: RootState) => state.getRentals.data);
+  const rentals = useAppSelector((state) => state.getAllRentals.data);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    dispatch(getAllRentals());
+  }, []);
+  console.log(rentals);
 
   return (
     <TableContainer component={Paper}>
@@ -57,7 +60,7 @@ export default function RentalTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rentals.map((rental: GetAllRentalResponse, i: number) => (
+          {rentals?.map((rental: GetAllRentalResponse, i: number) => (
             <StyledTableRow key={rental.id}>
               <StyledTableCell component="th" scope="row">
                 {i + 1}
@@ -70,8 +73,8 @@ export default function RentalTable() {
               <StyledTableCell align="right">
                 <Button
                   onClick={async () => {
-                    await dispatch(deleteRental({ id: rental.id }));
-                    dispatch(getRentals());
+                    await dispatch(deleteRental(rental.id));
+                    dispatch(getAllRentals());
                   }}
                 >
                   <DeleteIcon />

@@ -1,6 +1,5 @@
-import React from "react";
 import { Box, Typography } from "@mui/material";
-import RentalTable from "../../../components/AdminComponents/RentalPanel/RentalTable";
+import RentalDashboard from "../../../components/AdminComponents/RentalPanel/RentalDashboard";
 
 
 function Rentals() {
@@ -12,7 +11,7 @@ function Rentals() {
       <Typography sx={{ mb: 5 }}>
         List of rentals with editable functionalities
       </Typography>
-      <RentalTable/>
+      <RentalDashboard/>
     </Box>
   );
 }

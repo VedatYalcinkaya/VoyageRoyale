@@ -47,8 +47,9 @@ import addRentalSlice from "./slices/addRentalSlice";
 import deleteInvoiceSlice from "./slices/deleteInvoiceSlice";
 import deleteRentalSlice from "./slices/deleteRentalSlice";
 import updateRentalSlice from "./slices/updateRentalSlice";
-import getRentalSlice from "./slices/getRentalSlice";
 import corporateCustomerInfoSlice from "./slices/CorporateCustomerSlice/corporateCustomerInfoSlice";
+import getAllUsersSlice from "./slices/getAllUsersSlice";
+import getAllRentalSlice from "./slices/getAllRentalSlice";
 
 export const store = configureStore({
   reducer: {
@@ -83,7 +84,6 @@ export const store = configureStore({
     addRental: addRentalSlice,
     updateRental: updateRentalSlice,
     deleteRental: deleteRentalSlice,
-    getRentals: getRentalSlice,
     getCustomerByEmail: getCustomerByEmailSlice,
     addColor: addColorSlice,
     updateColor: updateColorSlice,
@@ -102,7 +102,9 @@ export const store = configureStore({
     deleteLocation: deleteLocationSlice,
     carLocation: carLocationSlice,
     getAllInvoice:getAllInvoiceSlice,
-    deleteInvoice:deleteInvoiceSlice
+    deleteInvoice:deleteInvoiceSlice,
+    getAllUsers:getAllUsersSlice,
+    getAllRentals:getAllRentalSlice
   },
 });
 
