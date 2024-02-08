@@ -16,6 +16,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -34,20 +37,34 @@ public class SecurityConfiguration {
             "/api/auth/register",
             "/api/auth/authenticate",
             "/api/fileUpload/upload",
-            "api/**"
+            "api/corporateCustomer/customUpdate",
+            "api/corporateCustomer/**",
+            "api/**",
+            "http://localhost:8080"
 
     };
-
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("http://localhost:5173"); // React uygulamanızın adresi
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return new CorsFilter(source);
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeHttpRequests->
                         authorizeHttpRequests.requestMatchers(WHITE_LIST_URLS)
                                 .permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/colors/**").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/api/colors/**").hasAnyAuthority(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.GET, "/api/corporate/**").permitAll()
                                 .anyRequest()
                                 .authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
