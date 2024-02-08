@@ -1,5 +1,5 @@
 // Sidebar.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Box, Button, Collapse } from "@mui/material";
@@ -31,6 +31,12 @@ export default function Sidebar() {
   const [signInDrawerOpen, setSignInDrawerOpen] = useState(false);
   const navigate = useNavigate();
   
+  useEffect(() => {
+    // Close the sign-in drawer when the user signs in
+    if (isSignedIn) {
+      setSignInDrawerOpen(false);
+    }
+  }, [isSignedIn]);
 
   const handleSignInButtonClick = () => {
     setSignInDrawerOpen(true);
