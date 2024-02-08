@@ -47,6 +47,7 @@ import addRentalSlice from "./slices/addRentalSlice";
 import deleteRentalSlice from "./slices/deleteRentalSlice";
 import updateRentalSlice from "./slices/updateRentalSlice";
 import getRentalSlice from "./slices/getRentalSlice";
+import corporateCustomerInfoSlice from "./slices/CorporateCustomerSlice/corporateCustomerInfoSlice";
 
 export const store = configureStore({
   reducer: {
@@ -64,6 +65,7 @@ export const store = configureStore({
     addCarModel: addCarModelSlice,
     carColor: carColorSlice,
     customerInfo: customerInfoSlice,
+    corporateCustomerInfo: corporateCustomerInfoSlice,
     carModel: carModelSlice,
     addCar: addCarSlice,
     updateCustomer: updateCustomerSlice,

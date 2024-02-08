@@ -18,5 +18,5 @@ public class CorporateRegisterRequest {
     private String password;
     private String companyName;
     private String taxNo;
-    private List<Role> roles;
+    private List<Role> authorities;
 }

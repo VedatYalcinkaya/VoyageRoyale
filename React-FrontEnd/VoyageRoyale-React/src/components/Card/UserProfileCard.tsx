@@ -20,10 +20,9 @@ const UserProfileCard: React.FC = () => {
     userEmail: '',
     tcNo: '',
     birthDate: ''
-  });
+  }); 
   
   const email = useAppSelector(state => state.getCustomerByEmail.data?.email);
-  console.log(email)
   useEffect(() => {
     dispatch(getCustomerInfo(email));
   }, [dispatch]);
@@ -65,14 +64,12 @@ const UserProfileCard: React.FC = () => {
   })
 
   return (
-    console.log(customer),
     <Formik initialValues={initialFormValues} validationSchema={validationSchema}
       onSubmit={(values: any, {resetForm,setValues, setSubmitting }) => {
-        console.log(values);
         dispatch(putCustomer(values))
         .unwrap()
         .then(updatedCustomer => {
-          dispatch(getCustomerInfo(values.id))
+          dispatch(getCustomerInfo(email))
           .unwrap()
           .then(freshCustomer => {
             setInitialFormValues(freshCustomer); // Form'un başlangıç değerlerini güncelle
