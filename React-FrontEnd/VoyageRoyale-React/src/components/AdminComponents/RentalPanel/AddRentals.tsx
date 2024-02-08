@@ -8,21 +8,20 @@ import { Car } from "../../../models/CarModel/responses/response";
 import { useAppDispatch, useAppSelector } from "../../../store/configureStore";
 import SecondFormikInput from "../../FormikInput/SecondFormikInput";
 import { postRental } from "../../../store/slices/addRentalSlice";
-import { getCustomerByEmail } from "../../../store/slices/getCustomerByEmailSlice";
-import { GetCustomerByEmailResponse } from "../../../models/CustomerModel/responses/getCustomerByEmailResponse";
+import { getAllRentals } from "../../../store/slices/getAllRentalSlice";
+import { getAllUsers } from "../../../store/slices/getAllUsersSlice";
+import { GetAllUsersResponse } from "../../../models/UserModel/responses/getAllUsersResponse";
 
-const AddRental = () => {
+function AddRentals(){
   const dispatch = useAppDispatch();
-  const cars: Car[] = useAppSelector((state) => state.carList.data);
-  const userResponse: GetCustomerByEmailResponse | null = useAppSelector(
-    (state) => state.getCustomerByEmail.data
-  );
+  const cars: Car[] = useAppSelector((state) => state.getAllCar.data);
+  const users: GetAllUsersResponse[]|null = useAppSelector((state)=> state.getAllUsers.data);
 
   const initialValues = {
     startDate: "",
     endDate: "",
     carId: 0,
-    userId: userResponse ? userResponse.id : 0,
+    userId: 0
   };
 
   const validationSchema = Yup.object({
@@ -33,10 +32,11 @@ const AddRental = () => {
   });
 
   useEffect(() => {
-    const userEmail = "user@example.com";
-    dispatch(getCustomerByEmail(userEmail));
+    dispatch(getAllUsers());
     dispatch(getAllCar());
-  }, [dispatch]);
+  }, []);
+
+console.log(users);
 
   return (
     <Formik
@@ -46,7 +46,7 @@ const AddRental = () => {
         console.log(values);
         resetForm();
         await dispatch(postRental(values));
-        dispatch(getAllCar());
+        dispatch(getAllRentals());
       }}
     >
       <Form>
@@ -70,14 +70,14 @@ const AddRental = () => {
         <br />
 
         <Field as={Select} name="userId">
-          <MenuItem value={userResponse ? userResponse.id : 0}>
+          <MenuItem value={0}>
             Select A User
           </MenuItem>
-          {userResponse ? (
-            <MenuItem value={userResponse.id} key={userResponse.id}>
-              {`${userResponse.email}`}
+          {users?.map((user) => (
+            <MenuItem value={user.id} key={user.id}>
+              {user.email}
             </MenuItem>
-          ) : null}
+          ))}
         </Field>
         <br />
         <br />
@@ -90,4 +90,4 @@ const AddRental = () => {
   );
 };
 
-export default AddRental;
+export default AddRentals;

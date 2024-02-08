@@ -14,7 +14,7 @@ import { Car } from "../../../models/CarModel/responses/response";
 
 function UpdateRental() {
   const dispatch = useAppDispatch();
-  const rentals = useAppSelector((state) => state.getRentals.data);
+  const rentals = useAppSelector((state) => state.getAllRentals.data);
   const cars: Car[] = useAppSelector((state) => state.carList.data);
   const userResponse = useAppSelector(
     (state: RootState) => state.getCustomerByEmail.data
@@ -68,7 +68,7 @@ function UpdateRental() {
       <Form>
         <Field as={Select} name="id">
           <MenuItem value={0}>Select A Rental</MenuItem>
-          {rentals.map((rental) => (
+          {rentals?.map((rental) => (
             <MenuItem value={rental.id} key={rental.id}>
               {rental.id}
             </MenuItem>

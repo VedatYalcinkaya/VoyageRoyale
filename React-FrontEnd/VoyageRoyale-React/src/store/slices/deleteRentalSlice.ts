@@ -4,21 +4,21 @@ import axiosInstance from "../../utils/interceptors/axiosInterceptors";
 import { DeleteRentalRequest } from "../../models/RentalModel/requests/deleteRentalRequest";
 
 interface DeleteRental {
-  data: DeleteRentalRequest | null;
+  data: number ;
   loading: boolean;
   error: string;
 }
 
 const initialState: DeleteRental = {
-  data: null,
+  data: 0,
   loading: false,
   error: "",
 };
 
 export const deleteRental = createAsyncThunk(
   "deleteRental",
-  async (rentalId: DeleteRentalRequest) => {
-    const response = await axiosInstance.delete(`/rentals/${rentalId.id}`);
+  async (id:number) => {
+    const response = await axiosInstance.delete(`/rentals/delete/${id}`);
     return response.data;
   }
 );
