@@ -1,7 +1,7 @@
-import {createSlice } from '@reduxjs/toolkit';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import axiosInstance from '../../utils/interceptors/axiosInterceptors';
-import { GetCustomerByEmailResponse } from '../../models/CustomerModel/responses/getCustomerByEmailResponse';
+import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axiosInstance from "../../utils/interceptors/axiosInterceptors";
+import { GetCustomerByEmailResponse } from "../../models/CustomerModel/responses/getCustomerByEmailResponse";
 
 interface GetCustomer {
   data: GetCustomerByEmailResponse | null;
@@ -15,20 +15,20 @@ const initialState: GetCustomer = {
   error: "",
 };
 
-export const getCustomerByEmail = createAsyncThunk('getCustomerByEmail', async (email: string | undefined) => {
-  try {
-    const response = await axiosInstance.get<GetCustomerByEmailResponse>(`/users/getByEmail?email=${email}`);
-    return response.data; 
-  } catch (error) {
-    throw error;
+export const getCustomerByEmail = createAsyncThunk(
+  "getCustomerByEmail",
+  async (email: string | undefined) => {
+    const response = await axiosInstance.get<GetCustomerByEmailResponse>(
+      `/users/getByEmail?email=${email}`
+    );
+    return response.data;
   }
-});
+);
 
 const getCustomerByEmailSlice = createSlice({
-  name: 'getCustomerByEmail',
+  name: "getCustomerByEmail",
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getCustomerByEmail.pending, (state) => {
@@ -37,7 +37,7 @@ const getCustomerByEmailSlice = createSlice({
       })
       .addCase(getCustomerByEmail.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = action.payload
+        state.data = action.payload;
       })
       .addCase(getCustomerByEmail.rejected, (state, action) => {
         state.loading = false;

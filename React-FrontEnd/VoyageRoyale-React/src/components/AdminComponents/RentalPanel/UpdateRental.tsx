@@ -2,19 +2,21 @@ import { Button, MenuItem, Select } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import SecondFormikInput from "../../FormikInput/SecondFormikInput";
-import { useDispatch, useSelector } from "react-redux";
 import { UpdateRentalRequest } from "../../../models/RentalModel/requests/updateRentalRequest";
 import { useEffect } from "react";
 import { updateRental } from "../../../store/slices/updateRentalSlice";
-import { RootState, useAppSelector } from "../../../store/configureStore";
-import { getCustomerByEmail } from "../../../store/slices/getCustomerByEmailSlice";
+import {
+  RootState,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../store/configureStore";
 import { Car } from "../../../models/CarModel/responses/response";
 
 function UpdateRental() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const rentals = useAppSelector((state) => state.getRentals.data);
   const cars: Car[] = useAppSelector((state) => state.carList.data);
-  const userResponse = useSelector(
+  const userResponse = useAppSelector(
     (state: RootState) => state.getCustomerByEmail.data
   );
 
@@ -48,10 +50,7 @@ function UpdateRental() {
     userId: Yup.number().moreThan(0, "Please select a user"),
   });
 
-  useEffect(() => {
-    const userEmail = "user@example.com";
-    dispatch(getCustomerByEmail(userEmail));
-  }, [dispatch]);
+  useEffect(() => {}, []);
 
   return (
     <Formik
@@ -63,7 +62,7 @@ function UpdateRental() {
       ) => {
         console.log(values);
         resetForm();
-        await dispatch(updateRental(values) as any);
+        await dispatch(updateRental(values));
       }}
     >
       <Form>

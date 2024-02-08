@@ -1,8 +1,7 @@
-import {createSlice } from '@reduxjs/toolkit';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import axiosInstance from '../../utils/interceptors/axiosInterceptors';
-import { GetCustomerByEmailResponse } from '../../models/CustomerModel/responses/getCustomerByEmailResponse';
-import { GetAllInvoiceResponse } from '../../models/InvoiceModel/responses/getAllInvoiceResponse';
+import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axiosInstance from "../../utils/interceptors/axiosInterceptors";
+import { GetAllInvoiceResponse } from "../../models/InvoiceModel/responses/getAllInvoiceResponse";
 
 interface GetAllInvoice {
   data: GetAllInvoiceResponse[] | null;
@@ -16,20 +15,17 @@ const initialState: GetAllInvoice = {
   error: "",
 };
 
-export const getAllInvoice = createAsyncThunk('getAllInvoice', async () => {
-  try {
-    const response = await axiosInstance.get<GetAllInvoiceResponse[]>(`/invoices/getAll`);
-    return response.data; 
-  } catch (error) {
-    throw error;
-  }
+export const getAllInvoice = createAsyncThunk("getAllInvoice", async () => {
+  const response = await axiosInstance.get<GetAllInvoiceResponse[]>(
+    `/invoices/getAll`
+  );
+  return response.data;
 });
 
 const getAllInvoiceSlice = createSlice({
-  name: 'getAllInvoice',
+  name: "getAllInvoice",
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getAllInvoice.pending, (state) => {
@@ -38,7 +34,7 @@ const getAllInvoiceSlice = createSlice({
       })
       .addCase(getAllInvoice.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = action.payload
+        state.data = action.payload;
       })
       .addCase(getAllInvoice.rejected, (state, action) => {
         state.loading = false;
