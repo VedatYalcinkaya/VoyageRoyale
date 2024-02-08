@@ -1,9 +1,9 @@
-import {createSlice } from '@reduxjs/toolkit';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import axiosInstance from '../../utils/interceptors/axiosInterceptors';
-import { AddRentalRequest } from '../../models/RentalModel/requests/addRentalRequest';
+import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axiosInstance from "../../utils/interceptors/axiosInterceptors";
+import { AddRentalRequest } from "../../models/RentalModel/requests/addRentalRequest";
 
-interface AddRental{
+interface AddRental {
   data: AddRentalRequest | null;
   loading: boolean;
   error: string;
@@ -15,20 +15,18 @@ const initialState: AddRental = {
   error: "",
 };
 
-export const postRental = createAsyncThunk('postRental', async (rental:AddRentalRequest) => {
-  try {
-    const response = await axiosInstance.post('/rentals/add', rental);
-    return response.data; 
-  } catch (error) {
-    throw error;
+export const postRental = createAsyncThunk(
+  "postRental",
+  async (rental: AddRentalRequest) => {
+    const response = await axiosInstance.post("/rentals/add", rental);
+    return response.data;
   }
-});
+);
 
 const addRentalSlice = createSlice({
-  name: 'addRental',
+  name: "addRental",
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(postRental.pending, (state) => {
@@ -37,7 +35,7 @@ const addRentalSlice = createSlice({
       })
       .addCase(postRental.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = action.payload
+        state.data = action.payload;
       })
       .addCase(postRental.rejected, (state, action) => {
         state.loading = false;

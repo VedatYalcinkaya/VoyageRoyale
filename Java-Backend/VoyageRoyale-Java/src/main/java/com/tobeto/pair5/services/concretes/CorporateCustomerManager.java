@@ -7,8 +7,10 @@ import com.tobeto.pair5.repositories.CorporateCustomerRepository;
 import com.tobeto.pair5.services.abstracts.CorporateCustomerService;
 import com.tobeto.pair5.services.constants.Messages;
 import com.tobeto.pair5.services.dtos.corporateCustomer.requests.AddCorporateCustomerRequest;
+import com.tobeto.pair5.services.dtos.corporateCustomer.requests.CustomUpdateCorporateCustomerRequest;
 import com.tobeto.pair5.services.dtos.corporateCustomer.requests.DeleteCorporateCustomerRequest;
 import com.tobeto.pair5.services.dtos.corporateCustomer.requests.UpdateCorporateCustomerRequest;
+import com.tobeto.pair5.services.dtos.corporateCustomer.responses.GetCorporateCustomerByEmail;
 import com.tobeto.pair5.services.dtos.corporateCustomer.responses.GetCorporateCustomerResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,11 +42,22 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 
             checkIfCorporateCustomerNotExists(request.getId());
             CorporateCustomer corporateCustomerToUpdate = corporateCustomerRepository.findById(request.getId())
-                  .orElseThrow(()-> new BusinessException(Messages.customerNotExists));
+                  .orElseThrow(()-> new BusinessException(Messages.corporateCustomerNotExists));
 
             this.modelMapperService.forRequest().map(request, corporateCustomerToUpdate);
 
             corporateCustomerRepository.saveAndFlush(corporateCustomerToUpdate);
+    }
+
+    @Override
+    public void customUpdate(CustomUpdateCorporateCustomerRequest request) {
+        checkIfCorporateCustomerNotExists(request.getId());
+        CorporateCustomer corporateCustomerToUpdate = corporateCustomerRepository.findById(request.getId())
+                .orElseThrow(()-> new BusinessException(Messages.corporateCustomerNotExists));
+
+        this.modelMapperService.forRequest().map(request, corporateCustomerToUpdate);
+
+        corporateCustomerRepository.saveAndFlush(corporateCustomerToUpdate);
     }
 
     @Override
@@ -60,6 +73,13 @@ public class CorporateCustomerManager implements CorporateCustomerService {
     public GetCorporateCustomerResponse getById(int id) {
         CorporateCustomer corporateCustomer = corporateCustomerRepository.findById(id).orElseThrow(()-> new BusinessException(Messages.customerNotExists));
         GetCorporateCustomerResponse corporateCustomerResponse = this.modelMapperService.forResponse().map(corporateCustomer, GetCorporateCustomerResponse.class);
+        return corporateCustomerResponse;
+    }
+
+    @Override
+    public GetCorporateCustomerByEmail getByEmail(String email) {
+        CorporateCustomer corporateCustomer = corporateCustomerRepository.findByUserEmail(email).orElseThrow(()-> new BusinessException(Messages.corporateCustomerNotExists));
+        GetCorporateCustomerByEmail corporateCustomerResponse = this.modelMapperService.forResponse().map(corporateCustomer,GetCorporateCustomerByEmail.class);
         return corporateCustomerResponse;
     }
 

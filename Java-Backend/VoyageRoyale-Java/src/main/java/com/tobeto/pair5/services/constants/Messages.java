@@ -10,6 +10,7 @@ public  class Messages {
     public static final String colorExist = "Color is already exists!";
     public  static final String customerExists = "Customer is already exists!";
     public  static final String customerNotExists = "Customer not exists!";
+    public static final String corporateCustomerNotExists = "Corporate Not Exist!";
     public  static final String carTypeNotExist = "Car Type not exists!";
     public  static final String gearTypeNotExist = "Gear Type not exists!";
     public  static final String invoiceNotExist = "Invoice not exists!";

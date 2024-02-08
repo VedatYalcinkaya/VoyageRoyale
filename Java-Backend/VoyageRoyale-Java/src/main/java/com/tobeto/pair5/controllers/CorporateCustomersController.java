@@ -2,8 +2,10 @@ package com.tobeto.pair5.controllers;
 
 import com.tobeto.pair5.services.abstracts.CorporateCustomerService;
 import com.tobeto.pair5.services.dtos.corporateCustomer.requests.AddCorporateCustomerRequest;
+import com.tobeto.pair5.services.dtos.corporateCustomer.requests.CustomUpdateCorporateCustomerRequest;
 import com.tobeto.pair5.services.dtos.corporateCustomer.requests.DeleteCorporateCustomerRequest;
 import com.tobeto.pair5.services.dtos.corporateCustomer.requests.UpdateCorporateCustomerRequest;
+import com.tobeto.pair5.services.dtos.corporateCustomer.responses.GetCorporateCustomerByEmail;
 import com.tobeto.pair5.services.dtos.corporateCustomer.responses.GetCorporateCustomerResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -33,6 +35,11 @@ public class CorporateCustomersController {
         corporateCustomerService.update(request);
     }
 
+    @PutMapping("/customUpdate")
+    public void update(@RequestBody @Valid CustomUpdateCorporateCustomerRequest request) {
+        corporateCustomerService.customUpdate(request);
+    }
+
     @GetMapping("/getAll")
     public List<GetCorporateCustomerResponse> getAll(){
         return corporateCustomerService.getAll();
@@ -42,4 +49,7 @@ public class CorporateCustomersController {
     public GetCorporateCustomerResponse getById(@RequestParam int id) {
         return corporateCustomerService.getById(id);
     }
+
+    @GetMapping("/getByEmail")
+    public GetCorporateCustomerByEmail getByEmail(@RequestParam String email) {return corporateCustomerService.getByEmail(email);}
 }
