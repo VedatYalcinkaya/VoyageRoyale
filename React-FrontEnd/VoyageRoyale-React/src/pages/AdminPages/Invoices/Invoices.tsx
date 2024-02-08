@@ -1,6 +1,5 @@
-import React from "react";
 import { Box, Typography } from "@mui/material";
-import InvoiceTable from "../../../components/AdminComponents/InvoicePanel/InvoiceTable";
+import InvoicesTable from "../../../components/AdminComponents/InvoicePanel/InvoicesTable";
 
 
 function Invoices() {
@@ -12,7 +11,7 @@ function Invoices() {
       <Typography sx={{ mb: 5 }}>
         List of invoices with {<b>only reading</b>} functionality
       </Typography>
-      <InvoiceTable/>
+      <InvoicesTable/>
     </Box>
   );
 }

@@ -17,8 +17,11 @@ import toastr from "toastr";
 import { Link } from "react-router-dom";
 import { getCustomerByEmail } from "../../store/slices/getCustomerByEmailSlice";
 
+type SignInProps = {
+  setIsSignedIn: (value: boolean) => void;
+}
 
-const SignIn = ({}) => {
+const SignIn = ({setIsSignedIn}:SignInProps) => {
   const initialValues = { email: "", password: "" };
   useAppSelector(state => state.getCustomerByEmail.data?.id);
   const validationSchema = Yup.object({
@@ -45,6 +48,8 @@ const SignIn = ({}) => {
           toastr.error("Incorrect email or password ","Caution")
         }else{
           toastr.success("Successfully Login")
+          setIsSignedIn(true)
+          window.history.scrollRestoration
         }
       }}
     >
