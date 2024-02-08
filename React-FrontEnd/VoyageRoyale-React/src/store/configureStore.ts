@@ -42,13 +42,12 @@ import updateLocationSlice from "./slices/LocationSlices/updateLocationSlice";
 import deleteLocationSlice from "./slices/LocationSlices/deleteLocationSlice";
 import carLocationSlice from "./slices/CarSlices/carLocationSlice";
 import getCustomerByEmailSlice from "./slices/getCustomerByEmailSlice";
-
 import getAllInvoiceSlice from "./slices/getAllInvoiceSlice";
-
 import addRentalSlice from "./slices/addRentalSlice";
+import deleteRentalSlice from "./slices/deleteRentalSlice";
+import updateRentalSlice from "./slices/updateRentalSlice";
+import getRentalSlice from "./slices/getRentalSlice";
 import corporateCustomerInfoSlice from "./slices/CorporateCustomerSlice/corporateCustomerInfoSlice";
-
-
 
 export const store = configureStore({
   reducer: {
@@ -62,34 +61,37 @@ export const store = configureStore({
     reservation: reservationSlice,
     payment: paymentSlice,
     signUp: signUpSlice,
-    addCarCarType:addCarTypeSlice,
-    addCarModel:addCarModelSlice,
-    carColor:carColorSlice,
+    addCarCarType: addCarTypeSlice,
+    addCarModel: addCarModelSlice,
+    carColor: carColorSlice,
     customerInfo: customerInfoSlice,
     corporateCustomerInfo: corporateCustomerInfoSlice,
     carModel: carModelSlice,
     addCar: addCarSlice,
     updateCustomer: updateCustomerSlice,
     signIn: signInSlice,
-    loading:loadingSlice,
-    addBrand:addBrandSlice,
-    updateBrand:updateBrandSlice,
-    deleteBrand:deleteBrandSlice,
-    updateModel:updateModelSlice,
-    deleteModel:deleteModelSlice,
-    updateCar:updateCarSlice,
-    getAllCar:getAllCarSlice,
-    deleteCar:deleteCarSlice,
-    addRental:addRentalSlice,
-    getCustomerByEmail:getCustomerByEmailSlice,
+    loading: loadingSlice,
+    addBrand: addBrandSlice,
+    updateBrand: updateBrandSlice,
+    deleteBrand: deleteBrandSlice,
+    updateModel: updateModelSlice,
+    deleteModel: deleteModelSlice,
+    updateCar: updateCarSlice,
+    getAllCar: getAllCarSlice,
+    deleteCar: deleteCarSlice,
+    addRental: addRentalSlice,
+    updateRental: updateRentalSlice,
+    deleteRental: deleteRentalSlice,
+    getRentals: getRentalSlice,
+    getCustomerByEmail: getCustomerByEmailSlice,
     addColor: addColorSlice,
     updateColor: updateColorSlice,
     deleteColor: deleteColorSlice,
-    addFuelType:addFuelTypeSlice,
-    updateFuelType:updateFuelTypeSlice,
+    addFuelType: addFuelTypeSlice,
+    updateFuelType: updateFuelTypeSlice,
     deleteFuelType: deleteFuelTypeSlice,
-    adGearType:addGearTypeSlice,
-    updateGearType:updateGearTypeSlice,
+    adGearType: addGearTypeSlice,
+    updateGearType: updateGearTypeSlice,
     deleteGearType: deleteGearTypeSlice,
     updateCarType: updateCarTypeSlice,
     deleteCarType: deleteGearTypeSlice,
@@ -98,7 +100,7 @@ export const store = configureStore({
     updateLocation: updateLocationSlice,
     deleteLocation: deleteLocationSlice,
     carLocation: carLocationSlice,
-    getAllInvoice:getAllInvoiceSlice
+    getAllInvoice: getAllInvoiceSlice,
   },
 });
 
