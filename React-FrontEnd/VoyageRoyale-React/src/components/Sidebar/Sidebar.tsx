@@ -32,7 +32,6 @@ export default function Sidebar() {
   const navigate = useNavigate();
   
   useEffect(() => {
-    // Close the sign-in drawer when the user signs in
     if (isSignedIn) {
       setSignInDrawerOpen(false);
     }
