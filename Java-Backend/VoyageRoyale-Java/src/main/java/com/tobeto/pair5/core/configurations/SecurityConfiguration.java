@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -39,10 +40,10 @@ public class SecurityConfiguration {
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",
-            "/api/auth/register",
-            "/api/auth/authenticate",
+            "/api/auth/**",
             "/api/fileUpload/upload",
-            "api/**"
+            "/api/users/**",
+            "/api/rentals/**"
 
     };
   
@@ -53,24 +54,11 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeHttpRequests->
-                        authorizeHttpRequests.requestMatchers(WHITE_LIST_URLS)
-                                .permitAll()
-                                .requestMatchers(HttpMethod.POST,"api/users/**").hasAnyAuthority(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.POST,"api/rentals/**").hasAnyAuthority(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.POST,"api/positions/**").hasAnyAuthority(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.POST,"api/models/**").hasAnyAuthority(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.POST,"api/fileUpload/**").hasAnyAuthority(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.POST,"api/invoices/**").hasAnyAuthority(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.POST,"api/fuel_types/**").hasAnyAuthority(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.POST,"api/gear_types/**").hasAnyAuthority(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.POST,"api/carTypes/**").hasAnyAuthority(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.POST,"api/brands/**").hasAnyAuthority(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.POST, "/api/cars/**").hasAnyAuthority(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.POST,"/api/colors/**").hasAnyAuthority(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.GET, "/api/corporateCustomers/**").permitAll()
-                                .requestMatchers(HttpMethod.GET,"api/customers/**").hasAnyAuthority(Role.ADMIN.name())
-                                .anyRequest()
-                                .authenticated())
+                        authorizeHttpRequests.requestMatchers(WHITE_LIST_URLS).permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/**").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/api/**").hasRole(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.PUT,"/api/**").hasRole(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.DELETE,"/api/**").hasRole(Role.ADMIN.name()).anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

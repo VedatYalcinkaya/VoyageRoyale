@@ -14,6 +14,7 @@ import com.tobeto.pair5.services.dtos.auth.requests.CustomerRegisterRequest;
 import com.tobeto.pair5.services.dtos.auth.responses.AuthenticationResponse;
 import com.tobeto.pair5.services.dtos.corporateCustomer.requests.AddCorporateCustomerRequest;
 import com.tobeto.pair5.services.dtos.customer.requests.AddCustomerRequest;
+import com.tobeto.pair5.services.dtos.user.requests.AddUserRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,11 +41,12 @@ public class AuthenticateManager implements AuthenticationService {
                 .authorities(request.getAuthorities())
                 .build();
 
-        userRepository.save(user);
+        AddUserRequest addUserRequest = modelMapperService.forRequest().map(user, AddUserRequest.class);
+        User savedUser = userService.add(addUserRequest);
         AddCustomerRequest addCustomerRequest = new AddCustomerRequest();
         addCustomerRequest.setFirstName(request.getFirstName());
         addCustomerRequest.setLastName(request.getLastName());
-        addCustomerRequest.setUserId(user.getId());
+        addCustomerRequest.setUserId(savedUser.getId());
         addCustomerRequest.setTcNo(request.getTcNo());
         addCustomerRequest.setBirthDate(request.getBirthDate());
 
@@ -69,11 +71,12 @@ public class AuthenticateManager implements AuthenticationService {
                 .authorities(request.getAuthorities())
                 .build();
 
-        userRepository.save(user);
+        AddUserRequest addUserRequest = modelMapperService.forRequest().map(user, AddUserRequest.class);
+        User savedUser = userService.add(addUserRequest);
         AddCorporateCustomerRequest addCorporateCustomerRequest = new AddCorporateCustomerRequest();
         addCorporateCustomerRequest.setTaxNo(request.getTaxNo());
         addCorporateCustomerRequest.setCompanyName(request.getCompanyName());
-        addCorporateCustomerRequest.setUserId(user.getId());
+        addCorporateCustomerRequest.setUserId(savedUser.getId());
 
 
         corporateCustomerService.add(addCorporateCustomerRequest);
