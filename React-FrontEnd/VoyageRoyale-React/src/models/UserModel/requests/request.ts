@@ -5,4 +5,5 @@ export interface UserRequest {
   lastName: string;
   tcNo: string;
   birthDate: string;
+  authorities:string[];
 }

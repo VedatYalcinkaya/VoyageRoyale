@@ -13,7 +13,7 @@ axiosInstance.interceptors.request.use((config) => {
     const token = tokenService.getToken();
     
     if (token) {
-        config.headers.Authorization = token;
+        config.headers.Authorization = "Bearer " + token;
     }
 
     store.dispatch(increaseRequestCount());

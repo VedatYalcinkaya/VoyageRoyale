@@ -28,7 +28,11 @@ export const getCustomerByEmail = createAsyncThunk(
 const getCustomerByEmailSlice = createSlice({
   name: "getCustomerByEmail",
   initialState,
-  reducers: {},
+  reducers: {
+    setEmailDataEmpty(state){
+       state.data=null;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getCustomerByEmail.pending, (state) => {
@@ -45,5 +49,5 @@ const getCustomerByEmailSlice = createSlice({
       });
   },
 });
-
+export const {setEmailDataEmpty}= getCustomerByEmailSlice.actions
 export default getCustomerByEmailSlice.reducer;

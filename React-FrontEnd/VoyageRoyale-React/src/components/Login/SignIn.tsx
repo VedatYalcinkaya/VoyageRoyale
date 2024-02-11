@@ -8,8 +8,8 @@ import Container from "@mui/material/Container";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import SecondFormikInput from "../FormikInput/SecondFormikInput";
-import { signInRequest } from "../../models/UserModel/signInRequest";
-import { postSignIn } from "../../store/slices/signInSlice";
+import { signInRequest } from "../../models/UserModel/requests/signInRequest";
+import { isSignedIn, postSignIn } from "../../store/slices/signInSlice";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
 import authService from "../../services/authService";
 import tokenService from "../../services/tokenService";
@@ -21,7 +21,7 @@ type SignInProps = {
   setIsSignedIn: (value: boolean) => void;
 }
 
-const SignIn = ({setIsSignedIn}:SignInProps) => {
+const SignIn = () => {
   const initialValues = { email: "", password: "" };
   useAppSelector(state => state.getCustomerByEmail.data?.id);
   const validationSchema = Yup.object({
@@ -48,8 +48,7 @@ const SignIn = ({setIsSignedIn}:SignInProps) => {
           toastr.error("Incorrect email or password ","Caution")
         }else{
           toastr.success("Successfully Login")
-          setIsSignedIn(true)
-          window.history.scrollRestoration
+          dispatch(isSignedIn(true));
         }
       }}
     >

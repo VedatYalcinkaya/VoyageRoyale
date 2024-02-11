@@ -1,7 +1,7 @@
 import {createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../utils/interceptors/axiosInterceptors';
-import { UserRequest } from '../../models/UserModel/request';
+import { UserRequest } from '../../models/UserModel/requests/request';
 
 interface SignUp {
   data: UserRequest | null;
