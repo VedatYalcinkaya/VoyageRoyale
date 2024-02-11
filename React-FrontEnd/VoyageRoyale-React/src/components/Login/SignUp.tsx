@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ThunkDispatch } from "@reduxjs/toolkit/react";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
 import { postSignUp } from "../../store/slices/signUpSlice";
+import { postSignIn } from "../../store/slices/signInSlice"; // Import postSignIn action
 import Button from "@mui/material/Button";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
@@ -11,20 +12,31 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import SecondFormikInput from "../FormikInput/SecondFormikInput";
 import { UserRequest } from "../../models/UserModel/request";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 
 export default function SignUp() {
   const dispatch: ThunkDispatch<any, any, any> = useAppDispatch();
   const isLoading: boolean = useAppSelector((state) => state.signUp.loading);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [openFailure, setOpenFailure] = useState(false);
+  const navigate = useNavigate(); 
 
-  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (openSuccess) {
+      toast.success("Your account has been successfully created!");
+    }
+    if (openFailure) {
+      toast.error("Account creation failed.");
+    }
+  }, [openSuccess, openFailure]);
+
 
   const initialValues = {
     firstName: "",
@@ -32,7 +44,7 @@ export default function SignUp() {
     email: "",
     password: "",
     tcNo: "",
-    birthDate: "",
+    birthDate: null,
   };
 
   const validationSchema = Yup.object({
@@ -47,21 +59,41 @@ export default function SignUp() {
     tcNo: Yup.string().required("Identity Number is required!"),
   });
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseSuccess = () => {
+    setOpenSuccess(false);
+  };
+
+  const handleCloseFailure = () => {
+    setOpenFailure(false);
   };
 
   return (
     <>
       <Box>
         <Formik
-          initialValues={initialValues}
+          initialValues={{ ...initialValues}}
           validationSchema={validationSchema}
           onSubmit={(values: UserRequest, { resetForm }) => {
+            values.birthDate = selectedDate;
             console.log(values);
             resetForm();
-            dispatch(postSignUp(values));
-            setOpen(true);
+            dispatch(postSignUp(values))
+              .then(() => {
+                setOpenSuccess(true);
+                // Automatically sign in the user after signup
+                dispatch(postSignIn({ email: values.email, password: values.password }))
+                  .then(() => {
+                    console.log("User signed in successfully after sign-up");
+                    // Redirect to homepage after successful sign-in
+                    navigate('/')
+                  })
+                  .catch((error) => {
+                    console.error("Error occurred during sign-in after sign-up:", error);
+                  });
+              })
+              .catch(() => {
+                setOpenFailure(true);
+              });
           }}
         >
           {({ values }) => (
@@ -91,7 +123,12 @@ export default function SignUp() {
                 </Grid>
                 <Grid item xs={6}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DatePicker label="Birth Date" timezone="Europe/Istanbul" />
+                    <DatePicker
+                      label="Birth Date"
+                      value={selectedDate}
+                      onChange={(date) => setSelectedDate(date)}
+                      format="YYYY-MM-DD"
+                    />
                   </LocalizationProvider>
                 </Grid>
                 <Grid item xs={6} sx={{ mb: 5 }}>
@@ -118,19 +155,16 @@ export default function SignUp() {
                 </Grid>
               </Grid>
               <Button
-                component={RouterLink}
-                to="/"
                 type="submit"
                 variant="contained"
                 sx={{
-                  mt: 7,
-                  mb: 2,
-                  width: 100,
-                  backgroundColor: "#0F4037",
+                  mt:3,
+                  height:40,
+                  color:"#D4D2A9",
+                  backgroundColor: "#0F4037",             
                   "&:hover": {
-                    backgroundColor: "#B58B5D",
-                  },
-                }}
+                    backgroundColor: "#A3794F",color:"#0F4037"
+                      }}}
               >
                 {isLoading ? "Signing Up..." : "Sign Up"}
               </Button>
@@ -138,17 +172,6 @@ export default function SignUp() {
           )}
         </Formik>
       </Box>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Success</DialogTitle>
-        <DialogContent>
-          <Typography variant="body1">
-            Your account has been successfully created!
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
-        </DialogActions>
-      </Dialog>
     </>
   );
 }
