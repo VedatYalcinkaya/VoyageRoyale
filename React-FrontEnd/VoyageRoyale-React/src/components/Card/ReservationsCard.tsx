@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useTheme } from '@mui/material/styles';
 import AspectRatio from "@mui/joy/AspectRatio";
 import Button from "@mui/joy/Button";
 import Card from "@mui/joy/Card";
@@ -10,6 +11,8 @@ import Typography from "@mui/joy/Typography";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 
 export default function ReservationCard() {
+  const theme = useTheme();
+
   return (
     <div
       style={{
@@ -54,9 +57,7 @@ export default function ReservationCard() {
           </Typography>
         </CardContent>
         <CardOverflow>
-          <Button variant="solid" size="lg" sx={{backgroundColor:"#0F4037","&:hover": {
-                backgroundColor: "#B58B5D",
-              },}}>
+          <Button variant="solid" size="lg" sx={{ "&:hover": { backgroundColor: "#B58B5D" } }}>
             Total Price: 2400 TRY
           </Button>
         </CardOverflow>

@@ -12,6 +12,8 @@ import com.tobeto.pair5.services.dtos.user.requests.UpdateUserRequest;
 import com.tobeto.pair5.services.dtos.user.responses.GetAllUserResponse;
 import com.tobeto.pair5.services.dtos.user.responses.GetByIdUserResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,9 +24,10 @@ public class UserManager implements UserService {
     private final UserRepository userRepository;
     private final ModelMapperService modelMapperService;
     @Override
-    public void add(AddUserRequest request) {
+    public User add(AddUserRequest request) {
         User user = this.modelMapperService.forRequest().map(request, User.class);
         this.userRepository.save(user);
+        return user;
     }
 
     @Override
@@ -61,5 +64,11 @@ public class UserManager implements UserService {
         User user = userRepository.findByEmail(email).orElseThrow(()-> new BusinessException(Messages.userNotFound));
         GetByIdUserResponse response = this.modelMapperService.forResponse().map(user,GetByIdUserResponse.class);
         return response;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(username).orElseThrow(()-> new BusinessException(Messages.userNotFound));
+        return user;
     }
 }

@@ -12,7 +12,9 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import tokenService from "../../services/tokenService";
 import axiosInstance from "../../utils/interceptors/axiosInterceptors";
 import toastr from "toastr";
-import { useAppSelector } from "../../store/configureStore";
+import { useAppDispatch, useAppSelector } from "../../store/configureStore";
+import { getCustomerByEmail, setEmailDataEmpty } from "../../store/slices/getCustomerByEmailSlice";
+import { isSignedIn } from "../../store/slices/signInSlice";
 
 const drawerWidth = 250;
 const signInDrawerWidth = 400;
@@ -20,7 +22,8 @@ const signInDrawerWidth = 400;
 interface SidebarProps {}
 
 export default function Sidebar() {
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  const dispatch = useAppDispatch();
+  const isLogedIn = useAppSelector(state => state.signIn.setSignedIn);
 
   const authorities: string[] | undefined = useAppSelector(
     (state) => state.getCustomerByEmail.data?.authorities
@@ -30,11 +33,7 @@ export default function Sidebar() {
   const [signInDrawerOpen, setSignInDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (isSignedIn) {
-      setSignInDrawerOpen(false);
-    }
-  }, [isSignedIn]);
+
 
   const handleSignInButtonClick = () => {
     setSignInDrawerOpen(true);
@@ -45,12 +44,13 @@ export default function Sidebar() {
   };
 
   const onSignOut = () => {
-    setIsSignedIn(false);
     tokenService.logout();
-    axiosInstance.get("auth/logout").then((response) => {
-      toastr.info(`${response.data}`);
-    });
-  };
+    dispatch(setEmailDataEmpty())
+    dispatch(isSignedIn(false));
+    localStorage.removeItem("isSignedIn")
+    axiosInstance.post("auth/logout").then(response => {toastr.info(`${response.data}`)})
+  }
+
 
   const handleLogoClick = () => {
     navigate("/");
@@ -116,7 +116,7 @@ export default function Sidebar() {
           </RouterLink>
         </Box>
         <List sx={{ pl: 3 }}>
-          {isSignedIn ? (
+          {isLogedIn ? (
             <>
               <ListItem disablePadding>
                 <ListItemText primary={`Welcome`} sx={{ color: "#D9D5A7" }} />
@@ -281,10 +281,7 @@ export default function Sidebar() {
         }}
       >
         {signInDrawerOpen && (
-          <SignIn
-            setIsSignedIn={setIsSignedIn}
-            closeDrawer={closeSignInDrawer}
-          />
+          <SignIn/>
         )}
       </Drawer>
     </Box>

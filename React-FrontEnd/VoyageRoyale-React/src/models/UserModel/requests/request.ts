@@ -1,8 +1,9 @@
 export interface UserRequest {
-  email: string
-  password: string
+  email: string | null;
+  password: string | null;
   firstName: string | null;
   lastName: string;
   tcNo: string;
-  birthDate: Date | null;
+  birthDate: Date ;
+  authorities:string[];
 }

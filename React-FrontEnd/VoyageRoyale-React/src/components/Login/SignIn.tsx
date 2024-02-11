@@ -7,8 +7,8 @@ import Container from "@mui/material/Container";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import SecondFormikInput from "../FormikInput/SecondFormikInput";
-import { signInRequest } from "../../models/UserModel/signInRequest";
-import { postSignIn } from "../../store/slices/signInSlice";
+import { signInRequest } from "../../models/UserModel/requests/signInRequest";
+import { isSignedIn, postSignIn } from "../../store/slices/signInSlice";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
 import authService from "../../services/authService";
 import tokenService from "../../services/tokenService";
@@ -18,11 +18,10 @@ import { getCustomerByEmail } from "../../store/slices/getCustomerByEmailSlice";
 import { margin } from "@mui/system";
 
 type SignInProps = {
-  setIsSignedIn: (value: boolean) => void;
-  closeDrawer:() => void;
+  closeSignInDrawer:() => void;
 }
 
-const SignIn = ({setIsSignedIn, closeDrawer}:SignInProps) => {
+const SignIn = ({closeSignInDrawer }:SignInProps) => {
   const initialValues = { email: "", password: "" };
   useAppSelector(state => state.getCustomerByEmail.data?.id);
   const validationSchema = Yup.object({
@@ -50,8 +49,7 @@ const SignIn = ({setIsSignedIn, closeDrawer}:SignInProps) => {
           toastr.error("Incorrect email or password ","Caution")
         }else{
           toastr.success("Successfully Login")
-          setIsSignedIn(true)
-          window.history.scrollRestoration
+          dispatch(isSignedIn(true));
         }
       }}
     >
@@ -96,7 +94,7 @@ const SignIn = ({setIsSignedIn, closeDrawer}:SignInProps) => {
             </Button>
             <Grid container>
               <Grid item sx={{mb:5,mt:2}}>
-                <Link to="/signInSignUp" style={{color:"#0F4037"}} onClick={closeDrawer}>
+                <Link to="/signInSignUp" style={{color:"#0F4037"}} onClick={closeSignInDrawer}>
                   <u>Don't have an account? Sign Up</u>
                 </Link>
               </Grid>

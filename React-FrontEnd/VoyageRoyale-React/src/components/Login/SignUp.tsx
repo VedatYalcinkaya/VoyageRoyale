@@ -11,13 +11,13 @@ import Typography from "@mui/material/Typography";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import SecondFormikInput from "../FormikInput/SecondFormikInput";
-import { UserRequest } from "../../models/UserModel/request";
+
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { UserRequest } from "../../models/UserModel/requests/request";
 
 
 export default function SignUp() {
@@ -38,14 +38,9 @@ export default function SignUp() {
   }, [openSuccess, openFailure]);
 
 
-  const initialValues = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    tcNo: "",
-    birthDate: null,
-  };
+
+
+    const initialValues = { firstName: "", lastName: "", email: "", password: "", tcNo: "", birthDate: null ,authorities:["USER","CUSTOMER"]}
 
   const validationSchema = Yup.object({
     firstName: Yup.string()
