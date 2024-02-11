@@ -5,22 +5,20 @@ import SecondFormikInput from "../../FormikInput/SecondFormikInput";
 import { UpdateRentalRequest } from "../../../models/RentalModel/requests/updateRentalRequest";
 import { useEffect } from "react";
 import { updateRental } from "../../../store/slices/updateRentalSlice";
-import {
-  RootState,
-  useAppDispatch,
-  useAppSelector,
-} from "../../../store/configureStore";
+import { useAppDispatch, useAppSelector } from "../../../store/configureStore";
 import { Car } from "../../../models/CarModel/responses/response";
+import { getAllRentals } from "../../../store/slices/getAllRentalSlice";
+import { getAllUsers } from "../../../store/slices/getAllUsersSlice";
+import { getAllCar } from "../../../store/slices/CarSlices/getAllCarSlice";
+import { GetAllUsersResponse } from "../../../models/UserModel/responses/getAllUsersResponse";
 
 function UpdateRental() {
   const dispatch = useAppDispatch();
   const rentals = useAppSelector((state) => state.getAllRentals.data);
   const cars: Car[] = useAppSelector((state) => state.carList.data);
-  const userResponse = useAppSelector(
-    (state: RootState) => state.getCustomerByEmail.data
+  const users: GetAllUsersResponse[] | null = useAppSelector(
+    (state) => state.getAllUsers.data
   );
-
-  const users = userResponse ? [userResponse] : [];
 
   const initialValues = {
     id: 0,
@@ -50,19 +48,20 @@ function UpdateRental() {
     userId: Yup.number().moreThan(0, "Please select a user"),
   });
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    dispatch(getAllUsers());
+    dispatch(getAllCar());
+  }, []);
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={async (
-        values: UpdateRentalRequest,
-        { resetForm }: { resetForm: () => void }
-      ) => {
+      onSubmit={async (values: UpdateRentalRequest, { resetForm }) => {
         console.log(values);
         resetForm();
         await dispatch(updateRental(values));
+        dispatch(getAllRentals());
       }}
     >
       <Form>
@@ -116,7 +115,7 @@ function UpdateRental() {
           <MenuItem value="0">Select A Car</MenuItem>
           {cars.map((car) => (
             <MenuItem value={car.id} key={car.id}>
-              {car.id}
+              {car.plate}
             </MenuItem>
           ))}
         </Field>
@@ -125,9 +124,9 @@ function UpdateRental() {
 
         <Field as={Select} name="userId">
           <MenuItem value="0">Select A User</MenuItem>
-          {users.map((user) => (
+          {users?.map((user) => (
             <MenuItem value={user.id} key={user.id}>
-              {user.id}
+              {user.email}
             </MenuItem>
           ))}
         </Field>

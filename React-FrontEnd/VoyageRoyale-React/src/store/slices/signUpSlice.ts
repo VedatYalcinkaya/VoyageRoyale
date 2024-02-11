@@ -1,4 +1,4 @@
-import {createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../utils/interceptors/axiosInterceptors';
 import { UserRequest } from '../../models/UserModel/requests/request';
@@ -37,7 +37,8 @@ const signUpSlice = createSlice({
       })
       .addCase(postSignUp.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = action.payload
+        state.data = action.payload;
+        console.log('Sign-up request successful!'); // Log the success
       })
       .addCase(postSignUp.rejected, (state, action) => {
         state.loading = false;

@@ -16,6 +16,7 @@ const SecondFormikInput = (props:Props) => {
         name={props.name}
         label={props.label}
         type={props.type || "text"}
+        fullWidth
         >
 
         </Field>

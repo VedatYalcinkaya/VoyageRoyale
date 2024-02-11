@@ -17,7 +17,7 @@ const initialState: SignIn = {
   setSignedIn: localStorage.getItem("isSignedIn") === "true" ||false
 };
 
-export const postSignIn = createAsyncThunk('postSignUp', async (signInRequest: signInRequest) => {
+export const postSignIn = createAsyncThunk('postSignIn', async (signInRequest: signInRequest) => {
   try {
     const response = await axiosInstance.post('/auth/authenticate', signInRequest);
     return response.data; 

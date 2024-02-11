@@ -12,16 +12,18 @@ import { getAllRentals } from "../../../store/slices/getAllRentalSlice";
 import { getAllUsers } from "../../../store/slices/getAllUsersSlice";
 import { GetAllUsersResponse } from "../../../models/UserModel/responses/getAllUsersResponse";
 
-function AddRentals(){
+function AddRentals() {
   const dispatch = useAppDispatch();
   const cars: Car[] = useAppSelector((state) => state.getAllCar.data);
-  const users: GetAllUsersResponse[]|null = useAppSelector((state)=> state.getAllUsers.data);
+  const users: GetAllUsersResponse[] | null = useAppSelector(
+    (state) => state.getAllUsers.data
+  );
 
   const initialValues = {
     startDate: "",
     endDate: "",
     carId: 0,
-    userId: 0
+    userId: 0,
   };
 
   const validationSchema = Yup.object({
@@ -35,8 +37,6 @@ function AddRentals(){
     dispatch(getAllUsers());
     dispatch(getAllCar());
   }, []);
-
-console.log(users);
 
   return (
     <Formik
@@ -70,9 +70,7 @@ console.log(users);
         <br />
 
         <Field as={Select} name="userId">
-          <MenuItem value={0}>
-            Select A User
-          </MenuItem>
+          <MenuItem value={0}>Select A User</MenuItem>
           {users?.map((user) => (
             <MenuItem value={user.id} key={user.id}>
               {user.email}
@@ -88,6 +86,6 @@ console.log(users);
       </Form>
     </Formik>
   );
-};
+}
 
 export default AddRentals;

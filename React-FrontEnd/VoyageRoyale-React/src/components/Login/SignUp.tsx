@@ -1,106 +1,172 @@
+import { useEffect, useState } from "react";
 import { ThunkDispatch } from "@reduxjs/toolkit/react";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
 import { postSignUp } from "../../store/slices/signUpSlice";
+import { postSignIn } from "../../store/slices/signInSlice"; // Import postSignIn action
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import SecondFormikInput from "../FormikInput/SecondFormikInput";
+
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { UserRequest } from "../../models/UserModel/requests/request";
+
 
 export default function SignUp() {
   const dispatch: ThunkDispatch<any, any, any> = useAppDispatch();
   const isLoading: boolean = useAppSelector((state) => state.signUp.loading);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [openFailure, setOpenFailure] = useState(false);
+  const navigate = useNavigate(); 
 
-  const initialValues = { firstName: "", lastName: "", email: "", password: "", tcNo: "", birthDate: "" ,authorities:["USER","CUSTOMER"]}
+  useEffect(() => {
+    if (openSuccess) {
+      toast.success("Your account has been successfully created!");
+    }
+    if (openFailure) {
+      toast.error("Account creation failed.");
+    }
+  }, [openSuccess, openFailure]);
+
+
+
+
+    const initialValues = { firstName: "", lastName: "", email: "", password: "", tcNo: "", birthDate: null ,authorities:["USER","CUSTOMER"]}
 
   const validationSchema = Yup.object({
     firstName: Yup.string()
-      .required("Name field must be fill")
-      .min(2, "Name at least 2 character!"),
+      .required("First name is required!")
+      .min(2, "First name must be at least 2 characters!"),
     lastName: Yup.string()
-      .required("Lastn name field must be fill")
-      .min(2, "Lastn name at least 2 character!"),
-    email: Yup.string()
-      .required("Email field must be fill")
-      .email(),
-    password: Yup.string()
-      .required("Password field must be fill"),
-    tcNo: Yup.string().required("Identity Number field must be fill"),
+      .required("Last name is required!")
+      .min(2, "Last name must be at least 2 characters!"),
+    email: Yup.string().required("Email is required!").email(),
+    password: Yup.string().required("Password is required!"),
+    tcNo: Yup.string().required("Identity Number is required!"),
+  });
 
-  })
+  const handleCloseSuccess = () => {
+    setOpenSuccess(false);
+  };
 
-
+  const handleCloseFailure = () => {
+    setOpenFailure(false);
+  };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          backgroundColor: "white",
-          padding: 3,
-          borderRadius: 2,
-        }}
-      >
-        <Typography component="h1" variant="h5" sx={{ color: "#D9D5A7" }}>
-          Sign up
-        </Typography>
-        <Box sx={{ mt: 3 }}>
-          <Formik initialValues={initialValues} validationSchema={validationSchema}
-            onSubmit={(values: UserRequest, { resetForm }) => {
-              console.log(values);
-              resetForm();
-              dispatch(postSignUp(values));
-            }}>
+    <>
+      <Box>
+        <Formik
+          initialValues={{ ...initialValues}}
+          validationSchema={validationSchema}
+          onSubmit={(values: UserRequest, { resetForm }) => {
+            values.birthDate = selectedDate;
+            console.log(values);
+            resetForm();
+            dispatch(postSignUp(values))
+              .then(() => {
+                setOpenSuccess(true);
+                // Automatically sign in the user after signup
+                dispatch(postSignIn({ email: values.email, password: values.password }))
+                  .then(() => {
+                    console.log("User signed in successfully after sign-up");
+                    // Redirect to homepage after successful sign-in
+                    navigate('/')
+                  })
+                  .catch((error) => {
+                    console.error("Error occurred during sign-in after sign-up:", error);
+                  });
+              })
+              .catch(() => {
+                setOpenFailure(true);
+              });
+          }}
+        >
+          {({ values }) => (
             <Form>
               <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Typography component="h1" variant="h4" sx={{ mb: 6 }}>
+                    Create Your Account
+                  </Typography>
+                  <Typography variant="h6" sx={{ borderBottom: 1, mb: 2 }}>
+                    Personal Information
+                  </Typography>
+                </Grid>
                 <Grid item xs={12} sm={6}>
-                  <SecondFormikInput name="firstName" label="First Name" type="text" />
+                  <SecondFormikInput
+                    name="firstName"
+                    label="First Name*"
+                    type="text"
+                  />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <SecondFormikInput name="lastName" label="Last Name" type="text" />
+                  <SecondFormikInput
+                    name="lastName"
+                    label="Last Name*"
+                    type="text"
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label="Birth Date"
+                      value={selectedDate}
+                      onChange={(date) => setSelectedDate(date)}
+                      format="YYYY-MM-DD"
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={6} sx={{ mb: 5 }}>
+                  <SecondFormikInput
+                    name="tcNo"
+                    label="Identity Number*"
+                    type="text"
+                  />
                 </Grid>
                 <Grid item xs={12}>
-                  <SecondFormikInput name="birthDate" label="Birth Date" type="text" />
+                  <Typography variant="h6" sx={{ borderBottom: 1, mb: 2 }}>
+                    Login Information
+                  </Typography>
                 </Grid>
-                <Grid item xs={12}>
-                  <SecondFormikInput name="tcNo" label="Identity Number" type="text" />
+                <Grid item xs={6}>
+                  <SecondFormikInput name="email" label="Email*" type="email" />
                 </Grid>
-                <Grid item xs={12}>
-                  <SecondFormikInput name="email" label="Email" type="email" />
-                </Grid>
-                <Grid item xs={12}>
-                  <SecondFormikInput name="password" label="Password" type="password" />
+                <Grid item xs={6}>
+                  <SecondFormikInput
+                    name="password"
+                    label="Password*"
+                    type="password"
+                  />
                 </Grid>
               </Grid>
               <Button
                 type="submit"
-                fullWidth
                 variant="contained"
                 sx={{
-                  mt: 3,
-                  mb: 2,
-                  backgroundColor: "#BF9460",
+                  mt:3,
+                  height:40,
+                  color:"#D4D2A9",
+                  backgroundColor: "#0F4037",             
                   "&:hover": {
-                    backgroundColor: "#B58B5D",
-                  },
-                }}
+                    backgroundColor: "#A3794F",color:"#0F4037"
+                      }}}
               >
                 {isLoading ? "Signing Up..." : "Sign Up"}
               </Button>
-
             </Form>
-          </Formik>
-
-        </Box>
+          )}
+        </Formik>
       </Box>
-    </Container>
+    </>
   );
 }

@@ -11,27 +11,8 @@ import ColorDashboard from "../../../components/AdminComponents/ColorPanel/Color
 import BrandDashboard from "../../../components/AdminComponents/BrandPanel/BrandDashboard";
 import ModelDashboard from "../../../components/AdminComponents/ModelPanel/ModelDashboard";
 
-// Define your components for each tab content
-function ModelsComponent() {
-  return <Typography>Content for Models Tab</Typography>;
-}
 
-function BrandsComponent() {
-  return <Paper></Paper>;
-}
 
-function CarTypesComponent() {
-  return <Typography>Content for Car Types Tab</Typography>;
-}
-
-function GearTypesComponent() {
-  return <Typography>Content for Gear Types Tab</Typography>;
-}
-function ColorsComponent() {
-  return <AddColor />;
-}
-
-// TabPanel component to conditionally render the active tab content
  function TabPanel(props: {
   [x: string]: any;
   children: any;
