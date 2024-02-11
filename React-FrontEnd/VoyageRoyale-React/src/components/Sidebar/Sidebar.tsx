@@ -22,6 +22,7 @@ const signInDrawerWidth = 400;
 interface SidebarProps {}
 
 export default function Sidebar() {
+  // const [signedIn, setSignedIn] = useState(false);
   const dispatch = useAppDispatch();
   const isLogedIn = useAppSelector(state => state.signIn.setSignedIn);
 
@@ -32,6 +33,12 @@ export default function Sidebar() {
 
   const [signInDrawerOpen, setSignInDrawerOpen] = useState(false);
   const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   if (signedIn) {
+  //     setSignInDrawerOpen(false);
+  //   }
+  // }, [signedIn]);
 
 
 
@@ -281,7 +288,9 @@ export default function Sidebar() {
         }}
       >
         {signInDrawerOpen && (
-          <SignIn/>
+          <SignIn
+          closeSignInDrawer={closeSignInDrawer}
+          />
         )}
       </Drawer>
     </Box>
