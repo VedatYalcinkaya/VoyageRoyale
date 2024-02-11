@@ -30,7 +30,6 @@ const errorColor = red[500]
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-dayjs.tz.setDefault("Turkey/Istanbul");
 
 interface ReservationFormValues {
   pickUpDate: Date | null;

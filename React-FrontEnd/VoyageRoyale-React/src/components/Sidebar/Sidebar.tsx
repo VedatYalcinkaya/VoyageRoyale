@@ -1,8 +1,6 @@
-// Sidebar.tsx
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import CssBaseline from "@mui/material/CssBaseline";
-import { Box, Button, Collapse } from "@mui/material";
+import { Box, Button, Collapse, Typography } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -17,20 +15,21 @@ import toastr from "toastr";
 import { useAppSelector } from "../../store/configureStore";
 
 const drawerWidth = 250;
-const signInDrawerWidth = 375;
+const signInDrawerWidth = 400;
 
-interface SidebarProps {
-}
+interface SidebarProps {}
 
 export default function Sidebar() {
-  const [isSignedIn,setIsSignedIn]=useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
-  const authorities:string[] | undefined = useAppSelector(state => state.getCustomerByEmail.data?.authorities)
+  const authorities: string[] | undefined = useAppSelector(
+    (state) => state.getCustomerByEmail.data?.authorities
+  );
   console.log(authorities);
-  
+
   const [signInDrawerOpen, setSignInDrawerOpen] = useState(false);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     if (isSignedIn) {
       setSignInDrawerOpen(false);
@@ -48,9 +47,10 @@ export default function Sidebar() {
   const onSignOut = () => {
     setIsSignedIn(false);
     tokenService.logout();
-    axiosInstance.get("auth/logout").then(response => {toastr.info(`${response.data}`)})
-  }
-
+    axiosInstance.get("auth/logout").then((response) => {
+      toastr.info(`${response.data}`);
+    });
+  };
 
   const handleLogoClick = () => {
     navigate("/");
@@ -60,17 +60,20 @@ export default function Sidebar() {
     });
   };
 
+  const closeSignInDrawer = () => {
+    setSignInDrawerOpen(false);
+  };
+
   const [open, setOpen] = React.useState(true);
 
   const handleClick = () => {
     setOpen(!open);
   };
-  console.log(isSignedIn)
-  console.log(authorities?.includes("ADMIN"))
+  console.log(isSignedIn);
+  console.log(authorities?.includes("ADMIN"));
 
   return (
-    <Box  sx={{ display: "flex" }}>
-      <CssBaseline />
+    <Box sx={{ display: "flex" }}>
       <Drawer
         sx={{
           width: drawerWidth,
@@ -83,7 +86,6 @@ export default function Sidebar() {
             backgroundColor: "#0F4037",
           },
           "& .MuiTypography-root": {
-            color: "#D9D5A7",
             fontSize: 14,
           },
           "& .logo-container": {
@@ -108,7 +110,8 @@ export default function Sidebar() {
             <img
               src="https://i.ibb.co/Q69fC4x/Logo-bej.png"
               alt="Logo"
-              width="70"
+              width="80"
+              style={{ marginBottom: 10 }}
             />
           </RouterLink>
         </Box>
@@ -116,117 +119,149 @@ export default function Sidebar() {
           {isSignedIn ? (
             <>
               <ListItem disablePadding>
-                <ListItemText primary={`Welcome`} />
+                <ListItemText primary={`Welcome`} sx={{ color: "#D9D5A7" }} />
               </ListItem>
-              
+
               <ListItem disablePadding>
                 <ListItemButton onClick={onSignOut}>
-                  <ListItemText primary="Sign Out" />
+                  <ListItemText primary="Sign Out" sx={{ color: "#D9D5A7" }} />
                 </ListItemButton>
               </ListItem>
             </>
           ) : (
-            <ListItem disablePadding>
-             
-              <Button sx={{
-                ml:1,
-                height:25,
-                backgroundColor: "#B58B5D",             
-                "&:hover": {
-                  backgroundColor: "#A3794F",
-                    }}} onClick={handleSignInButtonClick}>
-                <ListItemText primary="Sign In" />
-              </Button>
-            </ListItem>
+            <List style={{ color: "#D4D2A9" }}>
+              <ListItem disablePadding>
+                <Button
+                  sx={{
+                    ml: 1,
+                    height: 25,
+                    color: "#0F4037",
+                    backgroundColor: "#D4D2A9",
+                    "&:hover": {
+                      backgroundColor: "#A3794F",
+                    },
+                  }}
+                  onClick={handleSignInButtonClick}
+                >
+                  <ListItemText primary="Sign In" />
+                </Button>
+              </ListItem>
+              <ListItem disablePadding style={{ marginLeft: 10 }}>
+                <ListItemText primary="or" />
+              </ListItem>
+              <ListItem disablePadding>
+                <Button
+                  sx={{
+                    ml: 1,
+                    height: 25,
+                    color: "#0F4037",
+                    backgroundColor: "#D4D2A9",
+                    "&:hover": {
+                      backgroundColor: "#A3794F",
+                    },
+                  }}
+                  onClick={handleSignInButtonClick}
+                >
+                  <ListItemText primary="Create an Account" />
+                </Button>
+              </ListItem>
+            </List>
           )}
+
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/">
-              <ListItemText primary="Home" />
+              <ListItemText primary="Home" sx={{ color: "#D9D5A7" }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/quickReservation">
-              <ListItemText primary="Quick Reservation" />
+              <ListItemText
+                primary="Quick Reservation"
+                sx={{ color: "#D9D5A7" }}
+              />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/reservations">
-              <ListItemText primary="My Reservations" />
+              <ListItemText
+                primary="My Reservations"
+                sx={{ color: "#D9D5A7" }}
+              />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/location">
-              <ListItemText primary="Locations" />
+              <ListItemText primary="Locations" sx={{ color: "#D9D5A7" }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/aboutUs">
-              <ListItemText primary="About Us" />
+              <ListItemText primary="About Us" sx={{ color: "#D9D5A7" }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/userProfile">
-              <ListItemText primary="My Profile" />
+              <ListItemText primary="My Profile" sx={{ color: "#D9D5A7" }} />
             </ListItemButton>
           </ListItem>
           {authorities?.includes("ADMIN") && (
-          <ListItem disablePadding>
-            <ListItemButton onClick={handleClick}>
-              <ListItemText primary="Admin Dashboard" />
-              {open ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-          </ListItem>
-          
+            <ListItem disablePadding>
+              <ListItemButton onClick={handleClick}>
+                <ListItemText
+                  primary="Admin Dashboard"
+                  sx={{ color: "#D9D5A7" }}
+                />
+                {open ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+            </ListItem>
           )}
           {authorities?.includes("ADMIN") && (
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-            <ListItemButton
-                sx={{ pl: 3 }}
-                component={RouterLink}
-                to="adminDashboard/users"
-              >
-                <ListItemText primary="Users" />
-              </ListItemButton>
-              <ListItemButton
-                sx={{ pl: 3 }}
-                component={RouterLink}
-                to="adminDashboard/cars"
-              >
-                <ListItemText primary="Cars" />
-              </ListItemButton>
-              <ListItemButton
-                sx={{ pl: 3 }}
-                component={RouterLink}
-                to="adminDashboard/carFeatures"
-              >
-                <ListItemText primary="Car Features" />
-              </ListItemButton>
-              <ListItemButton
-                sx={{ pl: 3 }}
-                component={RouterLink}
-                to="adminDashboard/positions"
-              >
-                <ListItemText primary="Positions" />
-              </ListItemButton>
-              <ListItemButton
-                sx={{ pl: 3 }}
-                component={RouterLink}
-                to="adminDashboard/rentals"
-              >
-                <ListItemText primary="Rentals" />
-              </ListItemButton>
-              <ListItemButton
-                sx={{ pl: 3 }}
-                component={RouterLink}
-                to="adminDashboard/invoices"
-              >
-                <ListItemText primary="Invoices" />
-              </ListItemButton>
-              
-
-            </List>
-          </Collapse>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItemButton
+                  sx={{ color: "#D9D5A7", pl: 3 }}
+                  component={RouterLink}
+                  to="adminDashboard/users"
+                >
+                  <ListItemText primary="Users" />
+                </ListItemButton>
+                <ListItemButton
+                  sx={{ color: "#D9D5A7", pl: 3 }}
+                  component={RouterLink}
+                  to="adminDashboard/cars"
+                >
+                  <ListItemText primary="Cars" />
+                </ListItemButton>
+                <ListItemButton
+                  sx={{ color: "#D9D5A7", pl: 3 }}
+                  component={RouterLink}
+                  to="adminDashboard/carFeatures"
+                >
+                  <ListItemText primary="Car Features" />
+                </ListItemButton>
+                <ListItemButton
+                  sx={{ color: "#D9D5A7", pl: 3 }}
+                  component={RouterLink}
+                  to="adminDashboard/positions"
+                >
+                  <ListItemText primary="Positions" />
+                </ListItemButton>
+                <ListItemButton
+                  sx={{ color: "#D9D5A7", pl: 3 }}
+                  component={RouterLink}
+                  to="adminDashboard/rentals"
+                >
+                  <ListItemText primary="Rentals" />
+                </ListItemButton>
+                <ListItemButton
+                  sx={{ color: "#D9D5A7", pl: 3 }}
+                  component={RouterLink}
+                  to="adminDashboard/invoices"
+                >
+                  <ListItemText primary="Invoices" />
+                </ListItemButton>
+              </List>
+            </Collapse>
           )}
         </List>
       </Drawer>
@@ -235,12 +270,10 @@ export default function Sidebar() {
         open={signInDrawerOpen}
         onClose={handleSignInDrawerClose}
         sx={{
-          marginLeft: drawerWidth,
           width: signInDrawerWidth,
           flexShrink: 0,
           "& .MuiDrawer-paper": {
             width: signInDrawerWidth,
-            boxSizing: "border-box",
             borderColor: "#f9f9f9",
             padding: "20px",
             backgroundColor: "#0F4037",
@@ -248,7 +281,9 @@ export default function Sidebar() {
         }}
       >
         {signInDrawerOpen && (
-          <SignIn setIsSignedIn={setIsSignedIn}
+          <SignIn
+            setIsSignedIn={setIsSignedIn}
+            closeDrawer={closeSignInDrawer}
           />
         )}
       </Drawer>
