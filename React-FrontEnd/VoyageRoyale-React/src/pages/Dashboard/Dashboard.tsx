@@ -26,6 +26,7 @@ import Cars from "../AdminPages/Cars/Cars";
 import Positions from "../AdminPages/Positions/Positions";
 import Rentals from "../AdminPages/Rentals/Rentals";
 import Invoices from "../AdminPages/Invoices/Invoices";
+import NotFound from "../404NotFound/NotFound";
 
 function Dashboard() {
   return (
@@ -34,7 +35,7 @@ function Dashboard() {
         <Grid item xs={12} sm={2}>
           <Sidebar/>
         </Grid>
-        <Grid item xs={12} sm={10} style={{ padding: 50 }}>
+        <Grid item xs={12} sm={10} style={{ padding: 30, paddingLeft:60 }}>
           <Routes>
             <Route path="/" element={<Homepage />} />
             <Route path="/cars" element={<CarList />} />
@@ -67,6 +68,7 @@ function Dashboard() {
             <Route path="/fuel_types/add" element={<AddFuelType />} />
             <Route path="/gear_types/add" element={<AddGearType />} />
             <Route path="/locations/add" element={<AddLocation />} />
+            <Route path="/404NotFound" element={<NotFound />} />
           </Routes>
         </Grid>
         <Grid item xs={12}>
