@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { Box, Button, Collapse, Typography } from "@mui/material";
+import { Box, Button, Collapse, ListItemIcon, Typography } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -13,13 +13,14 @@ import tokenService from "../../services/tokenService";
 import axiosInstance from "../../utils/interceptors/axiosInterceptors";
 import toastr from "toastr";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
-import { getCustomerByEmail, setEmailDataEmpty } from "../../store/slices/getCustomerByEmailSlice";
+import { setEmailDataEmpty } from "../../store/slices/getCustomerByEmailSlice";
 import { isSignedIn } from "../../store/slices/signInSlice";
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import SignUpDetail from "../Login/SignUpDetail";
 
-const drawerWidth = 250;
+const drawerWidth = 275;
 const signInDrawerWidth = 400;
 
-interface SidebarProps {}
 
 export default function Sidebar() {
   // const [signedIn, setSignedIn] = useState(false);
@@ -40,7 +41,9 @@ export default function Sidebar() {
   //   }
   // }, [signedIn]);
 
-
+  const openSignInDrawer = () => {
+    setSignInDrawerOpen(true);
+  };
 
   const handleSignInButtonClick = () => {
     setSignInDrawerOpen(true);
@@ -76,11 +79,10 @@ export default function Sidebar() {
   const handleClick = () => {
     setOpen(!open);
   };
-  console.log(isSignedIn);
-  console.log(authorities?.includes("ADMIN"));
 
   return (
     <Box sx={{ display: "flex" }}>
+      <SignUpDetail openSignInDrawer={openSignInDrawer} />
       <Drawer
         sx={{
           width: drawerWidth,
@@ -140,7 +142,7 @@ export default function Sidebar() {
               <ListItem disablePadding>
                 <Button
                   sx={{
-                    ml: 1,
+                    ml: 2,
                     height: 25,
                     color: "#0F4037",
                     backgroundColor: "#D4D2A9",
@@ -153,24 +155,27 @@ export default function Sidebar() {
                   <ListItemText primary="Sign In" />
                 </Button>
               </ListItem>
-              <ListItem disablePadding style={{ marginLeft: 10 }}>
+              <ListItem disablePadding style={{ marginLeft: 20 }}>
                 <ListItemText primary="or" />
               </ListItem>
               <ListItem disablePadding>
-                <Button
+                <ListItemButton
                   sx={{
-                    ml: 1,
+                    ml: 2,
+                    mr:4,
                     height: 25,
+                    textAlign:"left",
                     color: "#0F4037",
+                    borderRadius:1,
                     backgroundColor: "#D4D2A9",
                     "&:hover": {
                       backgroundColor: "#A3794F",
                     },
                   }}
-                  onClick={handleSignInButtonClick}
+                  component={RouterLink} to="/signInSignUp"
                 >
                   <ListItemText primary="Create an Account" />
-                </Button>
+                </ListItemButton>
               </ListItem>
             </List>
           )}
@@ -178,6 +183,9 @@ export default function Sidebar() {
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/">
               <ListItemText primary="Home" sx={{ color: "#D9D5A7" }} />
+              <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
@@ -186,6 +194,9 @@ export default function Sidebar() {
                 primary="Quick Reservation"
                 sx={{ color: "#D9D5A7" }}
               />
+              <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
@@ -194,30 +205,46 @@ export default function Sidebar() {
                 primary="My Reservations"
                 sx={{ color: "#D9D5A7" }}
               />
+              <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/location">
               <ListItemText primary="Locations" sx={{ color: "#D9D5A7" }} />
+              <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/aboutUs">
               <ListItemText primary="About Us" sx={{ color: "#D9D5A7" }} />
+              <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/userProfile">
               <ListItemText primary="My Profile" sx={{ color: "#D9D5A7" }} />
+              <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
             </ListItemButton>
           </ListItem>
           {authorities?.includes("ADMIN") && (
             <ListItem disablePadding>
               <ListItemButton onClick={handleClick}>
+                
                 <ListItemText
                   primary="Admin Dashboard"
                   sx={{ color: "#D9D5A7" }}
                 />
+                <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
                 {open ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
             </ListItem>
@@ -231,6 +258,9 @@ export default function Sidebar() {
                   to="adminDashboard/users"
                 >
                   <ListItemText primary="Users" />
+                  <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
                 </ListItemButton>
                 <ListItemButton
                   sx={{ color: "#D9D5A7", pl: 3 }}
@@ -238,6 +268,9 @@ export default function Sidebar() {
                   to="adminDashboard/cars"
                 >
                   <ListItemText primary="Cars" />
+                  <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
                 </ListItemButton>
                 <ListItemButton
                   sx={{ color: "#D9D5A7", pl: 3 }}
@@ -245,6 +278,9 @@ export default function Sidebar() {
                   to="adminDashboard/carFeatures"
                 >
                   <ListItemText primary="Car Features" />
+                  <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
                 </ListItemButton>
                 <ListItemButton
                   sx={{ color: "#D9D5A7", pl: 3 }}
@@ -252,6 +288,9 @@ export default function Sidebar() {
                   to="adminDashboard/positions"
                 >
                   <ListItemText primary="Positions" />
+                  <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
                 </ListItemButton>
                 <ListItemButton
                   sx={{ color: "#D9D5A7", pl: 3 }}
@@ -259,6 +298,9 @@ export default function Sidebar() {
                   to="adminDashboard/rentals"
                 >
                   <ListItemText primary="Rentals" />
+                  <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
                 </ListItemButton>
                 <ListItemButton
                   sx={{ color: "#D9D5A7", pl: 3 }}
@@ -266,6 +308,9 @@ export default function Sidebar() {
                   to="adminDashboard/invoices"
                 >
                   <ListItemText primary="Invoices" />
+                  <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
                 </ListItemButton>
               </List>
             </Collapse>
