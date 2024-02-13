@@ -40,7 +40,7 @@ const CarFuelFilter = () => {
   return (
     <Box sx={{ minWidth: 120}}>
     <FormControl fullWidth>
-      <InputLabel id="gearFilter">Gear Type</InputLabel>
+      <InputLabel id="gearFilter">Fuel Type</InputLabel>
       <Select
         labelId="gearFilter"
         id="gearFilter"

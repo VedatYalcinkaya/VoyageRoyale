@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class GetAllBrandResponse {
     private int id;
     private String name;
+    private String logoPath;
 }

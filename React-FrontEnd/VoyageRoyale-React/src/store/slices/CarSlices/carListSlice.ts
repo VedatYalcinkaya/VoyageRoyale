@@ -13,6 +13,7 @@ interface ReservationInfo{
   pickupDate:string | null;
   returnDate:string | null;
   positionId:number | undefined;
+  city:string | null;
 }
 
 const initialState: CarList = {
