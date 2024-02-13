@@ -35,11 +35,14 @@ axiosInstance.interceptors.response.use(
     if (error.response) {
       const status = error.response.status;
       if (status === 400) {
-        toastr.error(error.response.data.detail);
+         if(error.response.data.detail){
+            toastr.error(error.response.data.detail);
+         }
+        toastr.error("Something went wrong","Caution");
       } else if (status === 500) {
         toastr.error("Internal Server Error");
       } else if (status === 401) {
-        toastr.error("Please sign in ", "Unautharized attempt.");
+        toastr.error("Invalid email or password ", "Caution!");
       } else {
         toastr.error("An error occurred: " + error.response.statusText);
       }

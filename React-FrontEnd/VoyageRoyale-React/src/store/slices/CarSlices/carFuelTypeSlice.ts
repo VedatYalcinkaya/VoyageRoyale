@@ -6,7 +6,7 @@ interface CarFuel {
   data: CarFuelType[];
   loading: boolean;
   error: string;
-  fuelType:string;
+  fuelType:string[];
   fuelId:number;
 }
 
@@ -14,7 +14,7 @@ const initialState: CarFuel = {
   data: [],
   loading: false,
   error: "",
-  fuelType:"",
+  fuelType:[],
   fuelId:0
 };
 
@@ -27,7 +27,7 @@ export const carFuelTypeSlice = createSlice({
   name: 'carFuelType',
   initialState,
   reducers: {
-    setFuelType : (state,action:PayloadAction<string>) =>{
+    setFuelType : (state,action:PayloadAction<string[]>) =>{
       state.fuelType = action.payload
     },
     setFuelId : (state,action:PayloadAction<number>) =>{

@@ -69,28 +69,8 @@ export default function SignUp() {
             console.log(values);
             resetForm();
             dispatch(postSignUp(values))
-              .then(() => {
-                setOpenSuccess(true);
-                dispatch(
-                  postSignIn({ email: values.email, password: values.password })
-                )
-                  .then(() => {
-                    console.log("User signed in successfully after sign-up");
-                    navigate("/");
-                  })
-                  .catch((error) => {
-                    console.error(
-                      "Error occurred during sign-in after sign-up:",
-                      error
-                    );
-                  });
-              })
-              .catch(() => {
-                setOpenFailure(true);
-              });
           }}
         >
-          {({}) => (
             <Form>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
@@ -162,7 +142,6 @@ export default function SignUp() {
                 {isLoading ? "Signing Up..." : "Sign Up"}
               </Button>
             </Form>
-          )}
         </Formik>
       </Box>
     </>

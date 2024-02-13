@@ -64,23 +64,9 @@ export default function SignUp() {
           onSubmit={async (values: CorporateSignUpRequest, { resetForm }) => {
             console.log(values);
             resetForm();
-            await dispatch(postCorporateSignUp(values))
-              .then(() => {
-                setOpenSuccess(true);
-                dispatch(
-                  postSignIn({ email: values.email, password: values.password })
-                )
-                  .then(() => {
-                    navigate("/");
-                  })
-                  .catch((error) => {});
-              })
-              .catch(() => {
-                setOpenFailure(true);
-              });
-          }}
+            await dispatch(postCorporateSignUp(values))}}
         >
-          {({ values }) => (
+        
             <Form>
               <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -135,7 +121,7 @@ export default function SignUp() {
                 {isLoading ? "Signing Up..." : "Sign Up"}
               </Button>
             </Form>
-          )}
+
         </Formik>
       </Box>
     </>

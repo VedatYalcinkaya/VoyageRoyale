@@ -23,7 +23,8 @@ type CarCardProps = {};
 const CarCard: React.FC<CarCardProps> = () => {
   const dispatch: ThunkDispatch<any, any, Action> = useDispatch();
   const selectedCarType = useAppSelector((state) => state.carCarType.carType);
-  const selectedFuel = useAppSelector((state) => state.carFuelType.fuelType);
+  const selectedFuel: string[] = useAppSelector((state) => state.carFuelType.fuelType) ?? [];
+
   const selectedBrand = useAppSelector((state) => state.carBrandType.brandType);
   const selectedGear = useAppSelector((state) => state.carGearType.gearType);
 
@@ -31,14 +32,14 @@ const CarCard: React.FC<CarCardProps> = () => {
 
   const filterCars = (car: Car) => {
     const typeMatch = !selectedCarType || car.carTypeName === selectedCarType;
-    const fuelMatch = !selectedFuel || car.fuelTypeName === selectedFuel;
+    const fuelMatch = selectedFuel.length === 0 || selectedFuel.includes(`${car.fuelTypeName}`);
     const brandMatch = !selectedBrand || car.brandName === selectedBrand;
     const gearMatch = !selectedGear || car.gearTypeName === selectedGear;
 
     return typeMatch && fuelMatch && brandMatch && gearMatch;
   };
 
-  const filteredCars = Array.isArray(cars) ? cars.filter(filterCars) : [];
+  const filteredCars = selectedFuel.length > 0 ? cars.filter(filterCars) : cars;
 
   return (
     <Container sx={{ py: 2, ml: 3 }} maxWidth="md">
@@ -47,16 +48,16 @@ const CarCard: React.FC<CarCardProps> = () => {
           <Grid container key={car.id} xs={12} sm={12} md={12}>
             <Grid item xs={9}></Grid>
             <Grid item xs={12}>
-            <Typography>Marka</Typography>
+            <Typography>{car.brandName}</Typography>
             </Grid>
             <Grid item xs={12}>
-            <Typography>Foto</Typography>
+            <Typography>{car.fuelTypeName}</Typography>
             </Grid>
             <Grid item xs={12}>
-            <Typography>Cüretsiz İpral</Typography>
+            <Typography>{car.dailyPrice}</Typography>
             </Grid>
             <Grid item xs={3}></Grid>
-            <Typography>Fiyat Bilgileri</Typography>
+            <Typography>{car.year}</Typography>
           </Grid>
         ))}
       </Grid>

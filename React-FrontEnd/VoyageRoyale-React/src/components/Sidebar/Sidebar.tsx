@@ -58,7 +58,8 @@ export default function Sidebar() {
     dispatch(setEmailDataEmpty())
     dispatch(isSignedIn(false));
     localStorage.removeItem("isSignedIn")
-    axiosInstance.post("auth/logout").then(response => {toastr.info(`${response.data}`)})
+    axiosInstance.post("auth/logout")
+    toastr.warning("You have been logged out!", "Caution")
   }
 
 
