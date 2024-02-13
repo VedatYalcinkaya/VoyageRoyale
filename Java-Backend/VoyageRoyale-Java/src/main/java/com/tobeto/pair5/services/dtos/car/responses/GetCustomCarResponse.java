@@ -24,4 +24,5 @@ public class GetCustomCarResponse {
     private String fuelTypeName;
     private String carTypeName;
     private String positionName;
+    private String logoPath;
 }
