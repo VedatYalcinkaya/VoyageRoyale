@@ -1,43 +1,54 @@
 import React from 'react';
-import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { Box, FormControl, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../store/configureStore';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { setCarCarType } from '../../../store/slices/CarSlices/carCarTypeSlice';
 
 type CarFilterProps = {};
 
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+
 const CarFilter = () => {
   const dispatch: ThunkDispatch<any, any, Action> = useAppDispatch();
   const carTypes = useAppSelector((state) => state.carCarType.data);
-  const selectedCarType = useAppSelector((state) => state.carCarType.carType);
+  const selectedCarType: string[] = useAppSelector((state) => state.carCarType.carType);
 
-  const handleChange = (event: SelectChangeEvent) => {
-    const selectedValue= event.target.value as string
-    selectedValue==='all'? dispatch(setCarCarType('')):dispatch(setCarCarType(selectedValue));
-   
-    
+  const handleChange = (event: SelectChangeEvent<typeof selectedCarType>) => {
+    const {
+      target: { value },
+    } = event;
+    dispatch(setCarCarType( typeof value === 'string' ? value.split(',') : value,));
   };
 
   return (
     <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel id="carType">Car Type</InputLabel>
-        <Select
-          labelId="carType"
-          id="carType"
-          value={selectedCarType} 
-          label="Car Type"
-          onChange={handleChange}
-        >
-
-          <MenuItem value="all">All Car Types</MenuItem>
-          {carTypes.map((type) => (
-            <MenuItem value={type.name} key={type.id}>
-              {type.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+    <FormControl fullWidth>
+      <InputLabel id="carFilter">Car Type</InputLabel>
+      <Select
+        labelId="carFilter"
+        id="carFilter"
+        multiple
+        input={<OutlinedInput label="Tag" />}
+        renderValue={(selected) => selected.join(', ')}
+        value={selectedCarType}
+        label="Brand Type"
+        onChange={handleChange}
+        MenuProps={MenuProps}
+      >
+      {carTypes.map((carType)=> <MenuItem value={carType.name} key={carType.id}>{carType.name}</MenuItem>)}
+      </Select>
+    </FormControl>
     </Box>
   );
 };
