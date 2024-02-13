@@ -25,6 +25,8 @@ public class UserManager implements UserService {
     private final ModelMapperService modelMapperService;
     @Override
     public User add(AddUserRequest request) {
+        chechIsUserEmailExists(request.getEmail());
+        checkUserPasswordLength(request.getPassword());
         User user = this.modelMapperService.forRequest().map(request, User.class);
         this.userRepository.save(user);
         return user;
@@ -32,14 +34,13 @@ public class UserManager implements UserService {
 
     @Override
     public void delete(int id) {
-        User userToDelete = userRepository.findById(id)
-                .orElseThrow(()-> new BusinessException(Messages.userNotFound));
+        User userToDelete = findUser(id);
         userRepository.delete(userToDelete);
     }
 
     @Override
     public void update(UpdateUserRequest request) {
-        User userToUpdate = userRepository.findById(request.getId()).orElseThrow();
+        User userToUpdate =findUser(request.getId());
         this.modelMapperService.forRequest().map(request, userToUpdate);
         userRepository.saveAndFlush(userToUpdate);
     }
@@ -47,28 +48,54 @@ public class UserManager implements UserService {
     @Override
     public List<GetAllUserResponse> getAll() {
         List<User> users = userRepository.findAll();
-        List<GetAllUserResponse> responses = users.stream().map(user -> this.modelMapperService.forResponse().map(user, GetAllUserResponse.class))
+        List<GetAllUserResponse> responses = users.stream()
+                .map(user -> this.modelMapperService.forResponse()
+                        .map(user, GetAllUserResponse.class))
                 .toList();
         return responses;
     }
 
     @Override
     public GetByIdUserResponse getById(int id) {
-        User user = userRepository.findById(id).orElseThrow(()-> new BusinessException(Messages.userNotFound));
+        User user = findUser(id);
         GetByIdUserResponse response = this.modelMapperService.forResponse().map(user, GetByIdUserResponse.class);
         return response;
     }
 
     @Override
     public GetByIdUserResponse getByEmail(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(()-> new BusinessException(Messages.userNotFound));
+        User user = findUserByEmail(email);
         GetByIdUserResponse response = this.modelMapperService.forResponse().map(user,GetByIdUserResponse.class);
         return response;
     }
 
     @Override
+    public boolean existsUserById(int id) {
+        return userRepository.existsById(id);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username).orElseThrow(()-> new BusinessException(Messages.userNotFound));
+        User user = findUserByEmail(username);
         return user;
+    }
+
+    private void chechIsUserEmailExists(String email) {
+        if (userRepository.findByEmail(email).isPresent()) {
+            throw new BusinessException(Messages.emailAlreadyExists);
+        }
+    }
+    private void checkUserPasswordLength(String password){
+        if (password.length()<8){
+            throw new BusinessException(Messages.passwordLength);
+        }
+    }
+    private User findUser(int value){
+        return userRepository.findById(value)
+                .orElseThrow(()-> new BusinessException(Messages.userNotFound));
+    }
+    private User findUserByEmail(String email){
+        return userRepository.findByEmail(email)
+                .orElseThrow(()-> new BusinessException(Messages.userNotFound));
     }
 }

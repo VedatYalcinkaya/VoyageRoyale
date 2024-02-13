@@ -27,7 +27,8 @@ public class CustomerManager implements CustomerService {
     private UserService userService;
     @Override
     public void add(AddCustomerRequest request) {
-
+        checkIsIdentityNumberAlreadyExists(request.getTcNo());
+        chcekIsUserExist(request.getUserId());
         Customer customer = this.modelMapperService.forRequest().map(request,Customer.class);
         customerRepository.save(customer);
     }
@@ -44,6 +45,8 @@ public class CustomerManager implements CustomerService {
     public void update(UpdateCustomerRequest request) {
 
         Customer customerToUpdate = customerRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.customerNotExists));
+        checkIsIdentityNumberAlreadyExists(request.getTcNo());
+        chcekIsUserExist(request.getUserId());
         this.modelMapperService.forRequest().map(request, customerToUpdate);
 
         customerRepository.saveAndFlush(customerToUpdate);
@@ -79,5 +82,16 @@ public class CustomerManager implements CustomerService {
         Customer customer = customerRepository.findByUserEmail(email).orElseThrow(()-> new BusinessException(Messages.customerNotExists));
         GetCustomerByIdResponse customerResponse = modelMapperService.forResponse().map(customer,GetCustomerByIdResponse.class);
         return customerResponse;
+    }
+
+    private void checkIsIdentityNumberAlreadyExists(String identityNumber){
+        if (customerRepository.findByTcNo(identityNumber).isPresent()){
+            throw new BusinessException(Messages.identityNumberAlreadyExists);
+        }
+    }
+    private void chcekIsUserExist(int userId){
+        if (!userService.existsUserById(userId)){
+            throw new BusinessException(Messages.userNotFound);
+        }
     }
 }

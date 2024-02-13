@@ -17,5 +17,6 @@ public interface UserService extends UserDetailsService {
     List<GetAllUserResponse> getAll();
     GetByIdUserResponse getById(int id);
     GetByIdUserResponse getByEmail(String email);
+    boolean existsUserById(int id);
 
 }
