@@ -6,7 +6,7 @@ interface CarCarTypeState {
   data: CarCarType[];
   loading: boolean;
   error: string;
-  carType: string;
+  carType: string[];
   carTypeId: number;
 }
 
@@ -14,7 +14,7 @@ const initialState: CarCarTypeState = {
   data: [],
   loading: false,
   error: "",
-  carType: "",
+  carType: [],
   carTypeId:0
 };
 
@@ -27,7 +27,7 @@ export const carCarTypeSlice = createSlice({
   name: 'carCarType',
   initialState,
   reducers: {
-    setCarCarType: (state, action: PayloadAction<string>) => {
+    setCarCarType: (state, action: PayloadAction<string[]>) => {
       state.carType = action.payload
     },
     setCarTypeId: (state, action: PayloadAction<number>) => {

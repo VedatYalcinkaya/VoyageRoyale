@@ -31,7 +31,6 @@ const CarFuelFilter = () => {
     const {
       target: { value },
     } = event;
-    const selectedFuel =event.target.value as string;
     dispatch(setFuelType( typeof value === 'string' ? value.split(',') : value,));
   };
 

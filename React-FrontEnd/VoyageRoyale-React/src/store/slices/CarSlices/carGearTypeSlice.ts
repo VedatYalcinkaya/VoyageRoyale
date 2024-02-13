@@ -1,19 +1,20 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../../../utils/interceptors/axiosInterceptors";
-import { CarGearType } from "../../../models/CarGearTypeModel/responses/response";
+import { CarGearType } from "../../../models/carGearTypeModel/responses/response";
+
 
 interface GearType{
     data:CarGearType[];
     loading : boolean;
     error:string;
-    gearType:string;
+    gearType:string[];
 }
 
 const initialState:GearType ={
     data:[],
     loading:false,
     error:"",
-    gearType:""
+    gearType:[]
 }
 
 export const getCarGearType = createAsyncThunk('getCarGearType', async()=>{
@@ -25,7 +26,7 @@ export const carGearTypeSlice = createSlice({
     name:'carGearType',
     initialState,
     reducers:{
-        setGearType:(state,action:PayloadAction<string>) =>{
+        setGearType:(state,action:PayloadAction<string[]>) =>{
             state.gearType = action.payload
         }
     },

@@ -6,7 +6,7 @@ interface CarBrand {
   data: CarBrandType[];
   loading: boolean;
   error: string;
-  brandType:string;
+  brandType:string[];
   brandId:number;
 }
 
@@ -14,7 +14,7 @@ const initialState: CarBrand = {
   data: [],
   loading: false,
   error: "",
-  brandType:"",
+  brandType:[],
   brandId:0
 };
 
@@ -27,7 +27,7 @@ export const carBrandTypeSlice = createSlice({
   name: 'carBrandType',
   initialState,
   reducers: {
-    setBrandType : (state,action:PayloadAction<string>) =>{
+    setBrandType : (state,action:PayloadAction<string[]>) =>{
       state.brandType = action.payload
     },
     setBrandId : (state,action:PayloadAction<number>) =>{

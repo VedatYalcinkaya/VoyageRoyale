@@ -16,7 +16,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../store/configureStore";
-import { getCarDetail } from "../../store/slices/CarSlices/carDetailSlice";
+import { getCarDetail, setCarDetailSend } from "../../store/slices/CarSlices/carDetailSlice";
 import { Link, useParams } from "react-router-dom";
 import SelectedReservationDetails from "./SelectedReservationDetails";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
@@ -349,6 +349,7 @@ const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
                   variant="contained"
                   color="primary"
                   style={{ textAlign: "center" }}
+                  onClick={()=>{dispatch(setCarDetailSend(carDetails))}}
                 >
                   Book Now
                 </Button>

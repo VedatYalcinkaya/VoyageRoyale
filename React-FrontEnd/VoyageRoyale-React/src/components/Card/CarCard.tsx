@@ -20,24 +20,24 @@ const CarCard: React.FC<CarCardProps> = () => {
   }
 
   const dispatch: ThunkDispatch<any, any, Action> = useDispatch();
-  const selectedCarType = useAppSelector((state) => state.carCarType.carType);
+  const selectedCarType: string[] = useAppSelector((state) => state.carCarType.carType);
   const selectedFuel: string[] = useAppSelector((state) => state.carFuelType.fuelType) ?? [];
 
-  const selectedBrand = useAppSelector((state) => state.carBrandType.brandType);
-  const selectedGear = useAppSelector((state) => state.carGearType.gearType);
+  const selectedBrand :string[] = useAppSelector((state) => state.carBrandType.brandType);
+  const selectedGear : string[] = useAppSelector((state) => state.carGearType.gearType);
 
   const cars: Car[] = useAppSelector((state) => state.carList.data) || [];
 
   const filterCars = (car: Car) => {
-    const typeMatch = !selectedCarType || car.carTypeName === selectedCarType;
+    const typeMatch = selectedCarType.length === 0 || selectedCarType.includes(`${car.carTypeName}`);
     const fuelMatch = selectedFuel.length === 0 || selectedFuel.includes(`${car.fuelTypeName}`);
-    const brandMatch = !selectedBrand || car.brandName === selectedBrand;
-    const gearMatch = !selectedGear || car.gearTypeName === selectedGear;
+    const brandMatch = selectedBrand.length === 0 || selectedBrand.includes(`${car.brandName}`);
+    const gearMatch = selectedGear.length === 0 || selectedGear.includes(`${car.gearTypeName}`);
 
     return typeMatch && fuelMatch && brandMatch && gearMatch;
   };
 
-  const filteredCars = selectedFuel.length > 0 ? cars.filter(filterCars) : cars;
+  const filteredCars = selectedFuel.length > 0 || selectedBrand.length>0 || selectedGear.length>0 || selectedCarType.length>0 ? cars.filter(filterCars) : cars;
 
   const selectedReturnDate = useAppSelector(
     (state) => state.reservation.returnDate

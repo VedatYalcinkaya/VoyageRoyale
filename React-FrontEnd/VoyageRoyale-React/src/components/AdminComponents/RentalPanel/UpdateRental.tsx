@@ -52,6 +52,7 @@ function UpdateRental() {
     dispatch(getAllUsers());
     dispatch(getAllCar());
   }, []);
+  console.log(cars);
 
   return (
     <Formik
@@ -113,7 +114,7 @@ function UpdateRental() {
 
         <Field as={Select} name="carId">
           <MenuItem value="0">Select A Car</MenuItem>
-          {cars.map((car) => (
+          {cars?.map((car) => (
             <MenuItem value={car.id} key={car.id}>
               {car.plate}
             </MenuItem>
