@@ -57,7 +57,7 @@ public class SecurityConfiguration {
                         authorizeHttpRequests.requestMatchers(WHITE_LIST_URLS).permitAll()
                                 .requestMatchers(HttpMethod.GET,"/**").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/api/**").hasRole(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.PUT,"/api/**").hasRole(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.PUT,"/**").permitAll()
                                 .requestMatchers(HttpMethod.DELETE,"/api/**").hasRole(Role.ADMIN.name()).anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
