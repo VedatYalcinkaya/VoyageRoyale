@@ -96,6 +96,7 @@ const ReservationBox: React.FC = () => {
                   pickUpDate: dayjs(values.pickUpDate).toISOString(),
                   returnDate: dayjs(values.returnDate).toISOString(),
                   position: positionObj,
+                  city: positionObj?.city
                 }));
                 toastr.success("Cars listed!");
                 navigate("/cars");
@@ -120,8 +121,8 @@ const ReservationBox: React.FC = () => {
                   Start a Reservation
                 </Typography>
               </Grid>
-              <Grid item xs={12} >
-                <FormControl fullWidth>
+              <Grid item xs={12} textAlign={"left"}>
+                <FormControl fullWidth >
                   <InputLabel id="position-select-label">Cities..</InputLabel>
                   <Select
                     labelId="position-select-label"
@@ -144,7 +145,7 @@ const ReservationBox: React.FC = () => {
               </Grid>
               <Grid item xs={5} >
                 <DateTimePicker
-                  label="Pick Up"
+                  label="Pick-up Date"
                   value={formikBag.values.pickUpDate ? dayjs(formikBag.values.pickUpDate) : null}
                   onChange={(date) => formikBag.setFieldValue("pickUpDate", date)}
                   sx={{}}
@@ -155,7 +156,7 @@ const ReservationBox: React.FC = () => {
               </Grid>
               <Grid item xs={5}>
                 <DateTimePicker
-                  label="Return"
+                  label="Drop-off Date"
                   value={formikBag.values.returnDate ? dayjs(formikBag.values.returnDate) : null}
                   onChange={(date) => formikBag.setFieldValue("returnDate", date)}
                 />
