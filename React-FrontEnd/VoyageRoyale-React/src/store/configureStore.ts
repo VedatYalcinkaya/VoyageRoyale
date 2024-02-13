@@ -51,7 +51,6 @@ import corporateCustomerInfoSlice from "./slices/CorporateCustomerSlice/corporat
 import getAllUsersSlice from "./slices/getAllUsersSlice";
 import getAllRentalSlice from "./slices/getAllRentalSlice";
 import corporateSignUpSlice from "./slices/corporateSignUpSlice";
-import updateCorporateCustomer from "./slices/CorporateCustomerSlice/updateCorporateCustomerSlice";
 import updateCorporateCustomerSlice from "./slices/CorporateCustomerSlice/updateCorporateCustomerSlice";
 
 export const store = configureStore({
