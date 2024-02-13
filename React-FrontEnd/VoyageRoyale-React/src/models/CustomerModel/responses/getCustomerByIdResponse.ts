@@ -5,4 +5,5 @@ export interface Customer {
     userEmail:string;
     tcNo:string;
     birthDate:string;
+    userImagePath:string;
 }
