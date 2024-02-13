@@ -51,6 +51,8 @@ import corporateCustomerInfoSlice from "./slices/CorporateCustomerSlice/corporat
 import getAllUsersSlice from "./slices/getAllUsersSlice";
 import getAllRentalSlice from "./slices/getAllRentalSlice";
 import corporateSignUpSlice from "./slices/corporateSignUpSlice";
+import updateCorporateCustomer from "./slices/CorporateCustomerSlice/updateCorporateCustomerSlice";
+import updateCorporateCustomerSlice from "./slices/CorporateCustomerSlice/updateCorporateCustomerSlice";
 
 export const store = configureStore({
   reducer: {
@@ -72,6 +74,7 @@ export const store = configureStore({
     carModel: carModelSlice,
     addCar: addCarSlice,
     updateCustomer: updateCustomerSlice,
+    updateCorporateCustomer: updateCorporateCustomerSlice,
     signIn: signInSlice,
     loading: loadingSlice,
     addBrand: addBrandSlice,
