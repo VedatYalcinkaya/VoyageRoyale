@@ -58,6 +58,10 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.GET,"/**").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/api/**").hasRole(Role.ADMIN.name())
                                 .requestMatchers(HttpMethod.PUT,"/**").permitAll()
+                                .requestMatchers(HttpMethod.PUT,"/api/users/**").permitAll()
+                                .requestMatchers(HttpMethod.PUT,"/api/customers/**").permitAll()
+                                .requestMatchers(HttpMethod.PUT,"/api/corporateCustomers/**").permitAll()
+
                                 .requestMatchers(HttpMethod.DELETE,"/api/**").hasRole(Role.ADMIN.name()).anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

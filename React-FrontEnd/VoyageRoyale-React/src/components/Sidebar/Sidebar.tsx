@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { Box, Button, Collapse, ListItemIcon, Typography } from "@mui/material";
+import { Box, Button, Collapse, ListItemIcon, Menu, MenuItem, MenuProps, Typography, alpha, styled } from "@mui/material";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import Divider from '@mui/material/Divider';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -17,20 +20,142 @@ import { setEmailDataEmpty } from "../../store/slices/getCustomerByEmailSlice";
 import { isSignedIn } from "../../store/slices/signInSlice";
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import SignUpDetail from "../Login/SignUpDetail";
+import { getCustomerInfo } from "../../store/slices/CustomerSlices/customerInfoSlice";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const drawerWidth = 275;
 const signInDrawerWidth = 400;
 
+const StyledMenu = styled((props: MenuProps) => (
+  <Menu
+    elevation={0}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'right',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'right',
+    }}
+    {...props}
+  />
+))(({ theme }) => ({
+  '& .MuiPaper-root': {
+    borderRadius: 6,
+    marginTop: theme.spacing(1),
+    minWidth: 180,
+    color:
+      theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+    boxShadow:
+      'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+    '& .MuiMenu-list': {
+      padding: '4px 0',
+    },
+    '& .MuiMenuItem-root': {
+      '& .MuiSvgIcon-root': {
+        fontSize: 18,
+        color: theme.palette.text.secondary,
+        marginRight: theme.spacing(1.5),
+      },
+      '&:active': {
+        backgroundColor: alpha(
+          theme.palette.primary.main,
+          theme.palette.action.selectedOpacity,
+        ),
+      },
+    },
+  },
+}));
 
 export default function Sidebar() {
   // const [signedIn, setSignedIn] = useState(false);
   const dispatch = useAppDispatch();
   const isLogedIn = useAppSelector(state => state.signIn.setSignedIn);
+  const email = useAppSelector(state => state.getCustomerByEmail.data?.email);
+  const customer = useAppSelector(state => state.customerInfo.data);
+  const corporateCustomer = useAppSelector(state => state.corporateCustomerInfo.data);
 
   const authorities: string[] | undefined = useAppSelector(
     (state) => state.getCustomerByEmail.data?.authorities
   );
   console.log(authorities);
+
+  useEffect(() => {
+    // Email adresine göre müşteri bilgilerini çek
+    if (email) {
+      dispatch(getCustomerInfo(email));
+    }
+  }, [dispatch, email]);
+
+
+
+
+
+
+  const [welcomeMessage, setWelcomeMessage] = useState('');
+  const [customerFromStorage, setCustomerFromStorage] = useState(localStorage.getItem('customer'));
+  const [corporateCustomerFromStorage, setCorporateCustomerFromStorage] = useState(localStorage.getItem('corporateCustomer'));
+
+  useEffect(() => {
+    const handleStorageChange = (e:any) => {
+      if (e.key === 'customer' && e.newValue) {
+        setCustomerFromStorage(JSON.parse(e.newValue));
+      } else if (e.key === 'corporateCustomer' && e.newValue) {
+        setCorporateCustomerFromStorage(JSON.parse(e.newValue));
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    // Component unmount olduğunda event listener'ı temizle
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
+  // Customer bilgilerini yerel depolamaya kaydet
+  useEffect(() => {
+    if (customer) {
+      localStorage.setItem('customer', JSON.stringify(customer));
+    }
+  }, [customer]);
+
+  // CorporateCustomer bilgilerini yerel depolamaya kaydet
+  useEffect(() => {
+    if (corporateCustomer) {
+      localStorage.setItem('corporateCustomer', JSON.stringify(corporateCustomer));
+    }
+  }, [corporateCustomer]);
+
+  // Welcome message güncelle
+  useEffect(() => {
+    const storedCustomer = localStorage.getItem('customer');
+    const storedCorporateCustomer = localStorage.getItem('corporateCustomer');
+
+    if (storedCustomer) {
+      const customerData = JSON.parse(storedCustomer);
+      setWelcomeMessage(`Welcome ${customerData.firstName}`);
+    } else if (storedCorporateCustomer) {
+      const corporateCustomerData = JSON.parse(storedCorporateCustomer);
+      setWelcomeMessage(`Welcome ${corporateCustomerData.companyName}`);
+    }
+  }, [customer, corporateCustomer]);
+
+
+
+  useEffect(() => {
+
+    if (authorities?.includes("CUSTOMER") && customerFromStorage) {
+      const customerData = JSON.parse(customerFromStorage);
+      setWelcomeMessage(`Welcome ${customerData.firstName}`);
+    } else if (authorities?.includes("CORPORATE_CUSTOMER") && corporateCustomerFromStorage) {
+      const corporateCustomerData = JSON.parse(corporateCustomerFromStorage);
+      setWelcomeMessage(`Welcome ${corporateCustomerData.companyName}`);
+    }
+  }, [authorities]);
+
+
 
   const [signInDrawerOpen, setSignInDrawerOpen] = useState(false);
   const navigate = useNavigate();
@@ -47,6 +172,7 @@ export default function Sidebar() {
 
   const handleSignInButtonClick = () => {
     setSignInDrawerOpen(true);
+    // dispatch(getCustomerInfo(email))
   };
 
   const handleSignInDrawerClose = () => {
@@ -57,6 +183,7 @@ export default function Sidebar() {
     tokenService.logout();
     dispatch(setEmailDataEmpty())
     dispatch(isSignedIn(false));
+    handleMenuButtonClose();
     localStorage.removeItem("isSignedIn")
     axiosInstance.post("auth/logout")
     toastr.warning("You have been logged out!", "Caution")
@@ -79,6 +206,14 @@ export default function Sidebar() {
 
   const handleClick = () => {
     setOpen(!open);
+  };
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const openMenuButton = Boolean(anchorEl);
+  const handleMenuButtonClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuButtonClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -128,8 +263,43 @@ export default function Sidebar() {
         <List sx={{ pl: 3 }}>
           {isLogedIn ? (
             <>
-              <ListItem disablePadding>
-                <ListItemText primary={`Welcome`} sx={{ color: "#D9D5A7" }} />
+              <ListItem>
+                <Button
+                  id="demo-customized-button"
+                  aria-controls={open ? 'demo-customized-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                  variant="contained"
+                  disableElevation
+                  onClick={handleMenuButtonClick}
+                  endIcon={<KeyboardArrowDownIcon />}
+
+                >
+                  {welcomeMessage}
+                </Button>
+                <StyledMenu
+                  id="demo-customized-menu"
+                  MenuListProps={{
+                    'aria-labelledby': 'demo-customized-button',
+                  }}
+                  anchorEl={anchorEl}
+                  open={openMenuButton}
+                  onClose={handleMenuButtonClose}
+                >
+                  <MenuItem onClick={handleMenuButtonClose} component={RouterLink} to="/userProfile" disableRipple>
+                    <AccountCircleIcon />
+                    My Profile
+                  </MenuItem>
+                  <MenuItem onClick={handleMenuButtonClose} component={RouterLink} to="/reservations" disableRipple>
+                    <FileCopyIcon />
+                    My Reservations
+                  </MenuItem>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem disableRipple onClick={onSignOut}>
+                  <LogoutIcon/>
+                    Sign Out
+                  </MenuItem>
+                </StyledMenu>
               </ListItem>
 
               <ListItem disablePadding>
@@ -200,17 +370,7 @@ export default function Sidebar() {
               </ListItemIcon>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component={RouterLink} to="/reservations">
-              <ListItemText
-                primary="My Reservations"
-                sx={{ color: "#D9D5A7" }}
-              />
-              <ListItemIcon>
-                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
-              </ListItemIcon>
-            </ListItemButton>
-          </ListItem>
+
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/location">
               <ListItemText primary="Locations" sx={{ color: "#D9D5A7" }} />
@@ -222,14 +382,6 @@ export default function Sidebar() {
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/aboutUs">
               <ListItemText primary="About Us" sx={{ color: "#D9D5A7" }} />
-              <ListItemIcon>
-                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
-              </ListItemIcon>
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component={RouterLink} to="/userProfile">
-              <ListItemText primary="My Profile" sx={{ color: "#D9D5A7" }} />
               <ListItemIcon>
                 <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
               </ListItemIcon>
@@ -335,7 +487,7 @@ export default function Sidebar() {
       >
         {signInDrawerOpen && (
           <SignIn
-          closeSignInDrawer={closeSignInDrawer}
+            closeSignInDrawer={closeSignInDrawer}
           />
         )}
       </Drawer>

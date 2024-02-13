@@ -5,7 +5,7 @@ import { useAppSelector } from '../../store/configureStore';
 import { getCorporateCustomerInfo } from '../../store/slices/CorporateCustomerSlice/corporateCustomerInfoSlice';
 import * as Yup from "yup";
 import { Form, Formik } from 'formik';
-import { putCorporateCustomer } from '../../store/slices/CorporateCustomerSlice/updateCorporateCustomer';
+import { putCorporateCustomer } from '../../store/slices/CorporateCustomerSlice/updateCorporateCustomerSlice';
 import { Button, Grid, TextField } from '@mui/material';
 
 const CorporateCustomerProfileCard: React.FC = () => {

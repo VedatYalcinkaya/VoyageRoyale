@@ -8,6 +8,7 @@ import { putCustomer } from '../../store/slices/CustomerSlices/updateCustomerSli
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { getCustomerByEmail } from '../../store/slices/getCustomerByEmailSlice';
+import { uploadCarImage } from '../../store/slices/addCarSlice';
 
 const UserProfileCard: React.FC = () => {
   const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
@@ -15,13 +16,14 @@ const UserProfileCard: React.FC = () => {
 
   const [initialFormValues, setInitialFormValues] = useState({
     id: 0,
-    firstName:  '',
+    firstName: '',
     lastName: '',
     userEmail: '',
     tcNo: '',
-    birthDate: ''
-  }); 
-  
+    birthDate: '',
+    userImagePath: ''
+  });
+
   const email = useAppSelector(state => state.getCustomerByEmail.data?.email);
   useEffect(() => {
     dispatch(getCustomerInfo(email));
@@ -43,7 +45,9 @@ const UserProfileCard: React.FC = () => {
         lastName: customer.lastName || '',
         userEmail: customer.userEmail || '',
         tcNo: customer.tcNo || '',
-        birthDate: customer.birthDate || ''
+        birthDate: customer.birthDate || '',
+        userImagePath: customer.userImagePath || ''
+
       });
     }
   }, [customer]);
@@ -60,34 +64,74 @@ const UserProfileCard: React.FC = () => {
       .required("Email is required"),
     tcNo: Yup.string().length(11, "Must be 11 character"),
     birthDate: Yup.string()
-    .required("birth date is required")
+      .required("birth date is required")
   })
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    console.log(files); // Seçilen dosyaları konsola yazdırır.
+    if (files && files.length > 0) {
+      setImageFile(files[0]);
+      console.log("Dosya seçildi:", files[0]); // Seçilen ilk dosyanın detaylarını konsola yazdırır.
+    } else {
+      console.log("Dosya seçilmedi.");
+    }
+  };
 
   return (
     <Formik initialValues={initialFormValues} validationSchema={validationSchema}
-      onSubmit={(values: any, {resetForm,setValues, setSubmitting }) => {
+      onSubmit={async (values: any, { setFieldValue, setValues, setSubmitting }) => {
+        if (imageFile) {
+          try {
+            // İlk olarak resmi yükle
+            const imageResponse = await dispatch(uploadCarImage(imageFile)).unwrap();
+            values.userImagePath = imageResponse
+            console.log(values.userImagePath)
+            console.log(values)
+          } catch (error) {
+            console.error('Resim yükleme işlemi sırasında hata oluştu', error);
+            return;
+          }
+        }
+
+        const updatedValues = { ...values, userImagePath: values.userImagePath };
         dispatch(putCustomer(values))
-        .unwrap()
-        .then(updatedCustomer => {
-          dispatch(getCustomerInfo(email))
           .unwrap()
-          .then(freshCustomer => {
-            setInitialFormValues(freshCustomer); // Form'un başlangıç değerlerini güncelle
-            setValues(freshCustomer); // Formik değerlerini güncelle
+          .then(updatedCustomer => {
+            dispatch(getCustomerInfo(email))
+              .unwrap()
+              .then(freshCustomer => {
+                setInitialFormValues(freshCustomer); // Form'un başlangıç değerlerini güncelle
+                setValues(freshCustomer,false); // Formik değerlerini güncelle
+              })
+              .catch(error => console.error("Could not fetch updated customer:", error));
           })
-          .catch(error => console.error("Could not fetch updated customer:", error));
-      })
-      .catch(error => {
-        console.error("Update failed:", error);
-      })
-      .finally(() => {
-        setSubmitting(false); // İşlem bittiğinde submitting durumunu false yap
-      });
-  }}
+          .catch(error => {
+            console.error("Update failed:", error);
+          })
+          .finally(() => {
+            setSubmitting(false); // İşlem bittiğinde submitting durumunu false yap
+          });
+      }}
       enableReinitialize // Bu prop initialValues her değiştiğinde formu yeniden başlatır
     >
-      {({ values ,errors, touched, handleChange, handleBlur }) => (
+      {({ values, errors, touched, handleChange, handleBlur }) => (
         <Form>
+          <Grid>
+            <label htmlFor="file" style={{ cursor: 'pointer' }}>
+              <input
+                accept="image/*"
+                type="file"
+                onChange={handleFileSelect}
+                style={{ display: 'none' }}
+                id="file"
+              />
+              <Button component="span" style={{ padding: 0, borderRadius: '50%', overflow: 'hidden', display: 'inline-block' }}>
+                <img src={values.userImagePath || "default_image_placeholder.png"} alt="Upload" style={{ width: 100, height: 100, objectFit: 'cover', clipPath: 'circle(50%)' }} />
+              </Button>
+            </label>
+
+          </Grid>
           <Grid container spacing={2}>
             {/* Example: First Name Field */}
             <Grid item xs={12}>

@@ -5,4 +5,5 @@ export interface UpdateCustomerRequest {
     userEmail:string;
     tcNo:string;
     birthDate:string;
+    userImagePath:string;
 }

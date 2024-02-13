@@ -12,6 +12,8 @@ class TokenService {
 
     logout(){
         localStorage.removeItem("token");
+        localStorage.removeItem("customer");
+        localStorage.removeItem("corporateCustomer");
     }
 
     decodeToken() {
