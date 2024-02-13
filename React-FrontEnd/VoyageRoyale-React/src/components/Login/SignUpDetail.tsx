@@ -1,8 +1,14 @@
-import { Grid, Typography } from "@mui/material";
-import React from "react";
-import { Link } from "react-router-dom";
+import { Button, Grid, Typography } from "@mui/material";
 
-export default function SignUpDetail() {
+interface Props {
+  openSignInDrawer: () => void;
+}
+
+export default function SignUpDetail({ openSignInDrawer }: Props) {
+  const handleSignInButtonClick = () => {
+    openSignInDrawer();
+  };
+
   return (
     <>
       <Grid container item xs={12} justifyContent="center">
@@ -13,15 +19,15 @@ export default function SignUpDetail() {
         />
       </Grid>
       <Grid item xs={12} sx={{ color: "white", mt: 5 }}>
-        <Typography sx={{mb:5}}>
+        <Typography sx={{ mb: 5 }}>
           It's free and easy to create an account! <br />
           <br />
           As a Voyage Royale Plus member, you'll save 5% off base rates of pay
           later reservations.
         </Typography>
-        <Link to="/signInSignUp" style={{ color:"#C19C6E" }} >
+        <Button sx={{ color: "#C19C6E" }} onClick={handleSignInButtonClick}>
           <u>You have an account? Sign In</u>
-        </Link>
+        </Button>
       </Grid>
     </>
   );

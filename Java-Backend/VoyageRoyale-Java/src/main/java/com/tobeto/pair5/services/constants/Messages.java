@@ -23,11 +23,8 @@ public  class Messages {
     public  static final String rentException = "A car cannot be rented more than 25 days!";
 
 
-
-
-
-
-
-
-
+    public static final String emailAlreadyExists = "Email already exists!";
+    public static final String passwordLength = "Password must be at least 8 characters!";
+    public static final String identityNumberAlreadyExists = "Identity Number already exists!";
+    public static final String taxNumberAlreadyExists = "Tax Number already exists!";
 }

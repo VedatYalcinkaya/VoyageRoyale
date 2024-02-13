@@ -26,6 +26,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
     @Override
     public void add(AddCorporateCustomerRequest request) {
         checkIfCorporateCustomerExists(request.getUserId());
+        checkIsTaxNumberAlreadyExists(request.getTaxNo());
         CorporateCustomer corporateCustomer = this.modelMapperService.forRequest().map(request,CorporateCustomer.class);
         corporateCustomerRepository.save(corporateCustomer);
     }
@@ -43,6 +44,8 @@ public class CorporateCustomerManager implements CorporateCustomerService {
             checkIfCorporateCustomerNotExists(request.getId());
             CorporateCustomer corporateCustomerToUpdate = corporateCustomerRepository.findById(request.getId())
                   .orElseThrow(()-> new BusinessException(Messages.corporateCustomerNotExists));
+            checkIsTaxNumberAlreadyExists(request.getTaxNo());
+
 
             this.modelMapperService.forRequest().map(request, corporateCustomerToUpdate);
 
@@ -54,7 +57,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
         checkIfCorporateCustomerNotExists(request.getId());
         CorporateCustomer corporateCustomerToUpdate = corporateCustomerRepository.findById(request.getId())
                 .orElseThrow(()-> new BusinessException(Messages.corporateCustomerNotExists));
-
+        checkIsTaxNumberAlreadyExists(request.getTaxNo());
         this.modelMapperService.forRequest().map(request, corporateCustomerToUpdate);
 
         corporateCustomerRepository.saveAndFlush(corporateCustomerToUpdate);
@@ -92,6 +95,11 @@ public class CorporateCustomerManager implements CorporateCustomerService {
     private void checkIfCorporateCustomerNotExists(int id){
         if (!corporateCustomerRepository.existsById(id)){
             throw new BusinessException(Messages.customerNotExists);
+        }
+    }
+    private void checkIsTaxNumberAlreadyExists(String taxNumber){
+        if (corporateCustomerRepository.findByTaxNo(taxNumber).isPresent()){
+            throw new BusinessException(Messages.taxNumberAlreadyExists);
         }
     }
 }

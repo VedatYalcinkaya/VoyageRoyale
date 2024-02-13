@@ -13,13 +13,13 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddCustomerRequest {
-    @NotNull(message = "firstName field cannot be empty!")
+    @NotNull(message = "FirstName field cannot be empty!")
     private String firstName;
-    @NotNull(message = "lastName field cannot be empty!")
+    @NotNull(message = "LastName field cannot be empty!")
     private String lastName;
-    @Positive(message = "userId must be a positive number!")
+    @Positive(message = "User ID must be a positive number!")
     private int userId;
-    @Size(min = 11, max = 11, message = "Tc No must be 11 characters;")
+    @Size(min = 11, max = 11, message = "Identity Number must be 11 characters;")
     private String tcNo;
 
     private LocalDate birthDate;

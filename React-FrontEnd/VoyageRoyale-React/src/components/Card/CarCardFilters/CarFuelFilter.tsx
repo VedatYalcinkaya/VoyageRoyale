@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import { Box, Button, FormControl, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useAppDispatch, useAppSelector } from '../../../store/configureStore';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
@@ -8,16 +8,31 @@ import { setFuelType } from '../../../store/slices/CarSlices/carFuelTypeSlice';
 type CarFuelFilterProps={
 }
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+
 const CarFuelFilter = () => {
   const dispatch : ThunkDispatch<any, any, Action> = useAppDispatch();
   const fuelTypes = useAppSelector(state => state.carFuelType.data);
-  const selectedFuel = useAppSelector(state => state.carFuelType.fuelType);
+  const selectedFuel: string [] = useAppSelector(state => state.carFuelType.fuelType);
  
 
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const handleChange = (event: SelectChangeEvent<typeof selectedFuel>) => {
+    const {
+      target: { value },
+    } = event;
     const selectedFuel =event.target.value as string;
-    selectedFuel=== 'all' ? dispatch(setFuelType('')) : dispatch(setFuelType(selectedFuel));
+    dispatch(setFuelType( typeof value === 'string' ? value.split(',') : value,));
   };
 
 
@@ -25,21 +40,23 @@ const CarFuelFilter = () => {
   return (
     <Box sx={{ minWidth: 120}}>
     <FormControl fullWidth>
-      <InputLabel id="fuelType">Fuel Type</InputLabel>
+      <InputLabel id="gearFilter">Fuel Type</InputLabel>
       <Select
-        labelId="fuelType"
-        id="fuelType"
+        labelId="gearFilter"
+        id="gearFilter"
+        multiple
+        input={<OutlinedInput label="Tag" />}
+        renderValue={(selected) => selected.join(', ')}
         value={selectedFuel}
-        label="Fuel Type"
+        label="Gear Type"
         onChange={handleChange}
+        MenuProps={MenuProps}
       >
-        <MenuItem value="all">All Fuel Types</MenuItem>
-        {fuelTypes.map((fuel)=><MenuItem value={fuel.name} key={fuel.id}>{fuel.name}</MenuItem>  )}
-
+      {fuelTypes.map((fuel)=> <MenuItem value={fuel.name} key={fuel.id}>{fuel.name}</MenuItem>)}
       </Select>
     </FormControl>
   </Box>
-  );
+)
 };
 
 export default CarFuelFilter;

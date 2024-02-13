@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { Box, Button, Collapse, Menu, MenuItem, MenuProps, Typography, alpha, styled } from "@mui/material";
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { Box, Button, Collapse, ListItemIcon, Menu, MenuItem, MenuProps, Typography, alpha, styled } from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import EditIcon from '@mui/icons-material/Edit';
 import Divider from '@mui/material/Divider';
-import ArchiveIcon from '@mui/icons-material/Archive';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -19,14 +16,15 @@ import tokenService from "../../services/tokenService";
 import axiosInstance from "../../utils/interceptors/axiosInterceptors";
 import toastr from "toastr";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
-import { getCustomerByEmail, setEmailDataEmpty } from "../../store/slices/getCustomerByEmailSlice";
+import { setEmailDataEmpty } from "../../store/slices/getCustomerByEmailSlice";
 import { isSignedIn } from "../../store/slices/signInSlice";
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import SignUpDetail from "../Login/SignUpDetail";
 import { getCustomerInfo } from "../../store/slices/CustomerSlices/customerInfoSlice";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-
-const drawerWidth = 250;
+const drawerWidth = 275;
 const signInDrawerWidth = 400;
 
 const StyledMenu = styled((props: MenuProps) => (
@@ -70,8 +68,6 @@ const StyledMenu = styled((props: MenuProps) => (
   },
 }));
 
-interface SidebarProps { }
-
 export default function Sidebar() {
   // const [signedIn, setSignedIn] = useState(false);
   const dispatch = useAppDispatch();
@@ -102,7 +98,7 @@ export default function Sidebar() {
   const [corporateCustomerFromStorage, setCorporateCustomerFromStorage] = useState(localStorage.getItem('corporateCustomer'));
 
   useEffect(() => {
-    const handleStorageChange = (e) => {
+    const handleStorageChange = (e:any) => {
       if (e.key === 'customer' && e.newValue) {
         setCustomerFromStorage(JSON.parse(e.newValue));
       } else if (e.key === 'corporateCustomer' && e.newValue) {
@@ -170,8 +166,9 @@ export default function Sidebar() {
   //   }
   // }, [signedIn]);
 
-
-
+  const openSignInDrawer = () => {
+    setSignInDrawerOpen(true);
+  };
 
   const handleSignInButtonClick = () => {
     setSignInDrawerOpen(true);
@@ -188,7 +185,8 @@ export default function Sidebar() {
     dispatch(isSignedIn(false));
     handleMenuButtonClose();
     localStorage.removeItem("isSignedIn")
-    axiosInstance.post("auth/logout").then(response => { toastr.info(`${response.data}`) })
+    axiosInstance.post("auth/logout")
+    toastr.warning("You have been logged out!", "Caution")
   }
 
 
@@ -209,7 +207,6 @@ export default function Sidebar() {
   const handleClick = () => {
     setOpen(!open);
   };
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openMenuButton = Boolean(anchorEl);
   const handleMenuButtonClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -219,13 +216,9 @@ export default function Sidebar() {
     setAnchorEl(null);
   };
 
-
-
-  console.log(isSignedIn);
-  console.log(authorities?.includes("ADMIN"));
-
   return (
     <Box sx={{ display: "flex" }}>
+      <SignUpDetail openSignInDrawer={openSignInDrawer} />
       <Drawer
         sx={{
           width: drawerWidth,
@@ -320,7 +313,7 @@ export default function Sidebar() {
               <ListItem disablePadding>
                 <Button
                   sx={{
-                    ml: 1,
+                    ml: 2,
                     height: 25,
                     color: "#0F4037",
                     backgroundColor: "#D4D2A9",
@@ -333,24 +326,27 @@ export default function Sidebar() {
                   <ListItemText primary="Sign In" />
                 </Button>
               </ListItem>
-              <ListItem disablePadding style={{ marginLeft: 10 }}>
+              <ListItem disablePadding style={{ marginLeft: 20 }}>
                 <ListItemText primary="or" />
               </ListItem>
               <ListItem disablePadding>
-                <Button
+                <ListItemButton
                   sx={{
-                    ml: 1,
+                    ml: 2,
+                    mr:4,
                     height: 25,
+                    textAlign:"left",
                     color: "#0F4037",
+                    borderRadius:1,
                     backgroundColor: "#D4D2A9",
                     "&:hover": {
                       backgroundColor: "#A3794F",
                     },
                   }}
-                  onClick={handleSignInButtonClick}
+                  component={RouterLink} to="/signInSignUp"
                 >
                   <ListItemText primary="Create an Account" />
-                </Button>
+                </ListItemButton>
               </ListItem>
             </List>
           )}
@@ -358,6 +354,9 @@ export default function Sidebar() {
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/">
               <ListItemText primary="Home" sx={{ color: "#D9D5A7" }} />
+              <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
@@ -366,25 +365,39 @@ export default function Sidebar() {
                 primary="Quick Reservation"
                 sx={{ color: "#D9D5A7" }}
               />
+              <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
             </ListItemButton>
           </ListItem>
+
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/location">
               <ListItemText primary="Locations" sx={{ color: "#D9D5A7" }} />
+              <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/aboutUs">
               <ListItemText primary="About Us" sx={{ color: "#D9D5A7" }} />
+              <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
             </ListItemButton>
           </ListItem>
           {authorities?.includes("ADMIN") && (
             <ListItem disablePadding>
               <ListItemButton onClick={handleClick}>
+                
                 <ListItemText
                   primary="Admin Dashboard"
                   sx={{ color: "#D9D5A7" }}
                 />
+                <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
                 {open ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
             </ListItem>
@@ -398,6 +411,9 @@ export default function Sidebar() {
                   to="adminDashboard/users"
                 >
                   <ListItemText primary="Users" />
+                  <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
                 </ListItemButton>
                 <ListItemButton
                   sx={{ color: "#D9D5A7", pl: 3 }}
@@ -405,6 +421,9 @@ export default function Sidebar() {
                   to="adminDashboard/cars"
                 >
                   <ListItemText primary="Cars" />
+                  <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
                 </ListItemButton>
                 <ListItemButton
                   sx={{ color: "#D9D5A7", pl: 3 }}
@@ -412,6 +431,9 @@ export default function Sidebar() {
                   to="adminDashboard/carFeatures"
                 >
                   <ListItemText primary="Car Features" />
+                  <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
                 </ListItemButton>
                 <ListItemButton
                   sx={{ color: "#D9D5A7", pl: 3 }}
@@ -419,6 +441,9 @@ export default function Sidebar() {
                   to="adminDashboard/positions"
                 >
                   <ListItemText primary="Positions" />
+                  <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
                 </ListItemButton>
                 <ListItemButton
                   sx={{ color: "#D9D5A7", pl: 3 }}
@@ -426,6 +451,9 @@ export default function Sidebar() {
                   to="adminDashboard/rentals"
                 >
                   <ListItemText primary="Rentals" />
+                  <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
                 </ListItemButton>
                 <ListItemButton
                   sx={{ color: "#D9D5A7", pl: 3 }}
@@ -433,6 +461,9 @@ export default function Sidebar() {
                   to="adminDashboard/invoices"
                 >
                   <ListItemText primary="Invoices" />
+                  <ListItemIcon>
+                <KeyboardArrowRightIcon fontSize="small" sx={{ marginLeft: 2 }} />
+              </ListItemIcon>
                 </ListItemButton>
               </List>
             </Collapse>

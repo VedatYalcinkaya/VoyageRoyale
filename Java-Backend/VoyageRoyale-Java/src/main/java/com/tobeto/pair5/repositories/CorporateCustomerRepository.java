@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface CorporateCustomerRepository extends JpaRepository<CorporateCustomer,Integer> {
     Optional<CorporateCustomer> findByUserEmail(String UserEmail);
+
+    Optional<CorporateCustomer> findByTaxNo(String taxNumber);
 }

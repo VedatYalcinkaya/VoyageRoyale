@@ -19,14 +19,13 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserRequest } from "../../models/UserModel/requests/request";
 
-
 export default function SignUp() {
   const dispatch: ThunkDispatch<any, any, any> = useAppDispatch();
   const isLoading: boolean = useAppSelector((state) => state.signUp.loading);
   const [selectedDate, setSelectedDate] = useState(null);
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openFailure, setOpenFailure] = useState(false);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (openSuccess) {
@@ -37,10 +36,15 @@ export default function SignUp() {
     }
   }, [openSuccess, openFailure]);
 
-
-
-
-    const initialValues = { firstName: "", lastName: "", email: "", password: "", tcNo: "", birthDate: null ,authorities:["USER","CUSTOMER"]}
+  const initialValues = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    tcNo: "",
+    birthDate: null,
+    authorities: ["USER", "CUSTOMER"],
+  };
 
   const validationSchema = Yup.object({
     firstName: Yup.string()
@@ -54,50 +58,22 @@ export default function SignUp() {
     tcNo: Yup.string().required("Identity Number is required!"),
   });
 
-  const handleCloseSuccess = () => {
-    setOpenSuccess(false);
-  };
-
-  const handleCloseFailure = () => {
-    setOpenFailure(false);
-  };
-
   return (
     <>
       <Box>
         <Formik
-          initialValues={{ ...initialValues}}
+          initialValues={{ ...initialValues }}
           validationSchema={validationSchema}
           onSubmit={(values: UserRequest, { resetForm }) => {
             values.birthDate = selectedDate;
             console.log(values);
             resetForm();
             dispatch(postSignUp(values))
-              .then(() => {
-                setOpenSuccess(true);
-                // Automatically sign in the user after signup
-                dispatch(postSignIn({ email: values.email, password: values.password }))
-                  .then(() => {
-                    console.log("User signed in successfully after sign-up");
-                    // Redirect to homepage after successful sign-in
-                    navigate('/')
-                  })
-                  .catch((error) => {
-                    console.error("Error occurred during sign-in after sign-up:", error);
-                  });
-              })
-              .catch(() => {
-                setOpenFailure(true);
-              });
           }}
         >
-          {({ values }) => (
             <Form>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Typography component="h1" variant="h4" sx={{ mb: 6 }}>
-                    Create Your Account
-                  </Typography>
                   <Typography variant="h6" sx={{ borderBottom: 1, mb: 2 }}>
                     Personal Information
                   </Typography>
@@ -153,18 +129,19 @@ export default function SignUp() {
                 type="submit"
                 variant="contained"
                 sx={{
-                  mt:3,
-                  height:40,
-                  color:"#D4D2A9",
-                  backgroundColor: "#0F4037",             
+                  mt: 3,
+                  height: 40,
+                  color: "#D4D2A9",
+                  backgroundColor: "#0F4037",
                   "&:hover": {
-                    backgroundColor: "#A3794F",color:"#0F4037"
-                      }}}
+                    backgroundColor: "#A3794F",
+                    color: "#0F4037",
+                  },
+                }}
               >
                 {isLoading ? "Signing Up..." : "Sign Up"}
               </Button>
             </Form>
-          )}
         </Formik>
       </Box>
     </>
