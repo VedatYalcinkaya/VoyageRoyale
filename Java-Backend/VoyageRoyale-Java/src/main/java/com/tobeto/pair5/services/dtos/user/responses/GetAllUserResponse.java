@@ -16,4 +16,5 @@ public class GetAllUserResponse {
     private String email;
     private String password;
     private List<Role> authorities;
+    private String userImagePath;
 }

@@ -28,6 +28,9 @@ public class User extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private List<Role> authorities;
 
+    @Column(name = "user_image_path")
+    private String userImagePath;
+
 
     @Override
     public String getPassword() {

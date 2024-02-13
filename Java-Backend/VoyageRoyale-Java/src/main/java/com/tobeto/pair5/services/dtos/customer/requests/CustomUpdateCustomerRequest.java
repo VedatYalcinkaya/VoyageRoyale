@@ -27,4 +27,5 @@ public class CustomUpdateCustomerRequest {
     private String tcNo;
 
     private LocalDate birthDate;
+    private String userImagePath;
 }

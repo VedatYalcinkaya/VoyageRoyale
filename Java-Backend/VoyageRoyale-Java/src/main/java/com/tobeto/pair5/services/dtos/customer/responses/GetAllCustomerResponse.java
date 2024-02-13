@@ -18,4 +18,5 @@ public class GetAllCustomerResponse {
     private String userPassword;
     private String tcNo;
     private LocalDate birthDate;
+    private String userImagePath;
 }

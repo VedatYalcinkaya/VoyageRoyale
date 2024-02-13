@@ -16,5 +16,6 @@ public class GetByIdUserResponse {
     private String email;
     private String password;
     private List<Role> authorities;
+    private String userImagePath;
 
 }
