@@ -12,14 +12,14 @@ import { getPositionList } from "../../../store/slices/selectPositionSlice";
 import { getAllColor } from "../../../store/slices/CarSlices/carColorSlice";
 import { getAllModel } from "../../../store/slices/CarSlices/carModelSlice";
 import { CarFuelType } from "../../../models/CarFuelTypeModel/responses/response";
-import { CarGearType } from "../../../models/CarGearTypeModel/responses/response";
 import { Position } from "../../../models/LocationModel/responses/response";
 import { GetAllColorResponse } from "../../../models/ColorModel/responses/getAllColorResponse";
 import { GetAllModelResponse } from "../../../models/ModelModel/responses/getAllModelResponse";
 import { postCar, uploadCarImage } from "../../../store/slices/addCarSlice";
-import { getCarList } from "../../../store/slices/CarSlices/carListSlice";
 import { getAllCar } from "../../../store/slices/CarSlices/getAllCarSlice";
-import { CarCarType, getCarCarType } from "../../../store/slices/CarSlices/carCarTypeSlice";
+import {  getCarCarType } from "../../../store/slices/CarSlices/carCarTypeSlice";
+import { CarGearType } from "../../../models/carGearTypeModel/responses/response";
+import { CarCarType } from "../../../models/CarCarTypeModel/responses/response";
 
 type Props = {};
 

@@ -3,7 +3,7 @@ import { Form, Formik } from 'formik'
 import * as Yup from "yup";
 import { useAppDispatch } from '../../../store/configureStore';
 import SecondFormikInput from '../../FormikInput/SecondFormikInput';
-import { AddGearTypeRequest } from '../../../models/CarGearTypeModel/requests/addGearTypeRequest';
+import { AddGearTypeRequest } from '../../../models/carGearTypeModel/requests/addGearTypeRequest'
 import { getCarGearType } from '../../../store/slices/CarSlices/carGearTypeSlice';
 import { postGearType } from '../../../store/slices/addGearTypeSlice';
 
