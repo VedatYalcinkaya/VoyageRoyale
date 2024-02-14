@@ -27,6 +27,10 @@ import Positions from "../AdminPages/Positions/Positions";
 import Rentals from "../AdminPages/Rentals/Rentals";
 import Invoices from "../AdminPages/Invoices/Invoices";
 import NotFound from "../404NotFound/NotFound";
+import ProtectedRoute from "../../guards/ProtectedRoute";
+import SignUpRoute from "../../guards/SignUpRoute";
+import AdminRoute from "../../guards/AdminRoute";
+
 
 function Dashboard() {
   return (
@@ -41,23 +45,23 @@ function Dashboard() {
             <Route path="/cars" element={<CarList />} />
             <Route path="/details/:id" element={<CarDetails />} />
             <Route path="/location" element={<Location />} />
-            <Route path="/userProfile" element={<UserProfile />} />
+            <Route path="/userProfile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>}/>
             <Route path="/quickReservation" element={<QuickReservation />} />
-            <Route path="/signInSignUp" element={<SignInSignUp />} />
+            <Route path="/signInSignUp" element={<SignUpRoute><SignInSignUp /></SignUpRoute>}/>
             <Route path="/aboutUs" element={<AboutUs />} />
             <Route path="/reservations" element={<UserReservations />} />
             <Route
               path="/adminDashboard/carFeatures"
-              element={<CarFeatures />}
+              element={<AdminRoute><CarFeatures /></AdminRoute>}
             />
-            <Route path="/adminDashboard/users" element={<Users />} />
-            <Route path="/adminDashboard/cars" element={<Cars />} />
-            <Route path="/adminDashboard/positions" element={<Positions />} />
-            <Route path="/adminDashboard/rentals" element={<Rentals />} />
-            <Route path="/adminDashboard/invoices" element={<Invoices />} />
+            <Route path="/adminDashboard/users" element={<AdminRoute><Users /></AdminRoute>} />
+            <Route path="/adminDashboard/cars" element={<AdminRoute><Cars /></AdminRoute>} />
+            <Route path="/adminDashboard/positions" element={<AdminRoute><Positions /></AdminRoute>} />
+            <Route path="/adminDashboard/rentals" element={<AdminRoute><Rentals /></AdminRoute>} />
+            <Route path="/adminDashboard/invoices" element={<AdminRoute><Invoices /></AdminRoute>} />
             <Route
               path="/userProfile/reservation"
-              element={<UserReservations />}
+              element={<ProtectedRoute><UserReservations /></ProtectedRoute>}
             />
             <Route path="/login" element={<SignInSignUp />} />
             <Route path="/payment" element={<Payment />} />
