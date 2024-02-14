@@ -1,4 +1,3 @@
-// updateLocationSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../../utils/interceptors/axiosInterceptors";
@@ -19,6 +18,7 @@ const initialState: UpdateLocation = {
 export const updateLocation = createAsyncThunk(
   "updateLocation",
   async (location: UpdateLocationRequest) => {
+    console.log("Updating location:", location);
     const response = await axiosInstance.put(
       `/positions/update/${location.id}`,
       location
