@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/configureStore';
 import { updateGearType } from '../../../store/slices/updateGearTypeSlice';
 import { getCarGearType } from '../../../store/slices/CarSlices/carGearTypeSlice';
 import { UpdateGearTypeRequest } from '../../../models/carGearTypeModel/requests/updateGearTypeRequest';
+import { CarGearType } from '../../../models/carGearTypeModel/responses/response';
 
 
 function UpdateGearType() {
@@ -42,7 +43,7 @@ function UpdateGearType() {
 
         <Field as={Select} name="id">
         <MenuItem value="0">Select a Gear Type to be Updated</MenuItem>
-            {gearTypes.map((gearType) => <MenuItem value={gearType.id} key={gearType.id}>{gearType.name}</MenuItem>)}
+            {gearTypes.map((gearType: CarGearType) => <MenuItem value={gearType.id} key={gearType.id}>{gearType.name}</MenuItem>)}
         </Field>
         <br />
         <br />
