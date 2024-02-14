@@ -50,6 +50,7 @@ function Dashboard() {
             <Route path="/signInSignUp" element={<SignUpRoute><SignInSignUp /></SignUpRoute>}/>
             <Route path="/aboutUs" element={<AboutUs />} />
             <Route path="/reservations" element={<UserReservations />} />
+            <Route path="/payment" element={<Payment />} />
             <Route
               path="/adminDashboard/carFeatures"
               element={<AdminRoute><CarFeatures /></AdminRoute>}
