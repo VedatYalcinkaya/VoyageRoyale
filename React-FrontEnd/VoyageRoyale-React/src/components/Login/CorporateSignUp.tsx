@@ -64,7 +64,9 @@ export default function SignUp() {
           onSubmit={async (values: CorporateSignUpRequest, { resetForm }) => {
             console.log(values);
             resetForm();
-            await dispatch(postCorporateSignUp(values))}}
+            await dispatch(postCorporateSignUp(values))
+            setOpenSuccess(true);
+          }}
         >
         
             <Form>

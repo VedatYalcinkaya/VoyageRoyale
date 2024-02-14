@@ -64,11 +64,12 @@ export default function SignUp() {
         <Formik
           initialValues={{ ...initialValues }}
           validationSchema={validationSchema}
-          onSubmit={(values: UserRequest, { resetForm }) => {
+          onSubmit={async(values: UserRequest, { resetForm }) => {
             values.birthDate = selectedDate;
             console.log(values);
             resetForm();
-            dispatch(postSignUp(values))
+            await dispatch(postSignUp(values))
+            setOpenSuccess(true)
           }}
         >
             <Form>
