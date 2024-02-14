@@ -15,7 +15,7 @@ import { GetAllUsersResponse } from "../../../models/UserModel/responses/getAllU
 function UpdateRental() {
   const dispatch = useAppDispatch();
   const rentals = useAppSelector((state) => state.getAllRentals.data);
-  const cars: Car[] = useAppSelector((state) => state.carList.data);
+  const cars: Car[] = useAppSelector((state) => state.getAllCar.data);
   const users: GetAllUsersResponse[] | null = useAppSelector(
     (state) => state.getAllUsers.data
   );
@@ -52,7 +52,6 @@ function UpdateRental() {
     dispatch(getAllUsers());
     dispatch(getAllCar());
   }, []);
-  console.log(cars);
 
   return (
     <Formik
@@ -67,7 +66,7 @@ function UpdateRental() {
     >
       <Form>
         <Field as={Select} name="id">
-          <MenuItem value={0}>Select A Rental</MenuItem>
+          <MenuItem value={0}>Select a Rental ID</MenuItem>
           {rentals?.map((rental) => (
             <MenuItem value={rental.id} key={rental.id}>
               {rental.id}

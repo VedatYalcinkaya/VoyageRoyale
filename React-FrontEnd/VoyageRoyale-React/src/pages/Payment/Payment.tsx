@@ -17,11 +17,11 @@ import Confetti from "react-confetti";
 import dayjs from "dayjs";
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
-import { PDFDownloadLink, Document, Page, Text } from "@react-pdf/renderer";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import tokenService from "../../services/tokenService";
-import { getCustomerByEmail } from "../../store/slices/getCustomerByEmailSlice";
 import { AddRentalRequest } from "../../models/RentalModel/requests/addRentalRequest";
 import { postRental } from "../../store/slices/addRentalSlice";
+import PaymentReceiptPdf from "../../components/PaymentReceiptPdf/PaymentReceiptPdf";
 
 interface PaymentProps {
   onFinishReservation?: () => void;
@@ -31,16 +31,22 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
   const dispatch = useAppDispatch();
   const selectedCar = useAppSelector((state) => state.carDetail.carDetailSend);
   const selectedPosition = useAppSelector((state) => state.reservation);
-  const pickup: string | null = selectedPosition.pickUpDate?.substring(0, 10) ?? null;
-  const returnDate: string | null = selectedPosition.returnDate?.substring(0, 10) ?? null;
-  const confettiActive = useAppSelector((state) => state.payment.confettiActive);
-  const user = useAppSelector(state => state.getCustomerByEmail.data?.id);
+  const pickup: string | null =
+    selectedPosition.pickUpDate?.substring(0, 10) ?? null;
+  const returnDate: string | null =
+    selectedPosition.returnDate?.substring(0, 10) ?? null;
+  const confettiActive = useAppSelector(
+    (state) => state.payment.confettiActive
+  );
+  const user = useAppSelector((state) => state.getCustomerByEmail.data?.id);
   const [showPDF, setShowPDF] = useState(false);
   const [rentalInfo, setRentalInfo] = useState({});
 
   const calculateTotalPrice = (): number => {
     const daysDifference = dayjs(selectedPosition.returnDate).diff(
-      dayjs(selectedPosition.pickUpDate), "day");
+      dayjs(selectedPosition.pickUpDate),
+      "day"
+    );
     const totalPrice = daysDifference * (selectedCar?.dailyPrice || 0);
 
     return totalPrice;
@@ -52,7 +58,7 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
         startDate: pickup,
         endDate: returnDate,
         carId: selectedCar?.id,
-        userId: user
+        userId: user,
       });
     }
     console.log(rentalInfo);
@@ -65,10 +71,11 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
 
   const handleFinishReservation = () => {
     if (tokenService.decodeToken()?.sub !== undefined) {
-      dispatch(postRental(rentalInfo as AddRentalRequest))
+      dispatch(postRental(rentalInfo as AddRentalRequest));
+
+      dispatch(setConfettiActive(true));
 
       setTimeout(() => {
-        dispatch(setConfettiActive(true));
         dispatch(setConfettiActive(false));
         onFinishReservation && onFinishReservation();
         toastr.success("Payment completed!");
@@ -124,7 +131,7 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
             variant="subtitle1"
             style={{ marginTop: "5px", marginLeft: "15px" }}
           >
-            Total Price: ₺{totalPrice.toFixed(2)}
+            Total Price: ${totalPrice.toFixed(2)}
           </Typography>
         </CardContent>
         <Button
@@ -145,19 +152,11 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
           <Box sx={{ textAlign: "center" }}>
             <PDFDownloadLink
               document={
-                <Document>
-                  <Page>
-                    <Text>
-                      Location: {selectedPosition.position?.city || ""}
-                    </Text>
-                    <Text>
-                      Latitude: {selectedPosition.position?.latitude || 0} |
-                      Longitude: {selectedPosition.position?.longitude || 0}
-                    </Text>
-                    <Text>Car Model: {selectedCar?.modelName || ""}</Text>
-                    <Text>Total Price: ₺{totalPrice.toFixed(2)}</Text>
-                  </Page>
-                </Document>
+                <PaymentReceiptPdf
+                  selectedPosition={selectedPosition}
+                  selectedCar={selectedCar}
+                  totalPrice={totalPrice}
+                />
               }
               fileName="Payment_Details.pdf"
             >
