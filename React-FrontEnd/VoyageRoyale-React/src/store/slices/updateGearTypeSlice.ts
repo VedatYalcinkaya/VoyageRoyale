@@ -1,7 +1,7 @@
 import {createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../utils/interceptors/axiosInterceptors';
-import { UpdateGearTypeRequest } from '../../models/CarGearTypeModel/requests/updateGearTypeRequest';
+import { UpdateGearTypeRequest } from '../../models/carGearTypeModel/requests/updateGearTypeRequest'
 
 
 interface UpdateGearType{

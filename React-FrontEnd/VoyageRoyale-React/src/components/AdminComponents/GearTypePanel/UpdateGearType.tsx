@@ -3,15 +3,14 @@ import {  Field, Form, Formik } from 'formik'
 import * as Yup from "yup";
 import SecondFormikInput from '../../FormikInput/SecondFormikInput';
 import { useAppDispatch, useAppSelector } from '../../../store/configureStore';
-import { CarGearType } from '../../../models/CarGearTypeModel/responses/response';
-import { UpdateGearTypeRequest } from '../../../models/CarGearTypeModel/requests/updateGearTypeRequest';
 import { updateGearType } from '../../../store/slices/updateGearTypeSlice';
 import { getCarGearType } from '../../../store/slices/CarSlices/carGearTypeSlice';
+import { UpdateGearTypeRequest } from '../../../models/carGearTypeModel/requests/updateGearTypeRequest';
 
 
 function UpdateGearType() {
   const dispatch = useAppDispatch();
-  const gearTypes:CarGearType[] = useAppSelector(state => state.carGearType.data)
+  const gearTypes = useAppSelector(state => state.carGearType.data)
 
   const initialValues = {  name: "",id:0 }
 
