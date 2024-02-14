@@ -71,11 +71,6 @@ const Location: React.FC = () => {
                   click: () => handleLocationClick(position),
                 }}
               >
-                {selectedPosition && selectedPosition.id === position.id && (
-                  <Popup style={{ maxWidth: "150px", padding: "10px" }}>
-                    <CarDetailsCard carDetails={selectedPosition.carDetails} />
-                  </Popup>
-                )}
               </Marker>
             ))}
           </MapContainer>

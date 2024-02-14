@@ -63,16 +63,7 @@ function Dashboard() {
               path="/userProfile/reservation"
               element={<ProtectedRoute><UserReservations /></ProtectedRoute>}
             />
-            <Route path="/login" element={<SignInSignUp />} />
-            <Route path="/payment" element={<Payment />} />
-            <Route path="/brand/add" element={<AddBrand />} />
-            <Route path="/carType/add" element={<AddCarType />} />
-            <Route path="/model/add" element={<AddModel />} />
-            <Route path="/car/add" element={<AddCar />} />
-            <Route path="/fuel_types/add" element={<AddFuelType />} />
-            <Route path="/gear_types/add" element={<AddGearType />} />
-            <Route path="/locations/add" element={<AddLocation />} />
-            <Route path="/404NotFound" element={<NotFound />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Grid>
         <Grid item xs={12}>
