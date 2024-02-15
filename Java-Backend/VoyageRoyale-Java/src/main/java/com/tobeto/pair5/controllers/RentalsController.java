@@ -6,6 +6,7 @@ import com.tobeto.pair5.services.dtos.rental.requests.DeleteRentalRequest;
 import com.tobeto.pair5.services.dtos.rental.requests.UpdateRentalRequest;
 import com.tobeto.pair5.services.dtos.rental.responses.GetAllRentalResponse;
 import com.tobeto.pair5.services.dtos.rental.responses.GetByIdRentalResponse;
+import com.tobeto.pair5.services.dtos.rental.responses.GetCustomRentalResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -43,4 +44,10 @@ public class RentalsController {
     public GetByIdRentalResponse getById(@RequestParam int id){
         return rentalService.getById(id);
     }
+
+    @GetMapping("/getCustomRentals")
+    List<GetCustomRentalResponse> getCustomRentalResponse(){
+        return rentalService.getCustomRentalResponse();
+    }
+
 }

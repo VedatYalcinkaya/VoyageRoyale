@@ -5,6 +5,7 @@ import com.tobeto.pair5.services.dtos.rental.requests.DeleteRentalRequest;
 import com.tobeto.pair5.services.dtos.rental.requests.UpdateRentalRequest;
 import com.tobeto.pair5.services.dtos.rental.responses.GetAllRentalResponse;
 import com.tobeto.pair5.services.dtos.rental.responses.GetByIdRentalResponse;
+import com.tobeto.pair5.services.dtos.rental.responses.GetCustomRentalResponse;
 
 import java.util.List;
 
@@ -18,4 +19,5 @@ public interface RentalService {
 
     List<GetAllRentalResponse> getAll();
     GetByIdRentalResponse getById(int id);
+    List<GetCustomRentalResponse> getCustomRentalResponse();
 }

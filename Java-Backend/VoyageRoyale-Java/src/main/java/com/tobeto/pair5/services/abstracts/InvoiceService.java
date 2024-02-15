@@ -13,4 +13,6 @@ public interface InvoiceService {
     void update(UpdateInvoiceRequest request);
     List<GetAllInvoiceResponse> getAll();
     GetAllInvoiceResponse getById(int id);
+
+    GetAllInvoiceResponse getByInvoiceNo(String invoiceNo);
 }

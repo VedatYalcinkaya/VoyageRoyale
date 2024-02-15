@@ -27,4 +27,5 @@ public  class Messages {
     public static final String passwordLength = "Password must be at least 8 characters!";
     public static final String identityNumberAlreadyExists = "Identity Number already exists!";
     public static final String taxNumberAlreadyExists = "Tax Number already exists!";
+    public static final String companyNameAlreadyExists = "Company Name already exists!";
 }

@@ -7,7 +7,6 @@ import com.tobeto.pair5.repositories.InvoiceRepository;
 import com.tobeto.pair5.services.abstracts.InvoiceService;
 import com.tobeto.pair5.services.constants.Messages;
 import com.tobeto.pair5.services.dtos.invoice.requests.AddInvoiceRequest;
-import com.tobeto.pair5.services.dtos.invoice.requests.DeleteInvoiceRequest;
 import com.tobeto.pair5.services.dtos.invoice.requests.UpdateInvoiceRequest;
 import com.tobeto.pair5.services.dtos.invoice.responses.GetAllInvoiceResponse;
 import lombok.AllArgsConstructor;
@@ -56,5 +55,12 @@ public class InvoiceManager implements InvoiceService {
         Invoice invoice = invoiceRepository.findById(id).orElseThrow(()-> new BusinessException(Messages.invoiceNotExist));
         GetAllInvoiceResponse response = this.modelMapperService.forResponse().map(invoice, GetAllInvoiceResponse.class);
         return response;
+    }
+
+    @Override
+    public GetAllInvoiceResponse getByInvoiceNo(String invoiceNo) {
+        Invoice invoice = invoiceRepository.findByInvoiceNo(invoiceNo).orElseThrow(()-> new BusinessException(Messages.invoiceNotExist));
+        GetAllInvoiceResponse response = this.modelMapperService.forResponse().map(invoice, GetAllInvoiceResponse.class);
+        return  response;
     }
 }
