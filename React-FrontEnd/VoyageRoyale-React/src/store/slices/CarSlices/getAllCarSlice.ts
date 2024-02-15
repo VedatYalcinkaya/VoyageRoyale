@@ -23,7 +23,7 @@ export const getAllCar = createAsyncThunk('getAllCar', async () => {
 export const getAllCarSlice = createSlice({
   name: 'getAllCar',
   initialState,
-  reducers: {}, // You can add other reducers here if needed
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllCar.pending, (state) => {
       state.loading = true;
