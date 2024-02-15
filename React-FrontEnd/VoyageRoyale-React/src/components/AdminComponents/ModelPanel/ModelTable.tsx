@@ -1,4 +1,4 @@
-// import React, { useState, useEffect } from "react";
+// import React, { useEffect, useState } from "react";
 // import {
 //   TextField,
 //   IconButton,
@@ -16,79 +16,129 @@
 //   TableRow,
 //   Paper,
 //   InputAdornment,
-//   Select,
-//   MenuItem,
 // } from "@mui/material";
 // import CancelIcon from "@mui/icons-material/Cancel";
 // import SearchIcon from "@mui/icons-material/Search";
 // import EditIcon from "@mui/icons-material/Edit";
 // import SaveIcon from "@mui/icons-material/Save";
 // import DeleteIcon from "@mui/icons-material/Delete";
-// import {
-//   useAppDispatch,
-//   useAppSelector
-// } from "../../../store/configureStore";
+// import { useAppDispatch, useAppSelector } from "../../../store/configureStore";
 // import { deleteModel } from "../../../store/slices/deleteModelSlice";
+// import { updateModel } from "../../../store/slices/updateModelSlice";
 // import { getAllModel } from "../../../store/slices/CarSlices/carModelSlice";
 // import { postCarModel } from "../../../store/slices/addCarModelSlice";
-// import { updateModel } from "../../../store/slices/updateModelSlice";
+
+
 
 // export default function ModelTable() {
+
 //   const dispatch = useAppDispatch();
-//   const models = useAppSelector((state) => state.carModel.data);
+//   const Models = useAppSelector((state) => state.carModel.data);
 //   const [editIndex, setEditIndex] = useState(-1);
 //   const [editedModelName, setEditedModelName] = useState("");
 //   const [searchQuery, setSearchQuery] = useState("");
 //   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
 //     useState(false);
-//   const [selectedModelToDelete, setSelectedModelToDelete] = useState<any>(null);
-//   const [isUpdateMode, setIsUpdateMode] = useState(false); 
-//   const [updatedModelId, setUpdatedModelId] = useState(""); 
-//   const [selectedBrand, setSelectedBrand] = useState(""); // State for selected brand
+//   const [selectedModelToDelete, setSelectedModelToDelete] =
+//     useState<any>(null);
+//   const [isUpdateConfirmationOpen, setIsUpdateConfirmationOpen] =
+//     useState(false);
+//   const [updatedModelNameConfirmation, setUpdatedModelNameConfirmation] =
+//     useState("");
+//   const [isNewRecordDialogOpen, setIsNewRecordDialogOpen] = useState(false);
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         await dispatch(getAllModel());
+//       } catch (error) {
+//         console.error("Error fetching data:", error);
+//       }
+//     };
+
+//     fetchData();
+//   }, [dispatch]); 
 
 //   const handleEditClick = (index: any, name: any) => {
 //     setEditIndex(index);
 //     setEditedModelName(name);
-//     setIsUpdateMode(true);
 //   };
 
-//   const handleSaveClick = async () => {
-//     if (isUpdateMode && updatedModelId) {
-//       try {
-//         const updatedModel = { id: updatedModelId, name: editedModelName };
-//         await dispatch(updateModel(updatedModel));
-//         await dispatch(getAllModel());
-//         setEditIndex(-1);
-//         setEditedModelName("");
-//         setIsUpdateMode(false);
-//         setUpdatedModelId("");
-//       } catch (error) {
-//         console.error("Error updating Model:", error);
-//       }
-//     } else {
-//       try {
-//         const newModel = { name: editedModelName, brand: selectedBrand }; // Include selected brand
-//         await dispatch(postCarModel(newModel));
-//         await dispatch(getAllModel());
-//         setEditedModelName("");
-//       } catch (error) {
-//         console.error("Error adding new record:", error);
-//       }
+//   const handleInputChange = (e: any) => {
+//     setEditedModelName(e.target.value);
+//   };
+
+//   const handleSaveClick = async (Model: any) => {
+//     const updatedModel = { ...Model, name: editedModelName };
+
+//     const isExistingModel = Models.some(
+//       (item) =>
+//         item.name.toLowerCase() === editedModelName.toLowerCase() &&
+//         item.id !== Model.id
+//     );
+
+//     if (isExistingModel) {
+//       console.error("This fuel type already exists");
+//       return;
 //     }
+
+//     setUpdatedModelNameConfirmation(editedModelName);
+//     setIsUpdateConfirmationOpen(true);
 //   };
 
 //   const handleAddRowClick = () => {
-//     setEditIndex(-1);
-//     setEditedModelName("");
-//     setIsUpdateMode(false);
+//     setIsNewRecordDialogOpen(true);
 //   };
 
-//   const handleDeleteClick = async (model: any) => {
-//     setSelectedModelToDelete(model);
+//   const handleDeleteClick = async (Model: any) => {
+//     setSelectedModelToDelete(Model);
 //     setIsDeleteConfirmationOpen(true);
 //   };
 
-//   // Implement other handlers (handleInputChange, handleDeleteConfirmation, etc.)
+//   const handleDeleteConfirmation = async () => {
+//     try {
+//       await dispatch(deleteModel({ id: selectedModelToDelete.id }));
+//       await dispatch(getAllModel());
+//       setIsDeleteConfirmationOpen(false);
+//     } catch (error) {
+//       console.error("Error deleting fuel type:", error);
+//     }
+//   };
+
+//   const handleSaveNewRecord = async () => {
+//     try {
+//       const newModel = { name: editedModelName, brandId: selectedBrand };
+//       await dispatch(postCarModel(newModel));
+//       await dispatch(getAllModel());
+//       setEditedModelName("");
+//       setIsNewRecordDialogOpen(false);
+//     } catch (error) {
+//       console.error("Error adding new record:", error);
+//     }
+//   };
+
+//   const handleUpdateConfirmation = async () => {
+//     try {
+//       const updatedModel = {
+//         ...Models[editIndex],
+//         name: editedModelName,
+//       };
+//       await dispatch(updateModel(updatedModel));
+//       await dispatch(getAllModel());
+//       setEditIndex(-1);
+//       setEditedModelName("");
+//       setIsUpdateConfirmationOpen(false);
+//     } catch (error) {
+//       console.error("Error updating fuel type:", error);
+//     }
+//   };
+
+//   const filteredModels = Models.filter((Model) =>
+//   Model.name?.toLowerCase().includes(searchQuery.toLowerCase())
+// );
+
+
+
 
 //   return (
 //     <div>
@@ -109,7 +159,6 @@
 //       >
 //         Add a New Record
 //       </Button>
-
 //       <TextField
 //         label="Quick Search"
 //         value={searchQuery}
@@ -127,70 +176,144 @@
 //           ),
 //         }}
 //       />
-
-//       {/* Dropdown for selecting brand */}
-//       <Select
-//         value={selectedBrand}
-//         onChange={(e) => setSelectedBrand(e.target.value)}
-//         variant="outlined"
-//         fullWidth
-//         sx={{ mb: 2 }}
-//       >
-//         <MenuItem value="">Select Brand</MenuItem>
-//         {/* Populate the dropdown with brand names */}
-//         <MenuItem value="Brand 1">Brand 1</MenuItem>
-//         <MenuItem value="Brand 2">Brand 2</MenuItem>
-//         {/* Add more brand names as needed */}
-//       </Select>
-
-//       {/* Table structure remains the same... */}
+//       <TableContainer component={Paper} style={{ maxHeight: 450 }}>
+//         <Table aria-label="customized table" stickyHeader>
+//           <TableHead>
+//             <TableRow>
+//               <TableCell style={{ backgroundColor: "white", width: 50 }}>
+//                 ID
+//               </TableCell>
+//               <TableCell style={{ backgroundColor: "white", width: 200 }}>
+//                 Name
+//               </TableCell>
+//               <TableCell style={{ backgroundColor: "white", width: 200 }}>
+//                 Action
+//               </TableCell>
+//             </TableRow>
+//           </TableHead>
+//           <TableBody>
+//             {filteredModels.map((Model, i) => (
+//               <TableRow
+//                 key={Model.id}
+//                 style={{ backgroundColor: i % 2 === 0 ? "#f8f8f8" : "#ffffff" }}
+//               >
+//                 <TableCell>{i + 1}</TableCell>
+//                 <TableCell>
+//                   {editIndex === i ? (
+//                     <TextField
+//                       value={editedModelName}
+//                       onChange={handleInputChange}
+//                       size="small"
+//                     />
+//                   ) : (
+//                     Model.name
+//                   )}
+//                 </TableCell>
+//                 <TableCell>
+//                   {editIndex === i ? (
+//                     <>
+//                       <IconButton onClick={() => handleSaveClick(Model)}>
+//                         <SaveIcon />
+//                       </IconButton>
+//                       <IconButton onClick={() => setEditIndex(-1)}>
+//                         <CancelIcon />
+//                       </IconButton>
+//                     </>
+//                   ) : (
+//                     <>
+//                       <IconButton
+//                         onClick={() => handleEditClick(i, Model.name)}
+//                       >
+//                         <EditIcon />
+//                       </IconButton>
+//                       <IconButton onClick={() => handleDeleteClick(Model)}>
+//                         <DeleteIcon />
+//                       </IconButton>
+//                     </>
+//                   )}
+//                 </TableCell>
+//               </TableRow>
+//             ))}
+//           </TableBody>
+//         </Table>
+//       </TableContainer>
 
 //       <Dialog
 //         open={isDeleteConfirmationOpen}
 //         onClose={() => setIsDeleteConfirmationOpen(false)}
 //       >
-//         {/* Delete confirmation dialog content... */}
+//         <DialogTitle>Confirmation</DialogTitle>
+//         <DialogContent>
+//           <DialogContentText>
+//             Are you sure you want to permanently delete this record?
+//           </DialogContentText>
+//         </DialogContent>
+//         <DialogActions>
+//           <Button
+//             onClick={() => setIsDeleteConfirmationOpen(false)}
+//             color="primary"
+//           >
+//             Cancel
+//           </Button>
+//           <Button onClick={handleDeleteConfirmation} color="primary" autoFocus>
+//             Yes, delete
+//           </Button>
+//         </DialogActions>
 //       </Dialog>
 
 //       <Dialog
-//         open={editIndex > -1 || isUpdateMode}
-//         onClose={() => {
-//           setEditIndex(-1);
-//           setEditedModelName("");
-//           setIsUpdateMode(false);
-//         }}
+//         open={isUpdateConfirmationOpen}
+//         onClose={() => setIsUpdateConfirmationOpen(false)}
 //       >
-//         <DialogTitle>
-//           {isUpdateMode ? "Update Model" : "Add New Model"}
-//         </DialogTitle>
+//         <DialogTitle>Confirmation</DialogTitle>
 //         <DialogContent>
 //           <DialogContentText>
-//             {isUpdateMode ? "Update the model name:" : "Enter the model name:"}
+//             Are you sure you want to update the name to "
+//             {updatedModelNameConfirmation}"?
+//           </DialogContentText>
+//         </DialogContent>
+//         <DialogActions>
+//           <Button
+//             onClick={() => setIsUpdateConfirmationOpen(false)}
+//             color="primary"
+//           >
+//             Cancel
+//           </Button>
+//           <Button onClick={handleUpdateConfirmation} color="primary" autoFocus>
+//             Yes, update
+//           </Button>
+//         </DialogActions>
+//       </Dialog>
+
+//       <Dialog
+//         open={isNewRecordDialogOpen}
+//         onClose={() => setIsNewRecordDialogOpen(false)}
+//       >
+//         <DialogTitle>Add a New Fuel Type Name</DialogTitle>
+//         <DialogContent>
+//           <DialogContentText>
+//             Enter the name of the new fuel type:
 //           </DialogContentText>
 //           <TextField
 //             autoFocus
 //             margin="dense"
 //             id="name"
-//             label="Model Name"
+//             label="Fuel Type Name"
 //             type="text"
 //             fullWidth
 //             value={editedModelName}
-//             onChange={(e) => setEditedModelName(e.target.value)}
+//             onChange={handleInputChange}
 //           />
 //         </DialogContent>
 //         <DialogActions>
 //           <Button
-//             onClick={() => {
-//               setEditIndex(-1);
-//               setEditedModelName("");
-//               setIsUpdateMode(false);
-//             }}
+//             onClick={() => setIsNewRecordDialogOpen(false)}
 //             color="primary"
 //           >
 //             Cancel
 //           </Button>
-//           <Button onClick={handleSaveClick} color="primary">
-//             {isUpdateMode ? "Update" : "Save"}
+//           <Button onClick={handleSaveNewRecord} color="primary">
+//             Save
 //           </Button>
 //         </DialogActions>
 //       </Dialog>

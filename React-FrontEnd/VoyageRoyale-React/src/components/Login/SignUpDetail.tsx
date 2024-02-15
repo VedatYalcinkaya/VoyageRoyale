@@ -13,7 +13,7 @@ export default function SignUpDetail({ openSignInDrawer }: Props) {
     <>
       <Grid container item xs={12} justifyContent="center">
         <img
-          src="https://i.ibb.co/KszFnsq/Sign-Up.png"
+          src="https://i.ibb.co/KXtRYwf/Sign-Up.png"
           alt="Sign Up"
           style={{ maxWidth: "90%" }}
         />

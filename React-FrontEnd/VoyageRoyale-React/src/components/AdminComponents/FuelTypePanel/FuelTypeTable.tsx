@@ -24,9 +24,9 @@ import SaveIcon from "@mui/icons-material/Save";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useAppDispatch, useAppSelector } from "../../../store/configureStore";
 import { deleteFuelType } from "../../../store/slices/deleteFuelTypeSlice";
-import { getCarFuelType } from "../../../store/slices/CarSlices/carFuelTypeSlice";
 import { postFuelType } from "../../../store/slices/addFuelTypeSlice";
 import { updateFuelType } from "../../../store/slices/updateFuelTypeSlice";
+import { getCarFuelType } from "../../../store/slices/CarSlices/carFuelTypeSlice";
 
 
 export default function FuelTypeTable() {
@@ -57,7 +57,6 @@ export default function FuelTypeTable() {
 
     fetchData();
   }, [dispatch]); 
-
 
   const handleEditClick = (index: any, name: any) => {
     setEditIndex(index);
@@ -134,9 +133,11 @@ export default function FuelTypeTable() {
   };
 
   const filteredFuelTypes = fuelTypes.filter((fuelType) =>
-    fuelType.name?.toLowerCase() === editedFuelTypeName.toLowerCase()
+  fuelType.name?.toLowerCase().includes(searchQuery.toLowerCase())
+);
 
-  );
+
+
 
   return (
     <div>

@@ -1,12 +1,12 @@
 <div align="center">
-  <b><h1>PAIR 5 - Rent A Car Web Application Project</h1></b>
+  <b><h1>Voyage Royale - Rent A Car Web Application Project</h1></b>
 </div>
 
 <div align="center">
-  <img src="https://i.ibb.co/Ypm7XVS/PAIR-5-Logo.jpg" alt="PAIR-5-Logo" border="0" width="600">
+  <img src="https://i.ibb.co/t84wHDT/github.jpg" alt="PAIR-5-Logo" border="0" width="600">
 </div>
 
-As aspiring full-stack developers, we are excited to embark on the journey of creating a Rent-a-Car web application using Java and React. This project aims to deliver a user-friendly platform that enables users to effortlessly rent vehicles, manage bookings, and explore a wide range of car options. From the back-end powered by Java to the dynamic and interactive front-end with React, our team is dedicated to crafting a seamless and efficient rental experience. 
+As aspiring full-stack developers (Pair 5), we are excited to embark on the journey of creating a Rent-a-Car web application using Java and React. This project aims to deliver a user-friendly platform that enables users to effortlessly rent vehicles, manage bookings, and explore a wide range of car options. From the back-end powered by Java to the dynamic and interactive front-end with React, our team is dedicated to crafting a seamless and efficient rental experience. 
 
 <div align="center">
   <b><h1>Collaborators</h1></b>
