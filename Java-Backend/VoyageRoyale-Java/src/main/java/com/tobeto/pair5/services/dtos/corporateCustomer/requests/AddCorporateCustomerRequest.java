@@ -23,4 +23,5 @@ public class AddCorporateCustomerRequest {
     @Positive(message = "Id field must be positive")
     private int userId;
 
+
 }

@@ -3,4 +3,5 @@ export interface CorporateCustomer {
     companyName:string;
     taxNo:string;
     userEmail:string;
+    userImagePath:string;
 }

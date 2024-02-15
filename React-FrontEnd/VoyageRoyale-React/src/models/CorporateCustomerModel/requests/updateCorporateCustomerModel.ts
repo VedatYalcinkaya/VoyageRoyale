@@ -3,4 +3,5 @@ export interface UpdateCorporateCustomerRequest {
     companyName:string;
     taxNo:string;
     userEmail:string;
+    userImagePath:string;
 }
