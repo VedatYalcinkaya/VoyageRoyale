@@ -52,6 +52,7 @@ import getAllUsersSlice from "./slices/getAllUsersSlice";
 import getAllRentalSlice from "./slices/getAllRentalSlice";
 import corporateSignUpSlice from "./slices/corporateSignUpSlice";
 import updateCorporateCustomerSlice from "./slices/CorporateCustomerSlice/updateCorporateCustomerSlice";
+import getCustomRentalSlice from "./slices/getCustomRentalSlice";
 
 export const store = configureStore({
   reducer: {
@@ -108,7 +109,8 @@ export const store = configureStore({
     deleteInvoice:deleteInvoiceSlice,
     getAllUsers:getAllUsersSlice,
     getAllRentals:getAllRentalSlice,
-    corporateSignUp:corporateSignUpSlice
+    corporateSignUp:corporateSignUpSlice,
+    getCustomRentals:getCustomRentalSlice
   },
 });
 

@@ -108,7 +108,7 @@ public class CarManager implements CarService {
         try {
             GetAllModelResponse model = modelService.getById(modelId);
         } catch (NoSuchElementException ex) {
-            throw new BusinessException("Model not found!");
+            throw new BusinessException(Messages.modelNotExist);
         }
     }
 

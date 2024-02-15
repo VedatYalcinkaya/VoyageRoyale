@@ -17,10 +17,8 @@ public class UpdateRentalRequest {
     private int id;
     private LocalDate startDate;
     private LocalDate endDate;
-    private LocalDate returnDate;
     private int startKilometer;
     private int endKilometer;
-
-    private GetCarIdResponse car;
-    private GetUserIdResponse user;
+    private int carId;
+    private int userId;
 }

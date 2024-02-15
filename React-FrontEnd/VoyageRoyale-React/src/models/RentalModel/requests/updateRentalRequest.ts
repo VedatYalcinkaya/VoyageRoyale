@@ -1,10 +1,9 @@
 export interface UpdateRentalRequest {
-  id: number;
-  startDate: string;
-  endDate: string;
-  returnDate: string;
-  startKilometer: number;
-  endKilometer: number;
-  carId: number;
-  userId: number;
+	id: number;
+	startDate: Date | null | undefined;
+	endDate: Date | null | undefined;
+	startKilometer: number;
+	endKilometer: number;
+	carId: number;
+	userId: number;
 }

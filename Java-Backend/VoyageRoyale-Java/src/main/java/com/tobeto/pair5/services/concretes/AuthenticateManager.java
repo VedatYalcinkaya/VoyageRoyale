@@ -1,6 +1,7 @@
 package com.tobeto.pair5.services.concretes;
 
 import com.tobeto.pair5.core.services.JwtService;
+import com.tobeto.pair5.core.utilities.exceptions.types.BusinessException;
 import com.tobeto.pair5.core.utilities.mappers.ModelMapperService;
 import com.tobeto.pair5.entities.concretes.User;
 import com.tobeto.pair5.repositories.UserRepository;
@@ -50,11 +51,18 @@ public class AuthenticateManager implements AuthenticationService {
         addCustomerRequest.setTcNo(request.getTcNo());
         addCustomerRequest.setBirthDate(request.getBirthDate());
 
+        try {
+            customerService.add(addCustomerRequest);
+        }catch (Exception e){
+            // Handle the exception appropriately, you may log the error or take other actions
+            // For example, you may want to delete the user that was added if the customer addition fails
+            userService.delete(savedUser.getId());
+            throw new BusinessException( e.getMessage());
+        }
 
 
 
 
-        customerService.add(addCustomerRequest);
 
         var jwtToken = jwtService.generateToken(user);
 
@@ -78,8 +86,15 @@ public class AuthenticateManager implements AuthenticationService {
         addCorporateCustomerRequest.setCompanyName(request.getCompanyName());
         addCorporateCustomerRequest.setUserId(savedUser.getId());
 
+        try {
+            corporateCustomerService.add(addCorporateCustomerRequest);
+        } catch (Exception e) {
+            // Handle the exception appropriately, you may log the error or take other actions
+            // For example, you may want to delete the user that was added if the corporate customer addition fails
+            userService.delete(savedUser.getId());
+            throw new BusinessException( e.getMessage());
+        }
 
-        corporateCustomerService.add(addCorporateCustomerRequest);
 
         var jwtToken = jwtService.generateToken(user);
 

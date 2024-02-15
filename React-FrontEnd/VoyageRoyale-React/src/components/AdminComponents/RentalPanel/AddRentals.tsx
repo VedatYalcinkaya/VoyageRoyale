@@ -1,4 +1,4 @@
-import { Button, MenuItem, Select } from "@mui/material";
+import { Button, InputLabel, MenuItem, Select } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { useEffect } from "react";
@@ -11,6 +11,8 @@ import { postRental } from "../../../store/slices/addRentalSlice";
 import { getAllRentals } from "../../../store/slices/getAllRentalSlice";
 import { getAllUsers } from "../../../store/slices/getAllUsersSlice";
 import { GetAllUsersResponse } from "../../../models/UserModel/responses/getAllUsersResponse";
+import dayjs from "dayjs";
+import { getCustomRentals } from "../../../store/slices/getCustomRentalSlice";
 
 function AddRentals() {
   const dispatch = useAppDispatch();
@@ -20,15 +22,17 @@ function AddRentals() {
   );
 
   const initialValues = {
-    startDate: "",
-    endDate: "",
+    startDate: undefined,
+    endDate: undefined,
     carId: 0,
     userId: 0,
   };
 
   const validationSchema = Yup.object({
-    startDate: Yup.string().required("Start Date is required"),
-    endDate: Yup.string().required("End Date is required"),
+    startDate: Yup.date()
+    .required("Start Date is required!").min(dayjs().toDate(), "Start Date cannot be in the past."),
+    endDate: Yup.date()
+    .required("End Date is required!"),
     carId: Yup.number().moreThan(0, "Please select a car"),
     userId: Yup.number().moreThan(0, "Please select a user"),
   });
@@ -46,15 +50,18 @@ function AddRentals() {
         console.log(values);
         resetForm();
         await dispatch(postRental(values));
-        dispatch(getAllRentals());
+       await dispatch(getAllRentals());
+        dispatch(getCustomRentals())
       }}
     >
       <Form>
-        <SecondFormikInput name="startDate" label="Start Date" type="text" />
+        <InputLabel htmlFor="startDate">Start Date</InputLabel>
+        <SecondFormikInput name="startDate" label="" type="date" />
         <br />
         <br />
 
-        <SecondFormikInput name="endDate" label="End Date" type="text" />
+        <InputLabel htmlFor="endDate">End Date</InputLabel>
+        <SecondFormikInput name="endDate" label="" type="date" />
         <br />
         <br />
 

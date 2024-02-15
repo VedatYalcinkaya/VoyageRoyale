@@ -1,4 +1,4 @@
-import { Button, MenuItem, Select } from "@mui/material";
+import { Button, InputLabel, MenuItem, Select } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import SecondFormikInput from "../../FormikInput/SecondFormikInput";
@@ -11,6 +11,8 @@ import { getAllRentals } from "../../../store/slices/getAllRentalSlice";
 import { getAllUsers } from "../../../store/slices/getAllUsersSlice";
 import { getAllCar } from "../../../store/slices/CarSlices/getAllCarSlice";
 import { GetAllUsersResponse } from "../../../models/UserModel/responses/getAllUsersResponse";
+import dayjs from "dayjs";
+import { getCustomRentals } from "../../../store/slices/getCustomRentalSlice";
 
 function UpdateRental() {
   const dispatch = useAppDispatch();
@@ -22,9 +24,8 @@ function UpdateRental() {
 
   const initialValues = {
     id: 0,
-    startDate: "",
-    endDate: "",
-    returnDate: "",
+    startDate: undefined,
+    endDate: undefined,
     startKilometer: 0,
     endKilometer: 0,
     carId: 0,
@@ -33,9 +34,10 @@ function UpdateRental() {
 
   const validationSchema = Yup.object({
     id: Yup.number().moreThan(0, "Please select a rental"),
-    startDate: Yup.string().required("Start Date is required"),
-    endDate: Yup.string().required("End Date is required"),
-    returnDate: Yup.string().required("Return Date is required"),
+    startDate: Yup.date()
+    .required("Start Date is required!").min(dayjs().toDate(), "Start Date cannot be in the past."),
+    endDate: Yup.date()
+    .required("End Date is required!"),
     startKilometer: Yup.number().moreThan(
       0,
       "Start Kilometer must be greater than 0"
@@ -51,6 +53,7 @@ function UpdateRental() {
   useEffect(() => {
     dispatch(getAllUsers());
     dispatch(getAllCar());
+    dispatch(getAllRentals());
   }, []);
 
   return (
@@ -61,7 +64,8 @@ function UpdateRental() {
         console.log(values);
         resetForm();
         await dispatch(updateRental(values));
-        dispatch(getAllRentals());
+        await dispatch(getAllRentals());
+        dispatch(getCustomRentals())
       }}
     >
       <Form>
@@ -76,26 +80,14 @@ function UpdateRental() {
         <br />
         <br />
 
-        <SecondFormikInput
-          name="startDate"
-          label="Updated Start Date"
-          type="text"
-        />
+        <InputLabel htmlFor="startDate">Start Date</InputLabel>
+        <SecondFormikInput name="startDate" label="" type="date" />
         <br />
 
-        <SecondFormikInput
-          name="endDate"
-          label="Updated End Date"
-          type="text"
-        />
+        <InputLabel htmlFor="endDate">End Date</InputLabel>
+        <SecondFormikInput name="endDate" label="" type="date" />
         <br />
 
-        <SecondFormikInput
-          name="returnDate"
-          label="Updated Return Date"
-          type="text"
-        />
-        <br />
 
         <SecondFormikInput
           name="startKilometer"
@@ -112,7 +104,7 @@ function UpdateRental() {
         <br />
 
         <Field as={Select} name="carId">
-          <MenuItem value="0">Select A Car</MenuItem>
+          <MenuItem value="0">Select The Car</MenuItem>
           {cars?.map((car) => (
             <MenuItem value={car.id} key={car.id}>
               {car.plate}
@@ -123,7 +115,7 @@ function UpdateRental() {
         <br />
 
         <Field as={Select} name="userId">
-          <MenuItem value="0">Select A User</MenuItem>
+          <MenuItem value="0">Select The User</MenuItem>
           {users?.map((user) => (
             <MenuItem value={user.id} key={user.id}>
               {user.email}

@@ -10,4 +10,6 @@ public interface CorporateCustomerRepository extends JpaRepository<CorporateCust
     Optional<CorporateCustomer> findByUserEmail(String UserEmail);
 
     Optional<CorporateCustomer> findByTaxNo(String taxNumber);
+
+    boolean existsByCompanyName(String companyName);
 }

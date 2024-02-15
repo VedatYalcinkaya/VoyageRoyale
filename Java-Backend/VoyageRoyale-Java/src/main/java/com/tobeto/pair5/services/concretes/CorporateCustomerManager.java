@@ -26,6 +26,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
     @Override
     public void add(AddCorporateCustomerRequest request) {
         checkIfCorporateCustomerExists(request.getUserId());
+        checkIfCorporateCustomerNameExists(request.getCompanyName());
         checkIsTaxNumberAlreadyExists(request.getTaxNo());
         CorporateCustomer corporateCustomer = this.modelMapperService.forRequest().map(request,CorporateCustomer.class);
         corporateCustomerRepository.save(corporateCustomer);
@@ -98,6 +99,11 @@ public class CorporateCustomerManager implements CorporateCustomerService {
     private void checkIsTaxNumberAlreadyExists(String taxNumber){
         if (corporateCustomerRepository.findByTaxNo(taxNumber).isPresent()){
             throw new BusinessException(Messages.taxNumberAlreadyExists);
+        }
+    }
+    private void checkIfCorporateCustomerNameExists(String companyName){
+        if (corporateCustomerRepository.existsByCompanyName(companyName)){
+            throw new BusinessException(Messages.companyNameAlreadyExists);
         }
     }
 }

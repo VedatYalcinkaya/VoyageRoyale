@@ -17,6 +17,8 @@ import { deleteRental } from "../../../store/slices/deleteRentalSlice";
 import { useEffect } from "react";
 import { GetAllRentalResponse } from "../../../models/RentalModel/responses/getAllRentalResponse";
 import { getAllRentals } from "../../../store/slices/getAllRentalSlice";
+import { getCustomRentals } from "../../../store/slices/getCustomRentalSlice";
+import { GetCustomRentalResponse } from "../../../models/RentalModel/responses/getCustomRentalResponse";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -39,10 +41,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function RentalTable() {
   const dispatch = useAppDispatch();
-  const rentals = useAppSelector((state) => state.getAllRentals.data);
+  const rentals = useAppSelector((state) => state.getCustomRentals.data);
 
   useEffect(() => {
-    dispatch(getAllRentals());
+    dispatch(getCustomRentals());
   }, []);
   console.log(rentals);
 
@@ -52,29 +54,33 @@ export default function RentalTable() {
         <TableHead>
           <TableRow>
             <StyledTableCell>ID</StyledTableCell>
+            <StyledTableCell>User Email</StyledTableCell>
+            <StyledTableCell>Car Plate</StyledTableCell>
+            <StyledTableCell>Daily Price</StyledTableCell>
             <StyledTableCell>Start Date</StyledTableCell>
             <StyledTableCell>End Date</StyledTableCell>
-            <StyledTableCell>Return Date</StyledTableCell>
             <StyledTableCell>Start Kilometer</StyledTableCell>
             <StyledTableCell>End Kilometer</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rentals?.map((rental: GetAllRentalResponse, i: number) => (
+          {rentals?.map((rental: GetCustomRentalResponse, i: number) => (
             <StyledTableRow key={rental.id}>
               <StyledTableCell component="th" scope="row">
                 {i + 1}
               </StyledTableCell>
+              <StyledTableCell>{rental.userEmail}</StyledTableCell>
+              <StyledTableCell>{rental.carPlate}</StyledTableCell>
+              <StyledTableCell>{rental.carDailyPrice}</StyledTableCell>
               <StyledTableCell>{rental.startDate}</StyledTableCell>
               <StyledTableCell>{rental.endDate}</StyledTableCell>
-              <StyledTableCell>{rental.returnDate}</StyledTableCell>
               <StyledTableCell>{rental.startKilometer}</StyledTableCell>
               <StyledTableCell>{rental.endKilometer}</StyledTableCell>
               <StyledTableCell align="right">
                 <Button
                   onClick={async () => {
                     await dispatch(deleteRental(rental.id));
-                    dispatch(getAllRentals());
+                    dispatch(getCustomRentals());
                   }}
                 >
                   <DeleteIcon />

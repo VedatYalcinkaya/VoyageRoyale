@@ -18,11 +18,11 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserRequest } from "../../models/UserModel/requests/request";
+import { format } from "date-fns";
 
 export default function SignUp() {
   const dispatch: ThunkDispatch<any, any, any> = useAppDispatch();
   const isLoading: boolean = useAppSelector((state) => state.signUp.loading);
-  const [selectedDate, setSelectedDate] = useState(null);
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openFailure, setOpenFailure] = useState(false);
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ export default function SignUp() {
     email: "",
     password: "",
     tcNo: "",
-    birthDate: null,
+    birthDate: undefined,
     authorities: ["USER", "CUSTOMER"],
   };
 
@@ -56,6 +56,9 @@ export default function SignUp() {
     email: Yup.string().required("Email is required!").email(),
     password: Yup.string().required("Password is required!"),
     tcNo: Yup.string().required("Identity Number is required!"),
+    birthDate: Yup.date()
+    .required("Date of Birth is required!")
+    .max(new Date(), "Date of Birth cannot be in the future")
   });
 
   return (
@@ -65,7 +68,6 @@ export default function SignUp() {
           initialValues={{ ...initialValues }}
           validationSchema={validationSchema}
           onSubmit={async(values: UserRequest, { resetForm }) => {
-            values.birthDate = selectedDate;
             console.log(values);
             resetForm();
             await dispatch(postSignUp(values))
@@ -94,14 +96,11 @@ export default function SignUp() {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                      label="Birth Date"
-                      value={selectedDate}
-                      onChange={(date) => setSelectedDate(date)}
-                      format="YYYY-MM-DD"
-                    />
-                  </LocalizationProvider>
+                  <SecondFormikInput
+                    name="birthDate"
+                    label=""
+                    type="date"
+                  />
                 </Grid>
                 <Grid item xs={6} sx={{ mb: 5 }}>
                   <SecondFormikInput

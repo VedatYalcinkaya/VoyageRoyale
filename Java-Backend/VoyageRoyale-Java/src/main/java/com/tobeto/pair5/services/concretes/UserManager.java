@@ -41,6 +41,7 @@ public class UserManager implements UserService {
     @Override
     public void update(UpdateUserRequest request) {
         User userToUpdate =findUser(request.getId());
+        checkUserPasswordLength(request.getPassword());
         this.modelMapperService.forRequest().map(request, userToUpdate);
         userRepository.saveAndFlush(userToUpdate);
     }
