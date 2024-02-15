@@ -1,6 +1,6 @@
 export interface AddRentalRequest {
-  startDate: string | null;
-  endDate: string | null;
+  startDate: Date | null | undefined;
+  endDate: Date | null | undefined;
   carId: number | undefined;
   userId: number | undefined;
 }

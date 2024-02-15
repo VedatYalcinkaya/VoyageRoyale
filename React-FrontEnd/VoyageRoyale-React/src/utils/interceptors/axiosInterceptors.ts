@@ -37,8 +37,10 @@ axiosInstance.interceptors.response.use(
       if (status === 400) {
          if(error.response.data.detail){
             toastr.error(error.response.data.detail);
+         }else{
+          toastr.error("Something went wrong","Caution");
          }
-        toastr.error("Something went wrong","Caution");
+        
       } else if (status === 500) {
         toastr.error("Internal Server Error");
       } else if (status === 401) {
