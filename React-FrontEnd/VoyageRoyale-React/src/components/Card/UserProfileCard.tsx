@@ -95,7 +95,7 @@ const UserProfileCard: React.FC = () => {
         }
 
         const updatedValues = { ...values, userImagePath: values.userImagePath };
-        dispatch(putCustomer(values))
+        dispatch(putCustomer(updatedValues))
           .unwrap()
           .then(updatedCustomer => {
             dispatch(getCustomerInfo(email))
@@ -127,7 +127,7 @@ const UserProfileCard: React.FC = () => {
                 id="file"
               />
               <Button component="span" style={{ padding: 0, borderRadius: '50%', overflow: 'hidden', display: 'inline-block' }}>
-                <img src={values.userImagePath || "default_image_placeholder.png"} alt="Upload" style={{ width: 100, height: 100, objectFit: 'cover', clipPath: 'circle(50%)' }} />
+                <img src={values.userImagePath || "http://res.cloudinary.com/dklqpt5li/image/upload/v1707925414/vnxdusqgctmxjdifqqdd.png"} alt="Upload" style={{ width: 100, height: 100, objectFit: 'cover', clipPath: 'circle(50%)' }} />
               </Button>
             </label>
 

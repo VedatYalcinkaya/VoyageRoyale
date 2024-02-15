@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import { Form, Formik } from 'formik';
 import { putCorporateCustomer } from '../../store/slices/CorporateCustomerSlice/updateCorporateCustomerSlice';
 import { Button, Grid, TextField } from '@mui/material';
+import { uploadCarImage } from '../../store/slices/addCarSlice';
 
 const CorporateCustomerProfileCard: React.FC = () => {
 const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
@@ -17,6 +18,7 @@ const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
     companyName:  '',
     taxNo: '',
     userEmail: '',
+    userImagePath: ''
   }); 
   const email = useAppSelector(state => state.getCustomerByEmail.data?.email);
   useEffect(() => {
@@ -38,6 +40,7 @@ const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
         companyName: corporateCustomer.companyName || '',
         taxNo: corporateCustomer.taxNo || '',
         userEmail: corporateCustomer.userEmail || '',
+        userImagePath: corporateCustomer.userImagePath || ''
       });
     }
   }, [corporateCustomer]);
@@ -52,11 +55,36 @@ const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
       .email("Must be email format!")
       .required("Email is required"),
   })
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    console.log(files); // Seçilen dosyaları konsola yazdırır.
+    if (files && files.length > 0) {
+      setImageFile(files[0]);
+      console.log("Dosya seçildi:", files[0]); // Seçilen ilk dosyanın detaylarını konsola yazdırır.
+    } else {
+      console.log("Dosya seçilmedi.");
+    }
+  };
   
   return (
 <Formik initialValues={initialFormValues} validationSchema={validationSchema}
-      onSubmit={(values: any, {resetForm,setValues, setSubmitting }) => {
-        dispatch(putCorporateCustomer(values))
+      onSubmit={async (values: any, {setValues, setSubmitting }) => {
+        if (imageFile) {
+          try {
+            // İlk olarak resmi yükle
+            const imageResponse = await dispatch(uploadCarImage(imageFile)).unwrap();
+            values.userImagePath = imageResponse
+            console.log(values.userImagePath)
+            console.log(values)
+          } catch (error) {
+            console.error('Resim yükleme işlemi sırasında hata oluştu', error);
+            return;
+          }
+        }
+
+        const updatedValues = { ...values, userImagePath: values.userImagePath };
+        dispatch(putCorporateCustomer(updatedValues))
         .unwrap()
         .then(updatedCorporateCustomer => {
           dispatch(getCorporateCustomerInfo(email))
@@ -78,6 +106,21 @@ const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
     >
       {({ values ,errors, touched, handleChange, handleBlur }) => (
         <Form>
+        <Grid>
+            <label htmlFor="file" style={{ cursor: 'pointer' }}>
+              <input
+                accept="image/*"
+                type="file"
+                onChange={handleFileSelect}
+                style={{ display: 'none' }}
+                id="file"
+              />
+              <Button component="span" style={{ padding: 0, borderRadius: '50%', overflow: 'hidden', display: 'inline-block' }}>
+                <img src={values.userImagePath || "http://res.cloudinary.com/dklqpt5li/image/upload/v1707925414/vnxdusqgctmxjdifqqdd.png"} alt="Upload" style={{ width: 100, height: 100, objectFit: 'cover', clipPath: 'circle(50%)' }} />
+              </Button>
+            </label>
+
+          </Grid>
           <Grid container spacing={2}>
             {/* Example: First Name Field */}
             <Grid item xs={12}>

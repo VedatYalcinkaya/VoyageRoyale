@@ -23,6 +23,7 @@ import SignUpDetail from "../Login/SignUpDetail";
 import { getCustomerInfo } from "../../store/slices/CustomerSlices/customerInfoSlice";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { getCorporateCustomerInfo } from "../../store/slices/CorporateCustomerSlice/corporateCustomerInfoSlice";
 
 const drawerWidth = 275;
 const signInDrawerWidth = 400;
@@ -82,12 +83,18 @@ export default function Sidebar() {
   console.log(authorities);
 
   useEffect(() => {
-    // Email adresine göre müşteri bilgilerini çek
+    // Check if the email is present
     if (email) {
-      dispatch(getCustomerInfo(email));
+      // Check the user's authorities to determine their role
+      if (authorities?.includes("CUSTOMER")) {
+        // If the user is a customer, fetch customer info
+        dispatch(getCustomerInfo(email));
+      } else if (authorities?.includes("CORPORATE_CUSTOMER")) {
+        // If the user is a corporate customer, fetch corporate customer info
+        dispatch(getCorporateCustomerInfo(email));
+      }
     }
-  }, [dispatch, email]);
-
+  }, [dispatch, email, authorities]);
 
 
 
