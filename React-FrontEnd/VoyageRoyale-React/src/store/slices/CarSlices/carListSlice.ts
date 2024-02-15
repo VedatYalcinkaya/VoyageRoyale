@@ -30,7 +30,7 @@ export const getCarList = createAsyncThunk('getCarList', async (reservationInfo:
 export const carListSlice = createSlice({
   name: 'carList',
   initialState,
-  reducers: {}, // You can add other reducers here if needed
+  reducers: {}, 
   extraReducers: (builder) => {
     builder.addCase(getCarList.pending, (state) => {
       state.loading = true;

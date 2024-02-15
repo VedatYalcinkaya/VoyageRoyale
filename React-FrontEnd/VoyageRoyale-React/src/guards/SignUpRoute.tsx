@@ -11,7 +11,7 @@ const SignUpRoute = ({children}: { children: ReactNode }) => {
     useEffect(() => {
         if (credential) {
             navigate("/");
-            toastr.info("You have already signed in. Please sign out first");
+            //toastr.info("You have already signed in. Please sign out first");
         }
     }, [credential, navigate]);
     return <>{children}</>;
