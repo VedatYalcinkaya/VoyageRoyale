@@ -24,5 +24,5 @@ public class GetByIdCarResponse {
     private String fuelTypeName;
     private String carTypeName;
     private String positionName;
-    private String logoPath;
+    private String brandLogoPath;
 }

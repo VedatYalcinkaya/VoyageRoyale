@@ -22,4 +22,5 @@ public class GetCarsByPositionIdResponse {
     private String fuelTypeName;
     private String carTypeName;
     private String positionCity;
+    private String brandLogoPath;
 }

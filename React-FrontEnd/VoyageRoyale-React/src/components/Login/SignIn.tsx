@@ -59,7 +59,7 @@ const SignIn = ({closeSignInDrawer }:SignInProps) => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            backgroundColor:"#D4D2A9",
+            backgroundColor:"#BC9160",
             padding: 3,
             borderRadius: 2,
           }}
@@ -86,8 +86,8 @@ const SignIn = ({closeSignInDrawer }:SignInProps) => {
                 color:"#D4D2A9",
                 backgroundColor: "#0F4037",             
                 "&:hover": {
-                  backgroundColor: "#A3794F",
-                  color:"#0F4037"
+                  backgroundColor: "#0B352D",
+                  
                     }}}
             >
               Submit

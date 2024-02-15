@@ -12,5 +12,5 @@ export interface Car {
 	fuelTypeName?: string;
 	carTypeName?: string;
 	positionName?: string;
-	logoPath?: string;
+	brandLogoPath?: string;
 }

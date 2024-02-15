@@ -21,4 +21,5 @@ public class GetCarsByPickUpDateAndReturnDateAndPosition {
     private String fuelTypeName;
     private String carTypeName;
     private String positionName;
+    private String brandLogoPath;
 }
