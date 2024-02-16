@@ -23,6 +23,7 @@ public class GetAllCarResponse {
     private String fuelTypeName;
     private String carTypeName;
     private String positionName;
+    private String positionCity;
     private String brandLogoPath;
 
 }
