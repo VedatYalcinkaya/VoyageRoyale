@@ -13,10 +13,11 @@ import { getAllCar } from "../../../store/slices/CarSlices/getAllCarSlice";
 import { GetAllUsersResponse } from "../../../models/UserModel/responses/getAllUsersResponse";
 import dayjs from "dayjs";
 import { getCustomRentals } from "../../../store/slices/getCustomRentalSlice";
+import toastr from "toastr";
 
 function UpdateRental() {
   const dispatch = useAppDispatch();
-  const rentals = useAppSelector((state) => state.getAllRentals.data);
+  const rentals = useAppSelector((state) => state.getCustomRentals.data);
   const cars: Car[] = useAppSelector((state) => state.getAllCar.data);
   const users: GetAllUsersResponse[] | null = useAppSelector(
     (state) => state.getAllUsers.data
@@ -53,6 +54,7 @@ function UpdateRental() {
   useEffect(() => {
     dispatch(getAllUsers());
     dispatch(getAllCar());
+    dispatch(getCustomRentals());
     dispatch(getAllRentals());
   }, []);
 
@@ -63,14 +65,20 @@ function UpdateRental() {
       onSubmit={async (values: UpdateRentalRequest, { resetForm }) => {
         console.log(values);
         resetForm();
-        await dispatch(updateRental(values));
+        try {
+           await dispatch(updateRental(values));
         await dispatch(getAllRentals());
         dispatch(getCustomRentals())
+        toastr.success("Rental updated successfully");
+        } catch (error:any) {
+          error.message;
+        }
+       
       }}
     >
       <Form>
         <Field as={Select} name="id">
-          <MenuItem value={0}>Select a Rental ID</MenuItem>
+          <MenuItem value={0}>Select Rental ID</MenuItem>
           {rentals?.map((rental) => (
             <MenuItem value={rental.id} key={rental.id}>
               {rental.id}

@@ -2,6 +2,7 @@ import {createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../utils/interceptors/axiosInterceptors';
 import { UpdateRentalRequest } from '../../models/RentalModel/requests/updateRentalRequest';
+import axios from 'axios';
 
 
 interface UpdateRental{
@@ -18,7 +19,7 @@ const initialState: UpdateRental = {
 
 export const updateRental = createAsyncThunk('updateRental', async (rental:UpdateRentalRequest) => {
   try {
-    const response = await axiosInstance.put('/rentals/update', rental);
+    const response = await axios.put('http://localhost:8080/api/rentals/update', rental);
     return response.data; 
   } catch (error) {
     throw error;

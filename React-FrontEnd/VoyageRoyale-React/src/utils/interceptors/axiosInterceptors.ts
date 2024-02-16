@@ -30,7 +30,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    store.dispatch(decreaseRequestCount());
+    
 
     if (error.response) {
       const status = error.response.status;
@@ -53,7 +53,7 @@ axiosInstance.interceptors.response.use(
     } else {
       toastr.error("Error: " + error.message);
     }
-
+    store.dispatch(decreaseRequestCount());
     return Promise.reject(error);
   }
 );

@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axiosInstance from "../../utils/interceptors/axiosInterceptors";
-import { DeleteRentalRequest } from "../../models/RentalModel/requests/deleteRentalRequest";
+import axios from "axios";
 
 interface DeleteRental {
   data: number ;
@@ -18,7 +17,7 @@ const initialState: DeleteRental = {
 export const deleteRental = createAsyncThunk(
   "deleteRental",
   async (id:number) => {
-    const response = await axiosInstance.delete(`/rentals/delete/${id}`);
+    const response = await axios.delete(`http://localhost:8080/api/rentals/delete/${id}`);
     return response.data;
   }
 );

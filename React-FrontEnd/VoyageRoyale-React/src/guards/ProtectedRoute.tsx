@@ -6,16 +6,14 @@ import tokenService from '../services/tokenService';
 
 type Props = {}
 
-const ProtectedRoute = ({children}: { children: ReactNode }) => {
+export default function ({children}: { children:any }) {
     const navigate = useNavigate();
-    const credential = tokenService.getToken();
-    useEffect(() => {
-        if (!credential) {
-            toastr.info("You do not have permission to access this page");
+    const role = useAppSelector(state => state.getCustomerByEmail.data?.authorities);
+    
+    if (!role) {
             navigate("/");
-        }
-    }, [credential, navigate]);
-    return <>{children}</>;
-}
-
-export default ProtectedRoute
+    }
+    if(role?.includes("CUSTOMER") || role?.includes("CORPORATE_CUSTOMER") || role?.includes("USER")){
+        return <>{children}</>
+    }
+}   
