@@ -14,5 +14,5 @@ public interface InvoiceService {
     List<GetAllInvoiceResponse> getAll();
     GetAllInvoiceResponse getById(int id);
 
-    GetAllInvoiceResponse getByInvoiceNo(String invoiceNo);
+    GetAllInvoiceResponse getInvoiceByRentalId(int id);
 }

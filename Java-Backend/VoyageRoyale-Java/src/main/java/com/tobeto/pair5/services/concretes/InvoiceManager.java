@@ -58,9 +58,11 @@ public class InvoiceManager implements InvoiceService {
     }
 
     @Override
-    public GetAllInvoiceResponse getByInvoiceNo(String invoiceNo) {
-        Invoice invoice = invoiceRepository.findByInvoiceNo(invoiceNo).orElseThrow(()-> new BusinessException(Messages.invoiceNotExist));
+    public GetAllInvoiceResponse getInvoiceByRentalId(int id) {
+        Invoice invoice = invoiceRepository.findByRentalId(id).orElseThrow(()-> new BusinessException(Messages.invoiceNotExist));
         GetAllInvoiceResponse response = this.modelMapperService.forResponse().map(invoice, GetAllInvoiceResponse.class);
-        return  response;
+        return response;
     }
+
+
 }
