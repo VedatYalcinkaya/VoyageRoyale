@@ -9,7 +9,7 @@ export default function ({ children }: { children:any }) {
     const credential = useAppSelector(state => state.getCustomerByEmail.data?.authorities);
 
 
-        if (!credential || (credential.includes("CUSTOMER") || credential.includes("CORPORATE_CUSTOMER") || credential.includes("USER"))) {        
+        if (!credential || credential.includes("USER")) {        
             navigate("/");
         }
         if (credential?.includes("ADMIN")) {

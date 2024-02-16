@@ -22,4 +22,6 @@ public class GetCustomRentalResponse {
     private String userEmail;
     private float invoicesTotalPrice;
     private float carDailyPrice;
+    private String carBrandName;
+    private String carModelName;
 }
