@@ -34,7 +34,8 @@ public class GearTypesController {
     }
 
     @GetMapping("/getAll")
-    public List<GetAllGearTypeResponse> getAll(){
+    public List<GetAllGearTypeResponse> getAll() throws InterruptedException {
+        Thread.sleep(2000);
         return gearTypeService.getAll();
     }
 

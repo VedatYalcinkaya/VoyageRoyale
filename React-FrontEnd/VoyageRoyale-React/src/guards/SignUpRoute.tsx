@@ -5,15 +5,16 @@ import toastr from 'toastr';
 
 type Props = {}
 
-const SignUpRoute = ({children}: { children: ReactNode }) => {
+export default function ({children}: { children: any }) {
     const navigate = useNavigate();
     const credential = useAppSelector(state => state.getCustomerByEmail.data?.authorities);
-    useEffect(() => {
+   
         if (credential) {
             navigate("/");
-            //toastr.info("You have already signed in. Please sign out first");
         }
-    }, [credential, navigate]);
-    return <>{children}</>;
+        if (!credential) {
+            return <>{children}</>;
+        }
+    
+    
 }
-export default SignUpRoute

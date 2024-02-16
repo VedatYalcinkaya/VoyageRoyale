@@ -21,4 +21,5 @@ public class GetCustomRentalResponse {
     private String carImagePath;
     private String userEmail;
     private float invoicesTotalPrice;
+    private float carDailyPrice;
 }

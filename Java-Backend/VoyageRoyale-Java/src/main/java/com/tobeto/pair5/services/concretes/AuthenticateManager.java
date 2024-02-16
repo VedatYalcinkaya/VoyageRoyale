@@ -54,8 +54,6 @@ public class AuthenticateManager implements AuthenticationService {
         try {
             customerService.add(addCustomerRequest);
         }catch (Exception e){
-            // Handle the exception appropriately, you may log the error or take other actions
-            // For example, you may want to delete the user that was added if the customer addition fails
             userService.delete(savedUser.getId());
             throw new BusinessException( e.getMessage());
         }
@@ -89,8 +87,6 @@ public class AuthenticateManager implements AuthenticationService {
         try {
             corporateCustomerService.add(addCorporateCustomerRequest);
         } catch (Exception e) {
-            // Handle the exception appropriately, you may log the error or take other actions
-            // For example, you may want to delete the user that was added if the corporate customer addition fails
             userService.delete(savedUser.getId());
             throw new BusinessException( e.getMessage());
         }

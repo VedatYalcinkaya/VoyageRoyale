@@ -71,6 +71,8 @@ public class RentalManager implements RentalService {
     public void delete(int id) {
         Rental rentalToDelete = rentalRepository.findById(id)
                 .orElseThrow(()-> new BusinessException(Messages.rentalNotExist));
+        GetAllInvoiceResponse invoice= invoiceService.getInvoiceByRentalId(rentalToDelete.getId());
+        invoiceService.delete(invoice.getId());
         rentalRepository.delete(rentalToDelete);
     }
 
@@ -85,14 +87,14 @@ public class RentalManager implements RentalService {
 
         Rental rental = this.modelMapperService.forRequest().map(request, Rental.class);
 
+        rentalRepository.saveAndFlush(rental);
+
         GetByIdCarResponse carResponse = carService.getById(request.getCarId());
 
-        rental.setStartKilometer(rental.getStartKilometer());
-        rental.setEndKilometer(rental.getEndKilometer());
 
         double price = calculateTotalPrice(request.getStartDate(), request.getEndDate(),carResponse.getDailyPrice());
 
-        GetAllInvoiceResponse response = invoiceService.getByInvoiceNo(rental.getInvoices().get(0).getInvoiceNo());
+        GetAllInvoiceResponse response = invoiceService.getInvoiceByRentalId(rental.getId());
         Invoice invoice = this.modelMapperService.forResponse().map(response, Invoice.class);
         invoice.setTotalPrice((float) price);
         invoice.setTaxRate(1.00F);
@@ -101,9 +103,10 @@ public class RentalManager implements RentalService {
         AddInvoiceRequest requestInvoice = modelMapperService.forRequest().map(invoice, AddInvoiceRequest.class);
         invoiceService.add(requestInvoice);
 
-        rental.setStartKilometer(carResponse.getKilometer());
+        rental.setStartKilometer(rental.getStartKilometer());
+        rental.setEndKilometer(rental.getEndKilometer());
+        rentalRepository.save(rental);
 
-        rentalRepository.saveAndFlush(rental);
     }
 
     @Override

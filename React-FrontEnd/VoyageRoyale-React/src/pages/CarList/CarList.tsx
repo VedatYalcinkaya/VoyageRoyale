@@ -16,7 +16,9 @@ import { getCarCarType } from "../../store/slices/CarSlices/carCarTypeSlice";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import { format } from "date-fns";
 import SelectedReservationDetails from "../../components/Card/SelectedReservationDetails";
-
+import "./CarAnimation.css";
+import CarIcon from "./carIcon";
+import LinearDeterminate from "./LinearDeterminate";
 type Props = {};
 
 const CarList = (props: Props) => {
@@ -51,7 +53,7 @@ const CarList = (props: Props) => {
   const selectedPosition = useAppSelector(
     (state) => state.reservation.position?.id
   );
-  const loading = useAppSelector((state) => state.loading.requestCount);
+  const loading = useAppSelector(state => state.loading.requestCount);
  
 
   useEffect(() => {
@@ -68,14 +70,21 @@ const CarList = (props: Props) => {
     dispatch(getCarBrandType());
     dispatch(getCarGearType());
   }, []);
+  console.log(loading)
 
-  if (loading > 0) {
-    return (
-      <Box sx={{ display: "flex" }}>
-        <CircularProgress />
-      </Box>
-    );
-  } else {
+  
+  if (loading>0) {
+    return(
+      <Box     sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh"
+      }}>
+        <LinearDeterminate/>
+    </Box>
+    )
+  }else {
     return (
       <Grid container spacing={2}>
         <SelectedReservationDetails/>

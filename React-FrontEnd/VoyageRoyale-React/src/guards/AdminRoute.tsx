@@ -3,19 +3,18 @@ import { useAppSelector } from "../store/configureStore";
 import { useNavigate } from "react-router-dom";
 import toastr from "toastr";
 
-function AdminRoute({ children }: { children: ReactNode }) {
+export default function ({ children }: { children:any }) {
     const navigate = useNavigate();
 
     const credential = useAppSelector(state => state.getCustomerByEmail.data?.authorities);
 
-    useEffect(() => {
-        if (!credential || (credential.includes("CUSTOMER") || credential.includes("CORPORATE_CUSTOMER") || credential.includes("USER"))) {
-            toastr.info("You do not have permission to access this page");
+
+        if (!credential || (credential.includes("CUSTOMER") || credential.includes("CORPORATE_CUSTOMER") || credential.includes("USER"))) {        
             navigate("/");
         }
-    }, [credential, navigate]);
-
-    return <>{children}</>;
+        if (credential?.includes("ADMIN")) {
+            return <>{children}</>;
+            
+        }
 }
 
-export default AdminRoute;
