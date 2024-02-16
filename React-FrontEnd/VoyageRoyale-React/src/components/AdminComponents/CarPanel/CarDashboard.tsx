@@ -1,30 +1,41 @@
-import { Grid } from '@mui/material'
-import React from 'react'
-import AddCar from './AddCar'
-import UpdateCar from './UpdateCar'
-import CarsTable from './CarsTable'
+import { useState } from 'react';
+import { Dialog, DialogContent, DialogTitle, styled } from '@mui/material';
+import AdminCarCard from './AdminCarCard';
+import AddCar from './AddCar';
+import AddCarDialog from './Dialogs/AddCarDialog';
+import AddCarModelSlice from '../../../store/slices/addCarModelSlice';
 
-type Props = {}
 
-const CarDashboard = (props: Props) => {
+const CarDashboard = () => {
+  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+      padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+      padding: theme.spacing(1),
+    },
+  }));
+  const [isNewRecordDialogOpen, setIsNewRecordDialogOpen] = useState(false);
+
+  const handleAddNewRecordClick = () => {
+    setIsNewRecordDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setIsNewRecordDialogOpen(false);
+  };
+
   return (
-    <Grid container>
-    <Grid item xs={12} md={12} lg={12}>
-        <Grid container>
-            <Grid item xs={6} md={6} lg={6}>
-              <AddCar/>
-            </Grid>
-            <Grid item xs={6} md={6} lg={6}>
-               <UpdateCar/>
-            </Grid>            
-        </Grid>
-    </Grid>
-    <Grid item xs={12} md={12} lg={12}>
-      <CarsTable/>
-    </Grid>
+    <>
+      <AdminCarCard onAddNewRecordClick={handleAddNewRecordClick} />
+      <Dialog open={isNewRecordDialogOpen} onClose={handleCloseDialog} maxWidth="md" fullWidth={true} >
+        <DialogTitle>Add New Car Record</DialogTitle>
+        <DialogContent>
+          <AddCarDialog/>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
 
-   </Grid>
-  )
-}
-
-export default CarDashboard
+export default CarDashboard;

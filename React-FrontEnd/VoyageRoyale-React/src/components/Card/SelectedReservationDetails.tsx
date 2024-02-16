@@ -5,14 +5,16 @@ import { Action } from "redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import { format } from "date-fns";
+import Cookies from 'js-cookie';
+
 
 type Props = {};
 
 const SelectedReservationDetails = (props: Props) => {
   const dispatch: ThunkDispatch<any, any, Action> = useAppDispatch();
-  const selectedPickupDate = useAppSelector(
-    (state) => state.reservation.pickUpDate
-  );
+  const selectedPickupDate = Cookies.get('selectedPickUpDate');
+  const selectedReturnDate = Cookies.get('selectedReturnDate');
+  const selectedCity = Cookies.get('selectedCity');
   const pickup: string | null = selectedPickupDate?.substring(0, 10) ?? null;
   let pickUpDate: string | null = pickup;
   let formattedPickupDate: string | null = null;
@@ -21,12 +23,9 @@ const SelectedReservationDetails = (props: Props) => {
     formattedPickupDate = format(new Date(pickUpDate), "MMMM do, yyyy");
   }
 
-  const selectedCity = useAppSelector((state) => state.reservation.city);
   const city: string | null = selectedCity ?? null;
 
-  const selectedReturnDate = useAppSelector(
-    (state) => state.reservation.returnDate
-  );
+
   const returnDate: string | null =
     selectedReturnDate?.substring(0, 10) ?? null;
 

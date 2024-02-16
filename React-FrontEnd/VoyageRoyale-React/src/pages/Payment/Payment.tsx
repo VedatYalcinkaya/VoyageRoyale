@@ -22,6 +22,9 @@ import tokenService from "../../services/tokenService";
 import { AddRentalRequest } from "../../models/RentalModel/requests/addRentalRequest";
 import { postRental } from "../../store/slices/addRentalSlice";
 import PaymentReceiptPdf from "../../components/PaymentReceiptPdf/PaymentReceiptPdf";
+import Cookies from "js-cookie";
+import { useParams } from "react-router-dom";
+import { getCarDetail } from "../../store/slices/CarSlices/carDetailSlice";
 
 interface PaymentProps {
   onFinishReservation?: () => void;
@@ -29,12 +32,24 @@ interface PaymentProps {
 
 const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
   const dispatch = useAppDispatch();
-  const selectedCar = useAppSelector((state) => state.carDetail.carDetailSend);
-  const selectedPosition = useAppSelector((state) => state.reservation);
-  const pickup: string | null =
-    selectedPosition.pickUpDate?.substring(0, 10) ?? null;
+  const { id: carId = '' } = useParams<{ id?: string }>();
+  const selectedCarModel = Cookies.get('selectedCarModel')
+  console.log(selectedCarModel)
+  const selectedReservation = useAppSelector((state) => state.reservation);
+
+  const selectedDailyPriceString = Cookies.get('selectedDailyPrice')
+  const selectedDailyPrice = selectedDailyPriceString ? parseInt(selectedDailyPriceString) : 0; 
+
+  const selectedCity = Cookies.get('selectedCity');
+
+  const selectedPickupDate = Cookies.get("selectedPickUpDate");
+  const pickup: string | null = selectedPickupDate?.substring(0, 10) ?? null;
+
+  const selectedReturnDate = Cookies.get("selectedReturnDate");
   const returnDate: string | null =
-    selectedPosition.returnDate?.substring(0, 10) ?? null;
+    selectedReturnDate?.substring(0, 10) ?? null;
+
+
   const confettiActive = useAppSelector(
     (state) => state.payment.confettiActive
   );
@@ -43,21 +58,28 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
   const [rentalInfo, setRentalInfo] = useState({});
 
   const calculateTotalPrice = (): number => {
-    const daysDifference = dayjs(selectedPosition.returnDate).diff(
-      dayjs(selectedPosition.pickUpDate),
+    const daysDifference = dayjs(selectedReturnDate).diff(
+      dayjs(selectedPickupDate),
       "day"
     );
-    const totalPrice = daysDifference * (selectedCar?.dailyPrice || 0);
+    const totalPrice = daysDifference * (selectedDailyPrice);
 
     return totalPrice;
   };
+
+  
+  React.useEffect(() => {
+     {
+      dispatch(getCarDetail(parseInt(carId)));
+    }
+  }, [dispatch, carId]);
 
   useEffect(() => {
     if (user !== undefined) {
       setRentalInfo({
         startDate: pickup,
         endDate: returnDate,
-        carId: selectedCar?.id,
+        carId: carId,
         userId: user,
       });
     }
@@ -114,16 +136,11 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
           <List>
             <ListItem>
               <ListItemText
-                primary={`Location: ${selectedPosition.position?.city}`}
+                primary={`Location: ${selectedCity}`}
               />
             </ListItem>
             <ListItem>
-              <ListItemText
-                primary={`Latitude : ${selectedPosition.position?.latitude} Longitude : ${selectedPosition.position?.longitude}`}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText primary={`Car Model: ${selectedCar?.modelName}`} />
+              <ListItemText primary={`Car Model: ${selectedCarModel}`} />
             </ListItem>
           </List>
           <Divider />
@@ -153,8 +170,8 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
             <PDFDownloadLink
               document={
                 <PaymentReceiptPdf
-                  selectedPosition={selectedPosition}
-                  selectedCar={selectedCar}
+                  selectedPosition={selectedReservation}
+                  selectedCar={selectedCarModel}
                   totalPrice={totalPrice}
                 />
               }

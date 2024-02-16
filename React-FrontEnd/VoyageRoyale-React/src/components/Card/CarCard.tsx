@@ -11,6 +11,7 @@ import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import StarIcon from "@mui/icons-material/Star";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
+import Cookies from "js-cookie";
 
 type CarCardProps = {};
 
@@ -57,19 +58,17 @@ const CarCard: React.FC<CarCardProps> = () => {
       ? cars.filter(filterCars)
       : cars;
 
-  const selectedReturnDate = useAppSelector(
-    (state) => state.reservation.returnDate
-  );
+  const selectedReturnDate = Cookies.get("selectedReturnDate");
   const returnDate: string | null =
     selectedReturnDate?.substring(0, 10) ?? null;
-
   let dropOffDate: string | null = returnDate;
 
-  const selectedPickupDate = useAppSelector(
-    (state) => state.reservation.pickUpDate
-  );
-  const pickup: string | null = selectedPickupDate?.substring(0, 10) ?? null;
+  const selectedPickUpDate = Cookies.get("selectedPickUpDate");
+  const pickup: string | null = selectedPickUpDate?.substring(0, 10) ?? null;
   let pickUpDate: string | null = pickup;
+
+  console.log(pickUpDate);
+  console.log(dropOffDate);
 
   const handleDate = () => {
     if (pickUpDate && dropOffDate) {
@@ -111,9 +110,8 @@ const CarCard: React.FC<CarCardProps> = () => {
                           {car.brandName} {car.modelName}
                         </Typography>
                       </Grid>
-                      <Grid item xs={4} sx={{textAlign:"right"}}>
+                      <Grid item xs={4} sx={{ textAlign: "right" }}>
                         <img
-                        
                           width="40%"
                           src={car.brandLogoPath}
                           alt={`${car.brandName} `}
@@ -242,7 +240,7 @@ const CarCard: React.FC<CarCardProps> = () => {
                   xs={4}
                   direction="column"
                   justifyContent="center"
-                  alignItems="center"
+                  alignItems="right"
                 >
                   <Paper
                     style={{
