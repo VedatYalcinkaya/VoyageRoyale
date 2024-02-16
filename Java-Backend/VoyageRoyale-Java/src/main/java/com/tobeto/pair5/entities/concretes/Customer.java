@@ -20,7 +20,7 @@ public class Customer extends BaseEntity {
     private String lastName;
 
     @Column(name="birth_date")
-    private LocalDate birthDate;
+    private int birthDate;
 
     @Column(name = "tc_no")
     private String tcNo;

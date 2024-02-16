@@ -1,5 +1,6 @@
 package com.tobeto.pair5.controllers;
 
+import com.tobeto.pair5.a.Mernis.GBFKPSPublicSoap;
 import com.tobeto.pair5.entities.concretes.Customer;
 import com.tobeto.pair5.services.abstracts.CustomerService;
 import com.tobeto.pair5.services.dtos.customer.requests.AddCustomerRequest;
@@ -11,6 +12,7 @@ import com.tobeto.pair5.services.dtos.customer.responses.GetCustomerByIdResponse
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +29,21 @@ public class CustomerController {
     public void add(@RequestBody @Valid AddCustomerRequest request){
         customerService.add(request);
     }
+
+
+    @PostMapping("/addCustomer")
+    public ResponseEntity<String> register(@RequestBody Customer customer) throws Exception {
+        GBFKPSPublicSoap client= new GBFKPSPublicSoap();
+        boolean isRealPerson= client.TCKimlikNoDogrula(Long.valueOf(customer.getTcNo()), customer.getFirstName(), customer.getLastName(), customer.getBirthDate());
+        if(isRealPerson){
+            {
+                return ResponseEntity.ok("Kullanıcı kayıtlı");
+            }
+
+        }
+        return ResponseEntity.badRequest().body("Yanlış kullanıcı");
+    }
+
 
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable @Valid int id){
