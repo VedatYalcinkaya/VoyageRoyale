@@ -26,6 +26,8 @@ public class AuthController {
     ){
         return ResponseEntity.ok(service.customerRegister(request));
     }
+
+    @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping("/corporateRegister")
     public ResponseEntity<AuthenticationResponse> corporateRegister(
             @RequestBody CorporateRegisterRequest request

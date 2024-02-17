@@ -5,6 +5,7 @@ import com.tobeto.pair5.core.utilities.mappers.ModelMapperService;
 import com.tobeto.pair5.entities.concretes.CorporateCustomer;
 import com.tobeto.pair5.repositories.CorporateCustomerRepository;
 import com.tobeto.pair5.services.abstracts.CorporateCustomerService;
+import com.tobeto.pair5.services.abstracts.UserService;
 import com.tobeto.pair5.services.constants.Messages;
 import com.tobeto.pair5.services.dtos.corporateCustomer.requests.AddCorporateCustomerRequest;
 import com.tobeto.pair5.services.dtos.corporateCustomer.requests.CustomUpdateCorporateCustomerRequest;
@@ -22,7 +23,8 @@ import java.util.List;
 public class CorporateCustomerManager implements CorporateCustomerService {
 
     private final CorporateCustomerRepository corporateCustomerRepository;
-    private ModelMapperService modelMapperService;
+    private final ModelMapperService modelMapperService;
+    private final UserService userService;
     @Override
     public void add(AddCorporateCustomerRequest request) {
         checkIfCorporateCustomerExists(request.getUserId());
@@ -37,6 +39,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
         checkIfCorporateCustomerNotExists(id);
         CorporateCustomer corporateCustomerToDelete = corporateCustomerRepository.findById(id).orElseThrow();
         corporateCustomerRepository.delete(corporateCustomerToDelete);
+        userService.delete(corporateCustomerToDelete.getUser().getId());
     }
 
     @Override

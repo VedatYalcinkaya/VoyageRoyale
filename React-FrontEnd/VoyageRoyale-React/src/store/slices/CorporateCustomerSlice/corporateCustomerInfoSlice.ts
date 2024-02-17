@@ -1,4 +1,4 @@
-import { CorporateCustomer } from '../../../models/CorporateCustomerModel/getCorporateCustomerByEmail';
+import { CorporateCustomer } from '../../../models/CorporateCustomerModel/responses/getCorporateCustomerByEmail';
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../../../utils/interceptors/axiosInterceptors";
 
