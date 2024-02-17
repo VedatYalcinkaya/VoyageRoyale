@@ -56,6 +56,7 @@ export default function UpdateCustomer() {
                         try {
                             resetForm();
                             await dispatch(putCustomerPanel(values))
+                            dispatch(getAllCustomer())
                         } catch (error: any) {
                             toastr.error(error.message);
                         }
@@ -105,7 +106,7 @@ export default function UpdateCustomer() {
                             <Grid item xs={6} sx={{ mb: 5 }}>
                                 <SecondFormikInput
                                     name="tcNo"
-                                    label="Identity Number*"
+                                    label="New Identity Number*"
                                     type="text"
                                 />
                             </Grid>

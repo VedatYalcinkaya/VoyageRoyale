@@ -56,6 +56,8 @@ import getCustomRentalSlice from "./slices/getCustomRentalSlice";
 import updateCustomerPanelSlice from "./slices/CustomerSlices/updateCustomerPanelSlice";
 import getAllCustomersSlice from "./slices/CustomerSlices/getAllCustomersSlice";
 import deleteCustomerSlice from "./slices/CustomerSlices/deleteCustomerSlice";
+import getAllCorporateSlice from "./slices/CorporateCustomerSlice/getAllCorporateSlice";
+import deleteCorporateSlice from "./slices/CorporateCustomerSlice/deleteCorporateSlice";
 
 export const store = configureStore({
   reducer: {
@@ -116,7 +118,10 @@ export const store = configureStore({
     getCustomRentals:getCustomRentalSlice,
     updateCustomerPanel:updateCustomerPanelSlice,
     getAllCustomer:getAllCustomersSlice,
-    deleteCustomer:deleteCustomerSlice
+    deleteCustomer:deleteCustomerSlice,
+    getAllCorporate:getAllCorporateSlice,
+    updateCorporate:updateCorporateCustomerSlice,
+    deleteCorporate:deleteCorporateSlice
   },
 });
 

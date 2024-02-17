@@ -1,9 +1,8 @@
 import React from "react";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
-import UserTable from "../../../components/AdminComponents/UserPanel/UserTable";
-import AddCustomer from "../../../components/AdminComponents/CustomerPanel/AddCustomer";
-import CustomerDashboard from "../../../components/AdminComponents/CustomerPanel/CustomerDashboard";
-import CorporateDashboard from "../../../components/AdminComponents/CorporatePanel/CorporateDashboard";
+import AddCorporate from "./AddCorporate";
+import UpdateCorporate from "./UpdateCorporate";
+import DeleteCorporate from "./DeleteCorporate";
 
 
 function TabPanel(props: {
@@ -26,7 +25,7 @@ function TabPanel(props: {
     </div>
   );
 }
-function Users() {
+function CorporateDashboard() {
 
   const [value, setValue] = React.useState(0);
 
@@ -36,12 +35,6 @@ function Users() {
 
   return (
     <Box sx={{ width: "100%", padding: 5, pb: 50 }}>
-      <Typography sx={{ mb: 2 }} variant="h4">
-        User Features
-      </Typography>
-      <Typography sx={{ mb: 5 }}>
-        List of users features with editable functionalities
-      </Typography>
       <Tabs
         value={value}
         onChange={handleChange}
@@ -65,18 +58,24 @@ function Users() {
           },
         }}
       >
-        <Tab label="Customers" sx={{ flexGrow: 1 }} />
-        <Tab label="Corporates" sx={{ flexGrow: 1 }} />
+        <Tab label="Add" sx={{ flexGrow: 1 }} />
+        <Tab label="Update" sx={{ flexGrow: 1 }} />
+        <Tab label="Delete" sx={{ flexGrow: 1 }} />
+
 
       </Tabs>
       <TabPanel value={value} index={0}>
-        <CustomerDashboard/>
+        <AddCorporate />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <CorporateDashboard/>
+      <UpdateCorporate />
       </TabPanel>
+      <TabPanel value={value} index={2}>
+      <DeleteCorporate />
+      </TabPanel>
+
     </Box>
   );
 }
 
-export default Users;
+export default CorporateDashboard;
