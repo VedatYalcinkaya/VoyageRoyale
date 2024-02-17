@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import AddCustomer from "../../../components/AdminComponents/CustomerPanel/AddCustomer";
 import UpdateCustomer from "./UpdateCustomer";
+import DeleteCustomer from "./DeleteCustomer";
 
 
 function TabPanel(props: {
@@ -70,7 +71,7 @@ function CustomerDashboard() {
       <UpdateCustomer/>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Typography>Delete</Typography>
+        <DeleteCustomer/>
       </TabPanel>
 
     </Box>
