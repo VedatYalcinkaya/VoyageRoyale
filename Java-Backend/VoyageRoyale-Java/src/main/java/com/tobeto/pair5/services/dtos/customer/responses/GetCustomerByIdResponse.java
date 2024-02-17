@@ -15,6 +15,6 @@ public class GetCustomerByIdResponse {
     private String lastName;
     private String userEmail;
     private String tcNo;
-    private LocalDate birthDate;
+    private Integer birthDate;
     private String userImagePath;
 }

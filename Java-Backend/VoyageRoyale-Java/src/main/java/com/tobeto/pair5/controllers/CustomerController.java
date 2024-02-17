@@ -26,22 +26,8 @@ public class CustomerController {
 
     @PostMapping("/add")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public void add(@RequestBody @Valid AddCustomerRequest request){
+    public void add(@RequestBody @Valid AddCustomerRequest request) throws Exception {
         customerService.add(request);
-    }
-
-
-    @PostMapping("/addCustomer")
-    public ResponseEntity<String> register(@RequestBody Customer customer) throws Exception {
-        GBFKPSPublicSoap client= new GBFKPSPublicSoap();
-        boolean isRealPerson= client.TCKimlikNoDogrula(Long.valueOf(customer.getTcNo()), customer.getFirstName(), customer.getLastName(), customer.getBirthDate());
-        if(isRealPerson){
-            {
-                return ResponseEntity.ok("Kullanıcı kayıtlı");
-            }
-
-        }
-        return ResponseEntity.badRequest().body("Yanlış kullanıcı");
     }
 
 

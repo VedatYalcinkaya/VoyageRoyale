@@ -1,5 +1,6 @@
 package com.tobeto.pair5.services.dtos.customer.requests;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -25,7 +26,9 @@ public class UpdateCustomerRequest {
     @Size(min = 11, max = 11, message = "Tc No must be 11 characters;")
     private String tcNo;
 
-    private LocalDate birthDate;
+    @Positive(message = "birthDate must be a positive number!")
+    @Min(value = 1900, message = "birthDate must be greater than 1900!")
+    private Integer birthDate;
 
     private String userImagePath;
 }

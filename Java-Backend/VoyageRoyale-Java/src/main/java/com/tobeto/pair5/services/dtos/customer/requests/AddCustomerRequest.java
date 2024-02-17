@@ -22,5 +22,5 @@ public class AddCustomerRequest {
     @Size(min = 11, max = 11, message = "Identity Number must be 11 characters;")
     private String tcNo;
 
-    private LocalDate birthDate;
+    private int birthDate;
 }
