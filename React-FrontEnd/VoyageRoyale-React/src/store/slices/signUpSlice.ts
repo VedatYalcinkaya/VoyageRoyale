@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../utils/interceptors/axiosInterceptors';
 import { UserRequest } from '../../models/UserModel/requests/request';
+import axios from 'axios';
 
 interface SignUp {
   data: UserRequest | null;
@@ -17,7 +18,7 @@ const initialState: SignUp = {
 
 export const postSignUp = createAsyncThunk('postSignUp', async (userRequest: UserRequest) => {
   try {
-    const response = await axiosInstance.post('/auth/customerRegister', userRequest);
+    const response = await axios.post("http://localhost:8080/api/auth/customerRegister", userRequest);
     return response.data; 
   } catch (error) {
     throw error;

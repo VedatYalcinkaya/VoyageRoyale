@@ -19,12 +19,6 @@ export default function SignUp() {
   const [openFailure, setOpenFailure] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (openFailure) {
-      toast.error("Account creation failed.");
-    }
-  }, [openFailure]);
-
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -54,74 +48,79 @@ export default function SignUp() {
         <Formik
           initialValues={{ ...initialValues }}
           validationSchema={validationSchema}
-          onSubmit={async (values: UserRequest, { resetForm }) => {
+          onSubmit={async (values: UserRequest) => {
             console.log(values);
-            resetForm();
+            
             try {
-              await dispatch(postSignUp(values));
-              toast.success("Your account has been successfully created! Please sign in.");
+              const response = await dispatch(postSignUp(values)).unwrap();
+              toast.success(
+                "Your account has been successfully created! Please sign in."
+              );
               navigate('/');
-            } catch (error) {
+            } catch (error:any) {
+              console.log(error);
+              toast.error( "Please check your information");
               setOpenFailure(true);
             }
           }}
         >
           <Form>
             <Grid container spacing={2}>
-            <Grid item xs={12}>
-                  <Typography sx={{fontStyle:"italic", fontSize:12, mb: 2 }}>
-                    Your personal information is checked by "Kimlik Paylaşım Sistemi-KPS". Please be sure that your information is correct.
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="h6" sx={{ borderBottom: 1, mb: 2 }}>
-                    Personal Information
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <SecondFormikInput
-                    name="firstName"
-                    label="First Name*"
-                    type="text"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <SecondFormikInput
-                    name="lastName"
-                    label="Last Name*"
-                    type="text"
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <SecondFormikInput
-                    name="birthDate"
-                    label="Birth Year*"
-                    type="number"
-                  />
-                </Grid>
-                <Grid item xs={6} sx={{ mb: 5 }}>
-                  <SecondFormikInput
-                    name="tcNo"
-                    label="Identity Number*"
-                    type="text"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="h6" sx={{ borderBottom: 1, mb: 2 }}>
-                    Login Information
-                  </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <SecondFormikInput name="email" label="Email*" type="email" />
-                </Grid>
-                <Grid item xs={6}>
-                  <SecondFormikInput
-                    name="password"
-                    label="Password*"
-                    type="password"
-                  />
-                </Grid>
+              <Grid item xs={12}>
+                <Typography sx={{ fontStyle: "italic", fontSize: 12, mb: 2 }}>
+                  Your personal information is checked by "Kimlik Paylaşım
+                  Sistemi-KPS". Please be sure that your information is correct.
+                </Typography>
               </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h6" sx={{ borderBottom: 1, mb: 2 }}>
+                  Personal Information
+                </Typography>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <SecondFormikInput
+                  name="firstName"
+                  label="First Name*"
+                  type="text"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <SecondFormikInput
+                  name="lastName"
+                  label="Last Name*"
+                  type="text"
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <SecondFormikInput
+                  name="birthDate"
+                  label="Birth Year*"
+                  type="number"
+                />
+              </Grid>
+              <Grid item xs={6} sx={{ mb: 5 }}>
+                <SecondFormikInput
+                  name="tcNo"
+                  label="Identity Number*"
+                  type="text"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h6" sx={{ borderBottom: 1, mb: 2 }}>
+                  Login Information
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <SecondFormikInput name="email" label="Email*" type="email" />
+              </Grid>
+              <Grid item xs={6}>
+                <SecondFormikInput
+                  name="password"
+                  label="Password*"
+                  type="password"
+                />
+              </Grid>
+            </Grid>
 
             <Button
               type="submit"
