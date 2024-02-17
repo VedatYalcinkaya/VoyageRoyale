@@ -39,7 +39,7 @@ function SignInSignUp() {
 
   return (
     <Grid container sx={{ boxShadow: 10 }}>
-      <Grid item xs={6} sx={{ padding: 5, pt: 10 }}>
+      <Grid item xs={6} sx={{ padding: 5, pt: 5 }}>
         <Typography component="h1" variant="h4" sx={{ mb: 6 }}>
           Create Your Account
         </Typography>
@@ -53,7 +53,7 @@ function SignInSignUp() {
             borderRadius: 1,
             "& button": {
               borderRadius: 1,
-              mb: 1,
+              
               fontWeight: "bold",
               textAlign: "left",
             },
