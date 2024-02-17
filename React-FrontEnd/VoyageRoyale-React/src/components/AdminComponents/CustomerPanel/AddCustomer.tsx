@@ -1,34 +1,19 @@
-import { useEffect, useState } from "react";
 import { ThunkDispatch } from "@reduxjs/toolkit/react";
-import { useAppDispatch, useAppSelector } from "../../store/configureStore";
-import { postSignUp } from "../../store/slices/signUpSlice";
 import Button from "@mui/material/Button";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { Box, Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import SecondFormikInput from "../FormikInput/SecondFormikInput";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { UserRequest } from "../../models/UserModel/requests/request";
+import { useAppDispatch } from "../../../store/configureStore";
+import { UserRequest } from "../../../models/UserModel/requests/request";
+import { postSignUp } from "../../../store/slices/signUpSlice";
+import SecondFormikInput from "../../FormikInput/SecondFormikInput";
+import toastr, { error } from "toastr";
 
-
-export default function SignUp() {
+export default function AddCustomer() {
   const dispatch: ThunkDispatch<any, any, any> = useAppDispatch();
-  const isLoading: boolean = useAppSelector((state) => state.signUp.loading);
-  const [openSuccess, setOpenSuccess] = useState(false);
-  const [openFailure, setOpenFailure] = useState(false);
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (openSuccess) {
-      toast.success("Your account has been successfully created!");
-    }
-    if (openFailure) {
-      toast.error("Account creation failed.");
-    }
-  }, [openSuccess, openFailure]);
 
   const initialValues = {
     firstName: "",
@@ -61,9 +46,13 @@ export default function SignUp() {
           validationSchema={validationSchema}
           onSubmit={async(values: UserRequest, { resetForm }) => {
             console.log(values);
-            resetForm();
+            try {
+                resetForm();
             await dispatch(postSignUp(values))
-            setOpenSuccess(true)
+            } catch (error:any) {
+                toastr.error(error.message);
+            }
+            
           }}
         >
             <Form>
@@ -131,7 +120,7 @@ export default function SignUp() {
                   },
                 }}
               >
-                {isLoading ? "Signing Up..." : "Sign Up"}
+                {"Save"}
               </Button>
             </Form>
         </Formik>

@@ -4,6 +4,6 @@ export interface UserRequest {
   firstName: string | null;
   lastName: string;
   tcNo: string;
-  birthDate: Date | null | undefined;
+  birthDate: number|undefined;
   authorities:string[];
 }
