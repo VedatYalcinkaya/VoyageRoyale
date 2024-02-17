@@ -13,22 +13,17 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserRequest } from "../../models/UserModel/requests/request";
 
-
 export default function SignUp() {
   const dispatch: ThunkDispatch<any, any, any> = useAppDispatch();
   const isLoading: boolean = useAppSelector((state) => state.signUp.loading);
-  const [openSuccess, setOpenSuccess] = useState(false);
   const [openFailure, setOpenFailure] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (openSuccess) {
-      toast.success("Your account has been successfully created!");
-    }
     if (openFailure) {
       toast.error("Account creation failed.");
     }
-  }, [openSuccess, openFailure]);
+  }, [openFailure]);
 
   const initialValues = {
     firstName: "",
@@ -59,15 +54,25 @@ export default function SignUp() {
         <Formik
           initialValues={{ ...initialValues }}
           validationSchema={validationSchema}
-          onSubmit={async(values: UserRequest, { resetForm }) => {
+          onSubmit={async (values: UserRequest, { resetForm }) => {
             console.log(values);
             resetForm();
-            await dispatch(postSignUp(values))
-            setOpenSuccess(true)
+            try {
+              await dispatch(postSignUp(values));
+              toast.success("Your account has been successfully created! Please sign in.");
+              navigate('/');
+            } catch (error) {
+              setOpenFailure(true);
+            }
           }}
         >
-            <Form>
-              <Grid container spacing={2}>
+          <Form>
+            <Grid container spacing={2}>
+            <Grid item xs={12}>
+                  <Typography sx={{fontStyle:"italic", fontSize:12, mb: 2 }}>
+                    Your personal information is checked by "Kimlik Paylaşım Sistemi-KPS". Please be sure that your information is correct.
+                  </Typography>
+                </Grid>
                 <Grid item xs={12}>
                   <Typography variant="h6" sx={{ borderBottom: 1, mb: 2 }}>
                     Personal Information
@@ -90,7 +95,7 @@ export default function SignUp() {
                 <Grid item xs={6}>
                   <SecondFormikInput
                     name="birthDate"
-                    label="Birth Date"
+                    label="Birth Year*"
                     type="number"
                   />
                 </Grid>
@@ -117,23 +122,24 @@ export default function SignUp() {
                   />
                 </Grid>
               </Grid>
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{
-                  mt: 3,
-                  height: 40,
-                  color: "#D4D2A9",
-                  backgroundColor: "#0F4037",
-                  "&:hover": {
-                    backgroundColor: "#A3794F",
-                    color: "#0F4037",
-                  },
-                }}
-              >
-                {isLoading ? "Signing Up..." : "Sign Up"}
-              </Button>
-            </Form>
+
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                mt: 3,
+                height: 40,
+                color: "#D4D2A9",
+                backgroundColor: "#0F4037",
+                "&:hover": {
+                  backgroundColor: "#A3794F",
+                  color: "#0F4037",
+                },
+              }}
+            >
+              {isLoading ? "Signing Up..." : "Sign Up"}
+            </Button>
+          </Form>
         </Formik>
       </Box>
     </>

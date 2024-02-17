@@ -62,7 +62,7 @@ const CarList = (props: Props) => {
     dispatch(getCarBrandType());
     dispatch(getCarGearType());
   }, []);
-  console.log(loading);
+  console.log(loading );
 
   if (loading > 0) {
     return (
@@ -74,7 +74,9 @@ const CarList = (props: Props) => {
           height: "100vh",
         }}
       >
-        <LinearDeterminate />
+        <img
+        src="https://s9.gifyu.com/images/SFpW6.gif"
+        width={"10%"}/>
       </Box>
     );
   } else {
