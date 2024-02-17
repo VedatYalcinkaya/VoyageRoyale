@@ -10,7 +10,7 @@ import com.tobeto.pair5.services.dtos.customer.responses.GetCustomerByIdResponse
 import java.util.List;
 
 public interface CustomerService {
-    void add(AddCustomerRequest request);
+    void add(AddCustomerRequest request) throws Exception;
     void delete(int id);
 
     void update(UpdateCustomerRequest request);

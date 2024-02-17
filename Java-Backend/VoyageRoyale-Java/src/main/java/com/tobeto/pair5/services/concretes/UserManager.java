@@ -4,6 +4,7 @@ import com.tobeto.pair5.core.utilities.exceptions.types.BusinessException;
 import com.tobeto.pair5.core.utilities.mappers.ModelMapperService;
 import com.tobeto.pair5.entities.concretes.User;
 import com.tobeto.pair5.repositories.UserRepository;
+import com.tobeto.pair5.services.abstracts.CustomerService;
 import com.tobeto.pair5.services.abstracts.UserService;
 import com.tobeto.pair5.services.constants.Messages;
 import com.tobeto.pair5.services.dtos.user.requests.AddUserRequest;
@@ -23,6 +24,7 @@ import java.util.List;
 public class UserManager implements UserService {
     private final UserRepository userRepository;
     private final ModelMapperService modelMapperService;
+
     @Override
     public User add(AddUserRequest request) {
         chechIsUserEmailExists(request.getEmail());

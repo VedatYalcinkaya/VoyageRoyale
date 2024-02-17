@@ -24,6 +24,7 @@ import { CarCarType } from "../../../models/CarCarTypeModel/responses/response";
 type Props = {};
 
 function AddCar() {
+  
   const dispatch = useAppDispatch();
   const carCategories: CarCarType[] = useAppSelector(
     (state) => state.carCarType.data

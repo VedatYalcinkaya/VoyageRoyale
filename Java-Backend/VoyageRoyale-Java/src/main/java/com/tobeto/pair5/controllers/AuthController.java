@@ -6,6 +6,7 @@ import com.tobeto.pair5.services.dtos.auth.requests.CorporateRegisterRequest;
 import com.tobeto.pair5.services.dtos.auth.requests.CustomerRegisterRequest;
 import com.tobeto.pair5.services.dtos.auth.responses.AuthenticationResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ public class AuthController {
 
     private final AuthenticationService service;
 
+    @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping("/customerRegister")
     public ResponseEntity<AuthenticationResponse> customerRegister(
             @RequestBody CustomerRegisterRequest request

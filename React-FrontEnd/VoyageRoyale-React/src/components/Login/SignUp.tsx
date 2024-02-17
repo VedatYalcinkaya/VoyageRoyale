@@ -2,23 +2,17 @@ import { useEffect, useState } from "react";
 import { ThunkDispatch } from "@reduxjs/toolkit/react";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
 import { postSignUp } from "../../store/slices/signUpSlice";
-import { postSignIn } from "../../store/slices/signInSlice"; // Import postSignIn action
 import Button from "@mui/material/Button";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import Grid from "@mui/material/Grid";
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import SecondFormikInput from "../FormikInput/SecondFormikInput";
-
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserRequest } from "../../models/UserModel/requests/request";
-import { format } from "date-fns";
+
 
 export default function SignUp() {
   const dispatch: ThunkDispatch<any, any, any> = useAppDispatch();
@@ -56,9 +50,7 @@ export default function SignUp() {
     email: Yup.string().required("Email is required!").email(),
     password: Yup.string().required("Password is required!"),
     tcNo: Yup.string().required("Identity Number is required!"),
-    birthDate: Yup.date()
-    .required("Date of Birth is required!")
-    .max(new Date(), "Date of Birth cannot be in the future")
+    birthDate: Yup.number().moreThan(1900).required("Birth Date is required!"),
   });
 
   return (
@@ -98,8 +90,8 @@ export default function SignUp() {
                 <Grid item xs={6}>
                   <SecondFormikInput
                     name="birthDate"
-                    label=""
-                    type="date"
+                    label="Birth Date"
+                    type="number"
                   />
                 </Grid>
                 <Grid item xs={6} sx={{ mb: 5 }}>

@@ -26,4 +26,6 @@ public class UpdateCorporateCustomerRequest {
     @NotNull(message = "Id must not be null")
     @Positive(message = "Id field must be positive")
     private int userId;
+
+    private String userImagePath;
 }

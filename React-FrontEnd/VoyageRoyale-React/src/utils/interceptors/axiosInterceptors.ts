@@ -27,6 +27,9 @@ axiosInstance.interceptors.request.use((config) => {
 axiosInstance.interceptors.response.use(
   (response) => {
     store.dispatch(decreaseRequestCount());
+    if (response.status === 201) {
+      toastr.success("Creation Successful");
+    }
     return response;
   },
   (error) => {

@@ -24,5 +24,7 @@ public class CustomUpdateCorporateCustomerRequest {
     private String taxNo;
 
     @Email(message = "userEmail must be in e-mail format")
-    private int userEmail;
+    private String userEmail;
+
+    private String userImagePath;
 }

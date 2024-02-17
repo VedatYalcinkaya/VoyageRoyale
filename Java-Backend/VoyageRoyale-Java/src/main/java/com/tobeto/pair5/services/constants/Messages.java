@@ -28,4 +28,5 @@ public  class Messages {
     public static final String identityNumberAlreadyExists = "Identity Number already exists!";
     public static final String taxNumberAlreadyExists = "Tax Number already exists!";
     public static final String companyNameAlreadyExists = "Company Name already exists!";
+    public static final String userNotRealPerson = "User is not a real person!";
 }

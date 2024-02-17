@@ -26,6 +26,7 @@ import StarIcon from "@mui/icons-material/Star";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import Cookies from "js-cookie";
 
 interface CarDetailsCardProps {}
 
@@ -54,19 +55,21 @@ const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
     setOpenPopup(false);
   };
 
-  const selectedReturnDate = useAppSelector(
-    (state) => state.reservation.returnDate
-  );
+  const selectedReturnDate = Cookies.get('selectedReturnDate')
   const returnDate: string | null =
     selectedReturnDate?.substring(0, 10) ?? null;
 
   let dropOffDate: string | null = returnDate;
 
-  const selectedPickupDate = useAppSelector(
-    (state) => state.reservation.pickUpDate
-  );
-  const pickup: string | null = selectedPickupDate?.substring(0, 10) ?? null;
+  const selectedPickUpDate = Cookies.get('selectedPickUpDate')
+  const pickup: string | null = selectedPickUpDate?.substring(0, 10) ?? null;
   let pickUpDate: string | null = pickup;
+
+  const handleBookNowButton = () => {
+    Cookies.set('selectedDailyPrice', String(carDetails?.dailyPrice))
+    Cookies.set('selectedCarModel', String(carDetails?.modelName))
+
+  }
 
   const handleDate = () => {
     if (pickUpDate && dropOffDate) {
@@ -344,12 +347,12 @@ const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
                 </List>
               </Dialog>
 
-              <Link to="/payment">
+              <Link to={`/payment/${carId}`}>
                 <Button
                   variant="contained"
                   color="primary"
                   style={{ textAlign: "center" }}
-                  onClick={()=>{dispatch(setCarDetailSend(carDetails))}}
+                  onClick={()=>{handleBookNowButton()}}
                 >
                   Book Now
                 </Button>

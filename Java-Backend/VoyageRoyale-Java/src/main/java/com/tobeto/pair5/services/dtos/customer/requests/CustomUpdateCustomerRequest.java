@@ -26,6 +26,6 @@ public class CustomUpdateCustomerRequest {
     @Size(min = 11, max = 11, message = "Tc No must be 11 characters;")
     private String tcNo;
 
-    private LocalDate birthDate;
+    private Integer birthDate;
     private String userImagePath;
 }

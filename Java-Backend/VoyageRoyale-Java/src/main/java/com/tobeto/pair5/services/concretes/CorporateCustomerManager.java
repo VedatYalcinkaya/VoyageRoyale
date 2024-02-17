@@ -45,7 +45,6 @@ public class CorporateCustomerManager implements CorporateCustomerService {
             checkIfCorporateCustomerNotExists(request.getId());
             CorporateCustomer corporateCustomerToUpdate = corporateCustomerRepository.findById(request.getId())
                   .orElseThrow(()-> new BusinessException(Messages.corporateCustomerNotExists));
-            checkIsTaxNumberAlreadyExists(request.getTaxNo());
 
 
             this.modelMapperService.forRequest().map(request, corporateCustomerToUpdate);
@@ -58,7 +57,6 @@ public class CorporateCustomerManager implements CorporateCustomerService {
         checkIfCorporateCustomerNotExists(request.getId());
         CorporateCustomer corporateCustomerToUpdate = corporateCustomerRepository.findById(request.getId())
                 .orElseThrow(()-> new BusinessException(Messages.corporateCustomerNotExists));
-        checkIsTaxNumberAlreadyExists(request.getTaxNo());
         this.modelMapperService.forRequest().map(request, corporateCustomerToUpdate);
 
         corporateCustomerRepository.saveAndFlush(corporateCustomerToUpdate);

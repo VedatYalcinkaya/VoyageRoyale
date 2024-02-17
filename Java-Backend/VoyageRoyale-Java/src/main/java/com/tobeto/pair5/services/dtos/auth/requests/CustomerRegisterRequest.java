@@ -19,6 +19,6 @@ public class CustomerRegisterRequest {
     private String firstName;
     private String lastName;
     private String tcNo;
-    private LocalDate birthDate;
+    private int birthDate;
     private List<Role> authorities;
 }

@@ -1,5 +1,6 @@
 package com.tobeto.pair5.controllers;
 
+import com.tobeto.pair5.a.Mernis.GBFKPSPublicSoap;
 import com.tobeto.pair5.entities.concretes.Customer;
 import com.tobeto.pair5.services.abstracts.CustomerService;
 import com.tobeto.pair5.services.dtos.customer.requests.AddCustomerRequest;
@@ -11,6 +12,7 @@ import com.tobeto.pair5.services.dtos.customer.responses.GetCustomerByIdResponse
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,9 +26,10 @@ public class CustomerController {
 
     @PostMapping("/add")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public void add(@RequestBody @Valid AddCustomerRequest request){
+    public void add(@RequestBody @Valid AddCustomerRequest request) throws Exception {
         customerService.add(request);
     }
+
 
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable @Valid int id){

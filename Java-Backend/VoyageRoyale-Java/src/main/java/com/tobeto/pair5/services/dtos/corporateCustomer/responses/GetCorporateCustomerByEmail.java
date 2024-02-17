@@ -12,4 +12,5 @@ public class GetCorporateCustomerByEmail {
     private String companyName;
     private String taxNo;
     private String userEmail;
+    private String userImagePath;
 }

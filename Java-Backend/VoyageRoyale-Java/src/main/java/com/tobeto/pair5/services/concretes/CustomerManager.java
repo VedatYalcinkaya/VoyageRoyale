@@ -1,5 +1,6 @@
 package com.tobeto.pair5.services.concretes;
 
+import com.tobeto.pair5.a.Mernis.GBFKPSPublicSoap;
 import com.tobeto.pair5.core.utilities.exceptions.types.BusinessException;
 import com.tobeto.pair5.core.utilities.mappers.ModelMapperService;
 import com.tobeto.pair5.entities.concretes.Customer;
@@ -14,6 +15,7 @@ import com.tobeto.pair5.services.dtos.customer.requests.UpdateCustomerRequest;
 import com.tobeto.pair5.services.dtos.customer.responses.GetAllCustomerResponse;
 import com.tobeto.pair5.services.dtos.customer.responses.GetCustomerByIdResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,10 +28,12 @@ public class CustomerManager implements CustomerService {
     private CustomerRepository customerRepository;
     private UserService userService;
     @Override
-    public void add(AddCustomerRequest request) {
+    public void add(AddCustomerRequest request) throws Exception {
+
         checkIsIdentityNumberAlreadyExists(request.getTcNo());
         chcekIsUserExist(request.getUserId());
         Customer customer = this.modelMapperService.forRequest().map(request,Customer.class);
+        checkIsUserRealPerson(customer);
         customerRepository.save(customer);
     }
 
@@ -37,7 +41,9 @@ public class CustomerManager implements CustomerService {
     public void delete(int id) {
         Customer customerToDelete = customerRepository.findById(id)
                 .orElseThrow(()-> new BusinessException(Messages.customerNotExists));
+
         customerRepository.delete(customerToDelete);
+        userService.delete(customerToDelete.getUser().getId());
 
     }
 
@@ -45,7 +51,6 @@ public class CustomerManager implements CustomerService {
     public void update(UpdateCustomerRequest request) {
 
         Customer customerToUpdate = customerRepository.findById(request.getId()).orElseThrow(()-> new BusinessException(Messages.customerNotExists));
-        checkIsIdentityNumberAlreadyExists(request.getTcNo());
         chcekIsUserExist(request.getUserId());
         this.modelMapperService.forRequest().map(request, customerToUpdate);
 
@@ -92,6 +97,16 @@ public class CustomerManager implements CustomerService {
     private void chcekIsUserExist(int userId){
         if (!userService.existsUserById(userId)){
             throw new BusinessException(Messages.userNotFound);
+        }
+    }
+
+    private void checkIsUserRealPerson(Customer request) throws Exception {
+        GBFKPSPublicSoap client= new GBFKPSPublicSoap();
+        boolean isRealPerson= client.TCKimlikNoDogrula(Long.valueOf(request.getTcNo()), request.getFirstName(), request.getLastName(), request.getBirthDate());
+        if(!isRealPerson) {
+            {
+                throw new BusinessException(Messages.userNotRealPerson);
+            }
         }
     }
 }
