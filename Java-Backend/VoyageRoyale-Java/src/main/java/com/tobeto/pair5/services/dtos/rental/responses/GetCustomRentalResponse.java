@@ -24,4 +24,6 @@ public class GetCustomRentalResponse {
     private float carDailyPrice;
     private String carBrandName;
     private String carModelName;
+    private LocalDate createdDate;
+    private String carPositionCity;
 }
