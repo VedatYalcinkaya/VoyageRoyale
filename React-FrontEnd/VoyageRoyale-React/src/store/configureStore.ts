@@ -58,6 +58,7 @@ import getAllCustomersSlice from "./slices/CustomerSlices/getAllCustomersSlice";
 import deleteCustomerSlice from "./slices/CustomerSlices/deleteCustomerSlice";
 import getAllCorporateSlice from "./slices/CorporateCustomerSlice/getAllCorporateSlice";
 import deleteCorporateSlice from "./slices/CorporateCustomerSlice/deleteCorporateSlice";
+import ImageUploadSlice from "./slices/imageUploadSlice";
 
 export const store = configureStore({
   reducer: {
@@ -121,7 +122,8 @@ export const store = configureStore({
     deleteCustomer:deleteCustomerSlice,
     getAllCorporate:getAllCorporateSlice,
     updateCorporate:updateCorporateCustomerSlice,
-    deleteCorporate:deleteCorporateSlice
+    deleteCorporate:deleteCorporateSlice,
+    imageUpload: ImageUploadSlice,
   },
 });
 

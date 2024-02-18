@@ -20,6 +20,7 @@ import { getAllCar } from "../../../store/slices/CarSlices/getAllCarSlice";
 import {  getCarCarType } from "../../../store/slices/CarSlices/carCarTypeSlice";
 import { CarGearType } from "../../../models/carGearTypeModel/responses/response";
 import { CarCarType } from "../../../models/CarCarTypeModel/responses/response";
+import { uploadImage } from "../../../store/slices/imageUploadSlice";
 
 type Props = {};
 
@@ -108,7 +109,7 @@ function AddCar() {
         if (imageFile) {
           try {
             // İlk olarak resmi yükle
-            const imageResponse = await dispatch(uploadCarImage(imageFile)).unwrap();
+            const imageResponse = await dispatch(uploadImage(imageFile)).unwrap();
             values.imagePath = imageResponse; // Sunucunun döndürdüğü URL burada ayarlanacak
             // Resim yükleme işlemi başarılı olduğunda, imagePath'i form verilerine ekle
             console.log(values.imagePath)
