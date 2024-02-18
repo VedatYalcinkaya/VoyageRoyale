@@ -38,6 +38,7 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
   const selectedCarImagePath = Cookies.get("selectedCarImagePath");
 
   const selectedReservation = useAppSelector((state) => state.reservation);
+  const isLoading = useAppSelector((state) => state.carDetail.loading);
 
   const selectedDailyPriceString = Cookies.get("selectedDailyPrice");
   const selectedDailyPrice = selectedDailyPriceString
@@ -85,6 +86,8 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
     }
   }, [dispatch, carId]);
 
+
+
   useEffect(() => {
     if (user !== undefined) {
       setRentalInfo({
@@ -118,6 +121,23 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
       toast.error("Please sign in for payment");
     }
   };
+
+  if (isLoading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <img
+          src="https://s9.gifyu.com/images/SFpW6.gif"
+          width={"10%"} />
+      </Box>
+    );;
+  }
 
   return (
     <>

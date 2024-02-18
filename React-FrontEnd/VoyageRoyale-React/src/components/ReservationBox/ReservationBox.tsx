@@ -22,8 +22,10 @@ import { useNavigate } from "react-router-dom";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone"; // Eğer bu eklentiyi kullanacaksanız yüklemeniz gerekebilir
 import { toast } from "react-toastify";
+import timezone from "dayjs/plugin/timezone";
 import { red } from "@mui/material/colors";
 import Cookies from "js-cookie";
+import { useTranslation } from "react-i18next";
 
 const errorColor = red[500];
 
@@ -52,6 +54,8 @@ const validationSchema = Yup.object({
 });
 
 const ReservationBox: React.FC = () => {
+  const { t } = useTranslation();
+
   const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
   const positions = useAppSelector((state) => state.positionList.data);
   const navigate = useNavigate();
@@ -110,11 +114,8 @@ const ReservationBox: React.FC = () => {
                   dayjs(values.returnDate).toISOString()
                 );
                 Cookies.set("selectedCity", String(positionObj.city));
-                Cookies.set("selectedPositionId", String(positionObj.id))
+                Cookies.set("selectedPositionId", String(positionObj.id));
                 navigate("/cars");
-
-                
-
               } else {
                 toast.error("Invalid position selected");
               }
@@ -135,12 +136,14 @@ const ReservationBox: React.FC = () => {
             >
               <Grid item xs={12}>
                 <Typography gutterBottom variant="h4" component="div">
-                  Start a Reservation
+                  {t("startReservation")}
                 </Typography>
               </Grid>
               <Grid item xs={12} textAlign={"left"}>
                 <FormControl fullWidth>
-                  <InputLabel id="position-select-label">Cities..</InputLabel>
+                  <InputLabel id="position-select-label">
+                    {t("selectCity")}
+                  </InputLabel>
                   <Select
                     labelId="position-select-label"
                     id="position"
@@ -164,7 +167,7 @@ const ReservationBox: React.FC = () => {
               </Grid>
               <Grid item xs={5}>
                 <DateTimePicker
-                  label="Pick-up Date"
+                  label={t("pickUpDateLabel")}
                   value={
                     formikBag.values.pickUpDate
                       ? dayjs(formikBag.values.pickUpDate)
@@ -184,7 +187,7 @@ const ReservationBox: React.FC = () => {
               </Grid>
               <Grid item xs={5}>
                 <DateTimePicker
-                  label="Drop-off Date"
+                  label={t("returnDateLabel")}
                   value={
                     formikBag.values.returnDate
                       ? dayjs(formikBag.values.returnDate)
@@ -216,7 +219,7 @@ const ReservationBox: React.FC = () => {
                     },
                   }}
                 >
-                  Check
+                  {t("checkButton")}
                 </Button>
               </Grid>
             </Grid>

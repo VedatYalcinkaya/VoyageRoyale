@@ -35,10 +35,22 @@ const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
   const dispatch = useAppDispatch();
   const cars = useAppSelector((state) => state.getAllCar.data);
   const [searchQuery, setSearchQuery] = useState("");
+
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [selectedCarId, setSelectedCarId] = useState<number | null>(null);
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
+
+  const handleDeleteClick = async (car: any) => {
+  };
+  const [isNewRecordDialogOpen, setIsNewRecordDialogOpen] = useState(false);
+  const handleAddNewRecordClick = () => {
+    setIsNewRecordDialogOpen(true);
+  };
+
+
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,6 +63,7 @@ const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
 
     fetchData();
   }, [dispatch]);
+
 
   const handleDeleteClick = (carId: number) => {
     setSelectedCarId(carId);
@@ -72,6 +85,23 @@ const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
         console.error("Error deleting car:", error);
       }
     }
+  useEffect(() => {
+    // cars listesi her güncellendiğinde loadingImages state'ini yeniden başlat
+    setLoadingImages(
+      cars.reduce((acc, car) => ({ ...acc, [car.id]: true }), {})
+    );
+  }, [cars]); // cars listesi değiştiğinde bu useEffect'i tetikle
+
+  const [loadingImages, setLoadingImages] = useState<{ [key: number]: boolean }>(
+    cars.reduce((acc, car) => ({ ...acc, [car.id]: true }), {})
+  );
+
+  const handleImageLoaded = (carId: number) => {
+    setLoadingImages((prevLoadingImages: any) => ({
+      ...prevLoadingImages,
+      [carId]: false
+    }));
+
   };
 
   return (
@@ -150,10 +180,28 @@ const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
                     </Typography>
                   </Grid>
                   <Grid item xs={12} textAlign={"center"}>
+                    {loadingImages[car.id] && (
+                      <Grid
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          height: "100%",
+                          margin: "10px",
+                          marginBottom: "120px"
+                        }}
+                      >
+                        <img
+                          src="https://s9.gifyu.com/images/SFpW6.gif"
+                          width={"40%"} />
+                      </Grid>
+                    )}
                     <img
+                      width={"70%"}
                       src={car.imagePath}
                       alt={`${car.brandName} ${car.modelName}`}
-                      style={{ maxWidth: "70%" }}
+                      onLoad={() => handleImageLoaded(car.id)} 
+                      style={{ display: loadingImages[car.id] ? 'none' : 'inline-block' }} 
                     />
                   </Grid>
                   <Grid item xs={12}>

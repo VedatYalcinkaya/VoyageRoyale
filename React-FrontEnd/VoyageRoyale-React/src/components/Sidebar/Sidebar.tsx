@@ -95,7 +95,6 @@ export default function Sidebar() {
   const authorities: string[] | undefined = useAppSelector(
     (state) => state.getCustomerByEmail.data?.authorities
   );
-  console.log(authorities);
 
   useEffect(() => {
     // Check if the email is present
