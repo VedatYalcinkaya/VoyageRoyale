@@ -49,7 +49,6 @@ const CarCard: React.FC<CarCardProps> = () => {
 
     return typeMatch && fuelMatch && brandMatch && gearMatch;
   };
-  console.log(cars);
   const filteredCars =
     selectedFuel.length > 0 ||
     selectedBrand.length > 0 ||

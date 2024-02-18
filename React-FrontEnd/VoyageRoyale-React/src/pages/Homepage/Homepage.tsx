@@ -32,7 +32,7 @@ const Homepage = (props: Props) => {
       </Grid>
       <Grid item textAlign={"center"} xs={12} sx={{ }}>
         <Link
-          href={"https://www.youtube.com/shorts/M7QUm_iDNsI"}
+          href={"https://youtube.com/shorts/M7QUm_iDNsI?si=anCv1WLofMd1eANQ"}
           target="_blank"
           rel="noopener noreferrer"
         >

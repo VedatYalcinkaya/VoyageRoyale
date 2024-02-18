@@ -36,10 +36,10 @@ function Dashboard() {
   return (
     <>
       <Grid container>
-        <Grid item xs={12} sm={2}>
+        <Grid item xs={4} sm={2}>
           <Sidebar/>
         </Grid>
-        <Grid item xs={12} sm={10} style={{ padding: 30, paddingLeft:60 }}>
+        <Grid item xs={8} sm={10} style={{ padding: 30, paddingLeft:60 }}>
           <Routes>
             <Route path="/" element={<Homepage />} />
             <Route path="/cars" element={<CarList />} />
@@ -66,8 +66,6 @@ function Dashboard() {
             />
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </Grid>
-        <Grid item xs={12}>
           <Footer />
         </Grid>
       </Grid>

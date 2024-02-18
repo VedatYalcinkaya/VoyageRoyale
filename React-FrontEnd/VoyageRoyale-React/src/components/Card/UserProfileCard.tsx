@@ -17,6 +17,7 @@ const UserProfileCard: React.FC = () => {
 
   const [initialFormValues, setInitialFormValues] = useState({
     id: 0,
+    userId: 0,
     firstName: "",
     lastName: "",
     userEmail: "",
@@ -44,6 +45,7 @@ const UserProfileCard: React.FC = () => {
       localStorage.setItem("customer", JSON.stringify(customer));
       setInitialFormValues({
         id: customer?.id || 0,
+        userId: customer?.userId || 0,
         firstName: customer.firstName || "",
         lastName: customer.lastName || "",
         userEmail: customer.userEmail || "",

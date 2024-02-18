@@ -4,7 +4,6 @@ import { BrowserRouter } from 'react-router-dom';
 import { CssBaseline } from '@mui/material';
 import { Provider } from 'react-redux';
 import {store} from './store/configureStore.ts'
-import "toastr/build/toastr.css"
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

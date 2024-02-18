@@ -13,7 +13,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button } from "@mui/material";
 import { useEffect } from "react";
-import toastr from "toastr";
+import { toast } from "react-toastify";
 import { getAllCorporate } from "../../../store/slices/CorporateCustomerSlice/getAllCorporateSlice";
 import { GetAllCorporateResponse } from "../../../models/CorporateCustomerModel/responses/getAllCorporateResponse";
 import { deleteCorporate } from "../../../store/slices/CorporateCustomerSlice/deleteCorporateSlice";
@@ -72,7 +72,7 @@ export default function DeleteCorporate() {
                     try {
                      await dispatch(deleteCorporate(corporate.id));
                       await dispatch(getAllCorporate());
-                      toastr.error("Corporate Deleted");
+                      toast.error("Corporate Deleted");
                     } catch (error:any) {
                       error.message;
                     }

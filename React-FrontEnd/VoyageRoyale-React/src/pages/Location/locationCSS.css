@@ -1,0 +1,9 @@
+.tooltip-content {
+    
+    margin-top: -40px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+  }

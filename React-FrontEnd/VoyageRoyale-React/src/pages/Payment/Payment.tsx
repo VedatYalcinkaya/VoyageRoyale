@@ -8,15 +8,15 @@ import {
   List,
   ListItem,
   ListItemText,
-  Container,
   Box,
+  Grid,
 } from "@mui/material";
+import PlaceIcon from "@mui/icons-material/Place";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
 import { setConfettiActive } from "../../store/slices/paymentSlice";
 import Confetti from "react-confetti";
 import dayjs from "dayjs";
-import toastr from "toastr";
-import "toastr/build/toastr.min.css";
+import { toast } from "react-toastify";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import tokenService from "../../services/tokenService";
 import { AddRentalRequest } from "../../models/RentalModel/requests/addRentalRequest";
@@ -32,23 +32,35 @@ interface PaymentProps {
 
 const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
   const dispatch = useAppDispatch();
-  const { id: carId = '' } = useParams<{ id?: string }>();
-  const selectedCarModel = Cookies.get('selectedCarModel')
-  console.log(selectedCarModel)
+  const { id: carId = "" } = useParams<{ id?: string }>();
+  const selectedCarModel = Cookies.get("selectedCarModel");
+  const selectedBrand = Cookies.get("selectedBrand");
+  const selectedCarImagePath = Cookies.get("selectedCarImagePath");
+
   const selectedReservation = useAppSelector((state) => state.reservation);
 
-  const selectedDailyPriceString = Cookies.get('selectedDailyPrice')
-  const selectedDailyPrice = selectedDailyPriceString ? parseInt(selectedDailyPriceString) : 0; 
+  const selectedDailyPriceString = Cookies.get("selectedDailyPrice");
+  const selectedDailyPrice = selectedDailyPriceString
+    ? parseInt(selectedDailyPriceString)
+    : 0;
 
-  const selectedCity = Cookies.get('selectedCity');
+  const selectedCity = Cookies.get("selectedCity");
+  const selectedReturnDate = Cookies.get("selectedReturnDate");
 
   const selectedPickupDate = Cookies.get("selectedPickUpDate");
   const pickup: string | null = selectedPickupDate?.substring(0, 10) ?? null;
 
-  const selectedReturnDate = Cookies.get("selectedReturnDate");
   const returnDate: string | null =
     selectedReturnDate?.substring(0, 10) ?? null;
 
+  const formatDate = (dateString: string | number | Date) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
 
   const confettiActive = useAppSelector(
     (state) => state.payment.confettiActive
@@ -62,14 +74,13 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
       dayjs(selectedPickupDate),
       "day"
     );
-    const totalPrice = daysDifference * (selectedDailyPrice);
+    const totalPrice = daysDifference * selectedDailyPrice;
 
     return totalPrice;
   };
 
-  
   React.useEffect(() => {
-     {
+    {
       dispatch(getCarDetail(parseInt(carId)));
     }
   }, [dispatch, carId]);
@@ -100,91 +111,150 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
       setTimeout(() => {
         dispatch(setConfettiActive(false));
         onFinishReservation && onFinishReservation();
-        toastr.success("Payment completed!");
+        toast.success("Payment completed!");
       }, 3000);
       setShowPDF(true);
     } else {
-      toastr.error("Please sign in for payment", "Caution");
+      toast.error("Please sign in for payment");
     }
   };
 
   return (
-    <Container maxWidth="sm">
-      <Card
-        sx={{
-          marginTop: "100px",
-          backgroundColor: "rgba(255, 255, 255, 0.90)",
-          backdropFilter: "blur(5px)",
-          position: "relative",
-        }}
-      >
-        {confettiActive && (
-          <Confetti
-            width={window.innerWidth}
-            height={window.innerHeight}
-            recycle={false}
-          />
-        )}
-        <CardContent>
+    <>
+      <Grid container>
+        <Grid xs={12}>
           <Typography
             variant="h5"
             gutterBottom
-            sx={{ textAlign: "center", fontWeight: "bold", color: "#0F4037" }}
+            sx={{ fontWeight: "bold", color: "#0F4037", mb: 5 }}
           >
-            Payment Details
+            Review Your Reservation
           </Typography>
-          <List>
-            <ListItem>
-              <ListItemText
-                primary={`Location: ${selectedCity}`}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText primary={`Car Model: ${selectedCarModel}`} />
-            </ListItem>
-          </List>
-          <Divider />
-          <Typography
-            variant="subtitle1"
-            style={{ marginTop: "5px", marginLeft: "15px" }}
-          >
-            Total Price: ${totalPrice.toFixed(2)}
-          </Typography>
-        </CardContent>
-        <Button
-          variant="contained"
-          style={{
-            margin: "auto",
-            marginBottom: "20px",
-            backgroundColor: "#0F4037",
-            color: "#fff",
-            display: "block",
-            padding: "12px",
-          }}
-          onClick={handleFinishReservation}
+        </Grid>
+      </Grid>
+      <Grid container sx={{ boxShadow: 2, p: 2 }}>
+        <Grid item xs={4} sx={{ p: 5 }}>
+          <Grid item xs={12}>
+            <Typography variant="h5">
+              {selectedBrand} {selectedCarModel}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} textAlign={"center"}>
+            <img src={selectedCarImagePath} width="80%" />
+          </Grid>
+        </Grid>
+        <Grid
+          item
+          xs={8}
+          sx={{ borderLeft: 1, borderColor: "#bc9160" }}
+          spacing={2}
         >
-          Finish Payment
-        </Button>
-        {showPDF && (
-          <Box sx={{ textAlign: "center" }}>
-            <PDFDownloadLink
-              document={
-                <PaymentReceiptPdf
-                  selectedPosition={selectedReservation}
-                  selectedCar={selectedCarModel}
-                  totalPrice={totalPrice}
-                />
-              }
-              fileName="Payment_Details.pdf"
-            >
-              {({ loading }) =>
-                loading ? "Loading document..." : "Download PDF"
-              }
-            </PDFDownloadLink>
+          <Box sx={{}}>
+            {confettiActive && (
+              <Confetti
+                width={window.innerWidth}
+                height={window.innerHeight}
+                recycle={false}
+              />
+            )}
+            <Grid container padding={2}>
+              <Grid xs={6}>
+                <Grid xs={12}>
+                  <Typography fontWeight={"bold"} color={"green"}>
+                    <u>PICK UP</u>
+                  </Typography>
+                </Grid>
+                <Grid xs={12}>
+                  <Typography fontWeight={"bold"}>{selectedCity}</Typography>
+                </Grid>
+                <Grid xs={12}>
+                  <Typography>{pickup}</Typography>
+                </Grid>
+              </Grid>
+              <Grid xs={6}>
+                <Grid xs={12}>
+                  <Typography fontWeight={"bold"} color={"green"}>
+                    <u>DROP OFF</u>
+                  </Typography>
+                </Grid>
+                <Grid xs={12}>
+                  <Typography fontWeight={"bold"}>{selectedCity}</Typography>
+                </Grid>
+                <Grid xs={12}>
+                  <Typography>{returnDate}</Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Divider />
+            <Grid container padding={2}>
+              <Grid xs={6}>
+                <Grid xs={12}>
+                  <Typography fontWeight={"bold"} color={"green"}>
+                    <u>ADD ONS</u>
+                  </Typography>
+                </Grid>
+                <Grid xs={12}>
+                  <Typography>None</Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid container padding={2}>
+              <Grid xs={6}>
+                <Grid xs={12}>
+                  <Typography fontWeight={"bold"}>
+                    <u>TOTAL PRICE</u>
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid xs={6}>
+                <Grid xs={12}>
+                  <Typography fontWeight={"bold"} fontSize={26}>
+                    ${totalPrice.toFixed(2)}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid container padding={2}>
+              <Grid xs={6}>
+                <Grid xs={12}>
+                  <Button
+                    variant="contained"
+                    style={{
+                      marginBottom: "20px",
+                      backgroundColor: "#0F4037",
+                      color: "#fff",
+                      display: "block",
+                      padding: "12px",
+                    }}
+                    onClick={handleFinishReservation}
+                  >
+                    Finish Payment
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
+            {showPDF && (
+              <Box sx={{ textAlign: "center" }}>
+                <PDFDownloadLink
+                  document={
+                    <PaymentReceiptPdf
+                      selectedPosition={selectedReservation}
+                      selectedCar={selectedCarModel}
+                      totalPrice={totalPrice}
+                    />
+                  }
+                  fileName="Payment_Details.pdf"
+                >
+                  {({ loading }) =>
+                    loading ? "Loading document..." : "Download PDF"
+                  }
+                </PDFDownloadLink>
+              </Box>
+            )}
           </Box>
-        )}
-      </Card>
-    </Container>
+        </Grid>
+      </Grid>
+    </>
   );
 };
 

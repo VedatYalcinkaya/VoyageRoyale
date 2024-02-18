@@ -67,7 +67,9 @@ const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
 
   const handleBookNowButton = () => {
     Cookies.set('selectedDailyPrice', String(carDetails?.dailyPrice))
+    Cookies.set('selectedBrand', String(carDetails?.brandName))
     Cookies.set('selectedCarModel', String(carDetails?.modelName))
+    Cookies.set('selectedCarImagePath', String(carDetails?.imagePath))
 
   }
 

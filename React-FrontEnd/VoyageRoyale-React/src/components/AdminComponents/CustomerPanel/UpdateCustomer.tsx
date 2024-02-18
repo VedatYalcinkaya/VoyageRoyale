@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
 import { useAppDispatch, useAppSelector } from "../../../store/configureStore";
 import SecondFormikInput from "../../FormikInput/SecondFormikInput";
-import toastr, { error } from "toastr";
+import { toast } from "react-toastify";
 import { UpdateCustomerPanelRequest } from "../../../models/CustomerModel/requests/updateCustomerPanelRequest";
 import { putCustomerPanel } from "../../../store/slices/CustomerSlices/updateCustomerPanelSlice";
 import { useEffect } from "react";
@@ -58,7 +58,7 @@ export default function UpdateCustomer() {
                             await dispatch(putCustomerPanel(values))
                             dispatch(getAllCustomer())
                         } catch (error: any) {
-                            toastr.error(error.message);
+                            toast.error(error.message);
                         }
 
                     }}

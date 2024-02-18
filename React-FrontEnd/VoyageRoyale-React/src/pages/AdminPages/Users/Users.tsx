@@ -37,10 +37,10 @@ function Users() {
   return (
     <Box sx={{ width: "100%", padding: 5, pb: 50 }}>
       <Typography sx={{ mb: 2 }} variant="h4">
-        User Features
+        Users
       </Typography>
       <Typography sx={{ mb: 5 }}>
-        List of users features with editable functionalities
+        List of users with editable functionalities
       </Typography>
       <Tabs
         value={value}
