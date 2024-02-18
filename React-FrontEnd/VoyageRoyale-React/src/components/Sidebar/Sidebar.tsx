@@ -31,9 +31,10 @@ import { isSignedIn } from "../../store/slices/signInSlice";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import SignUpDetail from "../Login/SignUpDetail";
 import { getCustomerInfo } from "../../store/slices/CustomerSlices/customerInfoSlice";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { getCorporateCustomerInfo } from "../../store/slices/CorporateCustomerSlice/corporateCustomerInfoSlice";
+import { useTranslation } from "react-i18next";
 
 const drawerWidth = 275;
 const signInDrawerWidth = 400;
@@ -78,6 +79,7 @@ const StyledMenu = styled((props: MenuProps) => (
 
 export default function Sidebar() {
   // const [signedIn, setSignedIn] = useState(false);
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const isLogedIn = useAppSelector((state) => state.signIn.setSignedIn);
   const email = useAppSelector((state) => state.getCustomerByEmail.data?.email);
@@ -109,9 +111,6 @@ export default function Sidebar() {
       }
     }
   }, [dispatch, email]);
-
-
-
 
   const [welcomeMessage, setWelcomeMessage] = useState("");
   const [customerFromStorage, setCustomerFromStorage] = useState(
@@ -298,16 +297,18 @@ export default function Sidebar() {
                   endIcon={<KeyboardArrowDownIcon />}
                   sx={{
                     color: "#BC9160",
-                    pl:4,
-                    pr:4,
+                    pl: 4,
+                    pr: 4,
                     fontSize: 12,
-                   
+
                     backgroundColor: "#0B352D",
                     "&:hover": {
                       backgroundColor: "#092D26",
-                  }}}
+                    },
+                  }}
                 >
-                  Welcome<br/> {welcomeMessage}
+                  {t("welcome")}
+                  <br /> {welcomeMessage}
                 </Button>
                 <StyledMenu
                   id="demo-customized-menu"
@@ -324,8 +325,8 @@ export default function Sidebar() {
                     to="/userProfile"
                     disableRipple
                   >
-                    <AccountCircleIcon/>
-                    My Profile
+                    <AccountCircleIcon />
+                    {t("myProfile")}
                   </MenuItem>
                   <MenuItem
                     onClick={handleMenuButtonClose}
@@ -334,46 +335,50 @@ export default function Sidebar() {
                     disableRipple
                   >
                     <FileCopyIcon />
-                    My Reservations
+                    {t("myReservations")}
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
                   <MenuItem disableRipple onClick={onSignOut}>
                     <LogoutIcon />
-                    Sign Out
+                    {t("signOut")}
                   </MenuItem>
                 </StyledMenu>
               </ListItem>
 
               <ListItem disablePadding>
                 <ListItemButton onClick={onSignOut}>
-                  <ListItemText primary="Sign Out" sx={{ color: "#D9D5A7" }} />
+                  <ListItemText
+                    primary={t("signOut")}
+                    sx={{ color: "#D9D5A7" }}
+                  />
                 </ListItemButton>
               </ListItem>
             </>
           ) : (
-            <List style={{ color: "#D4D2A9"}} >
+            <List style={{ color: "#D4D2A9" }}>
               <ListItem disablePadding>
                 <Button
                   sx={{
-                    ml:2,
+                    ml: 2,
                     color: "#BC9160",
                     fontSize: 12,
                     backgroundColor: "#0B352D",
                     "&:hover": {
                       backgroundColor: "#092D26",
-                  }}}
+                    },
+                  }}
                   onClick={handleSignInButtonClick}
                 >
-                  <ListItemText primary="Sign In" />
+                  <ListItemText primary={t("signIn")} />
                 </Button>
               </ListItem>
               <ListItem disablePadding style={{ marginLeft: 20 }}>
-                <ListItemText primary="or" />
+                <ListItemText primary={t("or")} />
               </ListItem>
               <ListItem disablePadding>
                 <Button
                   sx={{
-                    ml:2,
+                    ml: 2,
                     textAlign: "left",
                     color: "#BC9160",
                     borderRadius: 1,
@@ -385,7 +390,7 @@ export default function Sidebar() {
                   component={RouterLink}
                   to="/signInSignUp"
                 >
-                  <ListItemText primary="Create an Account" />
+                  <ListItemText primary={t("createAccount")} />
                 </Button>
               </ListItem>
             </List>
@@ -393,7 +398,7 @@ export default function Sidebar() {
 
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/">
-              <ListItemText primary="Home" sx={{ color: "#D9D5A7" }} />
+              <ListItemText primary={t("home")} sx={{ color: "#D9D5A7" }} />
               <ListItemIcon>
                 <KeyboardArrowRightIcon
                   fontSize="small"
@@ -405,7 +410,7 @@ export default function Sidebar() {
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/quickReservation">
               <ListItemText
-                primary="Quick Reservation"
+                primary={t("quickReservation")}
                 sx={{ color: "#D9D5A7" }}
               />
               <ListItemIcon>
@@ -419,7 +424,10 @@ export default function Sidebar() {
 
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/location">
-              <ListItemText primary="Locations" sx={{ color: "#D9D5A7" }} />
+              <ListItemText
+                primary={t("locations")}
+                sx={{ color: "#D9D5A7" }}
+              />
               <ListItemIcon>
                 <KeyboardArrowRightIcon
                   fontSize="small"
@@ -430,7 +438,7 @@ export default function Sidebar() {
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton component={RouterLink} to="/aboutUs">
-              <ListItemText primary="About Us" sx={{ color: "#D9D5A7" }} />
+              <ListItemText primary={t("aboutUs")} sx={{ color: "#D9D5A7" }} />
               <ListItemIcon>
                 <KeyboardArrowRightIcon
                   fontSize="small"
@@ -441,13 +449,22 @@ export default function Sidebar() {
           </ListItem>
           {authorities?.includes("ADMIN") && (
             <ListItem disablePadding>
-              <Button onClick={handleClick}  sx={{color: "#BC9160",ml:1.5,mt:2,fontSize:13,
-                    
-                    backgroundColor: "#0B352D",
-                    "&:hover": {
-                      backgroundColor: "#092D26",
-                    },
-                    borderRadius: 1}}>Admin Dashboard
+              <Button
+                onClick={handleClick}
+                sx={{
+                  color: "#BC9160",
+                  ml: 1.5,
+                  mt: 2,
+                  fontSize: 13,
+
+                  backgroundColor: "#0B352D",
+                  "&:hover": {
+                    backgroundColor: "#092D26",
+                  },
+                  borderRadius: 1,
+                }}
+              >
+                {t("adminDashboard")}
                 {open ? (
                   <ExpandLess onClick={handleClick} />
                 ) : (
@@ -464,7 +481,7 @@ export default function Sidebar() {
                   component={RouterLink}
                   to="adminDashboard/users"
                 >
-                  <ListItemText primary="Users" />
+                  <ListItemText primary={t("users")} />
                   <ListItemIcon>
                     <KeyboardArrowRightIcon
                       fontSize="small"
@@ -477,7 +494,7 @@ export default function Sidebar() {
                   component={RouterLink}
                   to="adminDashboard/cars"
                 >
-                  <ListItemText primary="Cars" />
+                  <ListItemText primary={t("cars")} />
                   <ListItemIcon>
                     <KeyboardArrowRightIcon
                       fontSize="small"
@@ -490,7 +507,7 @@ export default function Sidebar() {
                   component={RouterLink}
                   to="adminDashboard/carFeatures"
                 >
-                  <ListItemText primary="Car Features" />
+                  <ListItemText primary={t("carFeatures")} />
                   <ListItemIcon>
                     <KeyboardArrowRightIcon
                       fontSize="small"
@@ -503,7 +520,7 @@ export default function Sidebar() {
                   component={RouterLink}
                   to="adminDashboard/positions"
                 >
-                  <ListItemText primary="Positions" />
+                  <ListItemText primary={t("positions")} />
                   <ListItemIcon>
                     <KeyboardArrowRightIcon
                       fontSize="small"
@@ -516,7 +533,7 @@ export default function Sidebar() {
                   component={RouterLink}
                   to="adminDashboard/rentals"
                 >
-                  <ListItemText primary="Rentals" />
+                  <ListItemText primary={t("rentals")} />
                   <ListItemIcon>
                     <KeyboardArrowRightIcon
                       fontSize="small"
@@ -529,7 +546,7 @@ export default function Sidebar() {
                   component={RouterLink}
                   to="adminDashboard/invoices"
                 >
-                  <ListItemText primary="Invoices" />
+                  <ListItemText primary={t("invoices")} />
                   <ListItemIcon>
                     <KeyboardArrowRightIcon
                       fontSize="small"
