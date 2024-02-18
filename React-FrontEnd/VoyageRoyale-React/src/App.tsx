@@ -1,20 +1,20 @@
 import Dashboard from "./pages/Dashboard/Dashboard";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import '@fontsource/montserrat';
-import '@fontsource/merriweather';
-import '@fontsource/dm-serif-display';
-import '@fontsource/noto-serif';
-import '@fontsource/prata';
-import '@fontsource/italiana';
-import '@fontsource/lato';
-import '@fontsource/open-sans';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import "@fontsource/montserrat";
+import "@fontsource/merriweather";
+import "@fontsource/dm-serif-display";
+import "@fontsource/noto-serif";
+import "@fontsource/prata";
+import "@fontsource/italiana";
+import "@fontsource/lato";
+import "@fontsource/open-sans";
 import { useAppDispatch } from "./store/configureStore";
-import React, { useEffect } from "react";
-import { getCarBrandType } from "./store/slices/CarSlices/carBrandTypeSlice";
+import { useEffect } from "react";
 import { getCustomerByEmail } from "./store/slices/getCustomerByEmailSlice";
 import tokenService from "./services/tokenService";
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import LanguageSwitcher from "./components/Language/LanguageSwitcher";
 
 const theme = createTheme({
   palette: {
@@ -47,18 +47,15 @@ const theme = createTheme({
 function App() {
   const dispatch = useAppDispatch();
 
-  useEffect(()=>{
-    if(tokenService.decodeToken()?.sub){
-     dispatch(getCustomerByEmail(tokenService.decodeToken()?.sub)); 
+  useEffect(() => {
+    if (tokenService.decodeToken()?.sub) {
+      dispatch(getCustomerByEmail(tokenService.decodeToken()?.sub));
     }
-    
-   },[])
+  }, []);
 
-   
-
-  
   return (
     <>
+      <LanguageSwitcher />
       <ThemeProvider theme={theme}>
         <Dashboard />
       </ThemeProvider>
