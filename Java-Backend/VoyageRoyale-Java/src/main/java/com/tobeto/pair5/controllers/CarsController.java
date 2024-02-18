@@ -48,7 +48,8 @@ public class CarsController {
     }
 
     @GetMapping("/getById")
-    public GetByIdCarResponse getById(@RequestParam @Valid int id){
+    public GetByIdCarResponse getById(@RequestParam @Valid int id) throws InterruptedException {
+        Thread.sleep(2000);
         return carService.getById(id);
     }
 

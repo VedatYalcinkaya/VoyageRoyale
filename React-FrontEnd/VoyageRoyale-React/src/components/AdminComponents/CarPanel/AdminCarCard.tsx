@@ -27,10 +27,10 @@ import ClassIcon from "@mui/icons-material/Class";
 import DeleteConfirmation from "./Confirmations/DeleteConfirmation";
 
 interface AdminCarCardProps {
-    onAddNewRecordClick: () => void;
-  }
+  onAddNewRecordClick: () => void;
+}
 
-  const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
+const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
   const dispatch = useAppDispatch();
   const cars = useAppSelector((state) => state.getAllCar.data);
   const [searchQuery, setSearchQuery] = useState("");
@@ -41,7 +41,7 @@ interface AdminCarCardProps {
     setIsNewRecordDialogOpen(true);
   };
 
-  
+
 
 
   useEffect(() => {
@@ -55,6 +55,28 @@ interface AdminCarCardProps {
 
     fetchData();
   }, [dispatch]);
+
+
+
+
+
+  useEffect(() => {
+    // cars listesi her güncellendiğinde loadingImages state'ini yeniden başlat
+    setLoadingImages(
+      cars.reduce((acc, car) => ({ ...acc, [car.id]: true }), {})
+    );
+  }, [cars]); // cars listesi değiştiğinde bu useEffect'i tetikle
+
+  const [loadingImages, setLoadingImages] = useState<{ [key: number]: boolean }>(
+    cars.reduce((acc, car) => ({ ...acc, [car.id]: true }), {})
+  );
+
+  const handleImageLoaded = (carId: number) => {
+    setLoadingImages((prevLoadingImages: any) => ({
+      ...prevLoadingImages,
+      [carId]: false
+    }));
+  };
 
   return (
     <>
@@ -127,10 +149,28 @@ interface AdminCarCardProps {
                     </Typography>
                   </Grid>
                   <Grid item xs={12} textAlign={"center"}>
+                    {loadingImages[car.id] && (
+                      <Grid
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          height: "100%",
+                          margin: "10px",
+                          marginBottom: "120px"
+                        }}
+                      >
+                        <img
+                          src="https://s9.gifyu.com/images/SFpW6.gif"
+                          width={"40%"} />
+                      </Grid>
+                    )}
                     <img
+                      width={"70%"}
                       src={car.imagePath}
                       alt={`${car.brandName} ${car.modelName}`}
-                      style={{ maxWidth: "70%" }}
+                      onLoad={() => handleImageLoaded(car.id)} 
+                      style={{ display: loadingImages[car.id] ? 'none' : 'inline-block' }} 
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -225,7 +265,7 @@ interface AdminCarCardProps {
                   </Grid>
                   <Grid item xs={6} marginTop={2} textAlign={"right"}>
                     <Button sx={{ color: "red" }} onClick={() => handleDeleteClick(car)}>
-                      <DeleteIcon  sx={{ fontSize: 16, mr: 1, color: "red" }} />{" "}
+                      <DeleteIcon sx={{ fontSize: 16, mr: 1, color: "red" }} />{" "}
                       Delete
                     </Button>
                   </Grid>

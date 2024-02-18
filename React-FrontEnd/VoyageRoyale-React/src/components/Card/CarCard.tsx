@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Car } from "../../models/CarModel/responses/response";
-import { Button, Container, Grid, Paper, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Paper, Typography } from "@mui/material";
 import { useAppSelector } from "../../store/configureStore";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useDispatch } from "react-redux";
@@ -12,6 +12,7 @@ import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import StarIcon from "@mui/icons-material/Star";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
 import Cookies from "js-cookie";
+import { margin } from "@mui/system";
 
 type CarCardProps = {};
 
@@ -52,9 +53,9 @@ const CarCard: React.FC<CarCardProps> = () => {
   console.log(cars);
   const filteredCars =
     selectedFuel.length > 0 ||
-    selectedBrand.length > 0 ||
-    selectedGear.length > 0 ||
-    selectedCarType.length > 0
+      selectedBrand.length > 0 ||
+      selectedGear.length > 0 ||
+      selectedCarType.length > 0
       ? cars.filter(filterCars)
       : cars;
 
@@ -86,6 +87,17 @@ const CarCard: React.FC<CarCardProps> = () => {
     } else {
       return 0;
     }
+  };
+
+  const [loadingImages, setLoadingImages] = useState<{ [key: number]: boolean }>(
+    cars.reduce((acc, car) => ({ ...acc, [car.id]: true }), {})
+  );
+
+  const handleImageLoaded = (carId: number) => {
+    setLoadingImages((prevLoadingImages: any) => ({
+      ...prevLoadingImages,
+      [carId]: false
+    }));
   };
 
   return (
@@ -122,10 +134,28 @@ const CarCard: React.FC<CarCardProps> = () => {
                   <Grid item xs={12} alignItems="center">
                     <Grid container>
                       <Grid item xs={6} sx={{ mt: -5, mb: -5, ml: -1 }}>
+                        {loadingImages[car.id] && (
+                          <Grid
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              height: "100%",
+                              margin: "10px",
+                              marginBottom: "120px"
+                            }}
+                          >
+                            <img
+                              src="https://s9.gifyu.com/images/SFpW6.gif"
+                              width={"40%"} />
+                          </Grid>
+                        )}
                         <img
                           width="100%"
                           src={car.imagePath}
                           alt={`${car.brandName} ${car.modelName}`}
+                          onLoad={() => handleImageLoaded(car.id)}
+                          style={{ display: loadingImages[car.id] ? 'none' : 'block' }} 
                         />
                       </Grid>
                       <Grid
