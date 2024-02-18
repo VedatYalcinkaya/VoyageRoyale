@@ -8,7 +8,6 @@ import {
   Menu,
   MenuItem,
   MenuProps,
-  Typography,
   alpha,
   styled,
 } from "@mui/material";
@@ -25,7 +24,7 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import tokenService from "../../services/tokenService";
 import axiosInstance from "../../utils/interceptors/axiosInterceptors";
-import toastr from "toastr";
+import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
 import { setEmailDataEmpty } from "../../store/slices/getCustomerByEmailSlice";
 import { isSignedIn } from "../../store/slices/signInSlice";
@@ -162,23 +161,23 @@ export default function Sidebar() {
 
     if (storedCustomer) {
       const customerData = JSON.parse(storedCustomer);
-      setWelcomeMessage(`Welcome ${customerData.firstName}`);
+      setWelcomeMessage(customerData.firstName);
     } else if (storedCorporateCustomer) {
       const corporateCustomerData = JSON.parse(storedCorporateCustomer);
-      setWelcomeMessage(`Welcome ${corporateCustomerData.companyName}`);
+      setWelcomeMessage(corporateCustomerData.companyName);
     }
   }, [customer, corporateCustomer]);
 
   useEffect(() => {
     if (authorities?.includes("CUSTOMER") && customerFromStorage) {
       const customerData = JSON.parse(customerFromStorage);
-      setWelcomeMessage(`Welcome ${customerData.firstName}`);
+      setWelcomeMessage(customerData.firstName);
     } else if (
       authorities?.includes("CORPORATE_CUSTOMER") &&
       corporateCustomerFromStorage
     ) {
       const corporateCustomerData = JSON.parse(corporateCustomerFromStorage);
-      setWelcomeMessage(`Welcome ${corporateCustomerData.companyName}`);
+      setWelcomeMessage(corporateCustomerData.companyName);
     }
   }, [authorities]);
 
@@ -211,7 +210,7 @@ export default function Sidebar() {
     handleMenuButtonClose();
     localStorage.removeItem("isSignedIn");
     axiosInstance.post("auth/logout");
-    toastr.warning("You have been logged out!", "Caution");
+    toast.warning("You have been logged out!");
   };
 
   const handleLogoClick = () => {
@@ -299,13 +298,16 @@ export default function Sidebar() {
                   endIcon={<KeyboardArrowDownIcon />}
                   sx={{
                     color: "#BC9160",
+                    pl:4,
+                    pr:4,
                     fontSize: 12,
+                   
                     backgroundColor: "#0B352D",
                     "&:hover": {
                       backgroundColor: "#092D26",
                   }}}
                 >
-                  {welcomeMessage}
+                  Welcome<br/> {welcomeMessage}
                 </Button>
                 <StyledMenu
                   id="demo-customized-menu"
@@ -322,7 +324,7 @@ export default function Sidebar() {
                     to="/userProfile"
                     disableRipple
                   >
-                    <AccountCircleIcon />
+                    <AccountCircleIcon/>
                     My Profile
                   </MenuItem>
                   <MenuItem

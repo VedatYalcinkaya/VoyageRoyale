@@ -16,7 +16,7 @@ import { deleteRental } from "../../../store/slices/deleteRentalSlice";
 import { useEffect } from "react";
 import { getCustomRentals } from "../../../store/slices/getCustomRentalSlice";
 import { GetCustomRentalResponse } from "../../../models/RentalModel/responses/getCustomRentalResponse";
-import toastr from "toastr";
+import { toast } from "react-toastify";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -78,7 +78,7 @@ export default function RentalTable() {
                     try {
                       await dispatch(deleteRental(rental.id));
                       await dispatch(getCustomRentals());
-                      toastr.error("Rental Deleted");
+                      toast.error("Rental Deleted");
                     } catch (error:any) {
                       error.message;
                     }

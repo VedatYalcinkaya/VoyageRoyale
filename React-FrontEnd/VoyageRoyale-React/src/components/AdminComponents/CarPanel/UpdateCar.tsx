@@ -24,8 +24,11 @@ import { CarGearType } from "../../../models/carGearTypeModel/responses/response
 import { CarCarType } from "../../../models/CarCarTypeModel/responses/response";
 
 type Props = {};
+interface UpdateCarProps {
+  car: Car; 
+}
 
-function UpdateCar() {
+const UpdateCar: React.FC<UpdateCarProps> = ({ car }) => {
   const dispatch = useAppDispatch();
   const carCategories: CarCarType[] = useAppSelector(
     (state) => state.carCarType.data

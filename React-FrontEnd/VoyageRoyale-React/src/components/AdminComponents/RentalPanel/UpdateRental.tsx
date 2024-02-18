@@ -13,7 +13,7 @@ import { getAllCar } from "../../../store/slices/CarSlices/getAllCarSlice";
 import { GetAllUsersResponse } from "../../../models/UserModel/responses/getAllUsersResponse";
 import dayjs from "dayjs";
 import { getCustomRentals } from "../../../store/slices/getCustomRentalSlice";
-import toastr from "toastr";
+import { toast } from "react-toastify";
 
 function UpdateRental() {
   const dispatch = useAppDispatch();
@@ -69,7 +69,7 @@ function UpdateRental() {
            await dispatch(updateRental(values));
         await dispatch(getAllRentals());
         dispatch(getCustomRentals())
-        toastr.success("Rental updated successfully");
+        toast.success("Rental updated successfully");
         } catch (error:any) {
           error.message;
         }

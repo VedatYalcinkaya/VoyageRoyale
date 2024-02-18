@@ -13,7 +13,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button } from "@mui/material";
 import { useEffect } from "react";
-import toastr from "toastr";
+import { toast } from "react-toastify";
 import { getAllCustomer } from "../../../store/slices/CustomerSlices/getAllCustomersSlice";
 import { GetAllCustomerResponse } from "../../../models/CustomerModel/responses/getAllCustomerResponse";
 import { deleteCustomer } from "../../../store/slices/CustomerSlices/deleteCustomerSlice";
@@ -78,7 +78,7 @@ export default function DeleteCustomer() {
                     try {
                      await dispatch(deleteCustomer(customer.id));
                       await dispatch(getAllCustomer());
-                      toastr.error("Customer Deleted");
+                      toast.error("Customer Deleted");
                     } catch (error:any) {
                       error.message;
                     }

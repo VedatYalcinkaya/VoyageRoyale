@@ -4,12 +4,11 @@ import { Box, Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import "react-toastify/dist/ReactToastify.css";
 import { useAppDispatch } from "../../../store/configureStore";
 import { UserRequest } from "../../../models/UserModel/requests/request";
 import { postSignUp } from "../../../store/slices/signUpSlice";
 import SecondFormikInput from "../../FormikInput/SecondFormikInput";
-import toastr, { error } from "toastr";
+import { toast } from "react-toastify";
 import { getAllCustomer } from "../../../store/slices/CustomerSlices/getAllCustomersSlice";
 
 export default function AddCustomer() {
@@ -52,7 +51,7 @@ export default function AddCustomer() {
             await dispatch(postSignUp(values))
             dispatch(getAllCustomer())
             } catch (error:any) {
-                toastr.error(error.message);
+                toast.error(error.message);
             }
             
           }}

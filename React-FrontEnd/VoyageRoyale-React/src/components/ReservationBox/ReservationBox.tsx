@@ -20,9 +20,9 @@ import {
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { useNavigate } from "react-router-dom";
 import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone"; // Eğer bu eklentiyi kullanacaksanız yüklemeniz gerekebilir
+import { toast } from "react-toastify";
 import timezone from "dayjs/plugin/timezone";
-import toastr from "toastr";
-import "toastr/build/toastr.min.css";
 import { red } from "@mui/material/colors";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
@@ -50,7 +50,7 @@ const validationSchema = Yup.object({
       Yup.ref("pickUpDate"),
       "Return date cannot be before the Pick Up date."
     ),
-  position: Yup.string().required("Position is required"),
+  position: Yup.string().required("You should select a city!"),
 });
 
 const ReservationBox: React.FC = () => {
@@ -89,7 +89,7 @@ const ReservationBox: React.FC = () => {
             console.log("Validation Errors:", errors);
             if (Object.keys(errors).length) {
               Object.values(errors).forEach((error) => {
-                if (error) toastr.error(error);
+                if (error) toast.error(error);
               });
               formikBag.setSubmitting(false);
             } else {
@@ -117,7 +117,7 @@ const ReservationBox: React.FC = () => {
                 Cookies.set("selectedPositionId", String(positionObj.id));
                 navigate("/cars");
               } else {
-                toastr.error("Invalid position selected");
+                toast.error("Invalid position selected");
               }
               formikBag.setSubmitting(false);
               formikBag.resetForm();

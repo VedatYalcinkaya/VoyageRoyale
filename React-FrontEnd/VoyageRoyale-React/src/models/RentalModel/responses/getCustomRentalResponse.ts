@@ -1,5 +1,6 @@
 export interface GetCustomRentalResponse{
 	id: number;
+	userId: number;
 	createdDate:string;
 	startDate: string;
 	endDate: string;
@@ -12,4 +13,5 @@ export interface GetCustomRentalResponse{
 	carBrandName: string;
 	carModelName: string;
 	carPositionCity: string;
+	invoicesTotalPrice: string;
 }

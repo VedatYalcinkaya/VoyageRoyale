@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../utils/interceptors/axiosInterceptors';
-import { UpdateBrandRequest } from '../../models/CarBrandModel/requests/updateBrandRequest';
 import { UpdateCarRequest } from '../../models/CarModel/requests/updateCarRequest';
 import { uploadCarImage } from './addCarSlice';
 import { AxiosError } from 'axios';

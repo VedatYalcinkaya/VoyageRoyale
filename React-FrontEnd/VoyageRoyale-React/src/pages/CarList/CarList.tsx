@@ -74,9 +74,12 @@ const CarList = (props: Props) => {
           height: "100vh",
         }}
       >
+        <Box height={"400px"} width={"400px"} textAlign={"center"}>
         <img
-          src="https://s9.gifyu.com/images/SFpW6.gif"
-          width={"10%"} />
+        src="https://s9.gifyu.com/images/SFpW6.gif"
+        width={"25%"}/>
+        <Typography fontStyle={"italic"} sx={{mt:5}}>Exploring luxury, discovering your ideal ride.</Typography>
+        </Box>
       </Box>
     );
   } else {

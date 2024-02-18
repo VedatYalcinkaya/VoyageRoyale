@@ -3,7 +3,6 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import SecondFormikInput from "../FormikInput/SecondFormikInput";
@@ -12,10 +11,9 @@ import { isSignedIn, postSignIn } from "../../store/slices/signInSlice";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
 import authService from "../../services/authService";
 import tokenService from "../../services/tokenService";
-import toastr from "toastr";
+import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { getCustomerByEmail } from "../../store/slices/getCustomerByEmailSlice";
-import { margin } from "@mui/system";
 
 type SignInProps = {
   closeSignInDrawer:() => void;
@@ -46,9 +44,9 @@ const SignIn = ({closeSignInDrawer }:SignInProps) => {
         await dispatch(getCustomerByEmail(tokenService.decodeToken()?.sub));
         
         if(tokenService.decodeToken()?.sub === undefined){
-          toastr.error("Incorrect email or password ","Caution")
+          toast.error("Incorrect email or password ")
         }else{
-          toastr.success("Successfully Login")
+          toast.success("Successfully Login")
           dispatch(isSignedIn(true));
         }
       }}

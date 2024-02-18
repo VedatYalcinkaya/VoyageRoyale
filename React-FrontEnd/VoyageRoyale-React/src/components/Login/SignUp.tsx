@@ -54,12 +54,14 @@ export default function SignUp() {
             try {
               const response = await dispatch(postSignUp(values)).unwrap();
               toast.success(
-                "Your account has been successfully created! Please sign in."
+                "Your account has been successfully created!"
+              );
+              toast.success(
+                "Please sign in."
               );
               navigate('/');
             } catch (error:any) {
-              console.log(error);
-              toast.error( "Please check your information");
+              toast.error( "This is not a real person. Please check your information");
               setOpenFailure(true);
             }
           }}

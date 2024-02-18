@@ -24,7 +24,8 @@ import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 import ClassIcon from "@mui/icons-material/Class";
-import DeleteConfirmation from "./Confirmations/DeleteConfirmation";
+import { deleteCar } from "../../../store/slices/deleteCarSlice";
+import UpdateCar from "./UpdateCar";
 
 interface AdminCarCardProps {
   onAddNewRecordClick: () => void;
@@ -34,12 +35,19 @@ const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
   const dispatch = useAppDispatch();
   const cars = useAppSelector((state) => state.getAllCar.data);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [selectedCarId, setSelectedCarId] = useState<number | null>(null);
+  const [selectedCar, setSelectedCar] = useState<Car | null>(null);
+
   const handleDeleteClick = async (car: any) => {
   };
   const [isNewRecordDialogOpen, setIsNewRecordDialogOpen] = useState(false);
   const handleAddNewRecordClick = () => {
     setIsNewRecordDialogOpen(true);
   };
+
 
 
 
@@ -57,9 +65,26 @@ const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
   }, [dispatch]);
 
 
+  const handleDeleteClick = (carId: number) => {
+    setSelectedCarId(carId);
+    setDeleteDialogOpen(true);
+  };
 
+  const handleEditClick = (car: Car) => {
+    setSelectedCar(car);
+    setEditDialogOpen(true);
+  };
 
-
+  const handleConfirmDelete = async () => {
+    if (selectedCarId) {
+      try {
+        await dispatch(deleteCar(selectedCarId));
+        setDeleteDialogOpen(false);
+        await dispatch(getAllCar());
+      } catch (error) {
+        console.error("Error deleting car:", error);
+      }
+    }
   useEffect(() => {
     // cars listesi her güncellendiğinde loadingImages state'ini yeniden başlat
     setLoadingImages(
@@ -76,6 +101,7 @@ const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
       ...prevLoadingImages,
       [carId]: false
     }));
+
   };
 
   return (
@@ -118,6 +144,11 @@ const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
               ),
             }}
           />
+        </Grid>
+        <Grid>
+          <Typography sx={{ mb: 2 }}>
+            There are "<b>{cars.length}</b>" cars in your database.
+          </Typography>
         </Grid>
       </Grid>
       <Grid
@@ -259,13 +290,16 @@ const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
                   </Grid>
 
                   <Grid item xs={6} marginTop={2}>
-                    <Button>
+                    <Button onClick={() => handleEditClick(car)}>
                       <ModeEditIcon sx={{ fontSize: 16, mr: 1 }} /> Edit
                     </Button>
                   </Grid>
                   <Grid item xs={6} marginTop={2} textAlign={"right"}>
-                    <Button sx={{ color: "red" }} onClick={() => handleDeleteClick(car)}>
-                      <DeleteIcon sx={{ fontSize: 16, mr: 1, color: "red" }} />{" "}
+                    <Button
+                      sx={{ color: "red" }}
+                      onClick={() => handleDeleteClick(car.id)}
+                    >
+                      <DeleteIcon sx={{ fontSize: 16, mr: 1, color: "red" }} />
                       Delete
                     </Button>
                   </Grid>
@@ -274,7 +308,37 @@ const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
             </Grid>
           ))}
       </Grid>
-      <DeleteConfirmation handleDeleteClick={handleDeleteClick} />
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+      >
+        <DialogTitle>Delete Confirmation</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this record?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDeleteDialogOpen(false)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleConfirmDelete} color="primary" autoFocus>
+            Yes, Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)}>
+        <DialogTitle>Edit Car</DialogTitle>
+        <DialogContent>
+          {/* Pass the selected car data to the UpdateCar component */}
+          {selectedCar && <UpdateCar car={selectedCar} />}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setEditDialogOpen(false)} color="primary">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
