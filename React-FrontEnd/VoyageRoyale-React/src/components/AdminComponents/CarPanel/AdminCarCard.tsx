@@ -19,6 +19,7 @@ import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 import ClassIcon from "@mui/icons-material/Class";
+import { useRef } from "react";
 
 interface AdminCarCardProps {
   onAddNewRecordClick: () => void;
@@ -30,6 +31,8 @@ const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const handleDeleteClick = async (car: any) => {
   };
+
+  const imageRefs = useRef(new Map<number, HTMLImageElement>());
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,16 +50,20 @@ const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
 
 
 
-  useEffect(() => {
-    // cars listesi her güncellendiğinde loadingImages state'ini yeniden başlat
-    setLoadingImages(
-      cars.reduce((acc, car) => ({ ...acc, [car.id]: true }), {})
-    );
-  }, [cars]); // cars listesi değiştiğinde bu useEffect'i tetikle
+  const [loadingImages, setLoadingImages] = useState<{ [key: number]: boolean }>({});
 
-  const [loadingImages, setLoadingImages] = useState<{ [key: number]: boolean }>(
-    cars.reduce((acc, car) => ({ ...acc, [car.id]: true }), {})
-  );
+  // cars listesi değiştiğinde, yani Redux store'dan çekildiğinde, loadingImages state'ini yeniden başlat
+  useEffect(() => {
+    setLoadingImages(cars.reduce((acc, car) => ({ ...acc, [car.id]: true }), {}));
+
+    // Check if images are already loaded from cache and set loading to false if they are
+    cars.forEach((car) => {
+      const imageEl = imageRefs.current.get(car.id);
+      if (imageEl && imageEl.complete) {
+        handleImageLoaded(car.id);
+      }
+    });
+  }, [cars]);
 
   const handleImageLoaded = (carId: number) => {
     setLoadingImages((prevLoadingImages: any) => ({
@@ -148,16 +155,23 @@ const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
                         }}
                       >
                         <img
-                          src="https://s9.gifyu.com/images/SFpW6.gif"
+                          src="/public/SFpW6.gif"
                           width={"40%"} />
                       </Grid>
                     )}
                     <img
-                      width={"70%"}
-                      src={car.imagePath}
-                      alt={`${car.brandName} ${car.modelName}`}
-                      onLoad={() => handleImageLoaded(car.id)} 
-                      style={{ display: loadingImages[car.id] ? 'none' : 'inline-block' }} 
+                       ref={(el) => {
+                        if (el) {
+                          imageRefs.current.set(car.id, el);
+                        } else {
+                          imageRefs.current.delete(car.id);
+                        }
+                      }}
+                       width={"70%"}
+                       src={car.imagePath}
+                       alt={`${car.brandName} ${car.modelName}`}
+                       onLoad={() => handleImageLoaded(car.id)} 
+                       style={{ display: loadingImages[car.id] ? 'none' : 'inline-block' }}
                     />
                   </Grid>
                   <Grid item xs={12}>
