@@ -37,12 +37,14 @@ const SelectedReservationDetails = (props: Props) => {
     }
 
   const loading = useAppSelector((state) => state.loading.requestCount);
-  
+  console.log(loading)
 
   if (loading > 0) {
     return (
-      <Box sx={{ display: "flex" }}>
-        <CircularProgress />
+      <Box sx={{ display: "flex"}}>
+        <img
+          src="https://s9.gifyu.com/images/SFpW6.gif"
+          width={"4%"} />
       </Box>
     );
   } else {

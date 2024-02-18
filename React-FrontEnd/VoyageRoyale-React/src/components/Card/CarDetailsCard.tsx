@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -27,19 +27,20 @@ import StarHalfIcon from "@mui/icons-material/StarHalf";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import Cookies from "js-cookie";
+import { getCarGearType } from "../../store/slices/CarSlices/carGearTypeSlice";
 
-interface CarDetailsCardProps {}
+interface CarDetailsCardProps { }
 
 const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
   const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
   const { id: carId } = useParams<{ id?: string }>();
   const carDetails = useAppSelector((state) => state.carDetail.data);
   const isLoading = useAppSelector((state) => state.carDetail.loading);
-  const error = useAppSelector((state) => state.carDetail.error);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (carId) {
       dispatch(getCarDetail(parseInt(carId)));
+      dispatch(getCarGearType())
     }
   }, [dispatch, carId]);
 
@@ -90,7 +91,20 @@ const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
   };
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <img
+          src="https://s9.gifyu.com/images/SFpW6.gif"
+          width={"10%"} />
+      </Box>
+    );;
   }
 
   if (!carDetails) {
@@ -99,7 +113,6 @@ const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
 
   return (
     <>
-      <SelectedReservationDetails />
       <Box
         sx={{
           display: "flex",
@@ -257,7 +270,7 @@ const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
                   </Grid>
                 </Grid>
               </Paper>
-              <Paper sx={{ mt: 2,mb:5, padding: 2 }}>
+              <Paper sx={{ mt: 2, mb: 5, padding: 2 }}>
                 <Grid container>
                   <Grid item textAlign={"left"}>
                     <Typography sx={{ fontSize: 12 }}>
@@ -352,7 +365,7 @@ const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
                   variant="contained"
                   color="primary"
                   style={{ textAlign: "center" }}
-                  onClick={()=>{handleBookNowButton()}}
+                  onClick={() => { handleBookNowButton() }}
                 >
                   Book Now
                 </Button>
