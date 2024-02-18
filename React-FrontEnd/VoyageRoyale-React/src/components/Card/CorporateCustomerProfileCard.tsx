@@ -7,7 +7,8 @@ import * as Yup from "yup";
 import { Form, Formik } from 'formik';
 import { putCorporateCustomer } from '../../store/slices/CorporateCustomerSlice/updateCorporateCustomerSlice';
 import { Button, Grid, TextField } from '@mui/material';
-import { uploadCarImage } from '../../store/slices/addCarSlice';
+
+import { uploadImage } from '../../store/slices/imageUploadSlice';
 
 const CorporateCustomerProfileCard: React.FC = () => {
 const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
@@ -73,7 +74,7 @@ const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
         if (imageFile) {
           try {
             // İlk olarak resmi yükle
-            const imageResponse = await dispatch(uploadCarImage(imageFile)).unwrap();
+            const imageResponse = await dispatch(uploadImage(imageFile)).unwrap();
             values.userImagePath = imageResponse
             console.log(values.userImagePath)
             console.log(values)

@@ -7,8 +7,7 @@ import { Form, Formik } from "formik";
 import { putCustomer } from "../../store/slices/CustomerSlices/updateCustomerSlice";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
-
-import { uploadCarImage } from "../../store/slices/addCarSlice";
+import { uploadImage } from "../../store/slices/imageUploadSlice";
 
 const UserProfileCard: React.FC = () => {
   const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
@@ -82,7 +81,7 @@ const UserProfileCard: React.FC = () => {
         if (imageFile) {
           try {
             const imageResponse = await dispatch(
-              uploadCarImage(imageFile)
+              uploadImage(imageFile)
             ).unwrap();
             values.userImagePath = imageResponse;
           } catch (error) {
