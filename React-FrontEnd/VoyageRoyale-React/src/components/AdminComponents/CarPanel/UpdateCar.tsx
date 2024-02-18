@@ -19,9 +19,9 @@ import { Car } from "../../../models/CarModel/responses/response";
 import { updateCar } from "../../../store/slices/updateCarSlice";
 import { UpdateCarRequest } from "../../../models/CarModel/requests/updateCarRequest";
 import { getCarCarType } from "../../../store/slices/CarSlices/carCarTypeSlice";
-import { uploadCarImage } from "../../../store/slices/addCarSlice";
 import { CarGearType } from "../../../models/carGearTypeModel/responses/response";
 import { CarCarType } from "../../../models/CarCarTypeModel/responses/response";
+import { uploadImage } from "../../../store/slices/imageUploadSlice";
 
 type Props = {};
 interface UpdateCarProps {
@@ -117,7 +117,7 @@ const UpdateCar: React.FC<UpdateCarProps> = ({ car }) => {
 
         if (imageFile2 instanceof File && imageFile2.size > 0) {
           try {
-            const imageResponse = await dispatch(uploadCarImage(imageFile2)).unwrap();
+            const imageResponse = await dispatch(uploadImage(imageFile2)).unwrap();
             values.imagePath = imageResponse; // Sunucunun döndürdüğü URL burada ayarlanacak
             // Resim yükleme işlemi başarılı olduğunda, imagePath'i form verilerine ekle
             console.log(values.imagePath)

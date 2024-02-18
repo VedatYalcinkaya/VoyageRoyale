@@ -15,7 +15,7 @@ import { CarFuelType } from "../../../models/CarFuelTypeModel/responses/response
 import { Position } from "../../../models/LocationModel/responses/response";
 import { GetAllColorResponse } from "../../../models/ColorModel/responses/getAllColorResponse";
 import { GetAllModelResponse } from "../../../models/ModelModel/responses/getAllModelResponse";
-import { postCar, uploadCarImage } from "../../../store/slices/addCarSlice";
+import { postCar } from "../../../store/slices/addCarSlice";
 import { getAllCar } from "../../../store/slices/CarSlices/getAllCarSlice";
 import {  getCarCarType } from "../../../store/slices/CarSlices/carCarTypeSlice";
 import { CarGearType } from "../../../models/carGearTypeModel/responses/response";

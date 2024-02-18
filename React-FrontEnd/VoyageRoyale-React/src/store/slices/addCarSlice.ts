@@ -16,25 +16,6 @@ const initialState: AddCarState = {
   error: "",
 };
 
-export const uploadCarImage = createAsyncThunk(
-  'car/uploadImage',
-  async (imageFile: File, { rejectWithValue }) => {
-    try {
-      const formData = new FormData();
-      formData.append('file', imageFile);
-      const response = await axiosInstance.post('/fileUpload/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      return response.data; // Bu genellikle resim yolunu (URL) döndürmelidir
-    } catch (error) {
-      const axiosError = error as AxiosError;
-      return rejectWithValue(axiosError.response?.data);
-    }
-  }
-);
-
 export const postCar = createAsyncThunk(
   'car/postCar',
   async (carData: AddCarRequest, { dispatch, rejectWithValue }) => {

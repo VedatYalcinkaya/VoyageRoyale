@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { Form, Formik } from 'formik';
 import { putCorporateCustomer } from '../../store/slices/CorporateCustomerSlice/updateCorporateCustomerSlice';
 import { Button, Grid, TextField } from '@mui/material';
-import { uploadCarImage } from '../../store/slices/addCarSlice';
+
 import { uploadImage } from '../../store/slices/imageUploadSlice';
 
 const CorporateCustomerProfileCard: React.FC = () => {
