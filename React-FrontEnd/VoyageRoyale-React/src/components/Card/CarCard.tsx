@@ -90,8 +90,12 @@ const CarCard: React.FC<CarCardProps> = () => {
   };
 
   const [loadingImages, setLoadingImages] = useState<{ [key: number]: boolean }>(
-    cars.reduce((acc, car) => ({ ...acc, [car.id]: true }), {})
+    Object.keys(cars).reduce((acc, carId) => ({ ...acc, [carId]: true }), {})
   );
+  
+
+  console.log(typeof cars, Array.isArray(cars));
+
 
   const handleImageLoaded = (carId: number) => {
     setLoadingImages((prevLoadingImages: any) => ({
