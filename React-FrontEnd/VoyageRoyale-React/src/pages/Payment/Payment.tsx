@@ -1,17 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Card,
-  CardContent,
-  Typography,
-  Button,
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
-  Box,
-  Grid,
-} from "@mui/material";
-import PlaceIcon from "@mui/icons-material/Place";
+import { Typography, Button, Divider, Box, Grid } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
 import { setConfettiActive } from "../../store/slices/paymentSlice";
 import Confetti from "react-confetti";
@@ -86,8 +74,6 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
     }
   }, [dispatch, carId]);
 
-
-
   useEffect(() => {
     if (user !== undefined) {
       setRentalInfo({
@@ -132,11 +118,9 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
           height: "100vh",
         }}
       >
-        <img
-          src="https://s9.gifyu.com/images/SFpW6.gif"
-          width={"10%"} />
+        <img src="https://s9.gifyu.com/images/SFpW6.gif" width={"10%"} />
       </Box>
-    );;
+    );
   }
 
   return (
@@ -259,7 +243,10 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
                   document={
                     <PaymentReceiptPdf
                       selectedPosition={selectedReservation}
-                      selectedCar={selectedCarModel}
+                      selectedCar={{
+                        modelName: selectedCarModel,
+                        brand: selectedBrand,
+                      }}
                       totalPrice={totalPrice}
                     />
                   }
