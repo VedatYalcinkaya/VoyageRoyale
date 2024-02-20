@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { UserRequest } from "../../models/UserModel/requests/request";
 
 export default function SignUp() {
+  
   const dispatch: ThunkDispatch<any, any, any> = useAppDispatch();
   const isLoading: boolean = useAppSelector((state) => state.signUp.loading);
   const [openFailure, setOpenFailure] = useState(false);

@@ -29,18 +29,19 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import Cookies from "js-cookie";
 import { getCarGearType } from "../../store/slices/CarSlices/carGearTypeSlice";
 
-interface CarDetailsCardProps { }
+interface CarDetailsCardProps {}
 
 const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
   const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
   const { id: carId } = useParams<{ id?: string }>();
   const carDetails = useAppSelector((state) => state.carDetail.data);
   const isLoading = useAppSelector((state) => state.carDetail.loading);
+  const loading = useAppSelector((state) => state.loading.requestCount);
 
   useEffect(() => {
     if (carId) {
       dispatch(getCarDetail(parseInt(carId)));
-      dispatch(getCarGearType())
+      dispatch(getCarGearType());
     }
   }, [dispatch, carId]);
 
@@ -60,19 +61,22 @@ const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
   const returnDate: string | null =
     selectedReturnDate?.substring(0, 10) ?? null;
 
-  let dropOffDate: string | null = returnDate;
+  const dropOffDate: string | null = returnDate;
 
   const selectedPickUpDate = Cookies.get('selectedPickUpDate')
   const pickup: string | null = selectedPickUpDate?.substring(0, 10) ?? null;
-  let pickUpDate: string | null = pickup;
+  const pickUpDate: string | null = pickup;
 
   const handleBookNowButton = () => {
     Cookies.set('selectedDailyPrice', String(carDetails?.dailyPrice))
     Cookies.set('selectedBrand', String(carDetails?.brandName))
     Cookies.set('selectedCarModel', String(carDetails?.modelName))
     Cookies.set('selectedCarImagePath', String(carDetails?.imagePath))
-
+    Cookies.set('selectedFuelType', String(carDetails?.fuelTypeName))
+    Cookies.set('selectedGearType', String(carDetails?.gearTypeName))
   }
+
+  
 
   const handleDate = () => {
     if (pickUpDate && dropOffDate) {
@@ -92,7 +96,7 @@ const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
     }
   };
 
-  if (isLoading) {
+  if (loading > 0) {
     return (
       <Box
         sx={{
@@ -102,16 +106,14 @@ const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
           height: "100vh",
         }}
       >
+        <Box height={"400px"} width={"400px"} textAlign={"center"} marginTop={12}>
         <img
-          src="https://s9.gifyu.com/images/SFpW6.gif"
-          width={"10%"} />
+        src="https://s9.gifyu.com/images/SFpW6.gif"
+        width={"25%"}/>
+        </Box>
       </Box>
-    );;
-  }
-
-  if (!carDetails) {
-    return <p>No data available</p>;
-  }
+    );
+  } else {
 
   return (
     <>
@@ -130,15 +132,15 @@ const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
         <Grid container>
           <Grid item xs={8} textAlign={"center"}>
             <Typography variant="h5" fontWeight="bold">
-              {carDetails.brandName} {carDetails.modelName}
+              {carDetails?.brandName} {carDetails?.modelName}
             </Typography>
             <Grid container>
               <Grid container>
                 <Grid item xs={12} sx={{ mt: -10, mb: -10 }}>
                   <img
                     width="60%"
-                    src={carDetails.imagePath}
-                    alt={`${carDetails.brandName} ${carDetails.modelName}`}
+                    src={carDetails?.imagePath}
+                    alt={`${carDetails?.brandName} ${carDetails?.modelName}`}
                   />
                 </Grid>
                 <Grid container justifyContent={"center"}>
@@ -149,7 +151,7 @@ const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
                     ></AccountTreeIcon>
                   </Grid>
                   <Typography sx={{ mr: 5, fontSize: 17, ml: 1 }}>
-                    {carDetails.gearTypeName}
+                    {carDetails?.gearTypeName}
                   </Typography>
                   <Grid item>
                     <LocalGasStationIcon
@@ -158,7 +160,7 @@ const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
                     ></LocalGasStationIcon>
                   </Grid>
                   <Typography sx={{ fontSize: 17, ml: 1 }}>
-                    {carDetails.fuelTypeName}
+                    {carDetails?.fuelTypeName}
                   </Typography>
                 </Grid>
               </Grid>
@@ -316,10 +318,10 @@ const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
               <Typography
                 sx={{ fontSize: 30, fontWeight: "bold", color: "green" }}
               >
-                ${carDetails.dailyPrice * handleDate()}
+                ${carDetails?.dailyPrice ? carDetails.dailyPrice * handleDate() : 0}
               </Typography>
               <Typography sx={{ fontSize: 12, mb: 5, color: "#BC9160" }}>
-                Daily Price: ${carDetails.dailyPrice}
+                Daily Price: ${carDetails?.dailyPrice}
               </Typography>
               <Button
                 onClick={handleOpenPopup}
@@ -378,6 +380,6 @@ const CarDetailsCard: React.FC<CarDetailsCardProps> = () => {
       </Box>
     </>
   );
-};
+};}
 
 export default CarDetailsCard;

@@ -24,11 +24,9 @@ import { CarCarType } from "../../../models/CarCarTypeModel/responses/response";
 import { uploadImage } from "../../../store/slices/imageUploadSlice";
 
 type Props = {};
-interface UpdateCarProps {
-  car: Car; 
-}
 
-const UpdateCar: React.FC<UpdateCarProps> = ({ car }) => {
+
+function UpdateCar() {
   const dispatch = useAppDispatch();
   const carCategories: CarCarType[] = useAppSelector(
     (state) => state.carCarType.data
@@ -144,7 +142,7 @@ const UpdateCar: React.FC<UpdateCarProps> = ({ car }) => {
       <Form>
 
         <Field as={Select} name="id">
-          <MenuItem value="0">Select Plate ID</MenuItem>
+          <MenuItem value="0">Select a Plate</MenuItem>
           {cars.map((car) => (
             <MenuItem value={car.id} key={car.id}>
               {car.plate}

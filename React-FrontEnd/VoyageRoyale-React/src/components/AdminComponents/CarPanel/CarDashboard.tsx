@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogTitle, styled } from '@mui/material';
 import AdminCarCard from './AdminCarCard';
 import AddCar from './AddCar';
+import UpdateCar from './UpdateCar';
 
 
 const CarDashboard = () => {
@@ -14,22 +15,36 @@ const CarDashboard = () => {
     },
   }));
   const [isNewRecordDialogOpen, setIsNewRecordDialogOpen] = useState(false);
+  const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false);
 
   const handleAddNewRecordClick = () => {
     setIsNewRecordDialogOpen(true);
   };
+  const handleUpdateClick = () => {
+    setIsUpdateDialogOpen(true);
+  };
 
-  const handleCloseDialog = () => {
+  const handleNewRecordCloseDialog = () => {
     setIsNewRecordDialogOpen(false);
+  };
+
+  const handleUpdateCloseDialog = () => {
+    setIsUpdateDialogOpen(false);
   };
 
   return (
     <>
-      <AdminCarCard onAddNewRecordClick={handleAddNewRecordClick} />
-      <Dialog open={isNewRecordDialogOpen} onClose={handleCloseDialog} maxWidth="md" fullWidth={true} >
-        <DialogTitle>Add New Car Record</DialogTitle>
+      <AdminCarCard onAddNewRecordClick={handleAddNewRecordClick} onUpdateClick={handleUpdateClick} />
+      <Dialog open={isNewRecordDialogOpen} onClose={handleNewRecordCloseDialog} maxWidth="md" fullWidth={true} >
+        <DialogTitle>Add a New Record</DialogTitle>
         <DialogContent>
           <AddCar/>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={isUpdateDialogOpen} onClose={handleUpdateCloseDialog} maxWidth="md" fullWidth={true} >
+        <DialogTitle>Update a Record</DialogTitle>
+        <DialogContent>
+          <UpdateCar />
         </DialogContent>
       </Dialog>
     </>

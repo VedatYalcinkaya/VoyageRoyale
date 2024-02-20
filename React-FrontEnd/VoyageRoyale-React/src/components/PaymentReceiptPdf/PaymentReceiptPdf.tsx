@@ -48,23 +48,15 @@ const styles = StyleSheet.create({
   },
   tableContainer: {
     marginTop: 30,
-    borderWidth: 1,
-    borderColor: "#bfbfbf",
-    borderStyle: "solid",
-    borderRadius: 4,
     width: "80%",
   },
   tableHeader: {
     flexDirection: "row",
-    borderBottomWidth: 1,
-    borderBottomColor: "#bfbfbf",
     backgroundColor: "#f2f2f2",
     padding: 16,
   },
   tableRow: {
     flexDirection: "row",
-    borderBottomWidth: 1,
-    borderBottomColor: "#bfbfbf",
     padding: 16,
   },
   tableCell: {

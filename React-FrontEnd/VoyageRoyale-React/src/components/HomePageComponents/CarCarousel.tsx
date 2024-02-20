@@ -51,7 +51,7 @@ const CarCarousel = () => {
         <Typography
           textAlign="center"
           variant="h4"
-          sx={{ textTransform: "uppercase" }}
+          
         >
           {t("Discover Automotive Prestige")}
         </Typography>

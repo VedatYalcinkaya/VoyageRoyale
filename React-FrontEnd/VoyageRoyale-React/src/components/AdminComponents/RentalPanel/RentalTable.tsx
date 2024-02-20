@@ -20,7 +20,7 @@ import { toast } from "react-toastify";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "#0f4037",
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -48,7 +48,7 @@ export default function RentalTable() {
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <Table  aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>Num</StyledTableCell>
@@ -58,6 +58,7 @@ export default function RentalTable() {
             <StyledTableCell>Daily Price</StyledTableCell>
             <StyledTableCell>Start Date</StyledTableCell>
             <StyledTableCell>End Date</StyledTableCell>
+            <StyledTableCell align="right">Action</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>

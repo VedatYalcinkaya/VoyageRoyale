@@ -46,7 +46,7 @@ const SignIn = ({closeSignInDrawer }:SignInProps) => {
         if(tokenService.decodeToken()?.sub === undefined){
           toast.error("Incorrect email or password ")
         }else{
-          toast.success("Successfully Login")
+          toast.success("Login Successfull")
           dispatch(isSignedIn(true));
         }
       }}
@@ -69,7 +69,7 @@ const SignIn = ({closeSignInDrawer }:SignInProps) => {
             Please sign in to your account and start the adventure
           </Typography>
           <Form>
-          <div style={{ marginTop: 10, marginBottom: 15,width: "100%" }}>
+          <div style={{marginTop: 10, marginBottom: 15,width: "100%" }} >
             <SecondFormikInput name="email" label="Email" type="text" />
             </div>
             <SecondFormikInput
@@ -80,7 +80,8 @@ const SignIn = ({closeSignInDrawer }:SignInProps) => {
             <Button
               type="submit"
               sx={{
-                mb: 2,
+                mb: 2,mt:2,
+                
                 color:"#D4D2A9",
                 backgroundColor: "#0F4037",             
                 "&:hover": {

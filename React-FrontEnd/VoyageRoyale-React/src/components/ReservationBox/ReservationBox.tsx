@@ -134,7 +134,7 @@ const ReservationBox: React.FC = () => {
               sx={{ paddingLeft: 15, paddingRight: 15 }}
             >
               <Grid item xs={12}>
-                <Typography gutterBottom variant="h4" component="div">
+                <Typography gutterBottom component="div" fontSize={30}>
                   {t("startReservation")}
                 </Typography>
               </Grid>

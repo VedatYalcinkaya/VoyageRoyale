@@ -12,7 +12,7 @@ import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import StarIcon from "@mui/icons-material/Star";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
 import Cookies from "js-cookie";
-import { margin } from "@mui/system";
+import CircularProgress from '@mui/material/CircularProgress';
 
 type CarCardProps = {};
 
@@ -148,9 +148,7 @@ const CarCard: React.FC<CarCardProps> = () => {
                               marginBottom: "120px"
                             }}
                           >
-                            <img
-                              src="https://s9.gifyu.com/images/SFpW6.gif"
-                              width={"40%"} />
+                            <CircularProgress color="success"/>
                           </Grid>
                         )}
                         <img

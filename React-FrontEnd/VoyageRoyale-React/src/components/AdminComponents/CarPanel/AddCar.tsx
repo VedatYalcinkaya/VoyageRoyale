@@ -123,7 +123,6 @@ function AddCar() {
 
         try {
           // Form verilerini ve imagePath'i gönder
-          console.log(values)
           await dispatch(postCar(values)).unwrap();
           resetForm();
           dispatch(getAllCar())

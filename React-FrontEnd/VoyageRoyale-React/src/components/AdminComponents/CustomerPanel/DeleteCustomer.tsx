@@ -20,7 +20,7 @@ import { deleteCustomer } from "../../../store/slices/CustomerSlices/deleteCusto
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "#0f4037",
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -48,7 +48,7 @@ export default function DeleteCustomer() {
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <Table  aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>ID</StyledTableCell>

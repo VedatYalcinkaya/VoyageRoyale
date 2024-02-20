@@ -15,7 +15,7 @@ import { deleteInvoice } from "../../../store/slices/deleteInvoiceSlice";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "#0f4037",
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -41,7 +41,7 @@ export default function InvoicesTable() {
   }, [dispatch]);
 
   return (
-    <TableContainer component={Paper} sx={{ marginTop: 12 }}>
+    <TableContainer component={Paper} sx={{ marginTop:4 }}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
@@ -49,6 +49,7 @@ export default function InvoicesTable() {
             <StyledTableCell>Invoice Number</StyledTableCell>
             <StyledTableCell>Total Price</StyledTableCell>
             <StyledTableCell>Tax Rate</StyledTableCell>
+            
           </TableRow>
         </TableHead>
         <TableBody>
@@ -60,16 +61,6 @@ export default function InvoicesTable() {
               <StyledTableCell>{invoice.invoiceNo}</StyledTableCell>
               <StyledTableCell>{invoice.totalPrice}</StyledTableCell>
               <StyledTableCell>{invoice.taxRate}</StyledTableCell>
-              <StyledTableCell align="right">
-                <Button
-                  onClick={async () => {
-                    await dispatch(deleteInvoice(invoice.id));
-                    dispatch(getAllInvoice());
-                  }}
-                >
-                  <DeleteIcon />
-                </Button>
-              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
