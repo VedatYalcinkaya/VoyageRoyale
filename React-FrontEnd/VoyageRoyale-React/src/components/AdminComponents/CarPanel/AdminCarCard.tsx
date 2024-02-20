@@ -11,7 +11,6 @@ import {
 import { useAppDispatch, useAppSelector } from "../../../store/configureStore";
 import { Car } from "../../../models/CarModel/responses/response";
 import { getAllCar } from "../../../store/slices/CarSlices/getAllCarSlice";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SearchIcon from "@mui/icons-material/Search";
 import PlaceIcon from "@mui/icons-material/Place";
@@ -20,17 +19,27 @@ import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 import ClassIcon from "@mui/icons-material/Class";
 import { useRef } from "react";
+import CircularProgress from '@mui/material/CircularProgress';
+import { deleteCar } from "../../../store/slices/deleteCarSlice";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface AdminCarCardProps {
   onAddNewRecordClick: () => void;
+  onUpdateClick: () => void;
 }
 
-const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
+const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick, onUpdateClick }) => {
   const dispatch = useAppDispatch();
   const cars = useAppSelector((state) => state.getAllCar.data);
   const [searchQuery, setSearchQuery] = useState("");
-  const handleDeleteClick = async (car: any) => {
-  };
+  
+  const handleDeleteClick = async (carId:number) => {
+    await dispatch(deleteCar(carId))
+    toast.info("Record has been deleted")
+    dispatch(getAllCar())
+
+  }
 
   const imageRefs = useRef(new Map<number, HTMLImageElement>());
 
@@ -75,7 +84,7 @@ const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
   return (
     <>
       <Grid container>
-        <Grid item xs={12}>
+        <Grid item xs={2}>
           <Button
             variant="contained"
             color="primary"
@@ -92,6 +101,25 @@ const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
             }}
           >
             Add a New Record
+          </Button>
+        </Grid>
+        <Grid item xs={10}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={onUpdateClick}
+            sx={{
+              mb: 2,
+              fontSize: 12,
+              color: "#d4d2a9",
+              backgroundColor: "#0F4037",
+              "&:hover": {
+                backgroundColor: "#B58B5D",
+                color: "#0f4037",
+              },
+            }}
+          >
+            Update a Record
           </Button>
         </Grid>
         <Grid item xs={12}>
@@ -112,6 +140,9 @@ const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
               ),
             }}
           />
+        </Grid>
+        <Grid item xs={12} sx={{mt:2,mb:4}}>
+          <Typography >There are <b>"{cars.length}"</b> car(s) in your database</Typography>
         </Grid>
       </Grid>
       <Grid
@@ -154,9 +185,7 @@ const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
                           marginBottom: "120px"
                         }}
                       >
-                        <img
-                          src="/public/SFpW6.gif"
-                          width={"40%"} />
+                        <CircularProgress color="success"/>
                       </Grid>
                     )}
                     <img
@@ -258,15 +287,9 @@ const AdminCarCard: React.FC<AdminCarCardProps> = ({ onAddNewRecordClick }) => {
                       {car.colorName}
                     </Typography>
                   </Grid>
-
-                  <Grid item xs={6} marginTop={2}>
-                    <Button>
-                      <ModeEditIcon sx={{ fontSize: 16, mr: 1 }} /> Edit
-                    </Button>
-                  </Grid>
-                  <Grid item xs={6} marginTop={2} textAlign={"right"}>
-                    <Button sx={{ color: "red" }} onClick={() => handleDeleteClick(car)}>
-                      <DeleteIcon sx={{ fontSize: 16, mr: 1, color: "red" }} />{" "}
+                  <Grid item xs={12} marginTop={2} >
+                    <Button sx={{ color: "red" }} onClick={() => handleDeleteClick(car.id)}>
+                      <DeleteIcon sx={{ fontSize: 16, color: "red" }} />{" "}
                       Delete
                     </Button>
                   </Grid>

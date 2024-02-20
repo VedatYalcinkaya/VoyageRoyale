@@ -1,7 +1,7 @@
 import React from "react";
-import i18n from "../../language/language";
 import { useTranslation } from "react-i18next";
 import { Button, Box } from "@mui/material";
+import i18n from "../../language/language";
 
 const LanguageSwitcher: React.FC = () => {
   const { t } = useTranslation();

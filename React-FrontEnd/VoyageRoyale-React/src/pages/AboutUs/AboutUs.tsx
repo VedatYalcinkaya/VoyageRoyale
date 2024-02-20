@@ -31,7 +31,7 @@ const developers = [
   {
     name: "Oğuz Kağan Batı",
     github: "https://github.com/oguzkaganbati",
-    linkedin: "https://www.linkedin.com/in/oguz-kagan-bati-52669624b/",
+    linkedin: "https://www.linkedin.com/in/oğuz-kağan-bati-52669624b/",
     photo: "https://github.com/oguzkaganbati.png",
   },
   // Add more developers as needed

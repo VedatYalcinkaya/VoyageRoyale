@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SignUp from "../../components/Login/SignUp";
 import Grid from "@mui/material/Grid";
 import CorporateSignUp from "../../components/Login/CorporateSignUp";
 import SignUpDetail from "../../components/Login/SignUpDetail";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../../store/configureStore";
+import { getCarGearType } from "../../store/slices/CarSlices/carGearTypeSlice";
+import { ThunkDispatch } from "@reduxjs/toolkit";
 
 function TabPanel(props: {
   [x: string]: any;
@@ -26,7 +29,9 @@ function TabPanel(props: {
 }
 
 function SignInSignUp() {
+  const loading = useAppSelector((state) => state.loading.requestCount);
   const [signInDrawerOpen, setSignInDrawerOpen] = useState(false);
+  const dispatch: ThunkDispatch<any, any, any> = useAppDispatch();
 
   const openSignInDrawer = () => {
     setSignInDrawerOpen(true);
@@ -37,6 +42,38 @@ function SignInSignUp() {
     setValue(newValue);
   };
 
+  /////// Loading animasyonu için sayfanın istek atması gerekiyor. 
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      await dispatch(getCarGearType());
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  fetchData();
+}, [dispatch]); 
+//////////////////////////////////
+
+  if (loading > 0) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Box height={"400px"} width={"400px"} textAlign={"center"} marginTop={20}>
+        <img
+        src="https://s9.gifyu.com/images/SFpW6.gif"
+        width={"25%"}/>
+        </Box>
+      </Box>
+    );
+  } else {
   return (
     <Grid container sx={{ boxShadow: 10 }}>
       <Grid item xs={6} sx={{ padding: 5, pt: 5 }}>
@@ -86,5 +123,5 @@ function SignInSignUp() {
     </Grid>
   );
 }
-
+}
 export default SignInSignUp;

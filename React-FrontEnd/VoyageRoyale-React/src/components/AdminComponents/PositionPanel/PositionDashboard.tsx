@@ -3,9 +3,6 @@ import { Box, Tab, Tabs, Typography } from "@mui/material";
 import AddLocation from "../LocationPanel/AddLocation";
 import UpdateLocation from "../LocationPanel/UpdateLocation";
 import LocationTable from "../LocationPanel/LocationTable";
-import AddRentals from "./AddRentals";
-import UpdateRental from "./UpdateRental";
-import RentalTable from "./RentalTable";
 
 
 function TabPanel(props: {
@@ -28,7 +25,7 @@ function TabPanel(props: {
     </div>
   );
 }
-function RentalDashboard() {
+function PositionDashboard() {
 
   const [value, setValue] = React.useState(0);
 
@@ -68,17 +65,17 @@ function RentalDashboard() {
 
       </Tabs>
       <TabPanel value={value} index={0}>
-        <AddRentals/>
+        <AddLocation/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-      <UpdateRental/>
+      <UpdateLocation/>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <RentalTable/>
+        <LocationTable/>
       </TabPanel>
 
     </Box>
   );
 }
 
-export default RentalDashboard;
+export default PositionDashboard;

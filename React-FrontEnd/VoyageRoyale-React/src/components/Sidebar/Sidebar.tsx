@@ -277,8 +277,8 @@ export default function Sidebar() {
             <img
               src="https://i.ibb.co/Q69fC4x/Logo-bej.png"
               alt="Logo"
-              width="80"
-              style={{ marginBottom: 10 }}
+              width="70"
+              style={{ marginBottom: 5 }}
             />
           </RouterLink>
         </Box>
@@ -345,14 +345,7 @@ export default function Sidebar() {
                 </StyledMenu>
               </ListItem>
 
-              <ListItem disablePadding>
-                <ListItemButton onClick={onSignOut}>
-                  <ListItemText
-                    primary={t("signOut")}
-                    sx={{ color: "#D9D5A7" }}
-                  />
-                </ListItemButton>
-              </ListItem>
+             
             </>
           ) : (
             <List style={{ color: "#D4D2A9" }}>
@@ -397,7 +390,7 @@ export default function Sidebar() {
           )}
 
           <ListItem disablePadding>
-            <ListItemButton component={RouterLink} to="/">
+            <ListItemButton component={RouterLink} to="/" onClick={handleLogoClick}>
               <ListItemText primary={t("home")} sx={{ color: "#D9D5A7" }} />
               <ListItemIcon>
                 <KeyboardArrowRightIcon

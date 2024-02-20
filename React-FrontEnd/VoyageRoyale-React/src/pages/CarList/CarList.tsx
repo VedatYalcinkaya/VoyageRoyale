@@ -20,12 +20,8 @@ import { getCarBrandType } from "../../store/slices/CarSlices/carBrandTypeSlice"
 import { getCarGearType } from "../../store/slices/CarSlices/carGearTypeSlice";
 import CarGearFilter from "../../components/Card/CarCardFilters/CarGearFilter";
 import { getCarCarType } from "../../store/slices/CarSlices/carCarTypeSlice";
-import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import { format } from "date-fns";
 import SelectedReservationDetails from "../../components/Card/SelectedReservationDetails";
-import "./CarAnimation.css";
-import CarIcon from "./carIcon";
-import LinearDeterminate from "./LinearDeterminate";
 import Cookies from "js-cookie";
 
 type Props = {};
@@ -74,7 +70,7 @@ const CarList = (props: Props) => {
           height: "100vh",
         }}
       >
-        <Box height={"400px"} width={"400px"} textAlign={"center"}>
+        <Box height={"400px"} width={"400px"} textAlign={"center"} marginTop={12}>
         <img
         src="https://s9.gifyu.com/images/SFpW6.gif"
         width={"25%"}/>

@@ -18,13 +18,13 @@ const Homepage = (props: Props) => {
         <LanguageSwitcher />
       </div>
       <Grid container justifyContent="center" alignItems="center">
-        <Typography variant="h5" textAlign="center" sx={{ mt: 3, mb: 5 }}>
+        <Typography variant="h4" textAlign="center" sx={{  mb: 2 }}>
           {t("experienceLuxury")}
         </Typography>
         <img
-          src={"https://i.ibb.co/FnLm0Hb/abc-hero-cars-slider31.png"}
+          src={"https://i.ibb.co/GxQdWtn/Home-Cars.png"}
           alt="Custom"
-          style={{ width: "70%" }}
+          style={{ width: "90%" }}
         />
         <Grid item xs={12} sx={{ textAlign: "center", mt: 5 }}>
           <ReservationBox />
@@ -42,7 +42,7 @@ const Homepage = (props: Props) => {
             rel="noopener noreferrer"
           >
             <img
-              src={"https://i.imgur.com/aAt7WWn.png"}
+              src={"https://i.ibb.co/zJFCJm7/Download-app-2.png"}
               alt="Custom"
               style={{ width: "100%" }}
             />

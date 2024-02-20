@@ -15,7 +15,7 @@ import { getCarLocations } from "../../../store/slices/CarSlices/carLocationSlic
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "#0f4037",
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -41,14 +41,16 @@ export default function LocationTable() {
   }, [dispatch]);
 
   return (
-    <TableContainer component={Paper} sx={{ marginTop: 12 }}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+    <TableContainer component={Paper} sx={{ marginTop: 4}}>
+      <Table aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>ID</StyledTableCell>
             <StyledTableCell>Latitude</StyledTableCell>
             <StyledTableCell>Longitude</StyledTableCell>
             <StyledTableCell>City</StyledTableCell>
+            <StyledTableCell align="right">Action</StyledTableCell>
+
           </TableRow>
         </TableHead>
         <TableBody>
