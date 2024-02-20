@@ -179,7 +179,7 @@ const ReservationsCard: React.FC<CarCardProps> = () => {
                     <Typography variant="h6" sx={{ fontWeight: "bold", color:"#bc9160" }}>
                       Total Price
                     </Typography>
-                    <Typography sx={{fontSize:20}}>${rental.invoicesTotalPrice}</Typography>
+                    <Typography sx={{fontSize:20}}>${rental.carDailyPrice *(handleDate(rental.startDate, rental.endDate)) }</Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Button
