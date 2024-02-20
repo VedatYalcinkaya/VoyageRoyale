@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Typography,
-  Button,
-  Divider,
-  Box,
-  Grid,
-} from "@mui/material";
+import { Typography, Button, Divider, Box, Grid } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
 import { setConfettiActive } from "../../store/slices/paymentSlice";
 import Confetti from "react-confetti";
@@ -368,7 +362,10 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
                   document={
                     <PaymentReceiptPdf
                       selectedPosition={selectedReservation}
-                      selectedCar={selectedCarModel}
+                      selectedCar={{
+                        modelName: selectedCarModel,
+                        brand: selectedBrand,
+                      }}
                       totalPrice={totalPrice}
                     />
                   }
