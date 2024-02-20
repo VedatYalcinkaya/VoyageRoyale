@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @Builder
 public class GetCustomRentalResponse {
     private int id;
+    private int userId;
     private LocalDate startDate;
     private LocalDate  endDate;
     private int startKilometer;
