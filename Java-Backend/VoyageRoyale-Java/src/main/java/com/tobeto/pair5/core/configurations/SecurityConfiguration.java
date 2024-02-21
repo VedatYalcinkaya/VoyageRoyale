@@ -61,6 +61,7 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.PUT,"/api/users/**").permitAll()
                                 .requestMatchers(HttpMethod.PUT,"/api/customers/**").permitAll()
                                 .requestMatchers(HttpMethod.PUT,"/api/corporateCustomers/**").permitAll()
+                                .requestMatchers(HttpMethod.DELETE,"/**").permitAll()
 
                                 .requestMatchers(HttpMethod.DELETE,"/api/**").permitAll())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
