@@ -18,6 +18,8 @@ import {
   InputAdornment,
 } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
@@ -96,6 +98,7 @@ export default function BrandsTable() {
       await dispatch(deleteBrand({ id: selectedBrandToDelete.id }));
       await dispatch(getCarBrandType());
       setIsDeleteConfirmationOpen(false);
+      toast.info("Record has been deleted")
     } catch (error) {
       console.error("Error deleting brand:", error);
     }
@@ -108,6 +111,8 @@ export default function BrandsTable() {
       await dispatch(getCarBrandType());
       setEditedBrandName("");
       setIsNewRecordDialogOpen(false);
+      toast.success("Record has been successfully added")
+      
     } catch (error) {
       console.error("Error adding new record:", error);
     }

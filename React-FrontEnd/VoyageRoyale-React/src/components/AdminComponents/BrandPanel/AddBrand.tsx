@@ -6,6 +6,8 @@ import { postBrand } from '../../../store/slices/addBrandSlice';
 import { useAppDispatch } from '../../../store/configureStore';
 import { getCarBrandType } from '../../../store/slices/CarSlices/carBrandTypeSlice';
 import SecondFormikInput from '../../FormikInput/SecondFormikInput';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AddBrand() {
     const dispatch = useAppDispatch();
