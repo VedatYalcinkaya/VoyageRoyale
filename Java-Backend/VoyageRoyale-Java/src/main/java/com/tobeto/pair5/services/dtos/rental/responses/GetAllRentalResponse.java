@@ -17,4 +17,5 @@ public class GetAllRentalResponse {
     private int startKilometer;
     private int endKilometer;
     private double totalPrice;
+    private int userId;
 }
