@@ -49,7 +49,7 @@ function Dashboard() {
             <Route path="/quickReservation" element={<QuickReservation />} />
             <Route path="/signInSignUp" element={<SignUpRoute><SignInSignUp /></SignUpRoute>}/>
             <Route path="/aboutUs" element={<AboutUs />} />
-            <Route path="/reservations" element={<UserReservations />} />
+            <Route path="/reservations" element={<ProtectedRoute><UserReservations /></ProtectedRoute>} />
             <Route path="/payment/:id" element={<Payment />} />
             <Route
               path="/adminDashboard/carFeatures"
