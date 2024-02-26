@@ -2,9 +2,7 @@ import React, { useEffect } from "react";
 import CarCard from "../../components/Card/CarCard";
 import {
   Box,
-  CircularProgress,
   Grid,
-  Paper,
   Stack,
   Typography,
 } from "@mui/material";
@@ -87,9 +85,9 @@ const CarList = (props: Props) => {
             <Typography fontWeight="bold" textAlign={"center"}>
               Filter
             </Typography>
-            <CarFuelFilter />
-            <CarFilter />
             <CarBrandFilter />
+            <CarFilter />
+            <CarFuelFilter />
             <CarGearFilter />
           </Stack>
         </Grid>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, FormControl, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent } from '@mui/material';
+import { Box, Checkbox, FormControl, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../store/configureStore';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { setCarCarType } from '../../../store/slices/CarSlices/carCarTypeSlice';
@@ -39,14 +39,17 @@ const CarFilter = () => {
         labelId="carFilter"
         id="carFilter"
         multiple
-        input={<OutlinedInput label="Tag" />}
         renderValue={(selected) => selected.join(', ')}
         value={selectedCarType}
-        label="Brand Type"
+        label="Car Type"
         onChange={handleChange}
         MenuProps={MenuProps}
       >
-      {carTypes.map((carType)=> <MenuItem value={carType.name} key={carType.id}>{carType.name}</MenuItem>)}
+      {carTypes.map((carType)=>
+      <MenuItem value={carType.name} key={carType.id}>
+      <Checkbox checked={selectedCarType.includes(carType.name)} />
+        {carType.name}
+        </MenuItem>)}
       </Select>
     </FormControl>
     </Box>

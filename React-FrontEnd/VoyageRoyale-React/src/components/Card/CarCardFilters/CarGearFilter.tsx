@@ -1,7 +1,16 @@
-import { Box, FormControl, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent } from '@mui/material'
-import { Action, ThunkDispatch } from '@reduxjs/toolkit'
-import { useAppDispatch, useAppSelector } from '../../../store/configureStore'
-import { setGearType } from '../../../store/slices/CarSlices/carGearTypeSlice';
+import {
+  Box,
+  Checkbox,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  SelectChangeEvent,
+} from "@mui/material";
+import { Action, ThunkDispatch } from "@reduxjs/toolkit";
+import { useAppDispatch, useAppSelector } from "../../../store/configureStore";
+import { setGearType } from "../../../store/slices/CarSlices/carGearTypeSlice";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -14,41 +23,44 @@ const MenuProps = {
   },
 };
 
-
-
 const CarGearFilter = () => {
-    const dispatch: ThunkDispatch<any,any,Action> = useAppDispatch();
-    const gears = useAppSelector(state => state.carGearType.data);
-    const selectedGear:string[] = useAppSelector(state => state.carGearType.gearType);
+  const dispatch: ThunkDispatch<any, any, Action> = useAppDispatch();
+  const gears = useAppSelector((state) => state.carGearType.data);
+  const selectedGear: string[] = useAppSelector(
+    (state) => state.carGearType.gearType
+  );
 
-    const handleChange = (event: SelectChangeEvent<typeof selectedGear>) => {
-      const {
-        target: { value },
-      } = event;
-      dispatch(setGearType( typeof value === 'string' ? value.split(',') : value,));
-    };
-
+  const handleChange = (event: SelectChangeEvent<typeof selectedGear>) => {
+    const {
+      target: { value },
+    } = event;
+    dispatch(setGearType(typeof value === "string" ? value.split(",") : value));
+  };
 
   return (
-      <Box sx={{ minWidth: 120}}>
-    <FormControl fullWidth>
-      <InputLabel id="gearFilter">Gear Type</InputLabel>
-      <Select
-        labelId="gearFilter"
-        id="gearFilter"
-        multiple
-        input={<OutlinedInput label="Tag" />}
-        renderValue={(selected) => selected.join(', ')}
-        value={selectedGear}
-        label="Brand Type"
-        onChange={handleChange}
-        MenuProps={MenuProps}
-      >
-      {gears.map((gear)=> <MenuItem value={gear.name} key={gear.id}>{gear.name}</MenuItem>)}
-      </Select>
-    </FormControl>
+    <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="gearFilter">Gear</InputLabel>
+        <Select
+          labelId="gearFilter"
+          id="gearFilter"
+          multiple
+          renderValue={(selected) => selected.join(", ")}
+          value={selectedGear}
+          label="Gear"
+          onChange={handleChange}
+          MenuProps={MenuProps}
+        >
+          {gears.map((gear) => (
+            <MenuItem value={gear.name} key={gear.id}>
+              <Checkbox checked={selectedGear.includes(gear.name)} />
+              {gear.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     </Box>
-  )
-}
+  );
+};
 
 export default CarGearFilter;

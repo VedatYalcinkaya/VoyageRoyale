@@ -35,6 +35,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { getCorporateCustomerInfo } from "../../store/slices/CorporateCustomerSlice/corporateCustomerInfoSlice";
 import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "../Language/LanguageSwitcher";
 
 const drawerWidth = 275;
 const signInDrawerWidth = 400;
@@ -239,7 +240,7 @@ export default function Sidebar() {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex" }} >
       <SignUpDetail openSignInDrawer={openSignInDrawer} />
       <Drawer
         sx={{
@@ -262,6 +263,13 @@ export default function Sidebar() {
             padding: "10px",
             marginBottom: 1,
           },
+          "& .language-container": {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "2px",
+            marginBottom: 1,
+          },
           "& .MuiListItemIcon-root": {
             color: "#BF9460",
           },
@@ -281,6 +289,10 @@ export default function Sidebar() {
               style={{ marginBottom: 5 }}
             />
           </RouterLink>
+        
+        </Box>
+        <Box className="language-container">
+        <LanguageSwitcher />
         </Box>
         <List sx={{ pl: 3 }}>
           {isLogedIn ? (

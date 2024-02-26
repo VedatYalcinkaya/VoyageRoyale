@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Box } from "@mui/material";
+import { Button,Grid } from "@mui/material";
 import i18n from "../../language/language";
 
 const LanguageSwitcher: React.FC = () => {
@@ -11,35 +11,27 @@ const LanguageSwitcher: React.FC = () => {
   };
 
   return (
-    <div style={{ marginBottom: "20px" }}>
-      <Box
-        sx={{
-          position: "fixed",
-          top: 10,
-          right: 10,
-          display: "flex",
-          gap: 1,
-          flexDirection: "row",
+    <>
+        <Button
+        style={{
+         
+          color: i18n.language === "en" ? "#BC9160": "#051915",
         }}
+        onClick={() => setLanguage("en")}
       >
-        <Button
-          variant="contained"
-          size="small"
-          style={{ backgroundColor: "#1f3f37", color: "white" }}
-          onClick={() => setLanguage("en")}
-        >
-          {t("EN")}
-        </Button>
-        <Button
-          variant="contained"
-          size="small"
-          style={{ backgroundColor: "#1f3f37", color: "white" }}
-          onClick={() => setLanguage("tr")}
-        >
-          {t("TR")}
-        </Button>
-      </Box>
-    </div>
+        {t("EN")}
+      </Button>
+      <Button
+        style={{
+        
+          color: i18n.language === "tr" ? "#BC9160": "#051915",
+        }}
+        onClick={() => setLanguage("tr")}
+      >
+        {t("TR")}
+      </Button>
+
+    </>
   );
 };
 
