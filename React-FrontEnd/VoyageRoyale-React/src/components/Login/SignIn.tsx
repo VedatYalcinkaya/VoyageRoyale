@@ -14,6 +14,7 @@ import tokenService from "../../services/tokenService";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { getCustomerByEmail } from "../../store/slices/getCustomerByEmailSlice";
+import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 
 type SignInProps = {
   closeSignInDrawer:() => void;
@@ -30,8 +31,8 @@ const SignIn = ({closeSignInDrawer }:SignInProps) => {
   });
 
   
-  const dispatch = useAppDispatch();
-  console.log(tokenService.decodeToken());
+  const dispatch: ThunkDispatch<any, any, Action> = useAppDispatch();
+  
   return (
     <Formik
       initialValues={initialValues}
@@ -42,7 +43,7 @@ const SignIn = ({closeSignInDrawer }:SignInProps) => {
         await dispatch(postSignIn(values));
         await authService.authenticate(values);
         await dispatch(getCustomerByEmail(tokenService.decodeToken()?.sub));
-        
+        console.log(tokenService.decodeToken());
         if(tokenService.decodeToken()?.sub === undefined){
           toast.error("Incorrect email or password ")
         }else{

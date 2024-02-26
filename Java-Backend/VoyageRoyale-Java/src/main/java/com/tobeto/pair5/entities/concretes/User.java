@@ -23,13 +23,16 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @JoinTable(name="roles", joinColumns = @JoinColumn(name="user_id"))
-    @Column(name="role")
+
     @Enumerated(EnumType.STRING)
+    @Column(name="role")
     private List<Role> authorities;
 
     @Column(name = "user_image_path")
     private String userImagePath;
+
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
 
 
     @Override

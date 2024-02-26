@@ -1,21 +1,27 @@
 package com.tobeto.pair5.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tobeto.pair5.services.abstracts.AuthenticationService;
 import com.tobeto.pair5.services.dtos.auth.requests.AuthenticationRequest;
 import com.tobeto.pair5.services.dtos.auth.requests.CorporateRegisterRequest;
 import com.tobeto.pair5.services.dtos.auth.requests.CustomerRegisterRequest;
 import com.tobeto.pair5.services.dtos.auth.responses.AuthenticationResponse;
+import com.tobeto.pair5.services.dtos.token.responses.RefreshTokenResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("api/auth")
 @RequiredArgsConstructor
 @CrossOrigin
 public class AuthController {
-//DENEME
 
     private final AuthenticationService service;
 
@@ -41,5 +47,17 @@ public class AuthController {
     ){
         return ResponseEntity.ok(service.authenticate(request));
 
+    }
+    @PostMapping("/refreshToken")
+    public ResponseEntity<String> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        service.refreshToken(request, response);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String responseBody = objectMapper.writeValueAsString(new RefreshTokenResponse("NewAccessToken", "NewRefreshToken"));
+
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setStatus(HttpStatus.OK.value());
+
+        return ResponseEntity.ok().body(responseBody);
     }
 }

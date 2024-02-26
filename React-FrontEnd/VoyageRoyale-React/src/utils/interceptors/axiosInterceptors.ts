@@ -32,8 +32,27 @@ axiosInstance.interceptors.response.use(
     }
     return response;
   },
-  (error) => {
-    
+  async(error) => {
+    const originalRequest = error.config;
+
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        const refreshToken = tokenService.getRefreshToken();
+        const { data: { accessToken, refreshToken: newRefreshToken } } = await axios.post("/auth/refreshToken", null, {
+          headers: { Authorization: `Bearer ${refreshToken}` }
+        });
+
+        tokenService.setToken(accessToken);
+        tokenService.setRefreshToken(newRefreshToken);
+
+        originalRequest.headers.Authorization = "Bearer " + accessToken;
+        return axiosInstance(originalRequest);
+      } catch (refreshError) {
+        console.error("Error refreshing token:", refreshError);
+        return Promise.reject(refreshError);
+      }
+    }
 
     if (error.response) {
       const status = error.response.status;
@@ -46,8 +65,6 @@ axiosInstance.interceptors.response.use(
         
       } else if (status === 500) {
         toast.error("Internal Server Error");
-      } else if (status === 401) {
-        toast.error("Invalid email or password ");
       } else {
         toast.error("An error occurred: " + error.response.statusText);
       }

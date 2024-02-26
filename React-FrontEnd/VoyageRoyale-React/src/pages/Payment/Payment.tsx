@@ -125,6 +125,7 @@ const Payment: React.FC<PaymentProps> = ({ onFinishReservation }) => {
 
   const handleFinishReservation = () => {
     if (tokenService.decodeToken()?.sub !== undefined) {
+      console.log(rentalInfo)
       dispatch(postRental(rentalInfo as AddRentalRequest));
       dispatch(setConfettiActive(true));
 

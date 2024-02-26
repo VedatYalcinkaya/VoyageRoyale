@@ -1,6 +1,5 @@
 import { JwtPayload, jwtDecode } from "jwt-decode";
 
-
 class TokenService {
     getToken() {
         return localStorage.getItem("token");
@@ -10,8 +9,17 @@ class TokenService {
         localStorage.setItem("token", token);
     }
 
+    getRefreshToken() {
+        return localStorage.getItem("refreshToken");
+    }
+
+    setRefreshToken(token: string) {
+        localStorage.setItem("refreshToken", token);
+    }
+
     logout(){
         localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
         localStorage.removeItem("customer");
         localStorage.removeItem("corporateCustomer");
     }
@@ -32,7 +40,6 @@ class TokenService {
         
         return null;
     }
-
 }
 
 export default new TokenService();
