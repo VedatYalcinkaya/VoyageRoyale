@@ -5,7 +5,6 @@ import Faq from "../../components/HomePageComponents/Faq";
 import AppShowReel from "../../components/HomePageComponents/AppShowReel";
 import CarCarousel from "../../components/HomePageComponents/CarCarousel";
 import { useTranslation } from "react-i18next";
-import LanguageSwitcher from "../../components/Language/LanguageSwitcher";
 
 type Props = {};
 
@@ -14,10 +13,7 @@ const Homepage = (props: Props) => {
 
   return (
     <div>
-      <div style={{ position: "fixed", top: 10, right: 10, zIndex: 1000 }}>
-        <LanguageSwitcher />
-      </div>
-      <Grid container justifyContent="center" alignItems="center">
+      <Grid container justifyContent="center" alignItems="center" marginTop={5}>
         <Typography variant="h4" textAlign="center" sx={{  mb: 2 }}>
           {t("experienceLuxury")}
         </Typography>

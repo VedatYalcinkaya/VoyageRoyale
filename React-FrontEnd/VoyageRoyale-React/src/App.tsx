@@ -14,7 +14,6 @@ import { getCustomerByEmail } from "./store/slices/getCustomerByEmailSlice";
 import tokenService from "./services/tokenService";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import LanguageSwitcher from "./components/Language/LanguageSwitcher";
 
 const theme = createTheme({
   palette: {
@@ -55,7 +54,6 @@ function App() {
 
   return (
     <>
-      <LanguageSwitcher />
       <ThemeProvider theme={theme}>
         <Dashboard />
       </ThemeProvider>
