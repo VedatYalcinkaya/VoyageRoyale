@@ -39,7 +39,7 @@ public class BrandManager implements BrandService {
     public void update(UpdateBrandRequest request) {
         Brand brandToUpdate = brandRepository.findById(request.getId())
                 .orElseThrow(()-> new BusinessException(Messages.brandNotFound));
-        checkIsBrandAlreadyExists(request.getName());
+
 
         this.modelMapperService.forRequest().map(request, brandToUpdate);
 
