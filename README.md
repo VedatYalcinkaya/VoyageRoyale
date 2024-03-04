@@ -9,6 +9,17 @@
 As aspiring full-stack developers (Pair 5), we are excited to embark on the journey of creating a Rent-a-Car web application using Java and React. This project aims to deliver a user-friendly platform that enables users to effortlessly rent vehicles, manage bookings, and explore a wide range of car options. From the back-end powered by Java to the dynamic and interactive front-end with React, our team is dedicated to crafting a seamless and efficient rental experience. 
 
 <div align="center">
+  <img src="https://ibb.co/7KX1YNY">
+  <img src="https://ibb.co/Hnh3Bdp">
+  <img src="https://ibb.co/tBDqgZ3">
+  <img src="https://ibb.co/2WqXcTZ">
+  <img src="https://ibb.co/JdsQkSy">
+  <img src="https://ibb.co/DzD2hpQ">
+  <img src="https://ibb.co/cCB2wFg">
+  <img src="https://ibb.co/LgDt6F5">  
+</div>
+
+<div align="center">
   <b><h1>Collaborators</h1></b>
 </div>
 
